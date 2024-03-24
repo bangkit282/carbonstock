@@ -1,19 +1,23 @@
 import 'dart:async';
 
+import 'package:carbonstock/data/api/controllers/area_controller.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/views/views.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/instance_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferenceService.init();
 
+  Get.lazyPut(() => AreaController());
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((value) => runApp(MyApp()));
+  ]).then((value) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
