@@ -8,10 +8,18 @@ class HomeScreenViews extends StatefulWidget {
 }
 
 class _HomeScreenViewsState extends State<HomeScreenViews> {
+  final AreaController _areaController = Get.find();
+
+  @override
+  void dispose() {
+    AreaDB.instance.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: fetchAreaListData(),
+      body: fetchAreaListData(),
       appBar: AppBar(
         backgroundColor: colorSecondaryGreen,
         title: Text(
@@ -28,7 +36,7 @@ class _HomeScreenViewsState extends State<HomeScreenViews> {
           Navigator.push(
             context,
             PageRouteBuilder(
-              pageBuilder: (_, __, ___) => AddAreaScreenViews(),
+              pageBuilder: (_, __, ___) => const AddAreaScreenViews(),
               transitionsBuilder: (_, animation, __, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -49,25 +57,39 @@ class _HomeScreenViewsState extends State<HomeScreenViews> {
     );
   }
 
-  // StreamBuilder fetchAreaListData() {
-  //   return StreamBuilder<List<AreaModel>>(
-  //       builder: (context, snapshot) {
-  //         if (!snapshot.hasData) return const SizedBox();
+  StreamBuilder fetchAreaListData() {
+    return StreamBuilder<List<AreaModel>>(
+      stream: _areaController.readAllAreaAsStream(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text('Error loading data'), // Show an error message
+          );
+        }
 
-  //         final area = snapshot.requireData;
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(
+            child: Text('No data available'), // Show a message for empty data
+          );
+        }
 
-  //         return SizedBox(
-  //           width: 1.sw,
-  //           height: 1.sh - 80.h,
-  //           child: ListView.builder(
-  //             itemCount: area.length,
-  //             itemBuilder: (context, index) {
-  //               return buildAreaWidget(area[index]);
-  //             },
-  //           ),
-  //         );
-  //       });
-  // }
+        // Data is available, build your ListView
+        final area = snapshot.requireData;
+        log("Builder function called with ${area.length} items");
+
+        return SizedBox(
+          width: 1.sw,
+          height: 1.sh - 80.h,
+          child: ListView.builder(
+            itemCount: area.length,
+            itemBuilder: (context, index) {
+              return buildAreaWidget(area[index]);
+            },
+          ),
+        );
+      },
+    );
+  }
 
   ListTile buildAreaWidget(AreaModel area) {
     return ListTile(
@@ -80,7 +102,7 @@ class _HomeScreenViewsState extends State<HomeScreenViews> {
       ),
       subtitle: Row(
         children: [
-          Image.asset('assets/images/dummy_image.png'),
+          // Image.file(File(area.areaImage)),
           Text(
             area.areaLocation,
             style: TextStyle(

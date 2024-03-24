@@ -104,7 +104,37 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
               Container(
                 margin: EdgeInsets.only(bottom: 24.h),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (_addAreaFormKey.currentState!.validate()) {
+                      String areaName = _areaNameController.text;
+                      String locationName = _locationNameController.text;
+                      String imageUrl = '';
+                      String forestType = _selectedForest!;
+                      String landType = _selectedLand!;
+                      DateTime createdAt = DateTime.now();
+                      String notationTeam = _notationTeam.text;
+
+                      AreaModel areaModel = AreaModel(
+                        areaName: areaName,
+                        areaLocation: locationName,
+                        areaImage: imageUrl,
+                        forestType: forestType,
+                        landType: landType,
+                        createdAt: createdAt,
+                        notationTeam: notationTeam,
+                      );
+
+                      await _areaController.insertArea(areaModel);
+
+                      Get.off(() => const HomeScreenViews());
+                      Get.snackbar(
+                        'CarbonStock',
+                        'Add Area Success!',
+                        backgroundColor: colorSecondaryGreen,
+                        colorText: colorPrimaryWhite,
+                      );
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colorButtonAccentGreen,
                     shape: RoundedRectangleBorder(
@@ -155,6 +185,9 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
               SizedBox(height: 4.h),
               TextFormField(
                 controller: _areaNameController,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Tidak boleh kosong'
+                    : null,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(8.r),
                   enabledBorder: OutlineInputBorder(
@@ -185,6 +218,9 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
               SizedBox(height: 4.h),
               TextFormField(
                 controller: _locationNameController,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Tidak boleh kosong'
+                    : null,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(8.r),
                   enabledBorder: OutlineInputBorder(
@@ -287,6 +323,9 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
               SizedBox(height: 4.h),
               TextFormField(
                 controller: _notationTeam,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Tidak boleh kosong'
+                    : null,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(8.r),
                   enabledBorder: OutlineInputBorder(

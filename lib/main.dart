@@ -6,7 +6,7 @@ import 'package:carbonstock/views/views.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      child: MaterialApp(
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           ),
           fontFamily: 'Poppins',
         ),
-        home: SplashScreenViews(),
+        home: const SplashScreenViews(),
       ),
     );
   }
@@ -57,11 +57,7 @@ class _SplashScreenViewsState extends State<SplashScreenViews> {
   void initState() {
     Timer(
       const Duration(seconds: 3),
-      () => Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const HomeScreenViews(),
-        ),
-      ),
+      () => Get.off(() => const HomeScreenViews()),
     );
 
     super.initState();
