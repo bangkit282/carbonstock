@@ -77,8 +77,7 @@ class AreaModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
+  Map<String, dynamic> toJson() => {
       'id': id,
       'areaName': areaName,
       'areaLocation': areaLocation,
@@ -88,7 +87,6 @@ class AreaModel {
       'createdAt': createdAt.toIso8601String(),
       'notationTeam': notationTeam,
     };
-  }
 
   @override
   String toString() {

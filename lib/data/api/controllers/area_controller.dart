@@ -10,9 +10,10 @@ class AreaController extends GetxController {
   RxString pickedImage = ''.obs;
   RxBool isLoading = false.obs;
 
-  Stream<List<AreaModel>> streamAreaList =
-      AreaDB.instance.readAllArea().map((areaList) => areaList
-          .map((area) => AreaModel(
+  Stream<List<AreaModel>> streamAreaList = AreaDB.instance.readAllArea().map(
+        (areaList) => areaList
+            .map(
+              (area) => AreaModel(
                 id: area.id,
                 areaName: area.areaName,
                 areaLocation: area.areaLocation,
@@ -21,8 +22,10 @@ class AreaController extends GetxController {
                 landType: area.landType,
                 createdAt: area.createdAt,
                 notationTeam: area.notationTeam,
-              ))
-          .toList());
+              ),
+            )
+            .toList(),
+      );
 
   Future pickImageFromGallery() async {
     final picker = ImagePicker();

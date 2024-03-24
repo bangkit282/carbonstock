@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:carbonstock/data/api/controllers/area_controller.dart';
+import 'package:carbonstock/data/api/controllers/plot_controller.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/views/views.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ void main() async {
   await SharedPreferenceService.init();
 
   Get.lazyPut(() => AreaController());
+  Get.lazyPut(() => PlotController());
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -57,7 +59,7 @@ class _SplashScreenViewsState extends State<SplashScreenViews> {
   void initState() {
     Timer(
       const Duration(seconds: 3),
-      () => Get.off(() => const HomeScreenViews()),
+      () => Get.off(() => const PageSetup()),
     );
 
     super.initState();

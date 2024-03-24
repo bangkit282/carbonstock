@@ -1,17 +1,17 @@
-import 'package:carbonstock/data/local/model/area_model.dart';
+import 'package:carbonstock/data/local/model/plot_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class AreaDB {
-  static final AreaDB instance = AreaDB._init();
+class PlotDB {
+  static final PlotDB instance = PlotDB._init();
   static Database? _database;
 
-  AreaDB._init();
+  PlotDB._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('area_database.db');
+    _database = await _initDB('plot_database.db');
     return _database!;
   }
 
@@ -28,19 +28,17 @@ class AreaDB {
 
   Future _createDB(Database db, int version) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    const textType = 'TEXT NOT NULL';
+    const decimalType = 'REAL NOT NULL';
 
     await db.execute(
       '''
-      CREATE TABLE area(
+      CREATE TABLE plot(
         id $idType,
-        areaName $textType,
-        areaLocation $textType,
-        areaImage $textType,
-        forestType $textType,
-        landType $textType,
-        createdAt $textType,
-        notationTeam $textType
+        plotLat $decimalType,
+        plotLng $decimalType,
+        plotSize $decimalType,
+        biomassAvg $decimalType,
+        biomassStd $decimalType
       )
       ''',
     );
@@ -51,46 +49,45 @@ class AreaDB {
     db.close();
   }
 
-  // CRUD
-  Future<AreaModel> insertArea(AreaModel area) async {
+  Future<PlotModel> insePlot(PlotModel plot) async {
     final db = await instance.database;
-    final id = await db.insert(tableArea, area.toJson());
+    final id = await db.insert(tablePlot, plot.toJson());
 
-    return area.copy(id: id);
+    return plot.copy(id: id);
   }
 
-  Future<AreaModel> readArea(int id) async {
+  Future<PlotModel> readPlot(int id) async {
     final db = await instance.database;
 
     final mapping = await db.query(
-      tableArea,
-      columns: AreaFields.values,
-      where: '${AreaFields.id} = ?',
+      tablePlot,
+      columns: PlotFields.values,
+      where: '${PlotFields.id} = ?',
       whereArgs: [id],
     );
 
     if (mapping.isNotEmpty) {
-      return AreaModel.fromJson(mapping.first);
+      return PlotModel.fromJson(mapping.first);
     } else {
       throw Exception('ID $id not found');
     }
   }
 
-  Stream<List<AreaModel>> readAllArea() async* {
+  Stream<List<PlotModel>> readAllPlot() async* {
     final db = await instance.database;
-    final result = await db.query(tableArea);
-    
-    yield result.map((json) => AreaModel.fromJson(json)).toList();
+    final result = await db.query(tablePlot);
+
+    yield result.map((json) => PlotModel.fromJson(json)).toList();
   }
 
-  Future<int> updateArea(AreaModel area) async {
+  Future<int> updateArea(PlotModel plot) async {
     final db = await instance.database;
 
     return db.update(
-      tableArea,
-      area.toJson(),
-      where: '${AreaFields.id} = ?',
-      whereArgs: [area.id],
+      tablePlot,
+      plot.toJson(),
+      where: '${PlotFields.id} = ?',
+      whereArgs: [plot.id],
     );
   }
 
@@ -98,8 +95,8 @@ class AreaDB {
     final db = await instance.database;
 
     return await db.delete(
-      tableArea,
-      where: '${AreaFields.id} = ?',
+      tablePlot,
+      where: '${PlotFields.id} = ?',
       whereArgs: [id],
     );
   }

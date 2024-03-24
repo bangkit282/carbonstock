@@ -1,56 +1,21 @@
-part of '../../views.dart';
+part of '../views.dart';
 
-class AddAreaScreenViews extends StatefulWidget {
-  const AddAreaScreenViews({super.key});
+class AddPlotScreenViews extends StatefulWidget {
+  const AddPlotScreenViews({super.key});
 
   @override
-  State<AddAreaScreenViews> createState() => _AddAreaScreenViewsState();
+  State<AddPlotScreenViews> createState() => _AddPlotScreenViewsState();
 }
 
-class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
-  final AreaController _areaController = AreaController();
-  final _addAreaFormKey = GlobalKey<FormState>(debugLabel: 'add-area');
+class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
+  final PlotController _plotController = Get.find();
+  final _addPlotFormKey = GlobalKey<FormState>(debugLabel: 'add-plot');
 
-  final TextEditingController _areaNameController = TextEditingController();
-  final TextEditingController _locationNameController = TextEditingController();
-  final TextEditingController _notationTeam = TextEditingController();
-
-  List<DropdownMenuItem<String>> forestList = [
-    const DropdownMenuItem(
-      value: 'Hutan Homogen',
-      child: Text('Hutan Homogen'),
-    ),
-    const DropdownMenuItem(
-      value: 'Hutan Heterogen',
-      child: Text('Hutan Heterogen'),
-    ),
-    const DropdownMenuItem(
-      value: 'Hutan Konversi',
-      child: Text('Hutan Konversi'),
-    ),
-  ];
-
-  List<DropdownMenuItem<String>> landList = [
-    const DropdownMenuItem(
-      value: 'Tanah Air',
-      child: Text('Tanah Air'),
-    ),
-    const DropdownMenuItem(
-      value: 'Tanah Gempur',
-      child: Text('Tanah Gempur'),
-    ),
-    const DropdownMenuItem(
-      value: 'Tanah Liat',
-      child: Text('Tanah Liat'),
-    ),
-    const DropdownMenuItem(
-      value: 'Tanah Suci',
-      child: Text('Tanah Suci'),
-    ),
-  ];
-
-  String? _selectedForest = 'Hutan Homogen';
-  String? _selectedLand = 'Tanah Air';
+  final TextEditingController _plotLatController = TextEditingController();
+  final TextEditingController _plotLngController = TextEditingController();
+  final TextEditingController _plotSizeController = TextEditingController();
+  final TextEditingController _biomassAvgController = TextEditingController();
+  final TextEditingController _biomassStdController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +23,7 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
       backgroundColor: colorPrimaryBackground,
       appBar: AppBar(
         title: Text(
-          'Area',
+          'Input Plot Area',
           style: TextStyle(
             color: colorPrimaryWhite,
             fontSize: 20.sp,
@@ -81,7 +46,7 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Info Area',
+                'Plot Area',
                 style: TextStyle(
                   fontSize: 26.sp,
                   color: colorPrimaryBlack,
@@ -89,7 +54,7 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
                 ),
               ),
               Text(
-                'Masukkan Info Area yang akan dituju',
+                'Masukkan Plot Area yang akan dicatat',
                 style: TextStyle(
                   fontSize: 10.sp,
                   color: colorPrimaryBlack,
@@ -97,42 +62,38 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
                 ),
               ),
               SizedBox(height: 16.h),
-              buildCardAreaForm(),
-              SizedBox(height: 16.h),
-              buildCardImagePicker(),
+              buildCardPlotForm(),
               SizedBox(height: 16.h),
               Container(
                 margin: EdgeInsets.only(bottom: 24.h),
                 child: ElevatedButton(
                   onPressed: () async {
-                    if (_addAreaFormKey.currentState!.validate()) {
-                      String areaName = _areaNameController.text;
-                      String locationName = _locationNameController.text;
-                      String imageUrl = '';
-                      String forestType = _selectedForest!;
-                      String landType = _selectedLand!;
-                      DateTime createdAt = DateTime.now();
-                      String notationTeam = _notationTeam.text;
+                    if (_addPlotFormKey.currentState!.validate()) {
+                      String latitude = _plotLatController.text;
+                      String longitude = _plotLngController.text;
+                      String size = _plotSizeController.text;
+                      String biomassAvg = _biomassAvgController.text;
+                      String biomassStd = _biomassStdController.text;
 
-                      AreaModel areaModel = AreaModel(
-                        areaName: areaName,
-                        areaLocation: locationName,
-                        areaImage: imageUrl,
-                        forestType: forestType,
-                        landType: landType,
-                        createdAt: createdAt,
-                        notationTeam: notationTeam,
+                      PlotModel plotModel = PlotModel(
+                        plotLat: double.parse(latitude),
+                        plotLng: double.parse(longitude),
+                        plotSize: double.parse(size),
+                        biomassAvg: double.parse(biomassAvg),
+                        biomassStd: double.parse(biomassStd),
                       );
 
-                      await _areaController.insertArea(areaModel);
+                      await _plotController.insertPlot(plotModel);
 
-                      Get.off(() => const HomeScreenViews());
                       Get.snackbar(
                         'CarbonStock',
-                        'Add Area Success!',
+                        'Add Plot Success!',
                         backgroundColor: colorSecondaryGreen,
                         colorText: colorPrimaryWhite,
                       );
+
+                      sleep(const Duration(seconds: 2));
+                      Get.off(() => const PageSetup());
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -159,7 +120,7 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
     );
   }
 
-  Card buildCardAreaForm() {
+  Card buildCardPlotForm() {
     return Card(
       elevation: 0.5,
       color: colorPrimaryWhite,
@@ -168,13 +129,13 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
         margin: EdgeInsets.all(16.r),
         padding: EdgeInsets.all(8.r),
         child: Form(
-          key: _addAreaFormKey,
+          key: _addPlotFormKey,
           child: Column(
             children: [
               SizedBox(
                 width: 1.sw,
                 child: Text(
-                  'Area',
+                  'Latitude Plot',
                   style: TextStyle(
                     color: colorPrimaryBlack,
                     fontWeight: FontWeight.w700,
@@ -184,7 +145,8 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
               ),
               SizedBox(height: 4.h),
               TextFormField(
-                controller: _areaNameController,
+                controller: _plotLatController,
+                keyboardType: TextInputType.number,
                 validator: (value) => value == null || value.isEmpty
                     ? 'Tidak boleh kosong'
                     : null,
@@ -197,7 +159,7 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
                     ),
                   ),
                   focusedBorder: const OutlineInputBorder(),
-                  hintText: 'Masukkan Nama Area',
+                  hintText: 'Masukkan Latitude Plot',
                   hintStyle: const TextStyle(
                     color: colorSecondaryGrey1,
                   ),
@@ -207,7 +169,7 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
               SizedBox(
                 width: 1.sw,
                 child: Text(
-                  'Lokasi',
+                  'Longitude Plot',
                   style: TextStyle(
                     color: colorPrimaryBlack,
                     fontWeight: FontWeight.w700,
@@ -217,7 +179,8 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
               ),
               SizedBox(height: 4.h),
               TextFormField(
-                controller: _locationNameController,
+                controller: _plotLngController,
+                keyboardType: TextInputType.number,
                 validator: (value) => value == null || value.isEmpty
                     ? 'Tidak boleh kosong'
                     : null,
@@ -230,7 +193,7 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
                     ),
                   ),
                   focusedBorder: const OutlineInputBorder(),
-                  hintText: 'Masukkan Nama Lokasi',
+                  hintText: 'Masukkan Longitude Plot',
                   hintStyle: const TextStyle(
                     color: colorSecondaryGrey1,
                   ),
@@ -240,79 +203,7 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
               SizedBox(
                 width: 1.sw,
                 child: Text(
-                  'Jenis Hutan',
-                  style: TextStyle(
-                    color: colorPrimaryBlack,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16.sp,
-                  ),
-                ),
-              ),
-              SizedBox(height: 4.h),
-              DropdownButtonFormField(
-                items: forestList,
-                value: _selectedForest,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedForest = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: const BorderSide(
-                      color: colorSecondaryGrey1,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: const BorderSide(
-                      color: colorSecondaryGrey1,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.h),
-              SizedBox(
-                width: 1.sw,
-                child: Text(
-                  'Jenis Tanah',
-                  style: TextStyle(
-                    color: colorPrimaryBlack,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16.sp,
-                  ),
-                ),
-              ),
-              SizedBox(height: 4.h),
-              DropdownButtonFormField(
-                items: landList,
-                value: _selectedLand,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedLand = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: const BorderSide(
-                      color: colorSecondaryGrey1,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: const BorderSide(
-                      color: colorSecondaryGrey1,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.h),
-              SizedBox(
-                width: 1.sw,
-                child: Text(
-                  'Tim Pencatatan',
+                  'Ukuran Plot',
                   style: TextStyle(
                     color: colorPrimaryBlack,
                     fontWeight: FontWeight.w700,
@@ -322,7 +213,8 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
               ),
               SizedBox(height: 4.h),
               TextFormField(
-                controller: _notationTeam,
+                controller: _plotSizeController,
+                keyboardType: TextInputType.number,
                 validator: (value) => value == null || value.isEmpty
                     ? 'Tidak boleh kosong'
                     : null,
@@ -335,86 +227,81 @@ class _AddAreaScreenViewsState extends State<AddAreaScreenViews> {
                     ),
                   ),
                   focusedBorder: const OutlineInputBorder(),
-                  hintText: 'Masukkan Nama Tim Pencatatan',
+                  hintText: 'Masukkan Ukuran Plot',
+                  hintStyle: const TextStyle(
+                    color: colorSecondaryGrey1,
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.h),
+              SizedBox(
+                width: 1.sw,
+                child: Text(
+                  'Rataan Biomasa',
+                  style: TextStyle(
+                    color: colorPrimaryBlack,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
+              SizedBox(height: 4.h),
+              TextFormField(
+                controller: _biomassAvgController,
+                keyboardType: TextInputType.number,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Tidak boleh kosong'
+                    : null,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(8.r),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                    borderSide: const BorderSide(
+                      color: colorSecondaryGrey1,
+                    ),
+                  ),
+                  focusedBorder: const OutlineInputBorder(),
+                  hintText: 'Masukkan Rataan Biomasa',
+                  hintStyle: const TextStyle(
+                    color: colorSecondaryGrey1,
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.h),
+              SizedBox(
+                width: 1.sw,
+                child: Text(
+                  'Standar Deviasi Biomasa',
+                  style: TextStyle(
+                    color: colorPrimaryBlack,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
+              SizedBox(height: 4.h),
+              TextFormField(
+                controller: _biomassStdController,
+                keyboardType: TextInputType.number,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Tidak boleh kosong'
+                    : null,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(8.r),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                    borderSide: const BorderSide(
+                      color: colorSecondaryGrey1,
+                    ),
+                  ),
+                  focusedBorder: const OutlineInputBorder(),
+                  hintText: 'Masukkan STD Biomasa',
                   hintStyle: const TextStyle(
                     color: colorSecondaryGrey1,
                   ),
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Card buildCardImagePicker() {
-    return Card(
-      elevation: 0.5,
-      color: colorPrimaryWhite,
-      shadowColor: Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: GestureDetector(
-        onTap: () {
-          _areaController.pickImageFromGallery();
-        },
-        child: Container(
-          width: 1.sw,
-          padding: EdgeInsets.symmetric(
-            horizontal: 24.w,
-            vertical: 8.h,
-          ),
-          child: DottedBorder(
-            borderType: BorderType.RRect,
-            radius: Radius.circular(8.r),
-            child: Obx(
-              () {
-                return _areaController.pickedImage.value == ''
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 16.h),
-                          Icon(
-                            CupertinoIcons.folder_fill_badge_plus,
-                            color: colorSecondaryGreen,
-                            size: 120.sp,
-                          ),
-                          SizedBox(height: 8.h),
-                          SizedBox(
-                            width: 1.sw,
-                            child: Text(
-                              'Foto Wilayah maksimal 2MB',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: colorSecondaryGreen,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 16.h),
-                        ],
-                      )
-                    : Center(
-                        child: Container(
-                          height: 120.h,
-                          width: 200.w,
-                          margin: EdgeInsets.all(16.r),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            image: DecorationImage(
-                              image: FileImage(
-                                File(
-                                  _areaController.pickedImage.value,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-              },
-            ),
           ),
         ),
       ),

@@ -1,25 +1,24 @@
 part of '../views.dart';
 
-class HomeScreenViews extends StatefulWidget {
-  const HomeScreenViews({super.key});
+class PlotAreaScreenViews extends StatefulWidget {
+  const PlotAreaScreenViews({super.key});
 
   @override
-  State<HomeScreenViews> createState() => _HomeScreenViewsState();
+  State<PlotAreaScreenViews> createState() => _PlotAreaScreenViewsState();
 }
 
-class _HomeScreenViewsState extends State<HomeScreenViews> {
-  final AreaController _areaController = Get.find();
+class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
+  final PlotController _plotController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: fetchAreaListData(),
-      backgroundColor: colorPrimaryBackground,
+      body: fetchPlotListData(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: colorSecondaryGreen,
         title: Text(
-          'Dashboard',
+          'Plot Area',
           style: TextStyle(
             fontSize: 20.sp,
             color: colorPrimaryWhite,
@@ -33,7 +32,7 @@ class _HomeScreenViewsState extends State<HomeScreenViews> {
           Navigator.push(
             context,
             PageRouteBuilder(
-              pageBuilder: (_, __, ___) => const AddHomeScreenViews(),
+              pageBuilder: (_, __, ___) => const AddPlotScreenViews(),
               transitionsBuilder: (_, animation, __, child) {
                 return FadeTransition(
                   opacity: animation,
@@ -54,9 +53,9 @@ class _HomeScreenViewsState extends State<HomeScreenViews> {
     );
   }
 
-  StreamBuilder fetchAreaListData() {
-    return StreamBuilder<List<AreaModel>>(
-      stream: _areaController.readAllAreaAsStream(),
+  StreamBuilder fetchPlotListData() {
+    return StreamBuilder<List<PlotModel>>(
+      stream: _plotController.readAllPlotAsStream(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -70,17 +69,17 @@ class _HomeScreenViewsState extends State<HomeScreenViews> {
           );
         }
 
-        final area = snapshot.requireData;
-        // log('Builder function called with $area');
+        final plot = snapshot.requireData;
+        log('Builder function called with $plot');
 
         return Container(
           margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
           width: 1.sw,
           height: 1.sh - 80.h,
           child: ListView.builder(
-            itemCount: area.length,
+            itemCount: plot.length,
             itemBuilder: (context, index) {
-              return buildAreaWidget(area[index]);
+              return buildPlotWidget(index);
             },
           ),
         );
@@ -88,7 +87,7 @@ class _HomeScreenViewsState extends State<HomeScreenViews> {
     );
   }
 
-  Card buildAreaWidget(AreaModel area) {
+  Card buildPlotWidget(int index) {
     return Card(
       elevation: 1,
       color: colorPrimaryWhite,
@@ -101,37 +100,22 @@ class _HomeScreenViewsState extends State<HomeScreenViews> {
               height: 70.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.r),
-                image: DecorationImage(image: FileImage(File(area.areaImage))),
+                image: const DecorationImage(
+                  image: AssetImage('assets/images/scatter_plot.png'),
+                ),
               ),
             ),
             SizedBox(width: 16.w),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  width: 1.sw - 200.w,
-                  child: Text(
-                    area.areaName,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      color: colorPrimaryBlack,
-                      fontSize: 14.sp,
-                    ),
-                  ),
+            SizedBox(
+              width: 1.sw - 200.w,
+              child: Text(
+                'Plot ${index + 1}',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: colorPrimaryBlack,
+                  fontSize: 14.sp,
                 ),
-                SizedBox(height: 4.h),
-                SizedBox(
-                  width: 1.sw - 200.w,
-                  child: Text(
-                    area.areaLocation,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      color: colorPrimaryBlack,
-                      fontSize: 10.sp,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
             const Spacer(),
             IconButton(
