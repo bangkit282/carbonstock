@@ -17,6 +17,7 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: colorSecondaryGreen,
+        centerTitle: false,
         title: Text(
           'Plot Area',
           style: TextStyle(
@@ -64,13 +65,37 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
         }
 
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-            child: Text('No data available'),
+          return Center(
+            child: SizedBox(
+              width: 1.sw,
+              height: 300.h,
+              child: Column(
+                children: [
+                  Image.asset('assets/images/placeholder_isempty.png'),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Data Masih Kosong',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: colorPrimaryBlack,
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    'Silakan input data plot area terlebih dahulu',
+                    style: TextStyle(
+                      color: colorSecondaryGrey2,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         }
 
         final plot = snapshot.requireData;
-        log('Builder function called with $plot');
 
         return Container(
           margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
@@ -88,44 +113,55 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
   }
 
   Card buildPlotWidget(int index) {
+    String plotName = 'Plot ${index + 1}';
+
     return Card(
-      elevation: 1,
+      elevation: 0.5,
       color: colorPrimaryWhite,
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Row(
-          children: [
-            Container(
-              width: 70.w,
-              height: 70.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/scatter_plot.png'),
+      child: InkWell(
+        onTap: () {
+          Get.to(
+            () => SubPlotAreaScreenViews(
+              areaName: 'Area Dayeuhkolot',
+              plotName: plotName,
+            ),
+            transition: Transition.cupertino,
+          );
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Row(
+            children: [
+              Container(
+                width: 70.w,
+                height: 70.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.r),
+                  image: const DecorationImage(
+                    image: AssetImage('assets/images/scatter_plot.png'),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(width: 16.w),
-            SizedBox(
-              width: 1.sw - 200.w,
-              child: Text(
-                'Plot ${index + 1}',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: colorPrimaryBlack,
-                  fontSize: 14.sp,
+              SizedBox(width: 16.w),
+              SizedBox(
+                width: 1.sw - 200.w,
+                child: Text(
+                  plotName,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: colorPrimaryBlack,
+                    fontSize: 14.sp,
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            IconButton(
-              icon: const Icon(
+              const Spacer(),
+              Icon(
                 CupertinoIcons.arrow_right,
                 color: colorPrimaryBlack,
+                size: 24.sp,
               ),
-              onPressed: () {},
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

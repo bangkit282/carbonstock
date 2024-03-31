@@ -134,7 +134,7 @@ class _AddHomeScreenViewsState extends State<AddHomeScreenViews> {
                       );
 
                       sleep(const Duration(seconds: 2));
-                      Get.off(() => const PageSetup());
+                      Get.off(() => const HomeScreenViews());
                     }
                   },
                   style: ElevatedButton.styleFrom(

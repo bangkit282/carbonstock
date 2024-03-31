@@ -8,8 +8,13 @@ class AddPlotScreenViews extends StatefulWidget {
 }
 
 class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
+  late MapboxMapController controller;
+  late LatLng currentLatLng;
+
+  final Location location = Location();
   final PlotController _plotController = Get.find();
   final _addPlotFormKey = GlobalKey<FormState>(debugLabel: 'add-plot');
+  final SharedPreferenceService sharedPreferences = SharedPreferenceService();
 
   final TextEditingController _plotLatController = TextEditingController();
   final TextEditingController _plotLngController = TextEditingController();
@@ -17,11 +22,27 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
   final TextEditingController _biomassAvgController = TextEditingController();
   final TextEditingController _biomassStdController = TextEditingController();
 
+  _onMapCreated(MapboxMapController controller) async {
+    this.controller = controller;
+  }
+
   @override
   Widget build(BuildContext context) {
+    String sharedLatLng = sharedPreferences.getString('latLng');
+
+    Map<String, dynamic> latLngMapper = jsonDecode(sharedLatLng);
+    currentLatLng = LatLng(
+      latLngMapper['currentLatLng'][0],
+      latLngMapper['currentLatLng'][1],
+    );
+
+    _plotLatController.text = currentLatLng.latitude.toString();
+    _plotLngController.text = currentLatLng.longitude.toString();
+
     return Scaffold(
       backgroundColor: colorPrimaryBackground,
       appBar: AppBar(
+        centerTitle: false,
         title: Text(
           'Input Plot Area',
           style: TextStyle(
@@ -45,6 +66,8 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              buildMapView(),
+              SizedBox(height: 16.h),
               Text(
                 'Plot Area',
                 style: TextStyle(
@@ -69,16 +92,14 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_addPlotFormKey.currentState!.validate()) {
-                      String latitude = _plotLatController.text;
-                      String longitude = _plotLngController.text;
                       String size = _plotSizeController.text;
                       String biomassAvg = _biomassAvgController.text;
                       String biomassStd = _biomassStdController.text;
 
                       PlotModel plotModel = PlotModel(
-                        plotLat: double.parse(latitude),
-                        plotLng: double.parse(longitude),
-                        plotSize: double.parse(size),
+                        plotLat: currentLatLng.latitude,
+                        plotLng: currentLatLng.longitude,
+                        plotSize: size,
                         biomassAvg: double.parse(biomassAvg),
                         biomassStd: double.parse(biomassStd),
                       );
@@ -93,7 +114,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                       );
 
                       sleep(const Duration(seconds: 2));
-                      Get.off(() => const PageSetup());
+                      Get.off(() => const PlotAreaScreenViews());
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -146,22 +167,16 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
               SizedBox(height: 4.h),
               TextFormField(
                 controller: _plotLatController,
+                enabled: false,
                 keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Tidak boleh kosong'
-                    : null,
                 decoration: InputDecoration(
+                  fillColor: colorSecondaryGrey2,
                   contentPadding: EdgeInsets.all(8.r),
-                  enabledBorder: OutlineInputBorder(
+                  disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.r),
                     borderSide: const BorderSide(
                       color: colorSecondaryGrey1,
                     ),
-                  ),
-                  focusedBorder: const OutlineInputBorder(),
-                  hintText: 'Masukkan Latitude Plot',
-                  hintStyle: const TextStyle(
-                    color: colorSecondaryGrey1,
                   ),
                 ),
               ),
@@ -180,22 +195,16 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
               SizedBox(height: 4.h),
               TextFormField(
                 controller: _plotLngController,
+                enabled: false,
                 keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Tidak boleh kosong'
-                    : null,
                 decoration: InputDecoration(
+                  fillColor: colorSecondaryGrey2,
                   contentPadding: EdgeInsets.all(8.r),
-                  enabledBorder: OutlineInputBorder(
+                  disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.r),
                     borderSide: const BorderSide(
                       color: colorSecondaryGrey1,
                     ),
-                  ),
-                  focusedBorder: const OutlineInputBorder(),
-                  hintText: 'Masukkan Longitude Plot',
-                  hintStyle: const TextStyle(
-                    color: colorSecondaryGrey1,
                   ),
                 ),
               ),
@@ -214,7 +223,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
               SizedBox(height: 4.h),
               TextFormField(
                 controller: _plotSizeController,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.text,
                 validator: (value) => value == null || value.isEmpty
                     ? 'Tidak boleh kosong'
                     : null,
@@ -304,6 +313,24 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  SizedBox buildMapView() {
+    return SizedBox(
+      width: 1.sw,
+      height: 200.h,
+      child: MapboxMap(
+        accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
+        myLocationEnabled: true,
+        trackCameraPosition: true,
+        tiltGesturesEnabled: false,
+        rotateGesturesEnabled: false,
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: CameraPosition(target: currentLatLng, zoom: 15),
+        myLocationRenderMode: MyLocationRenderMode.GPS,
+        myLocationTrackingMode: MyLocationTrackingMode.Tracking,
       ),
     );
   }

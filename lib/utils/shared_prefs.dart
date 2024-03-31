@@ -15,6 +15,9 @@ class SharedPreferenceService {
 
   Future putInt(String key, int value) => _prefsInstance.setInt(key, value);
 
+  Future putDouble(String key, double value) =>
+      _prefsInstance.setDouble(key, value);
+
   Future putBool(String key, bool value) => _prefsInstance.setBool(key, value);
 
   Future putStringList(String key, List<String> value) =>
