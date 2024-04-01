@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:carbonstock/data/api/controllers/area_controller.dart';
 import 'package:carbonstock/data/api/controllers/plot_controller.dart';
@@ -12,7 +12,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -26,8 +25,11 @@ part 'home/add_home_views.dart';
 // Plot
 part 'plot/plot_area_views.dart';
 part 'plot/add_plot_views.dart';
+
+// Sub-Plot
 part 'plot/subplot/sub_plot_area_views.dart';
 part 'plot/details/detail_sub_plot_a_views.dart';
+part 'plot/details/detail_sub_plot_b_views.dart';
 
 part 'auth/login_views.dart';
 part 'auth/register_views.dart';

@@ -139,11 +139,26 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
+                        if (subPlotAlphabet == 'A') {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  const DetailSubPlotAPageScreen(),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        } else if (subPlotAlphabet == 'B')  {
+                          Navigator.push(
                           context,
                           PageRouteBuilder(
                             pageBuilder: (_, __, ___) =>
-                                const DetailSubPlotAPageScreen(),
+                                const DetailSubPlotBPageScreen(),
                             transitionsBuilder: (_, animation, __, child) {
                               return FadeTransition(
                                 opacity: animation,
@@ -152,6 +167,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                             },
                           ),
                         );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
