@@ -71,6 +71,27 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
               ),
             ),
             fetchSubPlotListData(),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: colorButtonAccentGreen,
+                  fixedSize: Size(1.sw, 45.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                ),
+                child: Text(
+                  'Lihat Summary',
+                  style: TextStyle(
+                    color: colorPrimaryWhite,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -79,7 +100,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
 
   Widget fetchSubPlotListData() {
     return Container(
-      height: 400.h,
+      height: 370.h,
       width: 1.sw,
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       child: ListView.builder(
@@ -91,7 +112,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
           return Container(
             width: 1.sw,
             height: 85.h,
-            margin: EdgeInsets.symmetric(vertical: 8.h),
+            margin: EdgeInsets.only(top: 4.h),
             child: Card(
               elevation: 0.5,
               color: colorPrimaryWhite,
@@ -153,20 +174,48 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                               },
                             ),
                           );
-                        } else if (subPlotAlphabet == 'B')  {
+                        } else if (subPlotAlphabet == 'B') {
                           Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (_, __, ___) =>
-                                const DetailSubPlotBPageScreen(),
-                            transitionsBuilder: (_, animation, __, child) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  const DetailSubPlotBPageScreen(),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        } else if (subPlotAlphabet == 'C') {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  const DetailSubPlotCPageScreen(),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        } else if (subPlotAlphabet == 'D') {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  const DetailSubPlotDPageScreen(),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
                         }
                       },
                       style: ElevatedButton.styleFrom(

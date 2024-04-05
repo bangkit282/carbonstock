@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:carbonstock/data/local/localdb/plot_db.dart';
-import 'package:carbonstock/data/local/model/plot_model.dart';
+import 'package:carbonstock/data/local/model/plot/plot_model.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -35,7 +35,7 @@ class PlotController extends GetxController {
     }
   }
 
-  Stream<List<PlotModel>> readAllPlotAsStream() async* {
+  Stream<List<PlotModel>>? readAllPlotAsStream() async* {
     isLoading.value = true;
     streamPlotList = PlotDB.instance.readAllPlot().map((plotList) => plotList);
     isLoading.value = false;

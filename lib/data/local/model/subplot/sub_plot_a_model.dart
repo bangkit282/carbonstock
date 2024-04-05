@@ -1,4 +1,4 @@
-const String tableSubPlotArea = 'sub_plot';
+const String tableSubPlotA = 'sub_plot_a';
 
 class SubPlotAreaA {
   final int? id;
@@ -17,10 +17,11 @@ class SubPlotAreaA {
     int? id,
     String? areaName,
     String? plotName,
+    List<SubPlotAModel>? subPlot,
   }) =>
       SubPlotAreaA(
         id: id ?? this.id,
-        subPlot: subPlot,
+        subPlot: subPlot ?? this.subPlot,
         areaName: areaName ?? this.areaName,
         plotName: plotName ?? this.plotName,
       );

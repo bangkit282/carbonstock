@@ -1,64 +1,81 @@
 part of '../../views.dart';
 
-class DetailSubPlotBPageScreen extends StatefulWidget {
-  const DetailSubPlotBPageScreen({super.key});
+class DetailSubPlotDPageScreen extends StatefulWidget {
+  const DetailSubPlotDPageScreen({super.key});
 
   @override
-  State<DetailSubPlotBPageScreen> createState() =>
-      _DetailSubPlotBPageScreenState();
+  State<DetailSubPlotDPageScreen> createState() =>
+      _DetailSubPlotDPageScreenState();
 }
 
-class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
-  final TextEditingController _pancangKelilingController =
+class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
+  final TextEditingController _pohonKelilingController =
       TextEditingController();
-  final TextEditingController _pancangDiameterController =
+  final TextEditingController _pohonDiameterController =
       TextEditingController();
-  final TextEditingController _pancangNamaIlmiahController =
+  final TextEditingController _pohonNamaIlmiahController =
       TextEditingController();
-  final TextEditingController _pancangKerapatanJenisController =
+  final TextEditingController _pohonKerapatanJenisController =
       TextEditingController();
 
-  RxString selectedLocalName = 'Pilih Nama Lokal'.obs;
-  RxString selectedBioName = ''.obs;
+  // final TextEditingController _nekromasKelilingController =
+  //     TextEditingController();
+  // final TextEditingController _nekromasDiameterController =
+  //     TextEditingController();
+  // final TextEditingController _nekromasNamaIlmiahController =
+  //     TextEditingController();
+  // final TextEditingController _nekromasKerapatanJenisController =
+  //     TextEditingController();
 
-  RxDouble pancangDiameter = 0.0.obs;
-  RxDouble pancangBiomassLand = 0.0.obs;
-  RxDouble pancangKerapatan = 0.0.obs;
-  RxDouble pancangKarbon = 0.0.obs;
+  // final TextEditingController _tanahDiameterController =
+  //     TextEditingController();
+  // final TextEditingController _tanahTinggiTotalController =
+  //     TextEditingController();
 
-  List<Map<String, String>> knownPancangListMap = [
+  RxString selectedLocalNamePohon = 'Pilih Nama Lokal'.obs;
+  RxString selectedBioNamePohon = ''.obs;
+
+  // RxString selectedLocalNameNekromas = 'Pilih Nama Lokal'.obs;
+  // RxString selectedBioNameNekromas = ''.obs;
+
+  RxDouble pohonDiameter = 0.0.obs;
+  RxDouble pohonBiomassLand = 0.0.obs;
+  RxDouble pohonKerapatan = 0.0.obs;
+  RxDouble pohonKarbon = 0.0.obs;
+
+  // RxDouble nekromasBiomassLand = 0.0.obs;
+  // RxDouble nekromasKerapatan = 0.0.obs;
+  // RxDouble nekromasKarbon = 0.0.obs;
+
+  RxDouble tanahDiameter = 0.0.obs;
+  RxDouble tanahTinggiTotal = 0.0.obs;
+
+  List<Map<String, String>> knownPohonListMap = [
     {'name': 'Pilih Nama Lokal', 'bioname': ''},
-    {'name': 'Jarum', 'bioname': 'Tidak teridentifikasi'},
-    {'name': 'Kolek', 'bioname': 'Eugenia sp'},
-    {'name': 'Kubin', 'bioname': 'Macaranga gigantea'},
-    {'name': 'Mandarahan', 'bioname': 'Knema sumatrana'},
-    {'name': 'Mang', 'bioname': 'Garcinia sp.2'},
-    {'name': 'Medang', 'bioname': 'Artocarpus sp.6'},
-    {'name': 'Nyatuah', 'bioname': 'Madhuca sp'},
-    {'name': 'Rangeh', 'bioname': 'Gluta renghas L'},
-    {'name': 'Rasak', 'bioname': 'Vatica rassak'},
-    {'name': 'Sarang tuotuo', 'bioname': 'Tidak teridentifikasi'},
+    {'name': 'Kalek', 'bioname': 'Eugenia sp'},
+    {'name': 'Gamai-Gamai', 'bioname': 'Tidak teridentifikasi'},
+    {'name': 'Sontuo', 'bioname': 'Tidak teridentifikasi'},
   ];
 
-  void initializePancang(String value) {
+  void initializePohon(String value) {
     Set<String> knownSet = Set.from(
-      knownPancangListMap.map((item) => item['name']),
+      knownPohonListMap.map((item) => item['name']),
     );
 
     if (knownSet.contains(value) && value != 'Pilih Nama Lokal') {
-      pancangKerapatan.value = 0.6;
-      String selectedBioNameValue = knownPancangListMap
+      pohonKerapatan.value = 0.6;
+      String selectedBioNameValue = knownPohonListMap
           .firstWhere((element) => element['name'] == value)['bioname']!;
 
-      selectedBioName.value = selectedBioNameValue;
+      selectedBioNamePohon.value = selectedBioNameValue;
     } else {
-      pancangKerapatan.value = 0.0;
-      pancangBiomassLand.value = 0.0;
+      pohonKerapatan.value = 0.0;
+      pohonBiomassLand.value = 0.0;
 
-      selectedBioName.value = '';
+      selectedBioNamePohon.value = '';
     }
 
-    _pancangKerapatanJenisController.text = '${pancangKerapatan.value}';
+    _pohonKerapatanJenisController.text = '${pohonKerapatan.value}';
   }
 
   @override
@@ -68,7 +85,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          'Detail Sub Plot B',
+          'Detail Sub Plot D',
           style: TextStyle(
             fontSize: 20.sp,
             color: colorPrimaryWhite,
@@ -99,9 +116,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
           children: [
             buildDetailInfo(),
             ElevatedButton(
-              onPressed: () {
-
-              },
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorButtonAccentGreen,
                 fixedSize: Size(1.sw, 45.h),
@@ -138,12 +153,12 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
           ),
         ),
         SizedBox(height: 16.h),
-        buildPancangInfo(),
+        buildPohonInfo(),
       ],
     );
   }
 
-  Card buildPancangInfo() {
+  Card buildPohonInfo() {
     return Card(
       elevation: 0.5,
       child: Column(
@@ -153,7 +168,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
             width: 1.sw,
             margin: EdgeInsets.only(left: 16.w),
             child: const Text(
-              'Sub Plot B (5x5) - Pancang',
+              'Sub Plot D (20x20) - Pohon',
               textAlign: TextAlign.start,
               style: TextStyle(fontWeight: FontWeight.w700),
             ),
@@ -174,22 +189,22 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                 SizedBox(
                   width: 160.w,
                   child: TextFormField(
-                    controller: _pancangKelilingController,
+                    controller: _pohonKelilingController,
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       if (value.isNotEmpty) {
-                        pancangDiameter.value = double.parse(value) / (22 / 7);
-                        _pancangDiameterController.text = 
-                            pancangDiameter.value.toStringAsFixed(2);
+                        pohonDiameter.value = double.parse(value) / (22 / 7);
+                        _pohonDiameterController.text =
+                            pohonDiameter.value.toStringAsFixed(2);
 
-                        if (pancangKerapatan.value != 0.0) {
-                          pancangBiomassLand.value = 0.11 *
-                              pancangKerapatan.value *
-                              (pow(pancangDiameter.value, 2.62));
+                        if (pohonKerapatan.value != 0.0) {
+                          pohonBiomassLand.value = 0.11 *
+                              pohonKerapatan.value *
+                              (pow(pohonDiameter.value, 2.62));
                         }
                       } else {
-                        _pancangDiameterController.text = '';
-                        pancangBiomassLand.value = 0.0;
+                        _pohonDiameterController.text = '';
+                        pohonBiomassLand.value = 0.0;
                       }
                     },
                     decoration: InputDecoration(
@@ -224,9 +239,9 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                 SizedBox(
                   width: 160.w,
                   child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    controller: _pancangDiameterController,
                     readOnly: true,
+                    controller: _pohonDiameterController,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: 'Diameter (cm)',
                       hintStyle: const TextStyle(color: colorSecondaryGrey1),
@@ -259,7 +274,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                 SizedBox(
                   width: 160.w,
                   child: DropdownButtonFormField(
-                    items: knownPancangListMap
+                    items: knownPohonListMap
                         .map(
                           (e) => DropdownMenuItem(
                             value: e['name'],
@@ -267,13 +282,20 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                           ),
                         )
                         .toList(),
-                    value: selectedLocalName.value,
+                    value: selectedLocalNamePohon.value,
                     onChanged: (value) {
-                      selectedLocalName.value = value!;
-                      initializePancang(value.toString());
+                      selectedLocalNamePohon.value = value!;
+                      initializePohon(value.toString());
 
-                      _pancangNamaIlmiahController.text =
-                          selectedBioName.value.toString();
+                      _pohonNamaIlmiahController.text =
+                          selectedBioNamePohon.value.toString();
+
+                      if (pohonDiameter.value != 0.0 &&
+                          pohonKerapatan.value != 0.0) {
+                        pohonBiomassLand.value = 0.11 *
+                            pohonKerapatan.value *
+                            (pow(pohonDiameter.value, 2.62));
+                      }
                     },
                     decoration: InputDecoration(
                       isDense: true,
@@ -305,9 +327,10 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                 SizedBox(
                   width: 160.w,
                   child: TextFormField(
+                    maxLines: 1,
                     maxLength: 21,
                     readOnly: true,
-                    controller: _pancangNamaIlmiahController,
+                    controller: _pohonNamaIlmiahController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       isDense: true,
@@ -342,7 +365,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                   width: 160.w,
                   child: TextFormField(
                     readOnly: true,
-                    controller: _pancangKerapatanJenisController,
+                    controller: _pohonKerapatanJenisController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: 'Kerapan Jenis Kayu',
@@ -379,9 +402,9 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                 SizedBox(
                   width: 140.w,
                   child: Obx(
-                    () => pancangBiomassLand.value != 0
+                    () => pohonBiomassLand.value != 0
                         ? Text(
-                            '${(pancangBiomassLand.value).toStringAsFixed(2)} Kg',
+                            '${(pohonBiomassLand.value).toStringAsFixed(2)} Kg',
                             style: TextStyle(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w700,
@@ -417,9 +440,9 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                 SizedBox(
                   width: 140.w,
                   child: Obx(
-                    () => pancangBiomassLand.value != 0
+                    () => pohonBiomassLand.value != 0
                         ? Text(
-                            '${(pancangBiomassLand.value * 0.47).toStringAsFixed(2)} Kg',
+                            '${(pohonBiomassLand.value * 0.47).toStringAsFixed(2)} Kg',
                             style: TextStyle(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w700,
@@ -455,9 +478,9 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                 SizedBox(
                   width: 140.w,
                   child: Obx(
-                    () => pancangBiomassLand.value != 0
+                    () => pohonBiomassLand.value != 0
                         ? Text(
-                            '${((pancangBiomassLand.value * 0.47) * (44 / 12)).toStringAsFixed(2)} Kg',
+                            '${((pohonBiomassLand.value * 0.47) * (44 / 12)).toStringAsFixed(2)} Kg',
                             style: TextStyle(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w700,

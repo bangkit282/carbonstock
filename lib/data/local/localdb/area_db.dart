@@ -1,4 +1,4 @@
-import 'package:carbonstock/data/local/model/area_model.dart';
+import 'package:carbonstock/data/local/model/area/area_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:carbonstock/data/local/localdb/area_db.dart';
-import 'package:carbonstock/data/local/model/area_model.dart';
+import 'package:carbonstock/data/local/model/area/area_model.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 

@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+// import 'dart:developer' as d;
 
-import 'package:carbonstock/data/api/controllers/area_controller.dart';
-import 'package:carbonstock/data/api/controllers/plot_controller.dart';
-import 'package:carbonstock/data/local/model/area_model.dart';
-import 'package:carbonstock/data/local/model/plot_model.dart';
+import 'package:carbonstock/data/api/controllers/area/area_controller.dart';
+import 'package:carbonstock/data/api/controllers/plot/plot_controller.dart';
+import 'package:carbonstock/data/local/model/area/area_model.dart';
+import 'package:carbonstock/data/local/model/plot/plot_model.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/utils/style_theme.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -30,6 +30,8 @@ part 'plot/add_plot_views.dart';
 part 'plot/subplot/sub_plot_area_views.dart';
 part 'plot/details/detail_sub_plot_a_views.dart';
 part 'plot/details/detail_sub_plot_b_views.dart';
+part 'plot/details/detail_sub_plot_c_views.dart';
+part 'plot/details/detail_sub_plot_d_views.dart';
 
 part 'auth/login_views.dart';
 part 'auth/register_views.dart';

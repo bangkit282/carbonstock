@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:carbonstock/data/api/controllers/area_controller.dart';
-import 'package:carbonstock/data/api/controllers/plot_controller.dart';
+import 'package:carbonstock/data/api/controllers/area/area_controller.dart';
+import 'package:carbonstock/data/api/controllers/plot/plot_controller.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/views/views.dart';
 import 'package:flutter/material.dart';
