@@ -27,6 +27,8 @@ class SharedPreferenceService {
 
   int getInt(String key) => _prefsInstance.getInt(key) ?? 0;
 
+  double getDouble(String key) => _prefsInstance.getDouble(key) ?? 0.0;
+
   bool getBool(String key) => _prefsInstance.getBool(key) ?? false;
 
   List getStringList(String key) => _prefsInstance.getStringList(key) ?? [];

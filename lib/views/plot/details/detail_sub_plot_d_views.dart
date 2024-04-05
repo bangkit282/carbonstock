@@ -1,7 +1,14 @@
 part of '../../views.dart';
 
 class DetailSubPlotDPageScreen extends StatefulWidget {
-  const DetailSubPlotDPageScreen({super.key});
+  const DetailSubPlotDPageScreen({
+    super.key,
+    this.name,
+    this.keliling,
+  });
+
+  final String? name;
+  final double? keliling;
 
   @override
   State<DetailSubPlotDPageScreen> createState() =>
@@ -9,6 +16,8 @@ class DetailSubPlotDPageScreen extends StatefulWidget {
 }
 
 class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
+  final SharedPreferenceService _sharedPref = SharedPreferenceService();
+
   final TextEditingController _pohonKelilingController =
       TextEditingController();
   final TextEditingController _pohonDiameterController =
@@ -80,6 +89,14 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.name != null && widget.name != '') {
+      selectedLocalNamePohon.value = widget.name!;
+    }
+
+    if (widget.keliling != null && widget.keliling != 0) {
+      _pohonKelilingController.text = widget.keliling!.toString();
+    }
+
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -116,7 +133,47 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
           children: [
             buildDetailInfo(),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                _sharedPref.putDouble(
+                  'pohon_keliling',
+                  double.parse(_pohonKelilingController.text),
+                );
+
+                _sharedPref.putDouble(
+                  'pohon_diameter',
+                  pohonDiameter.value,
+                );
+
+                _sharedPref.putString(
+                  'pohon_local',
+                  selectedLocalNamePohon.value,
+                );
+
+                _sharedPref.putDouble(
+                  'pohon_biomass',
+                  pohonBiomassLand.value,
+                );
+
+                _sharedPref.putDouble(
+                  'pohon_karbon',
+                  pohonBiomassLand.value * 0.47,
+                );
+
+                _sharedPref.putDouble(
+                  'pohon_serapanco2',
+                  (pohonBiomassLand.value * 0.47) * (44 / 12),
+                );
+
+                sleep(const Duration(seconds: 3));
+                const Center(child: CircularProgressIndicator.adaptive());
+
+                Get.back();
+                Get.snackbar(
+                  'CarbonStock',
+                  'Simpan Sub-Plot D Berhasil!',
+                  backgroundColor: colorSecondaryGreen,
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorButtonAccentGreen,
                 fixedSize: Size(1.sw, 45.h),

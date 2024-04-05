@@ -1,7 +1,14 @@
 part of '../../views.dart';
 
 class DetailSubPlotBPageScreen extends StatefulWidget {
-  const DetailSubPlotBPageScreen({super.key});
+  const DetailSubPlotBPageScreen({
+    super.key,
+    this.name,
+    this.keliling,
+  });
+
+  final String? name;
+  final double? keliling;
 
   @override
   State<DetailSubPlotBPageScreen> createState() =>
@@ -9,6 +16,8 @@ class DetailSubPlotBPageScreen extends StatefulWidget {
 }
 
 class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
+  final SharedPreferenceService _sharedPref = SharedPreferenceService();
+
   final TextEditingController _pancangKelilingController =
       TextEditingController();
   final TextEditingController _pancangDiameterController =
@@ -63,6 +72,14 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.name != null && widget.name != '') {
+      selectedLocalName.value = widget.name!;
+    }
+
+    if (widget.keliling != null && widget.keliling != 0) {
+      _pancangKelilingController.text = widget.keliling!.toString();
+    }
+
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -100,7 +117,45 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
             buildDetailInfo(),
             ElevatedButton(
               onPressed: () {
+                _sharedPref.putDouble(
+                  'pancang_keliling',
+                  double.parse(_pancangKelilingController.text),
+                );
 
+                _sharedPref.putDouble(
+                  'pancang_diameter',
+                  pancangDiameter.value,
+                );
+
+                _sharedPref.putString(
+                  'pancang_local',
+                  selectedLocalName.value,
+                );
+
+                _sharedPref.putDouble(
+                  'pancang_biomass',
+                  pancangBiomassLand.value,
+                );
+
+                _sharedPref.putDouble(
+                  'pancang_karbon',
+                  pancangBiomassLand.value * 0.47,
+                );
+
+                _sharedPref.putDouble(
+                  'pancang_serapanco2',
+                  (pancangBiomassLand.value * 0.47) * (44 / 12),
+                );
+
+                sleep(const Duration(seconds: 3));
+                const Center(child: CircularProgressIndicator.adaptive());
+
+                Get.back();
+                Get.snackbar(
+                  'CarbonStock',
+                  'Simpan Sub-Plot B Berhasil!',
+                  backgroundColor: colorSecondaryGreen,
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorButtonAccentGreen,
@@ -179,7 +234,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                     onChanged: (value) {
                       if (value.isNotEmpty) {
                         pancangDiameter.value = double.parse(value) / (22 / 7);
-                        _pancangDiameterController.text = 
+                        _pancangDiameterController.text =
                             pancangDiameter.value.toStringAsFixed(2);
 
                         if (pancangKerapatan.value != 0.0) {

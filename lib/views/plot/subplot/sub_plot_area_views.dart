@@ -15,6 +15,8 @@ class SubPlotAreaScreenViews extends StatefulWidget {
 }
 
 class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
+  final SharedPreferenceService _sharedPref = SharedPreferenceService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +76,36 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16.w),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.snackbar(
+                    'CarbonStock',
+                    'Still in development!',
+                    backgroundColor: colorSecondaryGreen,
+                  );
+
+                  d.log('''
+                        ${_sharedPref.getDouble('pancang_keliling')}
+                        ${_sharedPref.getDouble('pancang_diameter')}
+                        ${_sharedPref.getString('pancang_local')}
+                        ${_sharedPref.getDouble('pancang_biomass')}
+                        ${_sharedPref.getDouble('pancang_karbon')}
+                        ${_sharedPref.getDouble('pancang_serapanco2')}
+
+                        ${_sharedPref.getDouble('tiang_keliling')}
+                        ${_sharedPref.getDouble('tiang_diameter')}
+                        ${_sharedPref.getString('tiang_local')}
+                        ${_sharedPref.getDouble('tiang_biomass')}
+                        ${_sharedPref.getDouble('tiang_karbon')}
+                        ${_sharedPref.getDouble('tiang_serapanco2')}
+
+                        ${_sharedPref.getDouble('pohon_keliling')}
+                        ${_sharedPref.getDouble('pohon_diameter')}
+                        ${_sharedPref.getString('pohon_local')}
+                        ${_sharedPref.getDouble('pohon_biomass')}
+                        ${_sharedPref.getDouble('pohon_karbon')}
+                        ${_sharedPref.getDouble('pohon_serapanco2')}
+                        ''');
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colorButtonAccentGreen,
                   fixedSize: Size(1.sw, 45.h),
@@ -175,47 +206,83 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                             ),
                           );
                         } else if (subPlotAlphabet == 'B') {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  const DetailSubPlotBPageScreen(),
-                              transitionsBuilder: (_, animation, __, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                            ),
-                          );
+                          if (_sharedPref.checkKey('pancang_local')) {
+                            String local = _sharedPref.getString(
+                              'pancang_local',
+                            );
+                            double keliling = _sharedPref.getDouble(
+                              'pancang_keliling',
+                            );
+
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (_, __, ___) =>
+                                    DetailSubPlotBPageScreen(
+                                  name: local,
+                                  keliling: keliling,
+                                ),
+                                transitionsBuilder: (_, animation, __, child) {
+                                  return FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
+                          }
                         } else if (subPlotAlphabet == 'C') {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  const DetailSubPlotCPageScreen(),
-                              transitionsBuilder: (_, animation, __, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                            ),
-                          );
+                          if (_sharedPref.checkKey('tiang_local')) {
+                            String local = _sharedPref.getString(
+                              'tiang_local',
+                            );
+                            double keliling = _sharedPref.getDouble(
+                              'tiang_keliling',
+                            );
+
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (_, __, ___) =>
+                                    DetailSubPlotCPageScreen(
+                                  name: local,
+                                  keliling: keliling,
+                                ),
+                                transitionsBuilder: (_, animation, __, child) {
+                                  return FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
+                          }
                         } else if (subPlotAlphabet == 'D') {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  const DetailSubPlotDPageScreen(),
-                              transitionsBuilder: (_, animation, __, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                            ),
-                          );
+                          if (_sharedPref.checkKey('pohon_local')) {
+                            String local = _sharedPref.getString(
+                              'pohon_local',
+                            );
+                            double keliling = _sharedPref.getDouble(
+                              'pohon_keliling',
+                            );
+
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (_, __, ___) =>
+                                    DetailSubPlotDPageScreen(
+                                  name: local,
+                                  keliling: keliling,
+                                ),
+                                transitionsBuilder: (_, animation, __, child) {
+                                  return FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(

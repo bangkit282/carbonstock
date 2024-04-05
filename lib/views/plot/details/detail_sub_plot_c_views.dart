@@ -1,7 +1,14 @@
 part of '../../views.dart';
 
 class DetailSubPlotCPageScreen extends StatefulWidget {
-  const DetailSubPlotCPageScreen({super.key});
+  const DetailSubPlotCPageScreen({
+    super.key,
+    this.name,
+    this.keliling,
+  });
+
+  final String? name;
+  final double? keliling;
 
   @override
   State<DetailSubPlotCPageScreen> createState() =>
@@ -9,6 +16,8 @@ class DetailSubPlotCPageScreen extends StatefulWidget {
 }
 
 class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
+  final SharedPreferenceService _sharedPref = SharedPreferenceService();
+
   final TextEditingController _tiangKelilingController =
       TextEditingController();
   final TextEditingController _tiangDiameterController =
@@ -57,6 +66,14 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.name != null && widget.name != '') {
+      selectedLocalName.value = widget.name!;
+    }
+
+    if (widget.keliling != null && widget.keliling != 0) {
+      _tiangKelilingController.text = widget.keliling!.toString();
+    }
+
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -93,7 +110,47 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
           children: [
             buildDetailInfo(),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                _sharedPref.putDouble(
+                  'tiang_keliling',
+                  double.parse(_tiangKelilingController.text),
+                );
+
+                _sharedPref.putDouble(
+                  'tiang_diameter',
+                  tiangDiameter.value,
+                );
+
+                _sharedPref.putString(
+                  'tiang_local',
+                  selectedLocalName.value,
+                );
+
+                _sharedPref.putDouble(
+                  'tiang_biomass',
+                  tiangBiomassLand.value,
+                );
+
+                _sharedPref.putDouble(
+                  'tiang_karbon',
+                  tiangBiomassLand.value * 0.47,
+                );
+
+                _sharedPref.putDouble(
+                  'tiang_serapanco2',
+                  (tiangBiomassLand.value * 0.47) * (44 / 12),
+                );
+
+                sleep(const Duration(seconds: 3));
+                const Center(child: CircularProgressIndicator.adaptive());
+
+                Get.back();
+                Get.snackbar(
+                  'CarbonStock',
+                  'Simpan Sub-Plot C Berhasil!',
+                  backgroundColor: colorSecondaryGreen,
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorButtonAccentGreen,
                 fixedSize: Size(1.sw, 45.h),
