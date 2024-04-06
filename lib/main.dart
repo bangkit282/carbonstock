@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 void main() async {
@@ -63,33 +63,44 @@ class SplashScreenViews extends StatefulWidget {
 class _SplashScreenViewsState extends State<SplashScreenViews> {
   final SharedPreferenceService sharedPreferences = SharedPreferenceService();
 
-  void initializeLocationAndSave() async {
+  Future<Position> initializeLocationAndSave() async {
     // Ensure all permissions are collected for Locations
-    Location location = Location();
-    bool? serviceEnabled;
-    PermissionStatus? permissionGranted;
+    LocationPermission permission = await Geolocator.checkPermission();
 
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied!');
+      }
     }
 
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permanently denied!');
+    }
+
+    // Ensure location service is enabled
+    bool? serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled!');
     }
 
     // Get capture the current user location
-    LocationData locationData = await location.getLocation();
-    LatLng currentLatLng =
-        LatLng(locationData.latitude!, locationData.longitude!);
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
 
-    // Store the user location in sharedPreferences
-    sharedPreferences.putDouble('latitude', locationData.latitude!);
-    sharedPreferences.putDouble('longitude', locationData.longitude!);
+    if (position.isMocked) {
+      return Future.error('Location is mocked!');
+    } else {
+      // Store location and return the current location
+      LatLng currentLatLng = LatLng(position.latitude, position.longitude);
+      Map<String, LatLng> latLngMapper = {'currentLatLng': currentLatLng};
 
-    Map<String, LatLng> latLngMapper = {'currentLatLng': currentLatLng};
-    sharedPreferences.putString('latLng', jsonEncode(latLngMapper));
+      sharedPreferences.putString('latLng', jsonEncode(latLngMapper));
+      return await Geolocator.getCurrentPosition();
+    }
   }
 
   @override

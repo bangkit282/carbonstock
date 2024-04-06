@@ -11,7 +11,6 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
   late MapboxMapController controller;
   late LatLng currentLatLng;
 
-  final Location location = Location();
   final PlotController _plotController = Get.find();
   final _addPlotFormKey = GlobalKey<FormState>(debugLabel: 'add-plot');
   final SharedPreferenceService sharedPreferences = SharedPreferenceService();

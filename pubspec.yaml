@@ -39,9 +39,10 @@ dependencies:
   flutter_dotenv: ^5.1.0
   flutter_screenutil: ^5.9.0
   get: ^4.6.6
+  geolocator: ^11.0.0
   google_fonts: ^6.1.0
   image_picker: ^1.0.2
-  location: ^5.0.3
+  # location: ^5.0.3
   mapbox_gl: ^0.16.0
   package_info_plus: ^4.2.0
   path: ^1.8.3
@@ -75,7 +76,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/fonts/
     - assets/configs/
 
   # An image asset can refer to one or more resolution-specific "variants", see
