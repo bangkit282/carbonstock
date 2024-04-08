@@ -5,7 +5,6 @@ import 'dart:developer' as d;
 
 import 'package:carbonstock/data/api/controllers/area/area_controller.dart';
 import 'package:carbonstock/data/api/controllers/plot/plot_controller.dart';
-import 'package:carbonstock/data/api/controllers/subplot/sub_plot_controller.dart';
 import 'package:carbonstock/data/local/model/area/area_model.dart';
 import 'package:carbonstock/data/local/model/plot/plot_model.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';

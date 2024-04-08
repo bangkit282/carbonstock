@@ -129,12 +129,6 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                     backgroundColor: colorSecondaryGreen,
                   );
                 }
-                //  else {
-                //   _sharedPref.getInt('id_pancang');
-
-                //   if (_sharedPref.checkKey('id_pancang')) {
-                //   }
-                // }
 
                 _sharedPref.putDouble(
                   'pancang_keliling',
