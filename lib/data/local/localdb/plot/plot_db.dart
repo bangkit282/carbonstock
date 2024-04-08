@@ -49,7 +49,7 @@ class PlotDB {
     db.close();
   }
 
-  Future<PlotModel> insePlot(PlotModel plot) async {
+  Future<PlotModel> insertPlot(PlotModel plot) async {
     final db = await instance.database;
     final id = await db.insert(tablePlot, plot.toJson());
 

@@ -1,12 +1,34 @@
 const String tableSubPlotB = 'sub_plot_b';
 
+class SubPlotAreaBFields {
+  static final List<String> values = [
+    id,
+    areaName,
+    plotName,
+    keliling,
+    diameter,
+    localName,
+    bioName,
+    kerapatanKayu,
+  ];
+
+  static const String id = '_id';
+  static const String areaName = 'areaName';
+  static const String plotName = 'plotName';
+  static const String localName = 'localName';
+  static const String bioName = 'bioName';
+  static const String keliling = 'keliling';
+  static const String diameter = 'diameter';
+  static const String kerapatanKayu = 'kerapatanKayu';
+}
+
 class SubPlotAreaBModel {
   final int? id;
   final String areaName;
   final String plotName;
   final String localName;
   final String bioName;
-  final double areaSize;
+  final double keliling;
   final double diameter;
   final double kerapatanKayu;
 
@@ -16,7 +38,7 @@ class SubPlotAreaBModel {
     required this.plotName,
     required this.localName,
     required this.bioName,
-    required this.areaSize,
+    required this.keliling,
     required this.diameter,
     required this.kerapatanKayu,
   });
@@ -27,7 +49,7 @@ class SubPlotAreaBModel {
     String? plotName,
     String? localName,
     String? bioName,
-    double? areaSize,
+    double? keliling,
     double? diameter,
     double? kerapatanKayu,
   }) =>
@@ -37,7 +59,7 @@ class SubPlotAreaBModel {
         plotName: plotName ?? this.plotName,
         localName: localName ?? this.localName,
         bioName: bioName ?? this.bioName,
-        areaSize: areaSize ?? this.areaSize,
+        keliling: keliling ?? this.keliling,
         diameter: diameter ?? this.diameter,
         kerapatanKayu: kerapatanKayu ?? this.kerapatanKayu,
       );
@@ -49,7 +71,7 @@ class SubPlotAreaBModel {
         plotName: json['plotName'] as String,
         localName: json['localName'] as String,
         bioName: json['bioName'] as String,
-        areaSize: json['areaSize'] as double,
+        keliling: json['keliling'] as double,
         diameter: json['diameter'] as double,
         kerapatanKayu: json['kerapatanKayu'] as double,
       );
@@ -60,7 +82,7 @@ class SubPlotAreaBModel {
         'plotName': plotName,
         'localName': localName,
         'bioName': bioName,
-        'areaSize': areaSize,
+        'keliling': keliling,
         'diameter': diameter,
         'kerapatanKayu': kerapatanKayu,
       };

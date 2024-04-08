@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:carbonstock/data/api/controllers/area/area_controller.dart';
 import 'package:carbonstock/data/api/controllers/plot/plot_controller.dart';
+import 'package:carbonstock/data/api/controllers/subplot/sub_plot_controller.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/views/views.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ void main() async {
 
   Get.lazyPut(() => AreaController());
   Get.lazyPut(() => PlotController());
+  Get.lazyPut(() => SubPlotController());
 
   await dotenv.load(fileName: 'assets/configs/.env');
 

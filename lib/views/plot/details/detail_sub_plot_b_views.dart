@@ -16,6 +16,9 @@ class DetailSubPlotBPageScreen extends StatefulWidget {
 }
 
 class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
+  final _pancangFormKey = GlobalKey<FormState>(debugLabel: 'pancang-form');
+
+  // final SubPlotController _controller = Get.find();
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
 
   final TextEditingController _pancangKelilingController =
@@ -116,7 +119,23 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
           children: [
             buildDetailInfo(),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                if (_pancangKelilingController.text.isEmpty ||
+                    _pancangDiameterController.text.isEmpty ||
+                    selectedLocalName.value == 'Pilih Nama Lokal') {
+                  Get.snackbar(
+                    'CarbonStock',
+                    'Lengkapi data terlebih dahulu',
+                    backgroundColor: colorSecondaryGreen,
+                  );
+                }
+                //  else {
+                //   _sharedPref.getInt('id_pancang');
+
+                //   if (_sharedPref.checkKey('id_pancang')) {
+                //   }
+                // }
+
                 _sharedPref.putDouble(
                   'pancang_keliling',
                   double.parse(_pancangKelilingController.text),
@@ -193,7 +212,10 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
           ),
         ),
         SizedBox(height: 16.h),
-        buildPancangInfo(),
+        Form(
+          key: _pancangFormKey,
+          child: buildPancangInfo(),
+        ),
       ],
     );
   }
