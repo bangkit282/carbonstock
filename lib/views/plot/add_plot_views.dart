@@ -28,8 +28,8 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
   @override
   Widget build(BuildContext context) {
     String sharedLatLng = sharedPreferences.getString('latLng');
-
     Map<String, dynamic> latLngMapper = jsonDecode(sharedLatLng);
+    
     currentLatLng = LatLng(
       latLngMapper['currentLatLng'][0],
       latLngMapper['currentLatLng'][1],
@@ -108,8 +108,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                       Get.snackbar(
                         'CarbonStock',
                         'Add Plot Success!',
-                        backgroundColor: colorSecondaryGreen,
-                        colorText: colorPrimaryWhite,
+                        backgroundColor: colorSecondaryGrey1,
                       );
 
                       sleep(const Duration(seconds: 2));

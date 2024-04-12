@@ -7,6 +7,7 @@ import 'package:carbonstock/data/api/controllers/area/area_controller.dart';
 import 'package:carbonstock/data/api/controllers/plot/plot_controller.dart';
 import 'package:carbonstock/data/local/model/area/area_model.dart';
 import 'package:carbonstock/data/local/model/plot/plot_model.dart';
+import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/utils/style_theme.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -16,6 +17,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+
+import '../data/api/controllers/subplot/sub_plot_controller.dart';
 
 // Home
 part 'home/home_views.dart';

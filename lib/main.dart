@@ -18,9 +18,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferenceService.init();
 
-  Get.lazyPut(() => AreaController());
-  Get.lazyPut(() => PlotController());
-  Get.lazyPut(() => SubPlotController());
+  Get.put(AreaController(), permanent: true);
+  Get.put(PlotController(), permanent: true);
+  Get.put(SubPlotController(), permanent: true);
 
   await dotenv.load(fileName: 'assets/configs/.env');
 
@@ -93,16 +93,23 @@ class _SplashScreenViewsState extends State<SplashScreenViews> {
       desiredAccuracy: LocationAccuracy.high,
     );
 
-    if (position.isMocked) {
-      return Future.error('Location is mocked!');
-    } else {
-      // Store location and return the current location
+    // if (position.isMocked) {
+    //   return Future.error('Location is mocked!');
+    // } else {
+    //   // Store location and return the current location
+    //   LatLng currentLatLng = LatLng(position.latitude, position.longitude);
+    //   Map<String, LatLng> latLngMapper = {'currentLatLng': currentLatLng};
+
+    //   sharedPreferences.putString('latLng', jsonEncode(latLngMapper));
+    //   return await Geolocator.getCurrentPosition();
+    // }
+
+    // Store location and return the current location
       LatLng currentLatLng = LatLng(position.latitude, position.longitude);
       Map<String, LatLng> latLngMapper = {'currentLatLng': currentLatLng};
 
       sharedPreferences.putString('latLng', jsonEncode(latLngMapper));
       return await Geolocator.getCurrentPosition();
-    }
   }
 
   @override

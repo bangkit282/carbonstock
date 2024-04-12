@@ -16,6 +16,8 @@ class SubPlotAreaScreenViews extends StatefulWidget {
 
 class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
+  final SubPlotController _controller = Get.find();
+  // final _subPlotFormKey = GlobalKey<FormState>(debugLabel: 'sub-plot-form');
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +66,11 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       ),
                     ],
                   ),
-                  Icon(
-                    CupertinoIcons.arrow_clockwise,
-                    color: colorPrimaryBlack,
-                    size: 32.sp,
-                  ),
+                  // Icon(
+                  //   CupertinoIcons.arrow_clockwise,
+                  //   color: colorPrimaryBlack,
+                  //   size: 32.sp,
+                  // ),
                 ],
               ),
             ),
@@ -80,31 +82,8 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                   Get.snackbar(
                     'CarbonStock',
                     'Still in development!',
-                    backgroundColor: colorSecondaryGreen,
+                    backgroundColor: colorSecondaryGrey1,
                   );
-
-                  d.log('''
-                        ${_sharedPref.getDouble('pancang_keliling')}
-                        ${_sharedPref.getDouble('pancang_diameter')}
-                        ${_sharedPref.getString('pancang_local')}
-                        ${_sharedPref.getDouble('pancang_biomass')}
-                        ${_sharedPref.getDouble('pancang_karbon')}
-                        ${_sharedPref.getDouble('pancang_serapanco2')}
-
-                        ${_sharedPref.getDouble('tiang_keliling')}
-                        ${_sharedPref.getDouble('tiang_diameter')}
-                        ${_sharedPref.getString('tiang_local')}
-                        ${_sharedPref.getDouble('tiang_biomass')}
-                        ${_sharedPref.getDouble('tiang_karbon')}
-                        ${_sharedPref.getDouble('tiang_serapanco2')}
-
-                        ${_sharedPref.getDouble('pohon_keliling')}
-                        ${_sharedPref.getDouble('pohon_diameter')}
-                        ${_sharedPref.getString('pohon_local')}
-                        ${_sharedPref.getDouble('pohon_biomass')}
-                        ${_sharedPref.getDouble('pohon_karbon')}
-                        ${_sharedPref.getDouble('pohon_serapanco2')}
-                        ''');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colorButtonAccentGreen,
@@ -135,8 +114,8 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
       width: 1.sw,
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       child: ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
         itemCount: 4,
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           String subPlotAlphabet = String.fromCharCode(index + 65);
 
@@ -148,7 +127,10 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
               elevation: 0.5,
               color: colorPrimaryWhite,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 16.h,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -163,7 +145,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         SizedBox(
-                          width: 170.w,
+                          width: 150.w,
                           child: Text(
                             'Sub Plot $subPlotAlphabet',
                             textAlign: TextAlign.left,
@@ -176,7 +158,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                           ),
                         ),
                         SizedBox(
-                          width: 170.w,
+                          width: 150.w,
                           child: Text(
                             '${widget.plotName}, ${widget.areaName}',
                             textAlign: TextAlign.left,
@@ -189,116 +171,32 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                         ),
                       ],
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (subPlotAlphabet == 'A') {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  const DetailSubPlotAPageScreen(),
-                              transitionsBuilder: (_, animation, __, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
+                    subPlotAlphabet == 'B'
+                        ? StreamBuilder<List<SubPlotAreaBModel>>(
+                            stream: _controller.readAllSubPlotBAsStream(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                return buildButtonByIndex(
+                                  index,
+                                  widget.areaName,
+                                  widget.plotName,
+                                  null,
                                 );
-                              },
-                            ),
-                          );
-                        } else if (subPlotAlphabet == 'B') {
-                          if (_sharedPref.checkKey('pancang_local')) {
-                            String local = _sharedPref.getString(
-                              'pancang_local',
-                            );
-                            double keliling = _sharedPref.getDouble(
-                              'pancang_keliling',
-                            );
-
-                            Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (_, __, ___) =>
-                                    DetailSubPlotBPageScreen(
-                                  name: local,
-                                  keliling: keliling,
-                                ),
-                                transitionsBuilder: (_, animation, __, child) {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            );
-                          }
-                        } else if (subPlotAlphabet == 'C') {
-                          if (_sharedPref.checkKey('tiang_local')) {
-                            String local = _sharedPref.getString(
-                              'tiang_local',
-                            );
-                            double keliling = _sharedPref.getDouble(
-                              'tiang_keliling',
-                            );
-
-                            Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (_, __, ___) =>
-                                    DetailSubPlotCPageScreen(
-                                  name: local,
-                                  keliling: keliling,
-                                ),
-                                transitionsBuilder: (_, animation, __, child) {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            );
-                          }
-                        } else if (subPlotAlphabet == 'D') {
-                          if (_sharedPref.checkKey('pohon_local')) {
-                            String local = _sharedPref.getString(
-                              'pohon_local',
-                            );
-                            double keliling = _sharedPref.getDouble(
-                              'pohon_keliling',
-                            );
-
-                            Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (_, __, ___) =>
-                                    DetailSubPlotDPageScreen(
-                                  name: local,
-                                  keliling: keliling,
-                                ),
-                                transitionsBuilder: (_, animation, __, child) {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            );
-                          }
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        backgroundColor: colorButtonAccentGreen,
-                      ),
-                      child: const Text(
-                        'Edit',
-                        style: TextStyle(
-                          color: colorPrimaryWhite,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+                              } else {
+                                return buildButtonByIndex(
+                                  index,
+                                  widget.areaName,
+                                  widget.plotName,
+                                  snapshot.data![0],
+                                );
+                              }
+                            })
+                        : buildButtonByIndex(
+                            index,
+                            widget.areaName,
+                            widget.plotName,
+                            null,
+                          ),
                   ],
                 ),
               ),
@@ -307,5 +205,122 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
         },
       ),
     );
+  }
+
+  Widget buildButtonByIndex(
+    int index,
+    String areaName,
+    String plotName,
+    SubPlotAreaBModel? modelB,
+  ) {
+    if (index == 1) {
+      return _sharedPref.checkKey('pancang_data')
+          ? Container(
+              margin: EdgeInsets.only(left: 24.w),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
+                        subPlotB: modelB,
+                        areaName: areaName,
+                        plotName: plotName,
+                      ),
+                      transitionsBuilder: (_, animation, __, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  backgroundColor: colorButtonAccentGreen,
+                ),
+                child: const Text(
+                  'Edit',
+                  style: TextStyle(
+                    color: colorPrimaryWhite,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            )
+          : ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
+                      subPlotB: null,
+                      areaName: areaName,
+                      plotName: plotName,
+                    ),
+                    transitionsBuilder: (_, animation, __, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                backgroundColor: colorButtonAccentGreen,
+              ),
+              child: const Text(
+                'Tambah',
+                style: TextStyle(
+                  color: colorPrimaryWhite,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            );
+    } else {
+      return Container(
+        margin: EdgeInsets.only(left: 24.w),
+        child: ElevatedButton(
+          onPressed: () {
+            // Navigator.push(
+            //   context,
+            //   PageRouteBuilder(
+            //     pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
+            //       subPlotB: null,
+            //       areaName: areaName,
+            //       plotName: plotName,
+            //     ),
+            //     transitionsBuilder: (_, animation, __, child) {
+            //       return FadeTransition(
+            //         opacity: animation,
+            //         child: child,
+            //       );
+            //     },
+            //   ),
+            // );
+          },
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            backgroundColor: colorButtonAccentGreen,
+          ),
+          child: const Text(
+            'Edit',
+            style: TextStyle(
+              color: colorPrimaryWhite,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      );
+    }
   }
 }

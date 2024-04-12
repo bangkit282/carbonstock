@@ -365,7 +365,7 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                     maxLength: 21,
                     readOnly: true,
                     controller: _tiangNamaIlmiahController,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       isDense: true,
                       hintText: 'Nama Ilmiah',

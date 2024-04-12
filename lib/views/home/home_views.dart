@@ -134,12 +134,9 @@ class _HomeScreenViewsState extends State<HomeScreenViews> {
               ],
             ),
             const Spacer(),
-            IconButton(
-              icon: const Icon(
-                CupertinoIcons.arrow_right,
-                color: colorPrimaryBlack,
-              ),
-              onPressed: () {},
+            const Icon(
+              CupertinoIcons.arrow_right,
+              color: colorPrimaryBlack,
             ),
           ],
         ),

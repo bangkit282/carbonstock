@@ -19,6 +19,9 @@ class SubPlotController extends GetxController {
                     localName: subPlot.localName,
                     bioName: subPlot.bioName,
                     kerapatanKayu: subPlot.kerapatanKayu,
+                    biomassLand: subPlot.biomassLand,
+                    carbonValue: subPlot.carbonValue,
+                    carbonAbsorb: subPlot.carbonAbsorb,
                   ),
                 )
                 .toList(),
@@ -62,6 +65,9 @@ class SubPlotController extends GetxController {
       localName: subPlotB.localName,
       bioName: subPlotB.bioName,
       kerapatanKayu: subPlotB.kerapatanKayu,
+      biomassLand: subPlotB.biomassLand,
+      carbonValue: subPlotB.carbonValue,
+      carbonAbsorb: subPlotB.carbonAbsorb,
     );
 
     await SubPlotBAreaDB.instance.insertSubPlot(model);
@@ -76,6 +82,9 @@ class SubPlotController extends GetxController {
       localName: subPlotB.localName,
       bioName: subPlotB.bioName,
       kerapatanKayu: subPlotB.kerapatanKayu,
+      biomassLand: subPlotB.biomassLand,
+      carbonValue: subPlotB.carbonValue,
+      carbonAbsorb: subPlotB.carbonAbsorb,
     );
 
     await SubPlotBAreaDB.instance.updateSubPlotB(model);

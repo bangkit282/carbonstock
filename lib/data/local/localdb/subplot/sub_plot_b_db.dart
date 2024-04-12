@@ -11,7 +11,7 @@ class SubPlotBAreaDB {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('sub_plot_b_database.db');
+    _database = await _initDB('subplot_b_database.db');
     return _database!;
   }
 
@@ -28,21 +28,23 @@ class SubPlotBAreaDB {
 
   Future _createDB(Database db, int version) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    const textType = 'TEXT NOT NULL';
-    const decimalType = 'REAL NOT NULL';
+    const textType = 'TEXT';
+    const decimalType = 'REAL';
 
     await db.execute(
       '''
-      CREATE TABLE sub_plot_b_pancang(
+      CREATE TABLE subplot_b(
         id $idType,
+        areaName $textType,
+        plotName $textType,
         keliling $decimalType,
         diameter $decimalType,
         localName $textType,
         bioName $textType,
         kerapatanKayu $decimalType,
-        biomassTanah $decimalType,
-        carbonAmount $decimalType,
-        carbonAbsorb $decimalType,        
+        biomassLand $decimalType,
+        carbonValue $decimalType,
+        carbonAbsorb $decimalType        
       )
       ''',
     );
