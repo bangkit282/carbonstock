@@ -181,6 +181,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                                   widget.areaName,
                                   widget.plotName,
                                   null,
+                                  null,
                                 );
                               } else {
                                 return buildButtonByIndex(
@@ -188,15 +189,40 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                                   widget.areaName,
                                   widget.plotName,
                                   snapshot.data![0],
+                                  null,
                                 );
                               }
                             })
-                        : buildButtonByIndex(
-                            index,
-                            widget.areaName,
-                            widget.plotName,
-                            null,
-                          ),
+                        : subPlotAlphabet == 'C'
+                            ? StreamBuilder<List<SubPlotAreaCModel>>(
+                                stream: _controller.readAllSubPlotCAsStream(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData ||
+                                      snapshot.data!.isEmpty) {
+                                    return buildButtonByIndex(
+                                      index,
+                                      widget.areaName,
+                                      widget.plotName,
+                                      null,
+                                      null,
+                                    );
+                                  } else {
+                                    return buildButtonByIndex(
+                                      index,
+                                      widget.areaName,
+                                      widget.plotName,
+                                      null,
+                                      snapshot.data![0],
+                                    );
+                                  }
+                                })
+                            : buildButtonByIndex(
+                                index,
+                                widget.areaName,
+                                widget.plotName,
+                                null,
+                                null,
+                              ),
                   ],
                 ),
               ),
@@ -212,6 +238,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
     String areaName,
     String plotName,
     SubPlotAreaBModel? modelB,
+    SubPlotAreaCModel? modelC,
   ) {
     if (index == 1) {
       return _sharedPref.checkKey('pancang_data')
@@ -284,6 +311,77 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                 ),
               ),
             );
+    } else if (index == 2) {
+      return _sharedPref.checkKey('tiang_data')
+          ? Container(
+              margin: EdgeInsets.only(left: 24.w),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => DetailSubPlotCPageScreen(
+                        subPlotC: modelC,
+                        areaName: areaName,
+                        plotName: plotName,
+                      ),
+                      transitionsBuilder: (_, animation, __, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  backgroundColor: colorButtonAccentGreen,
+                ),
+                child: const Text(
+                  'Edit',
+                  style: TextStyle(
+                    color: colorPrimaryWhite,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            )
+          : ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
+                      subPlotB: null,
+                      areaName: areaName,
+                      plotName: plotName,
+                    ),
+                    transitionsBuilder: (_, animation, __, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                backgroundColor: colorButtonAccentGreen,
+              ),
+              child: const Text(
+                'Tambah',
+                style: TextStyle(
+                  color: colorPrimaryWhite,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            );
     } else {
       return Container(
         margin: EdgeInsets.only(left: 24.w),
@@ -291,7 +389,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
           onPressed: () {
             Get.snackbar(
               'CarbonStock',
-              'Still in development! Only Sub Plot B is ready!',
+              'Still in development! Only Sub Plot B & C is ready!',
               backgroundColor: colorSecondaryGrey1,
             );
 

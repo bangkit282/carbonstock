@@ -8,6 +8,7 @@ import 'package:carbonstock/data/api/controllers/plot/plot_controller.dart';
 import 'package:carbonstock/data/local/model/area/area_model.dart';
 import 'package:carbonstock/data/local/model/plot/plot_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
+import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/utils/style_theme.dart';
 import 'package:dotted_border/dotted_border.dart';

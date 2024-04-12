@@ -183,7 +183,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                   double carbonAbsorb =
                       pancangBiomassLand.value * 0.47 * (44 / 12);
 
-                  SubPlotAreaBModel subPlotBFields = SubPlotAreaBModel(
+                  SubPlotAreaBModel subPlotBModel = SubPlotAreaBModel(
                     areaName: widget.areaName,
                     plotName: widget.plotName,
                     localName: name,
@@ -197,7 +197,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                   );
 
                   if (!_sharedPref.checkKey('pancang_data')) {
-                    await _controller.insertSubPlotB(subPlotBFields);
+                    await _controller.insertSubPlotB(subPlotBModel);
                     _sharedPref.putBool('pancang_data', true);
 
                     sleep(const Duration(seconds: 3));
@@ -210,7 +210,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                       backgroundColor: colorSecondaryGrey1,
                     );
                   } else {
-                    await _controller.updateSubPlotB(subPlotBFields);
+                    await _controller.updateSubPlotB(subPlotBModel);
                     _sharedPref.putBool('pancang_data', true);
 
                     sleep(const Duration(seconds: 3));
@@ -441,7 +441,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                     maxLength: 21,
                     readOnly: true,
                     controller: _pancangNamaIlmiahController,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       isDense: true,
                       hintText: 'Nama Ilmiah',
