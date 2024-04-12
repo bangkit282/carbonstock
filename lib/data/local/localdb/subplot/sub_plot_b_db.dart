@@ -34,7 +34,7 @@ class SubPlotBAreaDB {
     await db.execute(
       '''
       CREATE TABLE subplot_b(
-        id $idType,
+        _id $idType,
         areaName $textType,
         plotName $textType,
         keliling $decimalType,

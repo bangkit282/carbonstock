@@ -289,6 +289,12 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
         margin: EdgeInsets.only(left: 24.w),
         child: ElevatedButton(
           onPressed: () {
+            Get.snackbar(
+              'CarbonStock',
+              'Still in development! Only Sub Plot B is ready!',
+              backgroundColor: colorSecondaryGrey1,
+            );
+
             // Navigator.push(
             //   context,
             //   PageRouteBuilder(

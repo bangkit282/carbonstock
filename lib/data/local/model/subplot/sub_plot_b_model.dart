@@ -84,7 +84,7 @@ class SubPlotAreaBModel {
 
   static SubPlotAreaBModel fromJson(Map<String, Object?> json) =>
       SubPlotAreaBModel(
-        id: json['id'] as int?,
+        id: json['_id'] as int?,
         areaName: json['areaName'] as String,
         plotName: json['plotName'] as String,
         localName: json['localName'] as String,
@@ -98,7 +98,7 @@ class SubPlotAreaBModel {
       );
 
   Map<String, Object?> toJson() => {
-        'id': id,
+        '_id': id,
         'areaName': areaName,
         'plotName': plotName,
         'localName': localName,
