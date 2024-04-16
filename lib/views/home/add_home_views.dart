@@ -374,50 +374,48 @@ class _AddHomeScreenViewsState extends State<AddHomeScreenViews> {
             borderType: BorderType.RRect,
             radius: Radius.circular(8.r),
             child: Obx(
-              () {
-                return _areaController.pickedImage.value == ''
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 16.h),
-                          Icon(
-                            CupertinoIcons.folder_fill_badge_plus,
-                            color: colorSecondaryGreen,
-                            size: 120.sp,
-                          ),
-                          SizedBox(height: 8.h),
-                          SizedBox(
-                            width: 1.sw,
-                            child: Text(
-                              'Foto Wilayah maksimal 2MB',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: colorSecondaryGreen,
-                                fontSize: 14.sp,
-                              ),
+              () => _areaController.pickedImage.value == ''
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 16.h),
+                        Icon(
+                          CupertinoIcons.folder_fill_badge_plus,
+                          color: colorSecondaryGreen,
+                          size: 120.sp,
+                        ),
+                        SizedBox(height: 8.h),
+                        SizedBox(
+                          width: 1.sw,
+                          child: Text(
+                            'Foto Wilayah maksimal 2MB',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: colorSecondaryGreen,
+                              fontSize: 14.sp,
                             ),
                           ),
-                          SizedBox(height: 16.h),
-                        ],
-                      )
-                    : Center(
-                        child: Container(
-                          height: 120.h,
-                          width: 200.w,
-                          margin: EdgeInsets.all(16.r),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            image: DecorationImage(
-                              image: FileImage(
-                                File(
-                                  _areaController.pickedImage.value,
-                                ),
+                        ),
+                        SizedBox(height: 16.h),
+                      ],
+                    )
+                  : Center(
+                      child: Container(
+                        height: 120.h,
+                        width: 200.w,
+                        margin: EdgeInsets.all(16.r),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          image: DecorationImage(
+                            image: FileImage(
+                              File(
+                                _areaController.pickedImage.value,
                               ),
                             ),
                           ),
                         ),
-                      );
-              },
+                      ),
+                    ),
             ),
           ),
         ),

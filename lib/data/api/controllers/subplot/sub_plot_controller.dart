@@ -1,12 +1,72 @@
+import 'package:carbonstock/data/local/localdb/subplot/sub_plot_a_db.dart';
 import 'package:carbonstock/data/local/localdb/subplot/sub_plot_b_db.dart';
 import 'package:carbonstock/data/local/localdb/subplot/sub_plot_c_db.dart';
+import 'package:carbonstock/data/local/model/subplot/sub_plot_a_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
 import 'package:get/get.dart';
+import 'package:rxdart/rxdart.dart';
 
 class SubPlotController extends GetxController {
   RxString pickedImage = ''.obs;
   RxBool isLoading = false.obs;
+
+  Stream<List<SubPlotAreaASemaiModel>> streamSubPlotASemaiList =
+      SubPlotAAreaDB.instance.readAllSubPlotASemai().map(
+            (subPlotList) => subPlotList
+                .map(
+                  (subPlot) => SubPlotAreaASemaiModel(
+                    id: subPlot.id,
+                    areaName: subPlot.areaName,
+                    plotName: subPlot.plotName,
+                    basahTotal: subPlot.basahTotal,
+                    basahSample: subPlot.basahSample,
+                    keringTotal: subPlot.keringTotal,
+                    keringSample: subPlot.keringSample,
+                    carbonValue: subPlot.carbonValue,
+                    carbonAbsorb: subPlot.carbonAbsorb,
+                  ),
+                )
+                .toList(),
+          );
+
+  Stream<List<SubPlotAreaASeresahModel>> streamSubPlotASeresahList =
+      SubPlotAAreaDB.instance.readAllSubPlotASeresah().map(
+            (subPlotList) => subPlotList
+                .map(
+                  (subPlot) => SubPlotAreaASeresahModel(
+                    id: subPlot.id,
+                    areaName: subPlot.areaName,
+                    plotName: subPlot.plotName,
+                    basahTotal: subPlot.basahTotal,
+                    basahSample: subPlot.basahSample,
+                    keringTotal: subPlot.keringTotal,
+                    keringSample: subPlot.keringSample,
+                    carbonValue: subPlot.carbonValue,
+                    carbonAbsorb: subPlot.carbonAbsorb,
+                  ),
+                )
+                .toList(),
+          );
+
+  Stream<List<SubPlotAreaATumbuhanBawahModel>> streamSubPlotATumbuhanList =
+      SubPlotAAreaDB.instance.readAllSubPlotATumbuhan().map(
+            (subPlotList) => subPlotList
+                .map(
+                  (subPlot) => SubPlotAreaATumbuhanBawahModel(
+                    id: subPlot.id,
+                    areaName: subPlot.areaName,
+                    plotName: subPlot.plotName,
+                    basahTotal: subPlot.basahTotal,
+                    basahSample: subPlot.basahSample,
+                    keringTotal: subPlot.keringTotal,
+                    keringSample: subPlot.keringSample,
+                    carbonValue: subPlot.carbonValue,
+                    carbonAbsorb: subPlot.carbonAbsorb,
+                  ),
+                )
+                .toList(),
+          );
 
   Stream<List<SubPlotAreaBModel>> streamSubPlotBList =
       SubPlotBAreaDB.instance.readAllSubPlotB().map(
@@ -50,6 +110,41 @@ class SubPlotController extends GetxController {
                 .toList(),
           );
 
+  Stream<List<SubPlotAreaASemaiModel>>? readAllSubPlotASemaiAsStream() async* {
+    isLoading.value = true;
+
+    streamSubPlotASemaiList = SubPlotAAreaDB.instance
+        .readAllSubPlotASemai()
+        .map((subPlotList) => subPlotList);
+    isLoading.value = false;
+
+    yield* streamSubPlotASemaiList;
+  }
+
+  Stream<List<SubPlotAreaASeresahModel>>?
+      readAllSubPlotASeresahAsStream() async* {
+    isLoading.value = true;
+
+    streamSubPlotASeresahList = SubPlotAAreaDB.instance
+        .readAllSubPlotASeresah()
+        .map((subPlotList) => subPlotList);
+    isLoading.value = false;
+
+    yield* streamSubPlotASeresahList;
+  }
+
+  Stream<List<SubPlotAreaATumbuhanBawahModel>>?
+      readAllSubPlotATumbuhanAsStream() async* {
+    isLoading.value = true;
+
+    streamSubPlotATumbuhanList = SubPlotAAreaDB.instance
+        .readAllSubPlotATumbuhan()
+        .map((subPlotList) => subPlotList);
+    isLoading.value = false;
+
+    yield* streamSubPlotATumbuhanList;
+  }
+
   Stream<List<SubPlotAreaBModel>>? readAllSubPlotBAsStream() async* {
     isLoading.value = true;
     streamSubPlotBList = SubPlotBAreaDB.instance.readAllSubPlotB().map(
@@ -70,42 +165,105 @@ class SubPlotController extends GetxController {
     yield* streamSubPlotCList;
   }
 
-  Future<SubPlotAreaBModel?> readSingleSubPlotB(int id) async {
-    SubPlotAreaBModel? foundSubPlot;
+  // Future<SubPlotAreaAModel?> readSingleSubPlotA(int id) async {
+  //   SubPlotAreaAModel? foundSubPlot;
 
-    await for (final subPlotBList in streamSubPlotBList) {
-      for (final subPlotB in subPlotBList) {
-        if (subPlotB.id == id) {
-          foundSubPlot = subPlotB;
-          break;
-        }
-      }
+  //   await for (final subPlotAList in streamSubPlotAList) {
+  //     for (final subPlotA in subPlotAList) {
+  //       if (subPlotA.id == id) {
+  //         foundSubPlot = subPlotA;
+  //         break;
+  //       }
+  //     }
 
-      if (foundSubPlot != null) {
-        break;
-      }
-    }
+  //     if (foundSubPlot != null) {
+  //       break;
+  //     }
+  //   }
+  // }
 
-    return foundSubPlot;
+  // Future<SubPlotAreaBModel?> readSingleSubPlotB(int id) async {
+  //   SubPlotAreaBModel? foundSubPlot;
+
+  //   await for (final subPlotBList in streamSubPlotBList) {
+  //     for (final subPlotB in subPlotBList) {
+  //       if (subPlotB.id == id) {
+  //         foundSubPlot = subPlotB;
+  //         break;
+  //       }
+  //     }
+
+  //     if (foundSubPlot != null) {
+  //       break;
+  //     }
+  //   }
+
+  //   return foundSubPlot;
+  // }
+
+  // Future<SubPlotAreaCModel?> readSingleSubPlotC(int id) async {
+  //   SubPlotAreaCModel? foundSubPlot;
+
+  //   await for (final subPlotCList in streamSubPlotCList) {
+  //     for (final subPlotC in subPlotCList) {
+  //       if (subPlotC.id == id) {
+  //         foundSubPlot = subPlotC;
+  //         break;
+  //       }
+  //     }
+
+  //     if (foundSubPlot != null) {
+  //       break;
+  //     }
+  //   }
+
+  //   return foundSubPlot;
+  // }
+
+  Future<void> insertSubPlotASemai(SubPlotAreaASemaiModel subPlotA) async {
+    final SubPlotAreaASemaiModel model = SubPlotAreaASemaiModel(
+      areaName: subPlotA.areaName,
+      plotName: subPlotA.plotName,
+      basahTotal: subPlotA.basahTotal,
+      basahSample: subPlotA.basahSample,
+      keringTotal: subPlotA.keringTotal,
+      keringSample: subPlotA.keringSample,
+      carbonValue: subPlotA.carbonValue,
+      carbonAbsorb: subPlotA.carbonAbsorb,
+    );
+
+    await SubPlotAAreaDB.instance.insertSubPlotASemai(model);
   }
 
-  Future<SubPlotAreaCModel?> readSingleSubPlotC(int id) async {
-    SubPlotAreaCModel? foundSubPlot;
+  Future<void> insertSubPlotASeresah(SubPlotAreaASeresahModel subPlotA) async {
+    final SubPlotAreaASeresahModel model = SubPlotAreaASeresahModel(
+      areaName: subPlotA.areaName,
+      plotName: subPlotA.plotName,
+      basahTotal: subPlotA.basahTotal,
+      basahSample: subPlotA.basahSample,
+      keringTotal: subPlotA.keringTotal,
+      keringSample: subPlotA.keringSample,
+      carbonValue: subPlotA.carbonValue,
+      carbonAbsorb: subPlotA.carbonAbsorb,
+    );
 
-    await for (final subPlotCList in streamSubPlotCList) {
-      for (final subPlotC in subPlotCList) {
-        if (subPlotC.id == id) {
-          foundSubPlot = subPlotC;
-          break;
-        }
-      }
+    await SubPlotAAreaDB.instance.insertSubPlotASeresah(model);
+  }
 
-      if (foundSubPlot != null) {
-        break;
-      }
-    }
+  Future<void> insertSubPlotATumbuhan(
+      SubPlotAreaATumbuhanBawahModel subPlotA) async {
+    final SubPlotAreaATumbuhanBawahModel model = SubPlotAreaATumbuhanBawahModel(
+      areaName: subPlotA.areaName,
+      plotName: subPlotA.plotName,
+      basahTotal: subPlotA.basahTotal,
+      basahSample: subPlotA.basahSample,
+      keringTotal: subPlotA.keringTotal,
+      keringSample: subPlotA.keringSample,
+      carbonValue: subPlotA.carbonValue,
+      carbonAbsorb: subPlotA.carbonAbsorb,
+    );
 
-    return foundSubPlot;
+    await SubPlotAAreaDB.instance.insertSubPlotATumbuhan(model);
   }
 
   Future<void> insertSubPlotB(SubPlotAreaBModel subPlotB) async {
@@ -140,6 +298,57 @@ class SubPlotController extends GetxController {
     );
 
     await SubPlotCAreaDB.instance.insertSubPlotC(model);
+  }
+
+  Future<void> updateSubPlotASemai(
+    SubPlotAreaASemaiModel subPlotA,
+  ) async {
+    final SubPlotAreaASemaiModel model = SubPlotAreaASemaiModel(
+      areaName: subPlotA.areaName,
+      plotName: subPlotA.plotName,
+      basahTotal: subPlotA.basahTotal,
+      basahSample: subPlotA.basahSample,
+      keringTotal: subPlotA.keringTotal,
+      keringSample: subPlotA.keringSample,
+      carbonValue: subPlotA.carbonValue,
+      carbonAbsorb: subPlotA.carbonAbsorb,
+    );
+
+    await SubPlotAAreaDB.instance.updateSubPlotASemai(model);
+  }
+
+  Future<void> updateSubPlotASeresah(
+    SubPlotAreaASeresahModel subPlotA,
+  ) async {
+    final SubPlotAreaASeresahModel model = SubPlotAreaASeresahModel(
+      areaName: subPlotA.areaName,
+      plotName: subPlotA.plotName,
+      basahTotal: subPlotA.basahTotal,
+      basahSample: subPlotA.basahSample,
+      keringTotal: subPlotA.keringTotal,
+      keringSample: subPlotA.keringSample,
+      carbonValue: subPlotA.carbonValue,
+      carbonAbsorb: subPlotA.carbonAbsorb,
+    );
+
+    await SubPlotAAreaDB.instance.updateSubPlotASeresah(model);
+  }
+
+  Future<void> updateSubPlotATumbuhan(
+    SubPlotAreaATumbuhanBawahModel subPlotA,
+  ) async {
+    final SubPlotAreaATumbuhanBawahModel model = SubPlotAreaATumbuhanBawahModel(
+      areaName: subPlotA.areaName,
+      plotName: subPlotA.plotName,
+      basahTotal: subPlotA.basahTotal,
+      basahSample: subPlotA.basahSample,
+      keringTotal: subPlotA.keringTotal,
+      keringSample: subPlotA.keringSample,
+      carbonValue: subPlotA.carbonValue,
+      carbonAbsorb: subPlotA.carbonAbsorb,
+    );
+
+    await SubPlotAAreaDB.instance.updateSubPlotATumbuhan(model);
   }
 
   Future<void> updateSubPlotB(SubPlotAreaBModel subPlotB) async {

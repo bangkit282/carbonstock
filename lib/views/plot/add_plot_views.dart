@@ -98,7 +98,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                       PlotModel plotModel = PlotModel(
                         plotLat: currentLatLng.latitude,
                         plotLng: currentLatLng.longitude,
-                        plotSize: size,
+                        plotSize: double.parse(size),
                         biomassAvg: double.parse(biomassAvg),
                         biomassStd: double.parse(biomassStd),
                       );

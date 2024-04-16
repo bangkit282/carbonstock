@@ -22,7 +22,7 @@ class PlotModel {
   final int? id;
   final double plotLat;
   final double plotLng;
-  final String plotSize;
+  final double plotSize;
   final double biomassAvg;
   final double biomassStd;
 
@@ -39,7 +39,7 @@ class PlotModel {
     int? id,
     double? plotLat,
     double? plotLng,
-    String? plotSize,
+    double? plotSize,
     double? biomassAvg,
     double? biomassStd,
   }) =>
@@ -47,7 +47,7 @@ class PlotModel {
         id: id ?? this.id,
         plotLat: plotLat ?? this.plotLat,
         plotLng: plotLng ?? this.plotLng,
-        plotSize: plotSize ?? '',
+        plotSize: plotSize ?? this.plotSize,
         biomassAvg: biomassAvg ?? this.biomassAvg,
         biomassStd: biomassStd ?? this.biomassStd,
       );
@@ -56,7 +56,7 @@ class PlotModel {
         id: json['id'] as int?,
         plotLat: json['plotLat'] as double,
         plotLng: json['plotLng'] as double,
-        plotSize: json['plotSize'] as String,
+        plotSize: json['plotSize'] as double,
         biomassAvg: json['biomassAvg'] as double,
         biomassStd: json['biomassStd'] as double,
       );

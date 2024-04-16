@@ -1,7 +1,21 @@
 part of '../../views.dart';
 
 class DetailSubPlotAPageScreen extends StatefulWidget {
-  const DetailSubPlotAPageScreen({super.key});
+  const DetailSubPlotAPageScreen({
+    super.key,
+    required this.areaName,
+    required this.plotName,
+    this.subPlotSemai,
+    this.subPlotSeresah,
+    this.subPlotTumbuhan,
+  });
+
+  final Stream<List<SubPlotAreaASemaiModel>>? subPlotSemai;
+  final Stream<List<SubPlotAreaASeresahModel>>? subPlotSeresah;
+  final Stream<List<SubPlotAreaATumbuhanBawahModel>>? subPlotTumbuhan;
+
+  final String areaName;
+  final String plotName;
 
   @override
   State<DetailSubPlotAPageScreen> createState() =>
@@ -9,6 +23,9 @@ class DetailSubPlotAPageScreen extends StatefulWidget {
 }
 
 class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
+  final SubPlotController _controller = Get.find();
+  final SharedPreferenceService _sharedPref = SharedPreferenceService();
+
   RxBool isSemaiExpand = false.obs;
   RxBool isSeresahExpand = false.obs;
   RxBool isTumbuhanKTotalExpand = false.obs;
@@ -91,7 +108,150 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
             children: [
               buildDetailInfo(),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  if (_semaiBTotalController.text.isNotEmpty ||
+                      _semaiBSampleController.text.isNotEmpty ||
+                      _semaiKSampleController.text.isNotEmpty) {
+                    if (_semaiBTotalController.text.isEmpty ||
+                        _semaiBSampleController.text.isEmpty ||
+                        _semaiKSampleController.text.isEmpty) {
+                      Get.snackbar(
+                        'CarbonStock',
+                        'Lengkapi data Semai terlebih dahulu atau biarkan kosong sebelum menyimpan!',
+                        backgroundColor: colorSecondaryGrey1,
+                      );
+                    }
+                  } else {
+                    double semaiCarbon = (semaiKTotal.value * 0.47);
+                    double carbonAbsorb = semaiCarbon * (44 / 12);
+
+                    SubPlotAreaASemaiModel subPlotASemai =
+                        SubPlotAreaASemaiModel(
+                      areaName: widget.areaName,
+                      plotName: widget.plotName,
+                      basahTotal: semaiTotal.value,
+                      basahSample: semaiSample.value,
+                      keringTotal: semaiKTotal.value,
+                      keringSample: semaiKSample.value,
+                      carbonValue: semaiCarbon,
+                      carbonAbsorb: carbonAbsorb,
+                    );
+
+                    if (!_sharedPref.checkKey('semai_data')) {
+                      await _controller.insertSubPlotASemai(subPlotASemai);
+                      _sharedPref.putBool('semai_data', true);
+
+                      sleep(const Duration(seconds: 3));
+                      const Center(child: CircularProgressIndicator.adaptive());
+                    } else {
+                      await _controller.updateSubPlotASemai(subPlotASemai);
+                      _sharedPref.putBool('semai_data', true);
+                      _sharedPref.checkKey('subplot_a_data');
+
+                      sleep(const Duration(seconds: 3));
+                      const Center(child: CircularProgressIndicator.adaptive());
+                    }
+                  }
+
+                  if (_seresahBTotalController.text.isNotEmpty ||
+                      _seresahBSampleController.text.isNotEmpty ||
+                      _seresahKSampleController.text.isNotEmpty) {
+                    if (_seresahBTotalController.text.isEmpty ||
+                        _seresahBSampleController.text.isEmpty ||
+                        _seresahKSampleController.text.isEmpty) {
+                      Get.snackbar(
+                        'CarbonStock',
+                        'Lengkapi data Seresah terlebih dahulu atau biarkan kosong sebelum menyimpan!',
+                        backgroundColor: colorSecondaryGrey1,
+                      );
+                    }
+                  } else {
+                    double seresahCarbon = (seresahKTotal.value * 0.47);
+                    double carbonAbsorb = seresahCarbon * (44 / 12);
+
+                    SubPlotAreaASeresahModel subPlotASeresah =
+                        SubPlotAreaASeresahModel(
+                      areaName: widget.areaName,
+                      plotName: widget.plotName,
+                      basahTotal: seresahTotal.value,
+                      basahSample: seresahSample.value,
+                      keringTotal: seresahKTotal.value,
+                      keringSample: seresahKSample.value,
+                      carbonValue: seresahCarbon,
+                      carbonAbsorb: carbonAbsorb,
+                    );
+
+                    if (!_sharedPref.checkKey('seresah_data')) {
+                      await _controller.insertSubPlotASeresah(subPlotASeresah);
+                      _sharedPref.putBool('seresah_data', true);
+                      _sharedPref.checkKey('subplot_a_data');
+
+                      sleep(const Duration(seconds: 3));
+                      const Center(child: CircularProgressIndicator.adaptive());
+                    } else {
+                      await _controller.updateSubPlotASeresah(subPlotASeresah);
+                      _sharedPref.putBool('seresah_data', true);
+
+                      sleep(const Duration(seconds: 3));
+                      const Center(child: CircularProgressIndicator.adaptive());
+                    }
+                  }
+
+                  if (_tumbuhanBTotalController.text.isNotEmpty ||
+                      _tumbuhanBSampleController.text.isNotEmpty ||
+                      _tumbuhanKSampleController.text.isNotEmpty) {
+                    if (_tumbuhanBTotalController.text.isEmpty ||
+                        _tumbuhanBSampleController.text.isEmpty ||
+                        _tumbuhanKSampleController.text.isEmpty) {
+                      Get.snackbar(
+                        'CarbonStock',
+                        'Lengkapi data Tumbuhan Bawah terlebih dahulu atau biarkan kosong sebelum menyimpan!',
+                        backgroundColor: colorSecondaryGrey1,
+                      );
+                    }
+                  } else {
+                    double tumbuhanCarbon = (tumbuhanKTotal.value * 0.47);
+                    double carbonAbsorb = tumbuhanCarbon * (44 / 12);
+
+                    SubPlotAreaATumbuhanBawahModel subPlotATumbuhan =
+                        SubPlotAreaATumbuhanBawahModel(
+                      areaName: widget.areaName,
+                      plotName: widget.plotName,
+                      basahTotal: tumbuhanTotal.value,
+                      basahSample: tumbuhanSample.value,
+                      keringTotal: tumbuhanKTotal.value,
+                      keringSample: tumbuhanKSample.value,
+                      carbonValue: tumbuhanCarbon,
+                      carbonAbsorb: carbonAbsorb,
+                    );
+
+                    if (!_sharedPref.checkKey('bawah_data')) {
+                      await _controller
+                          .insertSubPlotATumbuhan(subPlotATumbuhan);
+                      _sharedPref.putBool('bawah_data', true);
+                      _sharedPref.checkKey('subplot_a_data');
+
+                      sleep(const Duration(seconds: 3));
+                      const Center(child: CircularProgressIndicator.adaptive());
+                    } else {
+                      await _controller
+                          .updateSubPlotATumbuhan(subPlotATumbuhan);
+                      _sharedPref.putBool('bawah_data', true);
+
+                      sleep(const Duration(seconds: 3));
+                      const Center(child: CircularProgressIndicator.adaptive());
+                    }
+                  }
+
+                  if (_sharedPref.checkKey('subplot_a_data')) {
+                    Get.back();
+                    Get.snackbar(
+                      'CarbonStock',
+                      'Simpan Sub-Plot A Berhasil!',
+                      backgroundColor: colorSecondaryGrey1,
+                    );
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colorButtonAccentGreen,
                   fixedSize: Size(1.sw, 45.h),
@@ -129,11 +289,34 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
           ),
         ),
         SizedBox(height: 16.h),
-        buildSemaiInfo(),
+        StreamBuilder<List<SubPlotAreaASemaiModel>>(
+          stream: widget.subPlotSemai,
+          builder: (context, snapshot) {
+            return buildSemaiInfo();
+          },
+        ),
         SizedBox(height: 16.h),
-        buildSeresahInfo(),
+        StreamBuilder<List<SubPlotAreaASeresahModel>>(
+          stream: widget.subPlotSeresah,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Container();
+            } else {
+              return buildSeresahInfo();
+            }
+          },
+        ),
         SizedBox(height: 16.h),
-        buildTumbuhanKTotalInfo(),
+        StreamBuilder<List<SubPlotAreaATumbuhanBawahModel>>(
+          stream: widget.subPlotTumbuhan,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Container();
+            } else {
+              return buildTumbuhanKTotalInfo();
+            }
+          },
+        ),
         SizedBox(height: 16.h),
       ],
     );

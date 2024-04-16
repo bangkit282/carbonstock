@@ -15,9 +15,9 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
     return Scaffold(
       body: fetchPlotListData(),
       appBar: AppBar(
+        centerTitle: false,
         automaticallyImplyLeading: false,
         backgroundColor: colorSecondaryGreen,
-        centerTitle: false,
         title: Text(
           'Plot Area',
           style: TextStyle(
