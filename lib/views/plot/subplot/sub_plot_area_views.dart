@@ -16,7 +16,7 @@ class SubPlotAreaScreenViews extends StatefulWidget {
 
 class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
   // final SharedPreferenceService _sharedPref = SharedPreferenceService();
-  final SubPlotController _controller = Get.find();
+  // final SubPlotController _controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -165,101 +165,102 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                         ),
                       ],
                     ),
-                    subPlotAlphabet == 'A'
-                        // ? StreamBuilder<List<dynamic>>(
-                        //     stream: CombineLatestStream.list([
-                        //       _controller.streamSubPlotASemaiList,
-                        //       _controller.streamSubPlotASeresahList,
-                        //       _controller.streamSubPlotATumbuhanList,
-                        //     ]),
-                        //     builder: (context, snapshot) {
-                        //       if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        //         debugPrint('${snapshot.data is List}');
+                    buildCardButton(subPlotAlphabet),
+                    // subPlotAlphabet == 'A'
+                    //     ? FutureBuilder(
+                    //         future: _controller.readAllSubPlotA(),
+                    //         builder: (context, snapshot) {
+                    //           if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    //             return buildButtonAByIndex(
+                    //               index,
+                    //               widget.areaName,
+                    //               widget.plotName,
+                    //               null,
+                    //             );
+                    //           } else {
+                    //             // d.log(
+                    //             //   _sharedPref
+                    //             //       .checkKey('subplot_a_data')
+                    //             //       .toString(),
+                    //             //   name: 'test',
+                    //             // );
 
-                        //         return buildButtonAByIndex(
-                        //           index,
-                        //           widget.areaName,
-                        //           widget.plotName,
-                        //           null,
-                        //           null,
-                        //           null,
-                        //         );
-                        //       } else {
-                        //         return buildButtonAByIndex(
-                        //           index,
-                        //           widget.areaName,
-                        //           widget.plotName,
-                        //           null,
-                        //           null,
-                        //           null,
-                        //         );
-                        //       }
-                        //     },
-                        //   )
-                        ? buildButtonAByIndex(
-                            index,
-                            widget.areaName,
-                            widget.plotName,
-                            _controller.streamSubPlotASemaiList,
-                            _controller.streamSubPlotASeresahList,
-                            _controller.streamSubPlotATumbuhanList,
-                          )
-                        : subPlotAlphabet == 'B'
-                            ? StreamBuilder<List<SubPlotAreaBModel>>(
-                                stream: _controller.readAllSubPlotBAsStream(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData ||
-                                      snapshot.data!.isEmpty) {
-                                    return buildButtonByIndex(
-                                      index,
-                                      widget.areaName,
-                                      widget.plotName,
-                                      null,
-                                      null,
-                                    );
-                                  } else {
-                                    return buildButtonByIndex(
-                                      index,
-                                      widget.areaName,
-                                      widget.plotName,
-                                      snapshot.data![0],
-                                      null,
-                                    );
-                                  }
-                                },
-                              )
-                            : subPlotAlphabet == 'C'
-                                ? StreamBuilder<List<SubPlotAreaCModel>>(
-                                    stream:
-                                        _controller.readAllSubPlotCAsStream(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData ||
-                                          snapshot.data!.isEmpty) {
-                                        return buildButtonByIndex(
-                                          index,
-                                          widget.areaName,
-                                          widget.plotName,
-                                          null,
-                                          null,
-                                        );
-                                      } else {
-                                        return buildButtonByIndex(
-                                          index,
-                                          widget.areaName,
-                                          widget.plotName,
-                                          null,
-                                          snapshot.data![0],
-                                        );
-                                      }
-                                    },
-                                  )
-                                : buildButtonByIndex(
-                                    index,
-                                    widget.areaName,
-                                    widget.plotName,
-                                    null,
-                                    null,
-                                  ),
+                    //             // snapshot.data![0].then((value) {
+                    //             //   d.log('$value', name: 'test');
+                    //             // });
+
+                    //             return buildButtonAByIndex(
+                    //               index,
+                    //               widget.areaName,
+                    //               widget.plotName,
+                    //               snapshot.data,
+                    //             );
+                    //           }
+                    //         })
+                    //     : subPlotAlphabet == 'B'
+                    //         ? StreamBuilder<List<SubPlotAreaBModel>>(
+                    //             stream: _controller.readAllSubPlotBAsStream(),
+                    //             builder: (context, snapshot) {
+                    //               if (!snapshot.hasData ||
+                    //                   snapshot.data!.isEmpty) {
+                    //                 return buildButtonByIndex(
+                    //                   index,
+                    //                   widget.areaName,
+                    //                   widget.plotName,
+                    //                   null,
+                    //                   null,
+                    //                 );
+                    //               } else {
+                    //                 // d.log('${snapshot.data}', name: 'test');
+                    //                 // d.log(
+                    //                 //   _sharedPref
+                    //                 //       .checkKey('subplot_b_data')
+                    //                 //       .toString(),
+                    //                 //   name: 'test',
+                    //                 // );
+
+                    //                 return buildButtonByIndex(
+                    //                   index,
+                    //                   widget.areaName,
+                    //                   widget.plotName,
+                    //                   snapshot.data![0],
+                    //                   null,
+                    //                 );
+                    //               }
+                    //             },
+                    //           )
+                    //         : subPlotAlphabet == 'C'
+                    //             ? StreamBuilder<List<SubPlotAreaCModel>>(
+                    //                 stream:
+                    //                     _controller.readAllSubPlotCAsStream(),
+                    //                 builder: (context, snapshot) {
+                    //                   if (!snapshot.hasData ||
+                    //                       snapshot.data!.isEmpty) {
+                    //                     return buildButtonByIndex(
+                    //                       index,
+                    //                       widget.areaName,
+                    //                       widget.plotName,
+                    //                       null,
+                    //                       null,
+                    //                     );
+                    //                   } else {
+                    //                     return buildButtonByIndex(
+                    //                       index,
+                    //                       widget.areaName,
+                    //                       widget.plotName,
+                    //                       null,
+                    //                       snapshot.data![0],
+                    //                     );
+                    //                   }
+                    //                 },
+                    //               )
+                    //             : buildButtonByIndex(
+                    //                 index,
+                    //                 widget.areaName,
+                    //                 widget.plotName,
+                    //                 null,
+                    //                 null,
+                    //               ),
                   ],
                 ),
               ),
@@ -270,119 +271,134 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
     );
   }
 
-  Widget buildButtonAByIndex(
-    int index,
-    String areaName,
-    String plotName,
-    Stream<List<SubPlotAreaASemaiModel>>? modelSemai,
-    Stream<List<SubPlotAreaASeresahModel>>? modelSeresah,
-    Stream<List<SubPlotAreaATumbuhanBawahModel>>? modelBawah,
-  ) {
-    // if (index == 0) {
-    //   return Container(
-    //     margin: EdgeInsets.only(left: 24.w),
-    //     child: ElevatedButton(
-    //       onPressed: () {
-    //         Navigator.push(
-    //           context,
-    //           PageRouteBuilder(
-    //             pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
-    //               areaName: areaName,
-    //               plotName: plotName,
-    //               subPlotSemai: modelSemai,
-    //               subPlotSeresah: modelSeresah,
-    //               subPlotTumbuhan: modelBawah,
-    //             ),
-    //             transitionsBuilder: (_, animation, __, child) {
-    //               return FadeTransition(
-    //                 opacity: animation,
-    //                 child: child,
-    //               );
-    //             },
-    //           ),
-    //         );
-    //       },
-    //       style: ElevatedButton.styleFrom(
-    //         shape: RoundedRectangleBorder(
-    //           borderRadius: BorderRadius.circular(8.r),
-    //         ),
-    //         backgroundColor: colorButtonAccentGreen,
-    //       ),
-    //       child: const Text(
-    //         'Edit',
-    //         style: TextStyle(
-    //           color: colorPrimaryWhite,
-    //           fontWeight: FontWeight.w600,
-    //         ),
-    //       ),
-    //     ),
-    //   );
-    // } else {
-    //   return Container();
-    // }
-    return Container(
-      margin: EdgeInsets.only(left: 24.w),
-      child: ElevatedButton(
-        onPressed: () {
-          Get.snackbar(
-            'CarbonStock',
-            'Still in development! Only Sub Plot B & C is ready!',
-            backgroundColor: colorSecondaryGrey1,
-          );
-
-          // Navigator.push(
-          //   context,
-          //   PageRouteBuilder(
-          //     pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
-          //       subPlotB: null,
-          //       areaName: areaName,
-          //       plotName: plotName,
-          //     ),
-          //     transitionsBuilder: (_, animation, __, child) {
-          //       return FadeTransition(
-          //         opacity: animation,
-          //         child: child,
-          //       );
-          //     },
-          //   ),
-          // );
-        },
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.r),
+  Widget buildCardButton(String plotAlphabet) {
+    if (plotAlphabet == 'A') {
+      if (SubPlotAreaDB.getAllSubPlotSemai().isNotEmpty ||
+          SubPlotAreaDB.getAllSubPlotSeresah().isNotEmpty ||
+          SubPlotAreaDB.getAllSubPlotBawah().isNotEmpty) {
+        return Container(
+          margin: EdgeInsets.only(left: 16.w),
+          child: TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
+                    areaName: widget.areaName,  
+                    plotName: widget.plotName,
+                    semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
+                    seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
+                    tumbuhanList: SubPlotAreaDB.getAllSubPlotBawah(),
+                  ),
+                  transitionsBuilder: (_, animation, __, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                ),
+              );
+            },
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              backgroundColor: colorButtonAccentGreen,
+            ),
+            child: Text(
+              'Edit',
+              style: TextStyle(
+                color: colorPrimaryWhite,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
-          backgroundColor: colorButtonAccentGreen,
-        ),
-        child: const Text(
-          'Edit',
-          style: TextStyle(
-            color: colorPrimaryWhite,
-            fontWeight: FontWeight.w600,
+        );
+      } else {
+        return TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
+                  areaName: widget.areaName,
+                  plotName: widget.plotName,
+                  semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
+                  seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
+                  tumbuhanList: SubPlotAreaDB.getAllSubPlotBawah(),
+                ),
+                transitionsBuilder: (_, animation, __, child) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+              ),
+            );
+          },
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            backgroundColor: colorButtonAccentGreen,
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildButtonByIndex(
-    int index,
-    String areaName,
-    String plotName,
-    SubPlotAreaBModel? modelB,
-    SubPlotAreaCModel? modelC,
-  ) {
-    if (index == 1) {
-      return Container(
-        margin: EdgeInsets.only(left: 24.w),
-        child: ElevatedButton(
+          child: Text(
+            'Tambah',
+            style: TextStyle(
+              color: colorPrimaryWhite,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        );
+      }
+    } else if (plotAlphabet == 'B') {
+      if (SubPlotAreaDB.getAllSubPlotB().isNotEmpty) {
+        return Container(
+          margin: EdgeInsets.only(left: 16.w),
+          child: TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
+                    areaName: widget.areaName,
+                    plotName: widget.plotName,
+                    subPlotBList: SubPlotAreaDB.getAllSubPlotB(),
+                  ),
+                  transitionsBuilder: (_, animation, __, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                ),
+              );
+            },
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              backgroundColor: colorButtonAccentGreen,
+            ),
+            child: Text(
+              'Edit',
+              style: TextStyle(
+                color: colorPrimaryWhite,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        );
+      } else {
+        return TextButton(
           onPressed: () {
             Navigator.push(
               context,
               PageRouteBuilder(
                 pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
-                  subPlotB: modelB,
-                  areaName: areaName,
-                  plotName: plotName,
+                  areaName: widget.areaName,
+                  plotName: widget.plotName,
+                  subPlotBList: SubPlotAreaDB.getAllSubPlotB(),
                 ),
                 transitionsBuilder: (_, animation, __, child) {
                   return FadeTransition(
@@ -393,33 +409,69 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
               ),
             );
           },
-          style: ElevatedButton.styleFrom(
+          style: TextButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.r),
             ),
             backgroundColor: colorButtonAccentGreen,
           ),
-          child: const Text(
-            'Edit',
+          child: Text(
+            'Tambah',
             style: TextStyle(
               color: colorPrimaryWhite,
               fontWeight: FontWeight.w600,
             ),
           ),
-        ),
-      );
-    } else if (index == 2) {
-      return Container(
-        margin: EdgeInsets.only(left: 24.w),
-        child: ElevatedButton(
+        );
+      }
+    } else if (plotAlphabet == 'C') {
+      if (SubPlotAreaDB.getAllSubPlotC().isNotEmpty) {
+        return Container(
+          margin: EdgeInsets.only(left: 16.w),
+          child: TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => DetailSubPlotCPageScreen(
+                    areaName: widget.areaName,
+                    plotName: widget.plotName,
+                    subPlotCList: SubPlotAreaDB.getAllSubPlotC(),
+                  ),
+                  transitionsBuilder: (_, animation, __, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                ),
+              );
+            },
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              backgroundColor: colorButtonAccentGreen,
+            ),
+            child: Text(
+              'Edit',
+              style: TextStyle(
+                color: colorPrimaryWhite,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        );
+      } else {
+        return TextButton(
           onPressed: () {
             Navigator.push(
               context,
               PageRouteBuilder(
                 pageBuilder: (_, __, ___) => DetailSubPlotCPageScreen(
-                  subPlotC: modelC,
-                  areaName: areaName,
-                  plotName: plotName,
+                  areaName: widget.areaName,
+                  plotName: widget.plotName,
+                  subPlotCList: SubPlotAreaDB.getAllSubPlotC(),
                 ),
                 transitionsBuilder: (_, animation, __, child) {
                   return FadeTransition(
@@ -430,64 +482,200 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
               ),
             );
           },
-          style: ElevatedButton.styleFrom(
+          style: TextButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.r),
             ),
             backgroundColor: colorButtonAccentGreen,
           ),
-          child: const Text(
-            'Edit',
+          child: Text(
+            'Tambah',
             style: TextStyle(
               color: colorPrimaryWhite,
               fontWeight: FontWeight.w600,
             ),
           ),
-        ),
-      );
+        );
+      }
+    } else if (plotAlphabet == 'D') {
+      return Container();
     } else {
-      return Container(
-        margin: EdgeInsets.only(left: 24.w),
-        child: ElevatedButton(
-          onPressed: () {
-            Get.snackbar(
-              'CarbonStock',
-              'Still in development! Only Sub Plot B & C is ready!',
-              backgroundColor: colorSecondaryGrey1,
-            );
-
-            // Navigator.push(
-            //   context,
-            //   PageRouteBuilder(
-            //     pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
-            //       subPlotB: null,
-            //       areaName: areaName,
-            //       plotName: plotName,
-            //     ),
-            //     transitionsBuilder: (_, animation, __, child) {
-            //       return FadeTransition(
-            //         opacity: animation,
-            //         child: child,
-            //       );
-            //     },
-            //   ),
-            // );
-          },
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            backgroundColor: colorButtonAccentGreen,
-          ),
-          child: const Text(
-            'Edit',
-            style: TextStyle(
-              color: colorPrimaryWhite,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      );
+      return Container();
     }
   }
+
+  // Widget buildButtonAByIndex(
+  //   int index,
+  //   String areaName,
+  //   String plotName,
+  //   List<dynamic>? listModelA,
+  // ) {
+  //   if (index == 0) {
+  //     return Container(
+  //       margin: EdgeInsets.only(left: 24.w),
+  //       child: ElevatedButton(
+  //         onPressed: () {
+  //           Navigator.push(
+  //             context,
+  //             PageRouteBuilder(
+  //               pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
+  //                 areaName: areaName,
+  //                 plotName: plotName,
+  //                 subPlotA: listModelA,
+  //               ),
+  //               transitionsBuilder: (_, animation, __, child) {
+  //                 return FadeTransition(
+  //                   opacity: animation,
+  //                   child: child,
+  //                 );
+  //               },
+  //             ),
+  //           );
+  //         },
+  //         style: ElevatedButton.styleFrom(
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(8.r),
+  //           ),
+  //           backgroundColor: colorButtonAccentGreen,
+  //         ),
+  //         child: const Text(
+  //           'Edit',
+  //           style: TextStyle(
+  //             color: colorPrimaryWhite,
+  //             fontWeight: FontWeight.w600,
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   } else {
+  //     return Container();
+  //   }
+  // }
+
+  // Widget buildButtonByIndex(
+  //   int index,
+  //   String areaName,
+  //   String plotName,
+  //   SubPlotAreaBModel? modelB,
+  //   SubPlotAreaCModel? modelC,
+  // ) {
+  //   if (index == 1) {
+  //     return Container(
+  //       margin: EdgeInsets.only(left: 24.w),
+  //       child: ElevatedButton(
+  //         onPressed: () {
+  //           Navigator.push(
+  //             context,
+  //             PageRouteBuilder(
+  //               pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
+  //                 subPlotB: modelB,
+  //                 areaName: areaName,
+  //                 plotName: plotName,
+  //               ),
+  //               transitionsBuilder: (_, animation, __, child) {
+  //                 return FadeTransition(
+  //                   opacity: animation,
+  //                   child: child,
+  //                 );
+  //               },
+  //             ),
+  //           );
+  //         },
+  //         style: ElevatedButton.styleFrom(
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(8.r),
+  //           ),
+  //           backgroundColor: colorButtonAccentGreen,
+  //         ),
+  //         child: const Text(
+  //           'Edit',
+  //           style: TextStyle(
+  //             color: colorPrimaryWhite,
+  //             fontWeight: FontWeight.w600,
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   } else if (index == 2) {
+  //     return Container(
+  //       margin: EdgeInsets.only(left: 24.w),
+  //       child: ElevatedButton(
+  //         onPressed: () {
+  //           Navigator.push(
+  //             context,
+  //             PageRouteBuilder(
+  //               pageBuilder: (_, __, ___) => DetailSubPlotCPageScreen(
+  //                 subPlotC: modelC,
+  //                 areaName: areaName,
+  //                 plotName: plotName,
+  //               ),
+  //               transitionsBuilder: (_, animation, __, child) {
+  //                 return FadeTransition(
+  //                   opacity: animation,
+  //                   child: child,
+  //                 );
+  //               },
+  //             ),
+  //           );
+  //         },
+  //         style: ElevatedButton.styleFrom(
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(8.r),
+  //           ),
+  //           backgroundColor: colorButtonAccentGreen,
+  //         ),
+  //         child: const Text(
+  //           'Edit',
+  //           style: TextStyle(
+  //             color: colorPrimaryWhite,
+  //             fontWeight: FontWeight.w600,
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   } else {
+  //     return Container(
+  //       margin: EdgeInsets.only(left: 24.w),
+  //       child: ElevatedButton(
+  //         onPressed: () {
+  //           Get.snackbar(
+  //             'CarbonStock',
+  //             'Still in development! Only Sub Plot B & C is ready!',
+  //             backgroundColor: colorSecondaryGrey1,
+  //           );
+
+  // Navigator.push(
+  //   context,
+  //   PageRouteBuilder(
+  //     pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
+  //       subPlotB: null,
+  //       areaName: areaName,
+  //       plotName: plotName,
+  //     ),
+  //     transitionsBuilder: (_, animation, __, child) {
+  //       return FadeTransition(
+  //         opacity: animation,
+  //         child: child,
+  //       );
+  //     },
+  //   ),
+  // );
+  // },
+  //         style: ElevatedButton.styleFrom(
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(8.r),
+  //           ),
+  //           backgroundColor: colorButtonAccentGreen,
+  //         ),
+  //         child: const Text(
+  //           'Edit',
+  //           style: TextStyle(
+  //             color: colorPrimaryWhite,
+  //             fontWeight: FontWeight.w600,
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 }

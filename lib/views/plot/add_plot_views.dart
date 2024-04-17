@@ -29,7 +29,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
   Widget build(BuildContext context) {
     String sharedLatLng = sharedPreferences.getString('latLng');
     Map<String, dynamic> latLngMapper = jsonDecode(sharedLatLng);
-    
+
     currentLatLng = LatLng(
       latLngMapper['currentLatLng'][0],
       latLngMapper['currentLatLng'][1],
@@ -91,11 +91,13 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_addPlotFormKey.currentState!.validate()) {
+                      Uuid uuid = const Uuid();
                       String size = _plotSizeController.text;
                       String biomassAvg = _biomassAvgController.text;
                       String biomassStd = _biomassStdController.text;
 
                       PlotModel plotModel = PlotModel(
+                        plotId: uuid.v4(),
                         plotLat: currentLatLng.latitude,
                         plotLng: currentLatLng.longitude,
                         plotSize: double.parse(size),
@@ -104,6 +106,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                       );
 
                       await _plotController.insertPlot(plotModel);
+                      // await _plotController.insertPlot(plotModel);
 
                       Get.snackbar(
                         'CarbonStock',

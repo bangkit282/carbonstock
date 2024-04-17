@@ -5,17 +5,16 @@ class DetailSubPlotAPageScreen extends StatefulWidget {
     super.key,
     required this.areaName,
     required this.plotName,
-    this.subPlotSemai,
-    this.subPlotSeresah,
-    this.subPlotTumbuhan,
+    required this.semaiList,
+    required this.seresahList,
+    required this.tumbuhanList,
   });
-
-  final Stream<List<SubPlotAreaASemaiModel>>? subPlotSemai;
-  final Stream<List<SubPlotAreaASeresahModel>>? subPlotSeresah;
-  final Stream<List<SubPlotAreaATumbuhanBawahModel>>? subPlotTumbuhan;
 
   final String areaName;
   final String plotName;
+  final List<SubPlotAreaASemaiModel> semaiList;
+  final List<SubPlotAreaASeresahModel> seresahList;
+  final List<SubPlotAreaATumbuhanBawahModel> tumbuhanList;
 
   @override
   State<DetailSubPlotAPageScreen> createState() =>
@@ -120,36 +119,61 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         'Lengkapi data Semai terlebih dahulu atau biarkan kosong sebelum menyimpan!',
                         backgroundColor: colorSecondaryGrey1,
                       );
-                    }
-                  } else {
-                    double semaiCarbon = (semaiKTotal.value * 0.47);
-                    double carbonAbsorb = semaiCarbon * (44 / 12);
-
-                    SubPlotAreaASemaiModel subPlotASemai =
-                        SubPlotAreaASemaiModel(
-                      areaName: widget.areaName,
-                      plotName: widget.plotName,
-                      basahTotal: semaiTotal.value,
-                      basahSample: semaiSample.value,
-                      keringTotal: semaiKTotal.value,
-                      keringSample: semaiKSample.value,
-                      carbonValue: semaiCarbon,
-                      carbonAbsorb: carbonAbsorb,
-                    );
-
-                    if (!_sharedPref.checkKey('semai_data')) {
-                      await _controller.insertSubPlotASemai(subPlotASemai);
-                      _sharedPref.putBool('semai_data', true);
-
-                      sleep(const Duration(seconds: 3));
-                      const Center(child: CircularProgressIndicator.adaptive());
                     } else {
-                      await _controller.updateSubPlotASemai(subPlotASemai);
-                      _sharedPref.putBool('semai_data', true);
-                      _sharedPref.checkKey('subplot_a_data');
+                      if (widget.semaiList.isEmpty) {
+                        d.log('isEmpty - insert', name: 'semai');
+                        Uuid uuid = const Uuid();
 
-                      sleep(const Duration(seconds: 3));
-                      const Center(child: CircularProgressIndicator.adaptive());
+                        double semaiCarbon = (semaiKTotal.value * 0.47);
+                        double carbonAbsorb = semaiCarbon * (44 / 12);
+
+                        SubPlotAreaASemaiModel subPlotASemai =
+                            SubPlotAreaASemaiModel(
+                          uuid: uuid.v4(),
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          basahTotal: semaiTotal.value,
+                          basahSample: semaiSample.value,
+                          keringTotal: semaiKTotal.value,
+                          keringSample: semaiKSample.value,
+                          carbonValue: semaiCarbon,
+                          carbonAbsorb: carbonAbsorb,
+                        );
+
+                        await _controller.insertSubPlotA(
+                          subPlotASemai,
+                          null,
+                          null,
+                        );
+
+                        _sharedPref.putBool('subplot_a_data', true);
+                      } else {
+                        d.log('isNotEmpty - update', name: 'semai');
+
+                        double semaiCarbon = (semaiKTotal.value * 0.47);
+                        double carbonAbsorb = semaiCarbon * (44 / 12);
+
+                        SubPlotAreaASemaiModel subPlotASemai =
+                            SubPlotAreaASemaiModel(
+                          uuid: widget.semaiList.last.uuid,
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          basahTotal: semaiTotal.value,
+                          basahSample: semaiSample.value,
+                          keringTotal: semaiKTotal.value,
+                          keringSample: semaiKSample.value,
+                          carbonValue: semaiCarbon,
+                          carbonAbsorb: carbonAbsorb,
+                        );
+
+                        await _controller.updateSubPlotA(
+                          subPlotASemai,
+                          null,
+                          null,
+                        );
+
+                        _sharedPref.putBool('subplot_a_data', true);
+                      }
                     }
                   }
 
@@ -164,36 +188,61 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         'Lengkapi data Seresah terlebih dahulu atau biarkan kosong sebelum menyimpan!',
                         backgroundColor: colorSecondaryGrey1,
                       );
-                    }
-                  } else {
-                    double seresahCarbon = (seresahKTotal.value * 0.47);
-                    double carbonAbsorb = seresahCarbon * (44 / 12);
-
-                    SubPlotAreaASeresahModel subPlotASeresah =
-                        SubPlotAreaASeresahModel(
-                      areaName: widget.areaName,
-                      plotName: widget.plotName,
-                      basahTotal: seresahTotal.value,
-                      basahSample: seresahSample.value,
-                      keringTotal: seresahKTotal.value,
-                      keringSample: seresahKSample.value,
-                      carbonValue: seresahCarbon,
-                      carbonAbsorb: carbonAbsorb,
-                    );
-
-                    if (!_sharedPref.checkKey('seresah_data')) {
-                      await _controller.insertSubPlotASeresah(subPlotASeresah);
-                      _sharedPref.putBool('seresah_data', true);
-                      _sharedPref.checkKey('subplot_a_data');
-
-                      sleep(const Duration(seconds: 3));
-                      const Center(child: CircularProgressIndicator.adaptive());
                     } else {
-                      await _controller.updateSubPlotASeresah(subPlotASeresah);
-                      _sharedPref.putBool('seresah_data', true);
+                      if (widget.seresahList.isEmpty) {
+                        d.log('isEmpty - insert', name: 'seresah');
+                        Uuid uuid = const Uuid();
 
-                      sleep(const Duration(seconds: 3));
-                      const Center(child: CircularProgressIndicator.adaptive());
+                        double seresahCarbon = (seresahKTotal.value * 0.47);
+                        double carbonAbsorb = seresahCarbon * (44 / 12);
+
+                        SubPlotAreaASeresahModel subPlotASeresah =
+                            SubPlotAreaASeresahModel(
+                          uuid: uuid.v4(),
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          basahTotal: seresahTotal.value,
+                          basahSample: seresahSample.value,
+                          keringTotal: seresahKTotal.value,
+                          keringSample: seresahKSample.value,
+                          carbonValue: seresahCarbon,
+                          carbonAbsorb: carbonAbsorb,
+                        );
+
+                        await _controller.insertSubPlotA(
+                          null,
+                          subPlotASeresah,
+                          null,
+                        );
+
+                        _sharedPref.putBool('subplot_a_data', true);
+                      } else {
+                        d.log('isNotEmpty - update', name: 'seresah');
+
+                        double seresahCarbon = (seresahKTotal.value * 0.47);
+                        double carbonAbsorb = seresahCarbon * (44 / 12);
+
+                        SubPlotAreaASeresahModel subPlotASeresah =
+                            SubPlotAreaASeresahModel(
+                          uuid: widget.seresahList.last.uuid,
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          basahTotal: seresahTotal.value,
+                          basahSample: seresahSample.value,
+                          keringTotal: seresahKTotal.value,
+                          keringSample: seresahKSample.value,
+                          carbonValue: seresahCarbon,
+                          carbonAbsorb: carbonAbsorb,
+                        );
+
+                        await _controller.updateSubPlotA(
+                          null,
+                          subPlotASeresah,
+                          null,
+                        );
+
+                        _sharedPref.putBool('subplot_a_data', true);
+                      }
                     }
                   }
 
@@ -208,38 +257,61 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         'Lengkapi data Tumbuhan Bawah terlebih dahulu atau biarkan kosong sebelum menyimpan!',
                         backgroundColor: colorSecondaryGrey1,
                       );
-                    }
-                  } else {
-                    double tumbuhanCarbon = (tumbuhanKTotal.value * 0.47);
-                    double carbonAbsorb = tumbuhanCarbon * (44 / 12);
-
-                    SubPlotAreaATumbuhanBawahModel subPlotATumbuhan =
-                        SubPlotAreaATumbuhanBawahModel(
-                      areaName: widget.areaName,
-                      plotName: widget.plotName,
-                      basahTotal: tumbuhanTotal.value,
-                      basahSample: tumbuhanSample.value,
-                      keringTotal: tumbuhanKTotal.value,
-                      keringSample: tumbuhanKSample.value,
-                      carbonValue: tumbuhanCarbon,
-                      carbonAbsorb: carbonAbsorb,
-                    );
-
-                    if (!_sharedPref.checkKey('bawah_data')) {
-                      await _controller
-                          .insertSubPlotATumbuhan(subPlotATumbuhan);
-                      _sharedPref.putBool('bawah_data', true);
-                      _sharedPref.checkKey('subplot_a_data');
-
-                      sleep(const Duration(seconds: 3));
-                      const Center(child: CircularProgressIndicator.adaptive());
                     } else {
-                      await _controller
-                          .updateSubPlotATumbuhan(subPlotATumbuhan);
-                      _sharedPref.putBool('bawah_data', true);
+                      if (widget.tumbuhanList.isEmpty) {
+                        d.log('isEmpty - insert', name: 'tumbuhan');
+                        Uuid uuid = const Uuid();
 
-                      sleep(const Duration(seconds: 3));
-                      const Center(child: CircularProgressIndicator.adaptive());
+                        double tumbuhanCarbon = (tumbuhanKTotal.value * 0.47);
+                        double carbonAbsorb = tumbuhanCarbon * (44 / 12);
+
+                        SubPlotAreaATumbuhanBawahModel subPlotATumbuhan =
+                            SubPlotAreaATumbuhanBawahModel(
+                          uuid: uuid.v4(),
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          basahTotal: tumbuhanTotal.value,
+                          basahSample: tumbuhanSample.value,
+                          keringTotal: tumbuhanKTotal.value,
+                          keringSample: tumbuhanKSample.value,
+                          carbonValue: tumbuhanCarbon,
+                          carbonAbsorb: carbonAbsorb,
+                        );
+
+                        await _controller.insertSubPlotA(
+                          null,
+                          null,
+                          subPlotATumbuhan,
+                        );
+
+                        _sharedPref.putBool('subplot_a_data', true);
+                      } else {
+                        d.log('isNotEmpty - update', name: 'tumbuhan');
+
+                        double tumbuhanCarbon = (tumbuhanKTotal.value * 0.47);
+                        double carbonAbsorb = tumbuhanCarbon * (44 / 12);
+
+                        SubPlotAreaATumbuhanBawahModel subPlotATumbuhan =
+                            SubPlotAreaATumbuhanBawahModel(
+                          uuid: widget.tumbuhanList.last.uuid,
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          basahTotal: tumbuhanTotal.value,
+                          basahSample: tumbuhanSample.value,
+                          keringTotal: tumbuhanKTotal.value,
+                          keringSample: tumbuhanKSample.value,
+                          carbonValue: tumbuhanCarbon,
+                          carbonAbsorb: carbonAbsorb,
+                        );
+
+                        await _controller.updateSubPlotA(
+                          null,
+                          null,
+                          subPlotATumbuhan,
+                        );
+
+                        _sharedPref.putBool('subplot_a_data', true);
+                      }
                     }
                   }
 
@@ -289,31 +361,51 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
           ),
         ),
         SizedBox(height: 16.h),
-        StreamBuilder<List<SubPlotAreaASemaiModel>>(
-          stream: widget.subPlotSemai,
-          builder: (context, snapshot) {
-            return buildSemaiInfo();
-          },
-        ),
-        SizedBox(height: 16.h),
-        StreamBuilder<List<SubPlotAreaASeresahModel>>(
-          stream: widget.subPlotSeresah,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Container();
+        ValueListenableBuilder(
+          valueListenable: _controller.contactSemaiBox.listenable(),
+          builder: (context, box, _) {
+
+            if (box.isEmpty) {
+              return buildSemaiInfo(null, null, null);
             } else {
-              return buildSeresahInfo();
+              return buildSemaiInfo(
+                box.getAt(box.length - 1)?.basahTotal,
+                box.getAt(box.length - 1)?.basahSample,
+                box.getAt(box.length - 1)?.keringSample,
+              );
             }
           },
         ),
         SizedBox(height: 16.h),
-        StreamBuilder<List<SubPlotAreaATumbuhanBawahModel>>(
-          stream: widget.subPlotTumbuhan,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Container();
+        ValueListenableBuilder(
+            valueListenable: _controller.contactSeresahBox.listenable(),
+            builder: (context, box, _) {
+              // d.log('${box.length}', name: 'length');
+
+              if (box.isEmpty) {
+                return buildSeresahInfo(null, null, null);
+              } else {
+                return buildSeresahInfo(
+                  box.getAt(box.length - 1)?.basahTotal,
+                  box.getAt(box.length - 1)?.basahSample,
+                  box.getAt(box.length - 1)?.keringSample,
+                );
+              }
+            }),
+        SizedBox(height: 16.h),
+        ValueListenableBuilder(
+          valueListenable: _controller.contactTumbuhanBawahBox.listenable(),
+          builder: (context, box, _) {
+            // d.log('${box.length}', name: 'length');
+
+            if (box.isEmpty) {
+              return buildTumbuhanInfo(null, null, null);
             } else {
-              return buildTumbuhanKTotalInfo();
+              return buildTumbuhanInfo(
+                box.getAt(box.length - 1)?.basahTotal,
+                box.getAt(box.length - 1)?.basahSample,
+                box.getAt(box.length - 1)?.keringSample,
+              );
             }
           },
         ),
@@ -322,7 +414,29 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
     );
   }
 
-  Card buildSemaiInfo() {
+  Card buildSemaiInfo(
+    double? semaiTotalExist,
+    double? semaiSampleExist,
+    double? semaiKExist,
+  ) {
+    if (semaiTotalExist != null &&
+        semaiSampleExist != null &&
+        semaiKExist != null) {
+      _semaiBTotalController.text = semaiTotalExist.toString();
+      semaiTotal.value = semaiTotalExist;
+
+      _semaiBSampleController.text = semaiSampleExist.toString();
+      semaiSample.value = semaiSampleExist;
+
+      _semaiKSampleController.text = semaiKExist.toString();
+      semaiKSample.value = semaiKExist;
+
+      semaiKTotal.value =
+          (semaiKSample.value / semaiTotal.value) * semaiSample.value;
+
+      _semaiKTotalController.text = semaiKTotal.value.toStringAsFixed(2);
+    }
+
     return Card(
       elevation: 0.5,
       child: Column(
@@ -608,7 +722,29 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
     );
   }
 
-  Card buildSeresahInfo() {
+  Card buildSeresahInfo(
+    double? seresahTotalExist,
+    double? seresahSampleExist,
+    double? seresahKExist,
+  ) {
+    if (seresahTotalExist != null &&
+        seresahSampleExist != null &&
+        seresahKExist != null) {
+      _seresahBTotalController.text = seresahTotalExist.toString();
+      seresahTotal.value = seresahTotalExist;
+
+      _seresahBSampleController.text = seresahSampleExist.toString();
+      seresahSample.value = seresahSampleExist;
+
+      _seresahKSampleController.text = seresahKExist.toString();
+      seresahKSample.value = seresahKExist;
+
+      seresahKTotal.value =
+          (seresahKSample.value / seresahTotal.value) * seresahSample.value;
+
+      _seresahKTotalController.text = seresahKTotal.value.toStringAsFixed(2);
+    }
+
     return Card(
       elevation: 0.5,
       child: Column(
@@ -898,7 +1034,29 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
     );
   }
 
-  Card buildTumbuhanKTotalInfo() {
+  Card buildTumbuhanInfo(
+    double? tumbuhanTotalExist,
+    double? tumbuhanSampleExist,
+    double? tumbuhanKExist,
+  ) {
+    if (tumbuhanTotalExist != null &&
+        tumbuhanSampleExist != null &&
+        tumbuhanKExist != null) {
+      _tumbuhanBTotalController.text = tumbuhanTotalExist.toString();
+      tumbuhanTotal.value = tumbuhanTotalExist;
+
+      _tumbuhanBSampleController.text = tumbuhanSampleExist.toString();
+      tumbuhanSample.value = tumbuhanSampleExist;
+
+      _tumbuhanKSampleController.text = tumbuhanKExist.toString();
+      tumbuhanKSample.value = tumbuhanKExist;
+
+      tumbuhanKTotal.value =
+          (tumbuhanKSample.value / tumbuhanTotal.value) * tumbuhanSample.value;
+
+      _tumbuhanKTotalController.text = tumbuhanKTotal.value.toStringAsFixed(2);
+    }
+
     return Card(
       elevation: 0.5,
       child: Column(

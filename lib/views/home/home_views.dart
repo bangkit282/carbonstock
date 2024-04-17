@@ -13,7 +13,7 @@ class _HomeScreenViewsState extends State<HomeScreenViews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: fetchAreaListData(),
+      // body: fetchAreaListData(),
       backgroundColor: colorPrimaryBackground,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -54,39 +54,39 @@ class _HomeScreenViewsState extends State<HomeScreenViews> {
     );
   }
 
-  StreamBuilder fetchAreaListData() {
-    return StreamBuilder<List<AreaModel>>(
-      stream: _areaController.readAllAreaAsStream(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(
-            child: Text('Error loading data ${snapshot.error}'),
-          );
-        }
+  // StreamBuilder fetchAreaListData() {
+  //   return StreamBuilder<List<AreaModel>>(
+  //     stream: _areaController.readAllAreaAsStream(),
+  //     builder: (context, snapshot) {
+  //       if (snapshot.hasError) {
+  //         return Center(
+  //           child: Text('Error loading data ${snapshot.error}'),
+  //         );
+  //       }
 
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-            child: Text('No data available'),
-          );
-        }
+  //       if (!snapshot.hasData || snapshot.data!.isEmpty) {
+  //         return const Center(
+  //           child: Text('No data available'),
+  //         );
+  //       }
 
-        final area = snapshot.requireData;
-        // log('Builder function called with $area');
+  //       final area = snapshot.requireData;
+  //       // log('Builder function called with $area');
 
-        return Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-          width: 1.sw,
-          height: 1.sh - 80.h,
-          child: ListView.builder(
-            itemCount: area.length,
-            itemBuilder: (context, index) {
-              return buildAreaWidget(area[index]);
-            },
-          ),
-        );
-      },
-    );
-  }
+  //       return Container(
+  //         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+  //         width: 1.sw,
+  //         height: 1.sh - 80.h,
+  //         child: ListView.builder(
+  //           itemCount: area.length,
+  //           itemBuilder: (context, index) {
+  //             return buildAreaWidget(area[index]);
+  //           },
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   Card buildAreaWidget(AreaModel area) {
     return Card(

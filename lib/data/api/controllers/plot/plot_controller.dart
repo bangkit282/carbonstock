@@ -9,21 +9,6 @@ class PlotController extends GetxController {
   RxString pickedImage = ''.obs;
   RxBool isLoading = false.obs;
 
-  Stream<List<PlotModel>> streamPlotList = PlotDB.instance.readAllPlot().map(
-        (plotList) => plotList
-            .map(
-              (plot) => PlotModel(
-                id: plot.id,
-                plotLat: plot.plotLat,
-                plotLng: plot.plotLng,
-                plotSize: plot.plotSize,
-                biomassAvg: plot.biomassAvg,
-                biomassStd: plot.biomassStd,
-              ),
-            )
-            .toList(),
-      );
-
   Future pickImageFromGallery() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -35,23 +20,70 @@ class PlotController extends GetxController {
     }
   }
 
-  Stream<List<PlotModel>>? readAllPlotAsStream() async* {
-    isLoading.value = true;
-    streamPlotList = PlotDB.instance.readAllPlot().map((plotList) => plotList);
-    isLoading.value = false;
+  final contactBox = PlotDB.plotBox;
 
-    yield* streamPlotList;
-  }
-
-  Future<void> insertPlot(PlotModel plot) async {
-    final PlotModel model = PlotModel(
-      plotLat: plot.plotLat,
-      plotLng: plot.plotLng,
-      plotSize: plot.plotSize,
-      biomassAvg: plot.biomassAvg,
-      biomassStd: plot.biomassStd,
+  Future<void> insertPlot(PlotModel plotModel) async {
+    final PlotModel plot = PlotModel(
+      plotId: plotModel.plotId,
+      plotLat: plotModel.plotLat,
+      plotLng: plotModel.plotLng,
+      plotSize: plotModel.plotSize,
+      biomassAvg: plotModel.biomassAvg,
+      biomassStd: plotModel.biomassStd,
     );
-
-    await PlotDB.instance.insertPlot(model);
+    
+    await PlotDB.addPlot(plot);
   }
 }
+
+
+// class PlotController extends GetxController {
+//   RxString pickedImage = ''.obs;
+//   RxBool isLoading = false.obs;
+
+  // Stream<List<PlotModel>> streamPlotList = PlotDB.instance.readAllPlot().map(
+  //       (plotList) => plotList
+  //           .map(
+  //             (plot) => PlotModel(
+  //               id: plot.id,
+  //               plotLat: plot.plotLat,
+  //               plotLng: plot.plotLng,
+  //               plotSize: plot.plotSize,
+  //               biomassAvg: plot.biomassAvg,
+  //               biomassStd: plot.biomassStd,
+  //             ),
+  //           )
+  //           .toList(),
+  //     );
+
+  // Future pickImageFromGallery() async {
+  //   final picker = ImagePicker();
+  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+  //   if (pickedFile != null) {
+  //     pickedImage.value = pickedFile.path;
+  //   } else {
+  //     log('No image selected');
+  //   }
+  // }
+
+  // Stream<List<PlotModel>>? readAllPlotAsStream() async* {
+  //   isLoading.value = true;
+  //   streamPlotList = PlotDB.instance.readAllPlot().map((plotList) => plotList);
+  //   isLoading.value = false;
+
+  //   yield* streamPlotList;
+  // }
+
+  // Future<void> insertPlot(PlotModel plot) async {
+  //   final PlotModel model = PlotModel(
+  //     plotLat: plot.plotLat,
+  //     plotLng: plot.plotLng,
+  //     plotSize: plot.plotSize,
+  //     biomassAvg: plot.biomassAvg,
+  //     biomassStd: plot.biomassStd,
+  //   );
+
+  //   await PlotDB.instance.insertPlot(model);
+  // }
+// }

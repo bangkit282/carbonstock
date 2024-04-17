@@ -54,17 +54,11 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
     );
   }
 
-  StreamBuilder fetchPlotListData() {
-    return StreamBuilder<List<PlotModel>>(
-      stream: _plotController.readAllPlotAsStream(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(
-            child: Text('Error loading data ${snapshot.error}'),
-          );
-        }
-
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+  ValueListenableBuilder fetchPlotListData() {
+    return ValueListenableBuilder(
+      valueListenable: _plotController.contactBox.listenable(),
+      builder: (context, plotList, _) {
+        if (plotList.isEmpty) {
           return Center(
             child: SizedBox(
               width: 1.sw,
@@ -93,21 +87,19 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
               ),
             ),
           );
+        } else {
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            width: 1.sw,
+            height: 1.sh - 80.h,
+            child: ListView.builder(
+              itemCount: plotList.length,
+              itemBuilder: (context, index) {
+                return buildPlotWidget(index);
+              },
+            ),
+          );
         }
-
-        final plot = snapshot.requireData;
-
-        return Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-          width: 1.sw,
-          height: 1.sh - 80.h,
-          child: ListView.builder(
-            itemCount: plot.length,
-            itemBuilder: (context, index) {
-              return buildPlotWidget(index);
-            },
-          ),
-        );
       },
     );
   }

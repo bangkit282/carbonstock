@@ -5,10 +5,10 @@ class DetailSubPlotBPageScreen extends StatefulWidget {
     super.key,
     required this.areaName,
     required this.plotName,
-    required this.subPlotB,
+    required this.subPlotBList,
   });
 
-  final SubPlotAreaBModel? subPlotB;
+  final List<SubPlotAreaBModel> subPlotBList;
   final String areaName;
   final String plotName;
 
@@ -19,8 +19,6 @@ class DetailSubPlotBPageScreen extends StatefulWidget {
 
 class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
   final SubPlotController _controller = Get.find();
-  final _pancangFormKey = GlobalKey<FormState>(debugLabel: 'pancang-form');
-
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
 
   final TextEditingController _pancangKelilingController =
@@ -108,15 +106,19 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
   }
 
   void checkSinglePancang() {
-    if (widget.subPlotB != null) {
-      selectedLocalName.value = widget.subPlotB!.localName;
-      selectedBioName.value = widget.subPlotB!.bioName;
+    if (widget.subPlotBList.isNotEmpty) {
+      selectedLocalName.value = widget.subPlotBList.last.localName;
+      selectedBioName.value = widget.subPlotBList.last.bioName;
 
-      pancangBiomassLand.value = widget.subPlotB!.biomassLand;
-      pancangKerapatan.value = widget.subPlotB!.kerapatanKayu;
+      _pancangNamaIlmiahController.text = widget.subPlotBList.last.bioName;
 
-      _pancangKelilingController.text = widget.subPlotB!.keliling.toString();
-      _pancangDiameterController.text = widget.subPlotB!.diameter.toString();
+      pancangBiomassLand.value = widget.subPlotBList.last.biomassLand;
+      pancangKerapatan.value = widget.subPlotBList.last.kerapatanKayu;
+
+      _pancangKelilingController.text =
+          widget.subPlotBList.last.keliling.toStringAsFixed(2);
+      _pancangDiameterController.text =
+          widget.subPlotBList.last.diameter.toStringAsFixed(2);
     }
   }
 
@@ -146,102 +148,110 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
         ),
         backgroundColor: colorSecondaryGreen,
       ),
-      body: Container(
-        width: 1.sw,
-        height: 1.sh,
-        margin: EdgeInsets.only(
-          top: 16.h,
-          left: 16.w,
-          right: 16.w,
-          bottom: 24.h,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            buildDetailInfo(),
-            ElevatedButton(
-              onPressed: () async {
-                if (_pancangKelilingController.text.isEmpty ||
-                    _pancangDiameterController.text.isEmpty ||
-                    selectedLocalName.value == 'Pilih Nama Lokal') {
-                  Get.snackbar(
-                    'CarbonStock',
-                    'Lengkapi data terlebih dahulu',
-                    backgroundColor: colorSecondaryGrey1,
-                  );
-                } else {
-                  double keliling =
-                      double.parse(_pancangKelilingController.text);
-                  double diameter =
-                      double.parse(_pancangDiameterController.text);
-                  String name = selectedLocalName.value;
-                  String bioName = selectedBioName.value;
-                  double kerapatanKayu = pancangKerapatan.value;
-                  double biomassLand = pancangBiomassLand.value;
-                  double carbonValue = pancangBiomassLand.value * 0.47;
-                  double carbonAbsorb =
-                      pancangBiomassLand.value * 0.47 * (44 / 12);
-
-                  SubPlotAreaBModel subPlotBModel = SubPlotAreaBModel(
-                    areaName: widget.areaName,
-                    plotName: widget.plotName,
-                    localName: name,
-                    bioName: bioName,
-                    keliling: keliling,
-                    diameter: diameter,
-                    kerapatanKayu: kerapatanKayu,
-                    biomassLand: biomassLand,
-                    carbonValue: carbonValue,
-                    carbonAbsorb: carbonAbsorb,
-                  );
-
-                  if (!_sharedPref.checkKey('pancang_data')) {
-                    await _controller.insertSubPlotB(subPlotBModel);
-                    _sharedPref.putBool('pancang_data', true);
-
-                    sleep(const Duration(seconds: 3));
-                    const Center(child: CircularProgressIndicator.adaptive());
-
-                    Get.back();
+      body: SingleChildScrollView(
+        child: Container(
+          width: 1.sw,
+          height: 1.sh,
+          margin: EdgeInsets.only(
+            top: 16.h,
+            left: 16.w,
+            right: 16.w,
+            bottom: 24.h,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildDetailInfo(),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_pancangKelilingController.text.isEmpty ||
+                      _pancangDiameterController.text.isEmpty ||
+                      selectedLocalName.value == 'Pilih Nama Lokal') {
                     Get.snackbar(
                       'CarbonStock',
-                      'Simpan Sub-Plot B Berhasil!',
+                      'Lengkapi data terlebih dahulu',
                       backgroundColor: colorSecondaryGrey1,
                     );
                   } else {
-                    await _controller.updateSubPlotB(subPlotBModel);
-                    _sharedPref.putBool('pancang_data', true);
+                    double keliling =
+                        double.parse(_pancangKelilingController.text);
+                    double diameter =
+                        double.parse(_pancangDiameterController.text);
+                    String name = selectedLocalName.value;
+                    String bioName = selectedBioName.value;
+                    double kerapatanKayu = pancangKerapatan.value;
+                    double biomassLand = pancangBiomassLand.value;
+                    double carbonValue = pancangBiomassLand.value * 0.47;
+                    double carbonAbsorb =
+                        pancangBiomassLand.value * 0.47 * (44 / 12);
 
-                    sleep(const Duration(seconds: 3));
-                    const Center(child: CircularProgressIndicator.adaptive());
+                    if (widget.subPlotBList.isEmpty) {
+                      Uuid uuid = const Uuid();
 
-                    Get.back();
-                    Get.snackbar(
-                      'CarbonStock',
-                      'Edit Sub-Plot B Berhasil!',
-                      backgroundColor: colorSecondaryGrey1,
-                    );
+                      SubPlotAreaBModel subPlotBModel = SubPlotAreaBModel(
+                        uuid: uuid.v4(),
+                        areaName: widget.areaName,
+                        plotName: widget.plotName,
+                        localName: name,
+                        bioName: bioName,
+                        keliling: keliling,
+                        diameter: diameter,
+                        kerapatanKayu: kerapatanKayu,
+                        biomassLand: biomassLand,
+                        carbonValue: carbonValue,
+                        carbonAbsorb: carbonAbsorb,
+                      );
+
+                      await _controller.insertSubPlotB(subPlotBModel);
+                      _sharedPref.putBool('pancang_data', true);
+                    } else {
+                      SubPlotAreaBModel subPlotBModel = SubPlotAreaBModel(
+                        uuid: widget.subPlotBList.last.uuid,
+                        areaName: widget.areaName,
+                        plotName: widget.plotName,
+                        localName: name,
+                        bioName: bioName,
+                        keliling: keliling,
+                        diameter: diameter,
+                        kerapatanKayu: kerapatanKayu,
+                        biomassLand: biomassLand,
+                        carbonValue: carbonValue,
+                        carbonAbsorb: carbonAbsorb,
+                      );
+
+                      await _controller.updateSubPlotB(subPlotBModel);
+                      _sharedPref.putBool('pancang_data', true);
+                    }
+
+                    if (_sharedPref.checkKey('pancang_data')) {
+                      Get.back();
+                      Get.snackbar(
+                        'CarbonStock',
+                        'Edit Sub-Plot B Berhasil!',
+                        backgroundColor: colorSecondaryGrey1,
+                      );
+                    }
                   }
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colorButtonAccentGreen,
-                fixedSize: Size(1.sw, 45.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: colorButtonAccentGreen,
+                  fixedSize: Size(1.sw, 45.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                ),
+                child: Text(
+                  'Simpan',
+                  style: TextStyle(
+                    color: colorPrimaryWhite,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14.sp,
+                  ),
                 ),
               ),
-              child: Text(
-                'Simpan',
-                style: TextStyle(
-                  color: colorPrimaryWhite,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14.sp,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -261,9 +271,11 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
           ),
         ),
         SizedBox(height: 16.h),
-        Form(
-          key: _pancangFormKey,
-          child: buildPancangInfo(),
+        ValueListenableBuilder(
+          valueListenable: _controller.contactBBox.listenable(),
+          builder: (context, box, _) {
+            return buildPancangInfo();
+          },
         ),
       ],
     );

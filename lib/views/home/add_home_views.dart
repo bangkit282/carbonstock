@@ -108,23 +108,24 @@ class _AddHomeScreenViewsState extends State<AddHomeScreenViews> {
                     if (_addAreaFormKey.currentState!.validate()) {
                       String areaName = _areaNameController.text;
                       String locationName = _locationNameController.text;
-                      String imageUrl = _areaController.pickedImage.value;
+                      // String imageUrl = _areaController.pickedImage.value;
+                      String imageUrl = '';
                       String forestType = _selectedForest!;
                       String landType = _selectedLand!;
                       DateTime createdAt = DateTime.now();
                       String notationTeam = _notationTeam.text;
 
-                      AreaModel areaModel = AreaModel(
-                        areaName: areaName,
-                        areaLocation: locationName,
-                        areaImage: imageUrl,
-                        forestType: forestType,
-                        landType: landType,
-                        createdAt: createdAt,
-                        notationTeam: notationTeam,
-                      );
+                      // AreaModel areaModel = AreaModel(
+                      //   areaName: areaName,
+                      //   areaLocation: locationName,
+                      //   areaImage: imageUrl,
+                      //   forestType: forestType,
+                      //   landType: landType,
+                      //   createdAt: createdAt,
+                      //   notationTeam: notationTeam,
+                      // );
 
-                      await _areaController.insertArea(areaModel);
+                      // await _areaController.insertArea(areaModel);
 
                       Get.snackbar(
                         'CarbonStock',
@@ -362,7 +363,7 @@ class _AddHomeScreenViewsState extends State<AddHomeScreenViews> {
       ),
       child: GestureDetector(
         onTap: () {
-          _areaController.pickImageFromGallery();
+          // _areaController.pickImageFromGallery();
         },
         child: Container(
           width: 1.sw,
@@ -374,48 +375,51 @@ class _AddHomeScreenViewsState extends State<AddHomeScreenViews> {
             borderType: BorderType.RRect,
             radius: Radius.circular(8.r),
             child: Obx(
-              () => _areaController.pickedImage.value == ''
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 16.h),
-                        Icon(
-                          CupertinoIcons.folder_fill_badge_plus,
-                          color: colorSecondaryGreen,
-                          size: 120.sp,
-                        ),
-                        SizedBox(height: 8.h),
-                        SizedBox(
-                          width: 1.sw,
-                          child: Text(
-                            'Foto Wilayah maksimal 2MB',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: colorSecondaryGreen,
-                              fontSize: 14.sp,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 16.h),
-                      ],
-                    )
-                  : Center(
-                      child: Container(
-                        height: 120.h,
-                        width: 200.w,
-                        margin: EdgeInsets.all(16.r),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          image: DecorationImage(
-                            image: FileImage(
-                              File(
-                                _areaController.pickedImage.value,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+              () {
+                return Container();
+                // return _areaController.pickedImage.value == ''
+                //   ? Column(
+                //       crossAxisAlignment: CrossAxisAlignment.center,
+                //       children: [
+                //         SizedBox(height: 16.h),
+                //         Icon(
+                //           CupertinoIcons.folder_fill_badge_plus,
+                //           color: colorSecondaryGreen,
+                //           size: 120.sp,
+                //         ),
+                //         SizedBox(height: 8.h),
+                //         SizedBox(
+                //           width: 1.sw,
+                //           child: Text(
+                //             'Foto Wilayah maksimal 2MB',
+                //             textAlign: TextAlign.center,
+                //             style: TextStyle(
+                //               color: colorSecondaryGreen,
+                //               fontSize: 14.sp,
+                //             ),
+                //           ),
+                //         ),
+                //         SizedBox(height: 16.h),
+                //       ],
+                //     )
+                //   : Center(
+                //       child: Container(
+                //         height: 120.h,
+                //         width: 200.w,
+                //         margin: EdgeInsets.all(16.r),
+                //         decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.circular(8.r),
+                //           image: DecorationImage(
+                //             image: FileImage(
+                //               File(
+                //                 _areaController.pickedImage.value,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     );
+              },
             ),
           ),
         ),

@@ -4,6 +4,14 @@ import 'dart:convert';
 import 'package:carbonstock/data/api/controllers/area/area_controller.dart';
 import 'package:carbonstock/data/api/controllers/plot/plot_controller.dart';
 import 'package:carbonstock/data/api/controllers/subplot/sub_plot_controller.dart';
+import 'package:carbonstock/data/local/localdb/area/area_db.dart';
+import 'package:carbonstock/data/local/localdb/plot/plot_db.dart';
+import 'package:carbonstock/data/local/localdb/subplot/sub_plot_a_db.dart';
+import 'package:carbonstock/data/local/model/area/area_model.dart';
+import 'package:carbonstock/data/local/model/plot/plot_model.dart';
+import 'package:carbonstock/data/local/model/subplot/sub_plot_a_model.dart';
+import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
+import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/views/views.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +20,26 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferenceService.init();
+  await Hive.initFlutter();
+  Hive.registerAdapter(AreaModelAdapter());
+  Hive.registerAdapter(PlotModelAdapter());
+
+  Hive.registerAdapter(SubPlotAreaASemaiModelAdapter());
+  Hive.registerAdapter(SubPlotAreaASeresahModelAdapter());
+  Hive.registerAdapter(SubPlotAreaATumbuhanBawahModelAdapter());
+
+  Hive.registerAdapter(SubPlotAreaBModelAdapter());
+  Hive.registerAdapter(SubPlotAreaCModelAdapter());
+
+  await PlotDB.init();
+  await AreaDB.init();
+  await SubPlotAreaDB.init();
 
   Get.put(AreaController(), permanent: true);
   Get.put(PlotController(), permanent: true);
@@ -29,6 +52,8 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(const MyApp()));
 }
+
+class SubPlotModelAdapter {}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -105,11 +130,11 @@ class _SplashScreenViewsState extends State<SplashScreenViews> {
     // }
 
     // Store location and return the current location
-      LatLng currentLatLng = LatLng(position.latitude, position.longitude);
-      Map<String, LatLng> latLngMapper = {'currentLatLng': currentLatLng};
+    LatLng currentLatLng = LatLng(position.latitude, position.longitude);
+    Map<String, LatLng> latLngMapper = {'currentLatLng': currentLatLng};
 
-      sharedPreferences.putString('latLng', jsonEncode(latLngMapper));
-      return await Geolocator.getCurrentPosition();
+    sharedPreferences.putString('latLng', jsonEncode(latLngMapper));
+    return await Geolocator.getCurrentPosition();
   }
 
   @override
