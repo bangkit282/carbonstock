@@ -5,10 +5,10 @@ class DetailSubPlotCPageScreen extends StatefulWidget {
     super.key,
     required this.areaName,
     required this.plotName,
-    required this.subPlotC,
+    required this.subPlotCList,
   });
 
-  final SubPlotAreaCModel? subPlotC;
+  final List<SubPlotAreaCModel> subPlotCList;
   final String areaName;
   final String plotName;
 
@@ -18,8 +18,8 @@ class DetailSubPlotCPageScreen extends StatefulWidget {
 }
 
 class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
-  final SubPlotController _controller = Get.find();
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
+  final SubPlotController _controller = Get.find();
 
   final TextEditingController _tiangKelilingController =
       TextEditingController();
@@ -36,7 +36,7 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
   RxDouble tiangDiameter = 0.0.obs;
   RxDouble tiangBiomassLand = 0.0.obs;
   RxDouble tiangKerapatan = 0.0.obs;
-  RxDouble tiangKarbon = 0.0.obs;
+  // RxDouble tiangKarbon = 0.0.obs;
 
   List<Map<String, String>> knownTiangListMap = [
     {'name': 'Pilih Nama Lokal', 'bioname': ''},
@@ -67,8 +67,26 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
     _tiangKerapatanJenisController.text = '${tiangKerapatan.value}';
   }
 
+  void checkSingleTiang() {
+    if (widget.subPlotCList.isNotEmpty) {
+      selectedLocalName.value = widget.subPlotCList.last.localName;
+      selectedBioName.value = widget.subPlotCList.last.bioName;
+
+      _tiangNamaIlmiahController.text = widget.subPlotCList.last.bioName;
+
+      tiangBiomassLand.value = widget.subPlotCList.last.biomassLand;
+      tiangKerapatan.value = widget.subPlotCList.last.kerapatanKayu;
+
+      _tiangKelilingController.text =
+          widget.subPlotCList.last.keliling.toStringAsFixed(2);
+      _tiangDiameterController.text =
+          widget.subPlotCList.last.diameter.toStringAsFixed(2);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    checkSingleTiang();
     initializeTiang(selectedLocalName.value);
 
     return Scaffold(
@@ -92,100 +110,110 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
         ),
         backgroundColor: colorSecondaryGreen,
       ),
-      body: Container(
-        width: 1.sw,
-        height: 1.sh,
-        margin: EdgeInsets.only(
-          top: 16.h,
-          left: 16.w,
-          right: 16.w,
-          bottom: 24.h,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            buildDetailInfo(),
-            ElevatedButton(
-              onPressed: () async {
-                if (_tiangKelilingController.text.isEmpty ||
-                    _tiangDiameterController.text.isEmpty ||
-                    selectedLocalName.value == 'Pilih Nama Lokal') {
-                  Get.snackbar(
-                    'CarbonStock',
-                    'Lengkapi data terlebih dahulu',
-                    backgroundColor: colorSecondaryGrey1,
-                  );
-                } else {
-                  double keliling = double.parse(_tiangKelilingController.text);
-                  double diameter = double.parse(_tiangDiameterController.text);
-                  String name = selectedLocalName.value;
-                  String bioName = selectedBioName.value;
-                  double kerapatanKayu = tiangKerapatan.value;
-                  double biomassLand = tiangBiomassLand.value;
-                  double carbonValue = tiangBiomassLand.value * 0.47;
-                  double carbonAbsorb =
-                      tiangBiomassLand.value * 0.47 * (44 / 12);
-
-                  SubPlotAreaCModel subPlotCModel = SubPlotAreaCModel(
-                    areaName: widget.areaName,
-                    plotName: widget.plotName,
-                    localName: name,
-                    bioName: bioName,
-                    keliling: keliling,
-                    diameter: diameter,
-                    kerapatanKayu: kerapatanKayu,
-                    biomassLand: biomassLand,
-                    carbonValue: carbonValue,
-                    carbonAbsorb: carbonAbsorb,
-                  );
-
-                  if (!_sharedPref.checkKey('tiang_data')) {
-                    await _controller.insertSubPlotC(subPlotCModel);
-                    _sharedPref.putBool('tiang_data', true);
-
-                    sleep(const Duration(seconds: 3));
-                    const Center(child: CircularProgressIndicator.adaptive());
-
-                    Get.back();
+      body: SingleChildScrollView(
+        child: Container(
+          width: 1.sw,
+          height: 1.sh,
+          margin: EdgeInsets.only(
+            top: 16.h,
+            left: 16.w,
+            right: 16.w,
+            bottom: 24.h,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildDetailInfo(),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_tiangKelilingController.text.isEmpty ||
+                      _tiangDiameterController.text.isEmpty ||
+                      selectedLocalName.value == 'Pilih Nama Lokal') {
                     Get.snackbar(
                       'CarbonStock',
-                      'Simpan Sub-Plot C Berhasil!',
+                      'Lengkapi data terlebih dahulu',
                       backgroundColor: colorSecondaryGrey1,
                     );
                   } else {
-                    await _controller.updateSubPlotC(subPlotCModel);
-                    _sharedPref.putBool('tiang_data', true);
+                    double keliling =
+                        double.parse(_tiangKelilingController.text);
+                    double diameter =
+                        double.parse(_tiangDiameterController.text);
+                    String name = selectedLocalName.value;
+                    String bioName = selectedBioName.value;
+                    double kerapatanKayu = tiangKerapatan.value;
+                    double biomassLand = tiangBiomassLand.value;
+                    double carbonValue = tiangBiomassLand.value * 0.47;
+                    double carbonAbsorb =
+                        tiangBiomassLand.value * 0.47 * (44 / 12);
 
-                    sleep(const Duration(seconds: 3));
-                    const Center(child: CircularProgressIndicator.adaptive());
+                    if (widget.subPlotCList.isEmpty) {
+                      Uuid uuid = const Uuid();
 
-                    Get.back();
-                    Get.snackbar(
-                      'CarbonStock',
-                      'Edit Sub-Plot C Berhasil!',
-                      backgroundColor: colorSecondaryGrey1,
-                    );
+                      SubPlotAreaCModel subPlotCModel = SubPlotAreaCModel(
+                        uuid: uuid.v4(),
+                        areaName: widget.areaName,
+                        plotName: widget.plotName,
+                        localName: name,
+                        bioName: bioName,
+                        keliling: keliling,
+                        diameter: diameter,
+                        kerapatanKayu: kerapatanKayu,
+                        biomassLand: biomassLand,
+                        carbonValue: carbonValue,
+                        carbonAbsorb: carbonAbsorb,
+                      );
+
+                      await _controller.insertSubPlotC(subPlotCModel);
+                      _sharedPref.putBool('tiang_data', true);
+                    } else {
+                      SubPlotAreaCModel subPlotCModel = SubPlotAreaCModel(
+                        uuid: widget.subPlotCList.last.uuid,
+                        areaName: widget.areaName,
+                        plotName: widget.plotName,
+                        localName: name,
+                        bioName: bioName,
+                        keliling: keliling,
+                        diameter: diameter,
+                        kerapatanKayu: kerapatanKayu,
+                        biomassLand: biomassLand,
+                        carbonValue: carbonValue,
+                        carbonAbsorb: carbonAbsorb,
+                      );
+
+                      await _controller.updateSubPlotC(subPlotCModel);
+                      _sharedPref.putBool('tiang_data', true);
+                    }
+
+                    if (_sharedPref.checkKey('tiang_data')) {
+                      Get.back();
+                      Get.snackbar(
+                        'CarbonStock',
+                        'Edit Sub-Plot B Berhasil!',
+                        backgroundColor: colorSecondaryGrey1,
+                      );
+                    }
                   }
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colorButtonAccentGreen,
-                fixedSize: Size(1.sw, 45.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: colorButtonAccentGreen,
+                  fixedSize: Size(1.sw, 45.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                ),
+                child: Text(
+                  'Simpan',
+                  style: TextStyle(
+                    color: colorPrimaryWhite,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14.sp,
+                  ),
                 ),
               ),
-              child: Text(
-                'Simpan',
-                style: TextStyle(
-                  color: colorPrimaryWhite,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14.sp,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -205,7 +233,12 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
           ),
         ),
         SizedBox(height: 16.h),
-        buildTiangInfo(),
+        ValueListenableBuilder(
+          valueListenable: _controller.contactCBox.listenable(),
+          builder: (context, box, _) {
+            return buildTiangInfo();
+          },
+        ),
       ],
     );
   }

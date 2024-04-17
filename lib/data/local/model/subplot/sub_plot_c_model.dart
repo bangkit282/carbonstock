@@ -1,48 +1,34 @@
-const String tableSubPlotC = 'subplot_b';
+import 'package:hive/hive.dart';
 
-class SubPlotAreaCFields {
-  static final List<String> values = [
-    id,
-    areaName,
-    plotName,
-    keliling,
-    diameter,
-    localName,
-    bioName,
-    kerapatanKayu,
-    biomassLand,
-    carbonValue,
-    carbonAbsorb
-  ];
+part 'sub_plot_c_model.g.dart';
 
-  static const String id = '_id';
-  static const String areaName = 'areaName';
-  static const String plotName = 'plotName';
-  static const String keliling = 'keliling';
-  static const String diameter = 'diameter';
-  static const String localName = 'localName';
-  static const String bioName = 'bioName';
-  static const String kerapatanKayu = 'kerapatanKayu';
-  static const String biomassLand = 'biomassLand';
-  static const String carbonValue = 'carbonValue';
-  static const String carbonAbsorb = 'carbonAbsorb';
-}
-
-class SubPlotAreaCModel {
-  final int? id;
+@HiveType(typeId: 7)
+class SubPlotAreaCModel extends HiveObject {
+  @HiveField(0)
+  final String? uuid;
+  @HiveField(1)
   final String areaName;
+  @HiveField(2)
   final String plotName;
+  @HiveField(3)
   final String localName;
+  @HiveField(4)
   final String bioName;
+  @HiveField(5)
   final double keliling;
+  @HiveField(6)
   final double diameter;
+  @HiveField(7)
   final double kerapatanKayu;
+  @HiveField(8)
   final double biomassLand;
+  @HiveField(9)
   final double carbonValue;
+  @HiveField(10)
   final double carbonAbsorb;
 
   SubPlotAreaCModel({
-    this.id,
+    this.uuid,
     required this.areaName,
     required this.plotName,
     required this.localName,
@@ -55,59 +41,19 @@ class SubPlotAreaCModel {
     required this.carbonAbsorb,
   });
 
-  SubPlotAreaCModel copy({
-    int? id,
-    String? areaName,
-    String? plotName,
-    String? localName,
-    String? bioName,
-    double? keliling,
-    double? diameter,
-    double? kerapatanKayu,
-    double? biomassLand,
-    double? carbonValue,
-    double? carbonAbsorb,
-  }) =>
-      SubPlotAreaCModel(
-        id: id ?? this.id,
-        areaName: areaName ?? this.areaName,
-        plotName: plotName ?? this.plotName,
-        localName: localName ?? this.localName,
-        bioName: bioName ?? this.bioName,
-        keliling: keliling ?? this.keliling,
-        diameter: diameter ?? this.diameter,
-        kerapatanKayu: kerapatanKayu ?? this.kerapatanKayu,
-        biomassLand: biomassLand ?? this.biomassLand,
-        carbonValue: carbonValue ?? this.carbonValue,
-        carbonAbsorb: carbonAbsorb ?? this.carbonAbsorb,
-      );
-
-  static SubPlotAreaCModel fromJson(Map<String, Object?> json) =>
-      SubPlotAreaCModel(
-        id: json['_id'] as int?,
-        areaName: json['areaName'] as String,
-        plotName: json['plotName'] as String,
-        localName: json['localName'] as String,
-        bioName: json['bioName'] as String,
-        keliling: json['keliling'] as double,
-        diameter: json['diameter'] as double,
-        kerapatanKayu: json['kerapatanKayu'] as double,
-        biomassLand: json['biomassLand'] as double,
-        carbonValue: json['carbonValue'] as double,
-        carbonAbsorb: json['carbonAbsorb'] as double,
-      );
-
-  Map<String, Object?> toJson() => {
-        '_id': id,
-        'areaName': areaName,
-        'plotName': plotName,
-        'localName': localName,
-        'bioName': bioName,
-        'keliling': keliling,
-        'diameter': diameter,
-        'kerapatanKayu': kerapatanKayu,
-        'biomassLand': biomassLand,
-        'carbonValue': carbonValue,
-        'carbonAbsorb': carbonAbsorb,
-      };
+  @override
+  String toString() {
+    return '''
+        'areaName': $areaName,
+        'plotName': $plotName,
+        'localName': $localName,
+        'bioName': $bioName,
+        'keliling': $keliling,
+        'diameter': $diameter,
+        'kerapatanKayu': $kerapatanKayu,
+        'biomassLand': $biomassLand,
+        'carbonValue': $carbonValue,
+        'carbonAbsorb': $carbonAbsorb,
+          ''';
+  }
 }

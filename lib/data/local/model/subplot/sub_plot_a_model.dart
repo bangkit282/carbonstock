@@ -1,42 +1,30 @@
-const String tableSubPlotASemai = 'subplot_a_semai';
+import 'package:hive/hive.dart';
 
-class SubPlotAreaASemaiFields {
-  static final List<String> values = [
-    id,
-    areaName,
-    plotName,
-    basahTotal,
-    basahSample,
-    keringTotal,
-    keringSample,
-    carbonValue,
-    carbonAbsorb,
-  ];
+part 'sub_plot_a_model.g.dart';
 
-  static const String id = '_id';
-  static const String areaName = 'areaName';
-  static const String plotName = 'plotName';
-  static const String basahTotal = 'basahTotal';
-  static const String basahSample = 'basahSample';
-  static const String keringTotal = 'keringTotal';
-  static const String keringSample = 'keringSample';
-  static const String carbonValue = 'carbonValue';
-  static const String carbonAbsorb = 'carbonAbsorb';
-}
-
-class SubPlotAreaASemaiModel {
-  final int? id;
+@HiveType(typeId: 3)
+class SubPlotAreaASemaiModel extends HiveObject {
+  @HiveField(0)
+  final String? uuid;
+  @HiveField(1)
   final String areaName;
+  @HiveField(2)
   final String plotName;
+  @HiveField(3)
   final double basahTotal;
+  @HiveField(4)
   final double basahSample;
+  @HiveField(5)
   final double keringTotal;
+  @HiveField(6)
   final double keringSample;
+  @HiveField(7)
   final double carbonValue;
+  @HiveField(8)
   final double carbonAbsorb;
 
   SubPlotAreaASemaiModel({
-    this.id,
+    this.uuid,
     required this.areaName,
     required this.plotName,
     required this.basahTotal,
@@ -47,59 +35,10 @@ class SubPlotAreaASemaiModel {
     required this.carbonAbsorb,
   });
 
-  SubPlotAreaASemaiModel copy({
-    int? id,
-    String? areaName,
-    String? plotName,
-    double? basahTotal,
-    double? basahSample,
-    double? keringTotal,
-    double? keringSample,
-    double? carbonValue,
-    double? carbonAbsorb,
-  }) =>
-      SubPlotAreaASemaiModel(
-        id: id ?? this.id,
-        areaName: areaName ?? this.areaName,
-        plotName: plotName ?? this.plotName,
-        basahTotal: basahTotal ?? this.basahTotal,
-        basahSample: basahSample ?? this.basahSample,
-        keringTotal: keringTotal ?? this.keringTotal,
-        keringSample: keringSample ?? this.keringSample,
-        carbonValue: carbonValue ?? this.carbonValue,
-        carbonAbsorb: carbonAbsorb ?? this.carbonAbsorb,
-      );
-
-  static SubPlotAreaASemaiModel fromJson(Map<String, Object?> json) =>
-      SubPlotAreaASemaiModel(
-        id: json['_id'] as int?,
-        areaName: json['areaName'] as String,
-        plotName: json['plotName'] as String,
-        basahTotal: json['basahTotal'] as double,
-        basahSample: json['basahSample'] as double,
-        keringTotal: json['keringTotal'] as double,
-        keringSample: json['keringSample'] as double,
-        carbonValue: json['carbonValue'] as double,
-        carbonAbsorb: json['carbonAbsorb'] as double,
-      );
-
-  Map<String, Object?> toJson() => {
-        '_id': id,
-        'areaName': areaName,
-        'plotName': plotName,
-        'basahTotal': basahTotal,
-        'basahSample': basahSample,
-        'keringTotal': keringTotal,
-        'keringSample': keringSample,
-        'carbonValue': carbonValue,
-        'carbonAbsorb': carbonAbsorb,
-      };
-
   @override
   String toString() {
     return '''
       SubPlotAreaASemaiModel(
-        id: $id,
         areaName: $areaName,
         plotName: $plotName,
         basahTotal: $basahTotal,
@@ -113,45 +52,29 @@ class SubPlotAreaASemaiModel {
   }
 }
 
-const String tableSubPlotASeresah = 'subplot_a_seresah';
-
-class SubPlotAreaASeresahFields {
-  static final List<String> values = [
-    id,
-    areaName,
-    plotName,
-    basahTotal,
-    basahSample,
-    keringTotal,
-    keringSample,
-    carbonValue,
-    carbonAbsorb,
-  ];
-
-  static const String id = '_id';
-  static const String areaName = 'areaName';
-  static const String plotName = 'plotName';
-  static const String basahTotal = 'basahTotal';
-  static const String basahSample = 'basahSample';
-  static const String keringTotal = 'keringTotal';
-  static const String keringSample = 'keringSample';
-  static const String carbonValue = 'carbonValue';
-  static const String carbonAbsorb = 'carbonAbsorb';
-}
-
-class SubPlotAreaASeresahModel {
-  final int? id;
+@HiveType(typeId: 4)
+class SubPlotAreaASeresahModel extends HiveObject {
+  @HiveField(0)
+  final String? uuid;
+  @HiveField(1)
   final String areaName;
+  @HiveField(2)
   final String plotName;
+  @HiveField(3)
   final double basahTotal;
+  @HiveField(4)
   final double basahSample;
+  @HiveField(5)
   final double keringTotal;
+  @HiveField(6)
   final double keringSample;
+  @HiveField(7)
   final double carbonValue;
+  @HiveField(8)
   final double carbonAbsorb;
 
   SubPlotAreaASeresahModel({
-    this.id,
+    this.uuid,
     required this.areaName,
     required this.plotName,
     required this.basahTotal,
@@ -162,59 +85,10 @@ class SubPlotAreaASeresahModel {
     required this.carbonAbsorb,
   });
 
-  SubPlotAreaASeresahModel copy({
-    int? id,
-    String? areaName,
-    String? plotName,
-    double? basahTotal,
-    double? basahSample,
-    double? keringTotal,
-    double? keringSample,
-    double? carbonValue,
-    double? carbonAbsorb,
-  }) =>
-      SubPlotAreaASeresahModel(
-        id: id ?? this.id,
-        areaName: areaName ?? this.areaName,
-        plotName: plotName ?? this.plotName,
-        basahTotal: basahTotal ?? this.basahTotal,
-        basahSample: basahSample ?? this.basahSample,
-        keringTotal: keringTotal ?? this.keringTotal,
-        keringSample: keringSample ?? this.keringSample,
-        carbonValue: carbonValue ?? this.carbonValue,
-        carbonAbsorb: carbonAbsorb ?? this.carbonAbsorb,
-      );
-
-  static SubPlotAreaASeresahModel fromJson(Map<String, Object?> json) =>
-      SubPlotAreaASeresahModel(
-        id: json['_id'] as int?,
-        areaName: json['areaName'] as String,
-        plotName: json['plotName'] as String,
-        basahTotal: json['basahTotal'] as double,
-        basahSample: json['basahSample'] as double,
-        keringTotal: json['keringTotal'] as double,
-        keringSample: json['keringSample'] as double,
-        carbonValue: json['carbonValue'] as double,
-        carbonAbsorb: json['carbonAbsorb'] as double,
-      );
-
-  Map<String, Object?> toJson() => {
-        '_id': id,
-        'areaName': areaName,
-        'plotName': plotName,
-        'basahTotal': basahTotal,
-        'basahSample': basahSample,
-        'keringTotal': keringTotal,
-        'keringSample': keringSample,
-        'carbonValue': carbonValue,
-        'carbonAbsorb': carbonAbsorb,
-      };
-
   @override
   String toString() {
     return '''
       SubPlotAreaASeresahModel(
-        id: $id,
         areaName: $areaName,
         plotName: $plotName,
         basahTotal: $basahTotal,
@@ -228,45 +102,29 @@ class SubPlotAreaASeresahModel {
   }
 }
 
-const String tableSubPlotATumbuhanBawah = 'subplot_a_tumbuhan';
-
-class SubPlotAreaATumbuhanBawahFields {
-  static final List<String> values = [
-    id,
-    areaName,
-    plotName,
-    basahTotal,
-    basahSample,
-    keringTotal,
-    keringSample,
-    carbonValue,
-    carbonAbsorb,
-  ];
-
-  static const String id = '_id';
-  static const String areaName = 'areaName';
-  static const String plotName = 'plotName';
-  static const String basahTotal = 'basahTotal';
-  static const String basahSample = 'basahSample';
-  static const String keringTotal = 'keringTotal';
-  static const String keringSample = 'keringSample';
-  static const String carbonValue = 'carbonValue';
-  static const String carbonAbsorb = 'carbonAbsorb';
-}
-
-class SubPlotAreaATumbuhanBawahModel {
-  final int? id;
+@HiveType(typeId: 5)
+class SubPlotAreaATumbuhanBawahModel extends HiveObject {
+  @HiveField(0)
+  final String? uuid;
+  @HiveField(1)
   final String areaName;
+  @HiveField(2)
   final String plotName;
+  @HiveField(3)
   final double basahTotal;
+  @HiveField(4)
   final double basahSample;
+  @HiveField(5)
   final double keringTotal;
+  @HiveField(6)
   final double keringSample;
+  @HiveField(7)
   final double carbonValue;
+  @HiveField(8)
   final double carbonAbsorb;
 
   SubPlotAreaATumbuhanBawahModel({
-    this.id,
+    this.uuid,
     required this.areaName,
     required this.plotName,
     required this.basahTotal,
@@ -277,59 +135,10 @@ class SubPlotAreaATumbuhanBawahModel {
     required this.carbonAbsorb,
   });
 
-  SubPlotAreaATumbuhanBawahModel copy({
-    int? id,
-    String? areaName,
-    String? plotName,
-    double? basahTotal,
-    double? basahSample,
-    double? keringTotal,
-    double? keringSample,
-    double? carbonValue,
-    double? carbonAbsorb,
-  }) =>
-      SubPlotAreaATumbuhanBawahModel(
-        id: id ?? this.id,
-        areaName: areaName ?? this.areaName,
-        plotName: plotName ?? this.plotName,
-        basahTotal: basahTotal ?? this.basahTotal,
-        basahSample: basahSample ?? this.basahSample,
-        keringTotal: keringTotal ?? this.keringTotal,
-        keringSample: keringSample ?? this.keringSample,
-        carbonValue: carbonValue ?? this.carbonValue,
-        carbonAbsorb: carbonAbsorb ?? this.carbonAbsorb,
-      );
-
-  static SubPlotAreaATumbuhanBawahModel fromJson(Map<String, Object?> json) =>
-      SubPlotAreaATumbuhanBawahModel(
-        id: json['_id'] as int?,
-        areaName: json['areaName'] as String,
-        plotName: json['plotName'] as String,
-        basahTotal: json['basahTotal'] as double,
-        basahSample: json['basahSample'] as double,
-        keringTotal: json['keringTotal'] as double,
-        keringSample: json['keringSample'] as double,
-        carbonValue: json['carbonValue'] as double,
-        carbonAbsorb: json['carbonAbsorb'] as double,
-      );
-
-  Map<String, Object?> toJson() => {
-        '_id': id,
-        'areaName': areaName,
-        'plotName': plotName,
-        'basahTotal': basahTotal,
-        'basahSample': basahSample,
-        'keringTotal': keringTotal,
-        'keringSample': keringSample,
-        'carbonValue': carbonValue,
-        'carbonAbsorb': carbonAbsorb,
-      };
-
   @override
   String toString() {
     return '''
-      SubPlotAreaASeresahModel(
-        id: $id,
+      SubPlotAreaATumbuhanBawahModel(
         areaName: $areaName,
         plotName: $plotName,
         basahTotal: $basahTotal,
@@ -342,4 +151,3 @@ class SubPlotAreaATumbuhanBawahModel {
     ''';
   }
 }
-
