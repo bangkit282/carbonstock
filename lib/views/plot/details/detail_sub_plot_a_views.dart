@@ -100,7 +100,6 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
           bottom: 24.h,
         ),
         child: SingleChildScrollView(
-          physics: const ScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -121,7 +120,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                       );
                     } else {
                       if (widget.semaiList.isEmpty) {
-                        d.log('isEmpty - insert', name: 'semai');
+                        // d.log('isEmpty - insert', name: 'semai');
                         Uuid uuid = const Uuid();
 
                         double semaiCarbon = (semaiKTotal.value * 0.47);
@@ -148,7 +147,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                         _sharedPref.putBool('subplot_a_data', true);
                       } else {
-                        d.log('isNotEmpty - update', name: 'semai');
+                        // d.log('isNotEmpty - update', name: 'semai');
 
                         double semaiCarbon = (semaiKTotal.value * 0.47);
                         double carbonAbsorb = semaiCarbon * (44 / 12);
@@ -364,7 +363,6 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
         ValueListenableBuilder(
           valueListenable: _controller.contactSemaiBox.listenable(),
           builder: (context, box, _) {
-
             if (box.isEmpty) {
               return buildSemaiInfo(null, null, null);
             } else {
@@ -380,8 +378,6 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
         ValueListenableBuilder(
             valueListenable: _controller.contactSeresahBox.listenable(),
             builder: (context, box, _) {
-              // d.log('${box.length}', name: 'length');
-
               if (box.isEmpty) {
                 return buildSeresahInfo(null, null, null);
               } else {
@@ -396,8 +392,6 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
         ValueListenableBuilder(
           valueListenable: _controller.contactTumbuhanBawahBox.listenable(),
           builder: (context, box, _) {
-            // d.log('${box.length}', name: 'length');
-
             if (box.isEmpty) {
               return buildTumbuhanInfo(null, null, null);
             } else {

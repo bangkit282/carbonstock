@@ -12,6 +12,7 @@ import 'package:carbonstock/data/local/model/plot/plot_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_a_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
+import 'package:carbonstock/data/local/model/subplot/sub_plot_d_model.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/views/views.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,10 @@ void main() async {
 
   Hive.registerAdapter(SubPlotAreaBModelAdapter());
   Hive.registerAdapter(SubPlotAreaCModelAdapter());
+
+  Hive.registerAdapter(SubPlotAreaDPohonModelAdapter());
+  Hive.registerAdapter(SubPlotAreaDNekromasModelAdapter());
+  Hive.registerAdapter(SubPlotAreaDTanahModelAdapter());
 
   await PlotDB.init();
   await AreaDB.init();

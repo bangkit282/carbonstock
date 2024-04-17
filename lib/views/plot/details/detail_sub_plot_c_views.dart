@@ -18,8 +18,8 @@ class DetailSubPlotCPageScreen extends StatefulWidget {
 }
 
 class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
-  final SubPlotController _controller = Get.find();
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
+  final SubPlotController _controller = Get.find();
 
   final TextEditingController _tiangKelilingController =
       TextEditingController();

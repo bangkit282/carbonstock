@@ -1,6 +1,9 @@
 import 'package:carbonstock/data/local/model/subplot/sub_plot_a_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
+import 'package:carbonstock/data/local/model/subplot/sub_plot_d_model.dart';
+import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:hive/hive.dart';
 
 class SubPlotAreaDB {
@@ -14,6 +17,24 @@ class SubPlotAreaDB {
   static Box<SubPlotAreaBModel> subPlotBBox = Hive.box('subplot_b');
   static Box<SubPlotAreaCModel> subPlotCBox = Hive.box('subplot_c');
 
+  static Box<SubPlotAreaDPohonModel> subPlotDPohonBox =
+      Hive.box('subplot_d_pohon');
+  static Box<SubPlotAreaDNekromasModel> subPlotDNekromasBox =
+      Hive.box('subplot_d_nekromas');
+  static Box<SubPlotAreaDTanahModel> subPlotDTanahBox =
+      Hive.box('subplot_d_tanah');
+
+  static RxBool isSubPlotSemaiDone = false.obs;
+  static RxBool isSubPlotSeresahDone = false.obs;
+  static RxBool isSubPlotBawahDone = false.obs;
+
+  static RxBool isSubPlotBDone = false.obs;
+  static RxBool isSubPlotCDone = false.obs;
+
+  static RxBool isSubPlotPohonDone = false.obs;
+  static RxBool isSubPlotNekromasDone = false.obs;
+  static RxBool isSubPlotTanahDone = false.obs;
+
   static Future<void> init() async {
     await Hive.openBox<SubPlotAreaASemaiModel>('subplot_a_semai');
     await Hive.openBox<SubPlotAreaASeresahModel>('subplot_a_seresah');
@@ -21,6 +42,10 @@ class SubPlotAreaDB {
 
     await Hive.openBox<SubPlotAreaBModel>('subplot_b');
     await Hive.openBox<SubPlotAreaCModel>('subplot_c');
+
+    await Hive.openBox<SubPlotAreaDPohonModel>('subplot_d_pohon');
+    await Hive.openBox<SubPlotAreaDNekromasModel>('subplot_d_nekromas');
+    await Hive.openBox<SubPlotAreaDTanahModel>('subplot_d_tanah');
   }
 
   // Sub Plot A
@@ -53,18 +78,24 @@ class SubPlotAreaDB {
 
   static Future<void> addSubPlotASemai(
     SubPlotAreaASemaiModel semaiModel,
-  ) async =>
-      await subPlotSemaiBox.add(semaiModel);
+  ) async {
+    isSubPlotSemaiDone.value = true;
+    await subPlotSemaiBox.add(semaiModel);
+  }
 
   static Future<void> addSubPlotASeresah(
     SubPlotAreaASeresahModel seresahModel,
-  ) async =>
-      await subPlotSeresahBox.add(seresahModel);
+  ) async {
+    isSubPlotSeresahDone.value = true;
+    await subPlotSeresahBox.add(seresahModel);
+  }
 
   static Future<void> addSubPlotABawah(
     SubPlotAreaATumbuhanBawahModel bawahModel,
-  ) async =>
-      await subPlotBawahBox.add(bawahModel);
+  ) async {
+    isSubPlotBawahDone.value = true;
+    await subPlotBawahBox.add(bawahModel);
+  }
 
   static Future<void> updateSubPlotASemai(
     SubPlotAreaASemaiModel semaiModel,
@@ -91,11 +122,13 @@ class SubPlotAreaDB {
   ) =>
       subPlotBBox.get(bModel.uuid);
 
-  static Future<void> addSubPlotB(SubPlotAreaBModel bModel) async =>
-      await subPlotBBox.add(bModel);
+  static Future<void> addSubPlotB(SubPlotAreaBModel modelB) async {
+    isSubPlotBDone.value = true;
+    await subPlotBBox.add(modelB);
+  }
 
-  static Future<void> updateSubPlotB(SubPlotAreaBModel bModel) async =>
-      await subPlotBBox.put(bModel.uuid, bModel);
+  static Future<void> updateSubPlotB(SubPlotAreaBModel modelB) async =>
+      await subPlotBBox.put(modelB.uuid, modelB);
 
   // Sub Plot C
   static List<SubPlotAreaCModel> getAllSubPlotC() {
@@ -107,9 +140,75 @@ class SubPlotAreaDB {
   ) =>
       subPlotCBox.get(bModel.uuid);
 
-  static Future<void> addSubPlotC(SubPlotAreaCModel bModel) async =>
-      await subPlotCBox.add(bModel);
+  static Future<void> addSubPlotC(SubPlotAreaCModel bModel) async {
+    isSubPlotCDone.value = true;
+    await subPlotCBox.add(bModel);
+  }
 
   static Future<void> updateSubPlotC(SubPlotAreaCModel bModel) async =>
       await subPlotCBox.put(bModel.uuid, bModel);
+
+  // Sub Plot D
+  static List<SubPlotAreaDPohonModel> getAllSubPlotPohon() {
+    return subPlotDPohonBox.values.toList();
+  }
+
+  static List<SubPlotAreaDNekromasModel> getAllSubPlotNekromas() {
+    return subPlotDNekromasBox.values.toList();
+  }
+
+  static List<SubPlotAreaDTanahModel> getAllSubPlotTanah() {
+    return subPlotDTanahBox.values.toList();
+  }
+
+  static SubPlotAreaDPohonModel? getSpecificSubPlotPohon(
+    SubPlotAreaDPohonModel pohonModel,
+  ) =>
+      subPlotDPohonBox.get(pohonModel.uuid);
+
+  static SubPlotAreaDNekromasModel? getSpecificSubPlotNekromas(
+    SubPlotAreaDNekromasModel nekromasModel,
+  ) =>
+      subPlotDNekromasBox.get(nekromasModel.uuid);
+
+  static SubPlotAreaDTanahModel? getSpecificSubPlotTanah(
+    SubPlotAreaDTanahModel tanahModel,
+  ) =>
+      subPlotDTanahBox.get(tanahModel.uuid);
+
+  static Future<void> addSubPlotPohon(
+    SubPlotAreaDPohonModel pohonModel,
+  ) async {
+    isSubPlotPohonDone.value = true;
+    await subPlotDPohonBox.add(pohonModel);
+  }
+
+  static Future<void> addSubPlotNekromas(
+    SubPlotAreaDNekromasModel nekromasModel,
+  ) async {
+    isSubPlotNekromasDone.value = true;
+    await subPlotDNekromasBox.add(nekromasModel);
+  }
+
+  static Future<void> addSubPlotTanah(
+    SubPlotAreaDTanahModel tanahModel,
+  ) async {
+    isSubPlotTanahDone.value = true;
+    await subPlotDTanahBox.add(tanahModel);
+  }
+
+  static Future<void> updateSubPlotPohon(
+    SubPlotAreaDPohonModel pohonModel,
+  ) async =>
+      await subPlotDPohonBox.put(pohonModel.uuid, pohonModel);
+
+  static Future<void> updateSubPlotNekromas(
+    SubPlotAreaDNekromasModel nekromasModel,
+  ) async =>
+      await subPlotDNekromasBox.put(nekromasModel.uuid, nekromasModel);
+
+  static Future<void> updateSubPlotTanah(
+    SubPlotAreaDTanahModel tanahModel,
+  ) async =>
+      await subPlotDTanahBox.put(tanahModel.uuid, tanahModel);
 }

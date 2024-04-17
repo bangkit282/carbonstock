@@ -4,12 +4,14 @@ import 'dart:math';
 import 'dart:developer' as d;
 
 import 'package:carbonstock/data/api/controllers/plot/plot_controller.dart';
+import 'package:carbonstock/data/api/controllers/subplot/sub_plot_controller.dart';
 import 'package:carbonstock/data/local/localdb/subplot/sub_plot_db.dart';
 import 'package:carbonstock/data/local/model/area/area_model.dart';
 import 'package:carbonstock/data/local/model/plot/plot_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_a_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
+import 'package:carbonstock/data/local/model/subplot/sub_plot_d_model.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/utils/style_theme.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -18,11 +20,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:uuid/uuid.dart';
-
-import '../data/api/controllers/subplot/sub_plot_controller.dart';
 
 // Home
 part 'home/home_views.dart';
@@ -38,6 +39,7 @@ part 'plot/details/detail_sub_plot_a_views.dart';
 part 'plot/details/detail_sub_plot_b_views.dart';
 part 'plot/details/detail_sub_plot_c_views.dart';
 part 'plot/details/detail_sub_plot_d_views.dart';
+// part 'plot/details/detail_sub_views.dart';
 
 part 'auth/login_views.dart';
 part 'auth/register_views.dart';

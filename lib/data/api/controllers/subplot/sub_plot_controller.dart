@@ -4,6 +4,7 @@ import 'package:carbonstock/data/local/localdb/subplot/sub_plot_db.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_a_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
+import 'package:carbonstock/data/local/model/subplot/sub_plot_d_model.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -28,6 +29,10 @@ class SubPlotController extends GetxController {
 
   final contactBBox = SubPlotAreaDB.subPlotBBox;
   final contactCBox = SubPlotAreaDB.subPlotCBox;
+
+  final contactDPohonBox = SubPlotAreaDB.subPlotDPohonBox;
+  final contactDNekromasBox = SubPlotAreaDB.subPlotDNekromasBox;
+  final contactDTanahBox = SubPlotAreaDB.subPlotDTanahBox;
 
   // Sub Plot A
   Future<void> insertSubPlotA(
@@ -221,332 +226,129 @@ class SubPlotController extends GetxController {
 
     await SubPlotAreaDB.updateSubPlotC(subPlotC);
   }
+
+  // Sub Plot D
+  Future<void> insertSubPlotD(
+    SubPlotAreaDPohonModel? subPlotModelPohon,
+    SubPlotAreaDNekromasModel? subPlotModelNekromas,
+    SubPlotAreaDTanahModel? subPlotModelTanah,
+  ) async {
+    isLoading(true);
+
+    if (subPlotModelPohon != null) {
+      final SubPlotAreaDPohonModel subPlotPohon = SubPlotAreaDPohonModel(
+        uuid: subPlotModelPohon.uuid,
+        areaName: subPlotModelPohon.areaName,
+        plotName: subPlotModelPohon.plotName,
+        keliling: subPlotModelPohon.keliling,
+        diameter: subPlotModelPohon.diameter,
+        localName: subPlotModelPohon.localName,
+        bioName: subPlotModelPohon.bioName,
+        kerapatanKayu: subPlotModelPohon.kerapatanKayu,
+        biomassLand: subPlotModelPohon.biomassLand,
+        carbonValue: subPlotModelPohon.carbonValue,
+        carbonAbsorb: subPlotModelPohon.carbonAbsorb,
+      );
+
+      await SubPlotAreaDB.addSubPlotPohon(subPlotPohon);
+    }
+
+    if (subPlotModelNekromas != null) {
+      final SubPlotAreaDNekromasModel subPlotNekromas =
+          SubPlotAreaDNekromasModel(
+        uuid: subPlotModelNekromas.uuid,
+        areaName: subPlotModelNekromas.areaName,
+        plotName: subPlotModelNekromas.plotName,
+        diameterPangkal: subPlotModelNekromas.diameterPangkal,
+        diameterUjung: subPlotModelNekromas.diameterUjung,
+        panjang: subPlotModelNekromas.panjang,
+        volume: subPlotModelNekromas.volume,
+        biomassLand: subPlotModelNekromas.biomassLand,
+        carbonValue: subPlotModelNekromas.carbonValue,
+        carbonAbsorb: subPlotModelNekromas.carbonAbsorb,
+      );
+
+      await SubPlotAreaDB.addSubPlotNekromas(subPlotNekromas);
+    }
+
+    if (subPlotModelTanah != null) {
+      final SubPlotAreaDTanahModel subPlotTanah = SubPlotAreaDTanahModel(
+        uuid: subPlotModelTanah.uuid,
+        areaName: subPlotModelTanah.areaName,
+        plotName: subPlotModelTanah.plotName,
+        kedalamanSample: subPlotModelTanah.kedalamanSample,
+        beratJenisTanah: subPlotModelTanah.beratJenisTanah,
+        organicTanah: subPlotModelTanah.organicTanah,
+        carbonGrCm: subPlotModelTanah.carbonGrCm,
+        carbonTonHa: subPlotModelTanah.carbonTonHa,
+        carbonTon: subPlotModelTanah.carbonTon,
+        carbonAbsorb: subPlotModelTanah.carbonAbsorb,
+      );
+
+      await SubPlotAreaDB.addSubPlotTanah(subPlotTanah);
+    }
+    isLoading(false);
+  }
+
+  Future<void> updateSubPlotD(
+    SubPlotAreaDPohonModel? subPlotModelPohon,
+    SubPlotAreaDNekromasModel? subPlotModelNekromas,
+    SubPlotAreaDTanahModel? subPlotModelTanah,
+  ) async {
+    isLoading(true);
+
+    if (subPlotModelPohon != null) {
+      final SubPlotAreaDPohonModel subPlotPohon = SubPlotAreaDPohonModel(
+        uuid: subPlotModelPohon.uuid,
+        areaName: subPlotModelPohon.areaName,
+        plotName: subPlotModelPohon.plotName,
+        keliling: subPlotModelPohon.keliling,
+        diameter: subPlotModelPohon.diameter,
+        localName: subPlotModelPohon.localName,
+        bioName: subPlotModelPohon.bioName,
+        kerapatanKayu: subPlotModelPohon.kerapatanKayu,
+        biomassLand: subPlotModelPohon.biomassLand,
+        carbonValue: subPlotModelPohon.carbonValue,
+        carbonAbsorb: subPlotModelPohon.carbonAbsorb,
+      );
+
+      await SubPlotAreaDB.updateSubPlotPohon(subPlotPohon);
+    }
+
+    if (subPlotModelNekromas != null) {
+      final SubPlotAreaDNekromasModel subPlotNekromas =
+          SubPlotAreaDNekromasModel(
+        uuid: subPlotModelNekromas.uuid,
+        areaName: subPlotModelNekromas.areaName,
+        plotName: subPlotModelNekromas.plotName,
+        diameterPangkal: subPlotModelNekromas.diameterPangkal,
+        diameterUjung: subPlotModelNekromas.diameterUjung,
+        panjang: subPlotModelNekromas.panjang,
+        volume: subPlotModelNekromas.volume,
+        biomassLand: subPlotModelNekromas.biomassLand,
+        carbonValue: subPlotModelNekromas.carbonValue,
+        carbonAbsorb: subPlotModelNekromas.carbonAbsorb,
+      );
+
+      await SubPlotAreaDB.updateSubPlotNekromas(subPlotNekromas);
+    }
+
+    if (subPlotModelTanah != null) {
+      final SubPlotAreaDTanahModel subPlotTanah = SubPlotAreaDTanahModel(
+        uuid: subPlotModelTanah.uuid,
+        areaName: subPlotModelTanah.areaName,
+        plotName: subPlotModelTanah.plotName,
+        kedalamanSample: subPlotModelTanah.kedalamanSample,
+        beratJenisTanah: subPlotModelTanah.beratJenisTanah,
+        organicTanah: subPlotModelTanah.organicTanah,
+        carbonGrCm: subPlotModelTanah.carbonGrCm,
+        carbonTonHa: subPlotModelTanah.carbonTonHa,
+        carbonTon: subPlotModelTanah.carbonTon,
+        carbonAbsorb: subPlotModelTanah.carbonAbsorb,
+      );
+
+      await SubPlotAreaDB.updateSubPlotTanah(subPlotTanah);
+    }
+    isLoading(false);
+  }
 }
-
-// class SubPlotController extends GetxController {
-//   RxString pickedImage = ''.obs;
-//   RxBool isLoading = false.obs;
-
-//   RxList subPlotAList = [].obs;
-
-//   Stream<List<SubPlotAreaBModel>> streamSubPlotBList =
-//       SubPlotBAreaDB.instance.readAllSubPlotB().map(
-//             (subPlotList) => subPlotList
-//                 .map(
-//                   (subPlot) => SubPlotAreaBModel(
-//                     id: subPlot.id,
-//                     areaName: subPlot.areaName,
-//                     plotName: subPlot.plotName,
-//                     keliling: subPlot.keliling,
-//                     diameter: subPlot.diameter,
-//                     localName: subPlot.localName,
-//                     bioName: subPlot.bioName,
-//                     kerapatanKayu: subPlot.kerapatanKayu,
-//                     biomassLand: subPlot.biomassLand,
-//                     carbonValue: subPlot.carbonValue,
-//                     carbonAbsorb: subPlot.carbonAbsorb,
-//                   ),
-//                 )
-//                 .toList(),
-//           );
-
-//   Stream<List<SubPlotAreaCModel>> streamSubPlotCList =
-//       SubPlotCAreaDB.instance.readAllSubPlotC().map(
-//             (subPlotList) => subPlotList
-//                 .map(
-//                   (subPlot) => SubPlotAreaCModel(
-//                     id: subPlot.id,
-//                     areaName: subPlot.areaName,
-//                     plotName: subPlot.plotName,
-//                     keliling: subPlot.keliling,
-//                     diameter: subPlot.diameter,
-//                     localName: subPlot.localName,
-//                     bioName: subPlot.bioName,
-//                     kerapatanKayu: subPlot.kerapatanKayu,
-//                     biomassLand: subPlot.biomassLand,
-//                     carbonValue: subPlot.carbonValue,
-//                     carbonAbsorb: subPlot.carbonAbsorb,
-//                   ),
-//                 )
-//                 .toList(),
-//           );
-
-//   Future<List>? readAllSubPlotA() async {
-//     isLoading.value = true;
-//     final combined = subPlotAList([
-//       _readAllSubPlotASemai(),
-//       _readAllSubPlotASeresah(),
-//       _readAllSubPlotATumbuhan(),
-//     ]);
-//     isLoading.value = false;
-
-//     return combined;
-//   }
-
-//   Future<List<SubPlotAreaASemaiModel>>? _readAllSubPlotASemai() async {
-//     isLoading.value = true;
-//     final result = await subPlotASemaiList;
-//     isLoading.value = false;
-
-//     return result;
-//   }
-
-//   Future<List<SubPlotAreaASeresahModel>>? _readAllSubPlotASeresah() async {
-//     isLoading.value = true;
-//     final result = await subPlotASeresahList;
-//     isLoading.value = false;
-
-//     return result;
-//   }
-
-//   Future<List<SubPlotAreaATumbuhanBawahModel>>?
-//       _readAllSubPlotATumbuhan() async {
-//     isLoading.value = true;
-//     final result = await subPlotATumbuhanList;
-//     isLoading.value = false;
-
-//     return result;
-//   }
-
-//   Stream<List<SubPlotAreaBModel>>? readAllSubPlotBAsStream() async* {
-//     isLoading.value = true;
-//     streamSubPlotBList = SubPlotBAreaDB.instance.readAllSubPlotB().map(
-//           (subPlotList) => subPlotList,
-//         );
-//     isLoading.value = false;
-
-//     yield* streamSubPlotBList;
-//   }
-
-//   Stream<List<SubPlotAreaCModel>>? readAllSubPlotCAsStream() async* {
-//     isLoading.value = true;
-//     streamSubPlotCList = SubPlotCAreaDB.instance.readAllSubPlotC().map(
-//           (subPlotList) => subPlotList,
-//         );
-//     isLoading.value = false;
-
-//     yield* streamSubPlotCList;
-//   }
-
-//   // Future<SubPlotAreaAModel?> readSingleSubPlotA(int id) async {
-//   //   SubPlotAreaAModel? foundSubPlot;
-
-//   //   await for (final subPlotAList in streamSubPlotAList) {
-//   //     for (final subPlotA in subPlotAList) {
-//   //       if (subPlotA.id == id) {
-//   //         foundSubPlot = subPlotA;
-//   //         break;
-//   //       }
-//   //     }
-
-//   //     if (foundSubPlot != null) {
-//   //       break;
-//   //     }
-//   //   }
-//   // }
-
-//   // Future<SubPlotAreaBModel?> readSingleSubPlotB(int id) async {
-//   //   SubPlotAreaBModel? foundSubPlot;
-
-//   //   await for (final subPlotBList in streamSubPlotBList) {
-//   //     for (final subPlotB in subPlotBList) {
-//   //       if (subPlotB.id == id) {
-//   //         foundSubPlot = subPlotB;
-//   //         break;
-//   //       }
-//   //     }
-
-//   //     if (foundSubPlot != null) {
-//   //       break;
-//   //     }
-//   //   }
-
-//   //   return foundSubPlot;
-//   // }
-
-//   // Future<SubPlotAreaCModel?> readSingleSubPlotC(int id) async {
-//   //   SubPlotAreaCModel? foundSubPlot;
-
-//   //   await for (final subPlotCList in streamSubPlotCList) {
-//   //     for (final subPlotC in subPlotCList) {
-//   //       if (subPlotC.id == id) {
-//   //         foundSubPlot = subPlotC;
-//   //         break;
-//   //       }
-//   //     }
-
-//   //     if (foundSubPlot != null) {
-//   //       break;
-//   //     }
-//   //   }
-
-//   //   return foundSubPlot;
-//   // }
-
-//   Future<void> insertSubPlotASemai(SubPlotAreaASemaiModel subPlotA) async {
-//     final SubPlotAreaASemaiModel model = SubPlotAreaASemaiModel(
-//       areaName: subPlotA.areaName,
-//       plotName: subPlotA.plotName,
-//       basahTotal: subPlotA.basahTotal,
-//       basahSample: subPlotA.basahSample,
-//       keringTotal: subPlotA.keringTotal,
-//       keringSample: subPlotA.keringSample,
-//       carbonValue: subPlotA.carbonValue,
-//       carbonAbsorb: subPlotA.carbonAbsorb,
-//     );
-
-//     await SubPlotAAreaDB.instance.insertSubPlotASemai(model);
-//   }
-
-//   Future<void> insertSubPlotASeresah(SubPlotAreaASeresahModel subPlotA) async {
-//     final SubPlotAreaASeresahModel model = SubPlotAreaASeresahModel(
-//       areaName: subPlotA.areaName,
-//       plotName: subPlotA.plotName,
-//       basahTotal: subPlotA.basahTotal,
-//       basahSample: subPlotA.basahSample,
-//       keringTotal: subPlotA.keringTotal,
-//       keringSample: subPlotA.keringSample,
-//       carbonValue: subPlotA.carbonValue,
-//       carbonAbsorb: subPlotA.carbonAbsorb,
-//     );
-
-//     await SubPlotAAreaDB.instance.insertSubPlotASeresah(model);
-//   }
-
-//   Future<void> insertSubPlotATumbuhan(
-//       SubPlotAreaATumbuhanBawahModel subPlotA) async {
-//     final SubPlotAreaATumbuhanBawahModel model = SubPlotAreaATumbuhanBawahModel(
-//       areaName: subPlotA.areaName,
-//       plotName: subPlotA.plotName,
-//       basahTotal: subPlotA.basahTotal,
-//       basahSample: subPlotA.basahSample,
-//       keringTotal: subPlotA.keringTotal,
-//       keringSample: subPlotA.keringSample,
-//       carbonValue: subPlotA.carbonValue,
-//       carbonAbsorb: subPlotA.carbonAbsorb,
-//     );
-
-//     await SubPlotAAreaDB.instance.insertSubPlotATumbuhan(model);
-//   }
-
-//   Future<void> insertSubPlotB(SubPlotAreaBModel subPlotB) async {
-//     final SubPlotAreaBModel model = SubPlotAreaBModel(
-//       areaName: subPlotB.areaName,
-//       plotName: subPlotB.plotName,
-//       keliling: subPlotB.keliling,
-//       diameter: subPlotB.diameter,
-//       localName: subPlotB.localName,
-//       bioName: subPlotB.bioName,
-//       kerapatanKayu: subPlotB.kerapatanKayu,
-//       biomassLand: subPlotB.biomassLand,
-//       carbonValue: subPlotB.carbonValue,
-//       carbonAbsorb: subPlotB.carbonAbsorb,
-//     );
-
-//     await SubPlotBAreaDB.instance.insertSubPlot(model);
-//   }
-
-//   Future<void> insertSubPlotC(SubPlotAreaCModel subPlotC) async {
-//     final SubPlotAreaCModel model = SubPlotAreaCModel(
-//       areaName: subPlotC.areaName,
-//       plotName: subPlotC.plotName,
-//       keliling: subPlotC.keliling,
-//       diameter: subPlotC.diameter,
-//       localName: subPlotC.localName,
-//       bioName: subPlotC.bioName,
-//       kerapatanKayu: subPlotC.kerapatanKayu,
-//       biomassLand: subPlotC.biomassLand,
-//       carbonValue: subPlotC.carbonValue,
-//       carbonAbsorb: subPlotC.carbonAbsorb,
-//     );
-
-//     await SubPlotCAreaDB.instance.insertSubPlotC(model);
-//   }
-
-//   Future<void> updateSubPlotASemai(
-//     SubPlotAreaASemaiModel subPlotA,
-//   ) async {
-//     log('keupdate $subPlotA');
-
-//     final SubPlotAreaASemaiModel model = SubPlotAreaASemaiModel(
-//       areaName: subPlotA.areaName,
-//       plotName: subPlotA.plotName,
-//       basahTotal: subPlotA.basahTotal,
-//       basahSample: subPlotA.basahSample,
-//       keringTotal: subPlotA.keringTotal,
-//       keringSample: subPlotA.keringSample,
-//       carbonValue: subPlotA.carbonValue,
-//       carbonAbsorb: subPlotA.carbonAbsorb,
-//     );
-
-//     await SubPlotAAreaDB.instance.updateSubPlotASemai(model);
-//   }
-
-//   Future<void> updateSubPlotASeresah(
-//     SubPlotAreaASeresahModel subPlotA,
-//   ) async {
-//     final SubPlotAreaASeresahModel model = SubPlotAreaASeresahModel(
-//       areaName: subPlotA.areaName,
-//       plotName: subPlotA.plotName,
-//       basahTotal: subPlotA.basahTotal,
-//       basahSample: subPlotA.basahSample,
-//       keringTotal: subPlotA.keringTotal,
-//       keringSample: subPlotA.keringSample,
-//       carbonValue: subPlotA.carbonValue,
-//       carbonAbsorb: subPlotA.carbonAbsorb,
-//     );
-
-//     await SubPlotAAreaDB.instance.updateSubPlotASeresah(model);
-//   }
-
-//   Future<void> updateSubPlotATumbuhan(
-//     SubPlotAreaATumbuhanBawahModel subPlotA,
-//   ) async {
-//     final SubPlotAreaATumbuhanBawahModel model = SubPlotAreaATumbuhanBawahModel(
-//       areaName: subPlotA.areaName,
-//       plotName: subPlotA.plotName,
-//       basahTotal: subPlotA.basahTotal,
-//       basahSample: subPlotA.basahSample,
-//       keringTotal: subPlotA.keringTotal,
-//       keringSample: subPlotA.keringSample,
-//       carbonValue: subPlotA.carbonValue,
-//       carbonAbsorb: subPlotA.carbonAbsorb,
-//     );
-
-//     await SubPlotAAreaDB.instance.updateSubPlotATumbuhan(model);
-//   }
-
-//   Future<void> updateSubPlotB(SubPlotAreaBModel subPlotB) async {
-//     final SubPlotAreaBModel model = SubPlotAreaBModel(
-//       areaName: subPlotB.areaName,
-//       plotName: subPlotB.plotName,
-//       keliling: subPlotB.keliling,
-//       diameter: subPlotB.diameter,
-//       localName: subPlotB.localName,
-//       bioName: subPlotB.bioName,
-//       kerapatanKayu: subPlotB.kerapatanKayu,
-//       biomassLand: subPlotB.biomassLand,
-//       carbonValue: subPlotB.carbonValue,
-//       carbonAbsorb: subPlotB.carbonAbsorb,
-//     );
-
-//     await SubPlotBAreaDB.instance.updateSubPlotB(model);
-//   }
-
-//   Future<void> updateSubPlotC(SubPlotAreaCModel subPlotC) async {
-//     final SubPlotAreaCModel model = SubPlotAreaCModel(
-//       areaName: subPlotC.areaName,
-//       plotName: subPlotC.plotName,
-//       keliling: subPlotC.keliling,
-//       diameter: subPlotC.diameter,
-//       localName: subPlotC.localName,
-//       bioName: subPlotC.bioName,
-//       kerapatanKayu: subPlotC.kerapatanKayu,
-//       biomassLand: subPlotC.biomassLand,
-//       carbonValue: subPlotC.carbonValue,
-//       carbonAbsorb: subPlotC.carbonAbsorb,
-//     );
-
-//     await SubPlotCAreaDB.instance.updateSubPlotC(model);
-//   }
-// }

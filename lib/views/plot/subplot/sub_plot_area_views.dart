@@ -166,7 +166,6 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       ],
                     ),
                     buildCardButton(subPlotAlphabet),
-                
                   ],
                 ),
               ),
@@ -179,232 +178,321 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
 
   Widget buildCardButton(String plotAlphabet) {
     if (plotAlphabet == 'A') {
-      if (SubPlotAreaDB.getAllSubPlotSemai().isNotEmpty ||
-          SubPlotAreaDB.getAllSubPlotSeresah().isNotEmpty ||
-          SubPlotAreaDB.getAllSubPlotBawah().isNotEmpty) {
-        return Container(
-          margin: EdgeInsets.only(left: 16.w),
-          child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
-                    areaName: widget.areaName,  
-                    plotName: widget.plotName,
-                    semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
-                    seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
-                    tumbuhanList: SubPlotAreaDB.getAllSubPlotBawah(),
+      return Obx(
+        () {
+          return SubPlotAreaDB.isSubPlotSemaiDone.value ||
+                  SubPlotAreaDB.isSubPlotSeresahDone.value ||
+                  SubPlotAreaDB.isSubPlotBawahDone.value
+              ? Container(
+                  margin: EdgeInsets.only(left: 16.w),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
+                            areaName: widget.areaName,
+                            plotName: widget.plotName,
+                            semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
+                            seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
+                            tumbuhanList: SubPlotAreaDB.getAllSubPlotBawah(),
+                          ),
+                          transitionsBuilder: (_, animation, __, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      backgroundColor: colorButtonAccentGreen,
+                    ),
+                    child: const Text(
+                      'Edit',
+                      style: TextStyle(
+                        color: colorPrimaryWhite,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                  transitionsBuilder: (_, animation, __, child) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: child,
+                )
+              : TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
+                          seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
+                          tumbuhanList: SubPlotAreaDB.getAllSubPlotBawah(),
+                        ),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                      ),
                     );
                   },
-                ),
-              );
-            },
-            style: TextButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              backgroundColor: colorButtonAccentGreen,
-            ),
-            child: Text(
-              'Edit',
-              style: TextStyle(
-                color: colorPrimaryWhite,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        );
-      } else {
-        return TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
-                  areaName: widget.areaName,
-                  plotName: widget.plotName,
-                  semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
-                  seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
-                  tumbuhanList: SubPlotAreaDB.getAllSubPlotBawah(),
-                ),
-                transitionsBuilder: (_, animation, __, child) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                },
-              ),
-            );
-          },
-          style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            backgroundColor: colorButtonAccentGreen,
-          ),
-          child: Text(
-            'Tambah',
-            style: TextStyle(
-              color: colorPrimaryWhite,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        );
-      }
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    backgroundColor: colorButtonAccentGreen,
+                  ),
+                  child: const Text(
+                    'Tambah',
+                    style: TextStyle(
+                      color: colorPrimaryWhite,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                );
+        },
+      );
     } else if (plotAlphabet == 'B') {
-      if (SubPlotAreaDB.getAllSubPlotB().isNotEmpty) {
-        return Container(
-          margin: EdgeInsets.only(left: 16.w),
-          child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
-                    areaName: widget.areaName,
-                    plotName: widget.plotName,
-                    subPlotBList: SubPlotAreaDB.getAllSubPlotB(),
+      return Obx(
+        () {
+          return SubPlotAreaDB.isSubPlotBDone.value
+              ? Container(
+                  margin: EdgeInsets.only(left: 16.w),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
+                            subPlotBList: SubPlotAreaDB.getAllSubPlotB(),
+                            areaName: widget.areaName,
+                            plotName: widget.plotName,
+                          ),
+                          transitionsBuilder: (_, animation, __, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      backgroundColor: colorButtonAccentGreen,
+                    ),
+                    child: const Text(
+                      'Edit',
+                      style: TextStyle(
+                        color: colorPrimaryWhite,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                  transitionsBuilder: (_, animation, __, child) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: child,
+                )
+              : TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
+                          subPlotBList: SubPlotAreaDB.getAllSubPlotB(),
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                        ),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                      ),
                     );
                   },
-                ),
-              );
-            },
-            style: TextButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              backgroundColor: colorButtonAccentGreen,
-            ),
-            child: Text(
-              'Edit',
-              style: TextStyle(
-                color: colorPrimaryWhite,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        );
-      } else {
-        return TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
-                  areaName: widget.areaName,
-                  plotName: widget.plotName,
-                  subPlotBList: SubPlotAreaDB.getAllSubPlotB(),
-                ),
-                transitionsBuilder: (_, animation, __, child) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                },
-              ),
-            );
-          },
-          style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            backgroundColor: colorButtonAccentGreen,
-          ),
-          child: Text(
-            'Tambah',
-            style: TextStyle(
-              color: colorPrimaryWhite,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        );
-      }
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    backgroundColor: colorButtonAccentGreen,
+                  ),
+                  child: const Text(
+                    'Tambah',
+                    style: TextStyle(
+                      color: colorPrimaryWhite,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                );
+        },
+      );
     } else if (plotAlphabet == 'C') {
-      if (SubPlotAreaDB.getAllSubPlotC().isNotEmpty) {
-        return Container(
-          margin: EdgeInsets.only(left: 16.w),
-          child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => DetailSubPlotCPageScreen(
-                    areaName: widget.areaName,
-                    plotName: widget.plotName,
-                    subPlotCList: SubPlotAreaDB.getAllSubPlotC(),
+      return Obx(
+        () {
+          return SubPlotAreaDB.isSubPlotCDone.value
+              ? Container(
+                  margin: EdgeInsets.only(left: 16.w),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => DetailSubPlotCPageScreen(
+                            subPlotCList: SubPlotAreaDB.getAllSubPlotC(),
+                            areaName: widget.areaName,
+                            plotName: widget.plotName,
+                          ),
+                          transitionsBuilder: (_, animation, __, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      backgroundColor: colorButtonAccentGreen,
+                    ),
+                    child: const Text(
+                      'Edit',
+                      style: TextStyle(
+                        color: colorPrimaryWhite,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                  transitionsBuilder: (_, animation, __, child) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: child,
+                )
+              : TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => DetailSubPlotCPageScreen(
+                          subPlotCList: SubPlotAreaDB.getAllSubPlotC(),
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                        ),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                      ),
                     );
                   },
-                ),
-              );
-            },
-            style: TextButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              backgroundColor: colorButtonAccentGreen,
-            ),
-            child: Text(
-              'Edit',
-              style: TextStyle(
-                color: colorPrimaryWhite,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        );
-      } else {
-        return TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => DetailSubPlotCPageScreen(
-                  areaName: widget.areaName,
-                  plotName: widget.plotName,
-                  subPlotCList: SubPlotAreaDB.getAllSubPlotC(),
-                ),
-                transitionsBuilder: (_, animation, __, child) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                },
-              ),
-            );
-          },
-          style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            backgroundColor: colorButtonAccentGreen,
-          ),
-          child: Text(
-            'Tambah',
-            style: TextStyle(
-              color: colorPrimaryWhite,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        );
-      }
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    backgroundColor: colorButtonAccentGreen,
+                  ),
+                  child: const Text(
+                    'Tambah',
+                    style: TextStyle(
+                      color: colorPrimaryWhite,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                );
+        },
+      );
     } else if (plotAlphabet == 'D') {
-      return Container();
+      return Obx(
+        () {
+          return SubPlotAreaDB.isSubPlotPohonDone.value ||
+                  SubPlotAreaDB.isSubPlotNekromasDone.value ||
+                  SubPlotAreaDB.isSubPlotTanahDone.value
+              ? Container(
+                  margin: EdgeInsets.only(left: 16.w),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => DetailSubPlotDPageScreen(
+                            subPlotDPohonList:
+                                SubPlotAreaDB.getAllSubPlotPohon(),
+                            subPlotDNekromasList:
+                                SubPlotAreaDB.getAllSubPlotNekromas(),
+                            subPlotDTanahList:
+                                SubPlotAreaDB.getAllSubPlotTanah(),
+                            areaName: widget.areaName,
+                            plotName: widget.plotName,
+                          ),
+                          transitionsBuilder: (_, animation, __, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      backgroundColor: colorButtonAccentGreen,
+                    ),
+                    child: const Text(
+                      'Edit',
+                      style: TextStyle(
+                        color: colorPrimaryWhite,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                )
+              : TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => DetailSubPlotDPageScreen(
+                          subPlotDPohonList: SubPlotAreaDB.getAllSubPlotPohon(),
+                          subPlotDNekromasList:
+                              SubPlotAreaDB.getAllSubPlotNekromas(),
+                          subPlotDTanahList: SubPlotAreaDB.getAllSubPlotTanah(),
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                        ),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    backgroundColor: colorButtonAccentGreen,
+                  ),
+                  child: const Text(
+                    'Tambah',
+                    style: TextStyle(
+                      color: colorPrimaryWhite,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                );
+        },
+      );
     } else {
       return Container();
     }
