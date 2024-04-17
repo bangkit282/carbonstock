@@ -8,7 +8,7 @@ class AddHomeScreenViews extends StatefulWidget {
 }
 
 class _AddHomeScreenViewsState extends State<AddHomeScreenViews> {
-  final AreaController _areaController = Get.find();
+  // final AreaController _areaController = Get.find();
   final _addAreaFormKey = GlobalKey<FormState>(debugLabel: 'add-area');
 
   final TextEditingController _areaNameController = TextEditingController();
@@ -106,37 +106,43 @@ class _AddHomeScreenViewsState extends State<AddHomeScreenViews> {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_addAreaFormKey.currentState!.validate()) {
-                      String areaName = _areaNameController.text;
-                      String locationName = _locationNameController.text;
-                      // String imageUrl = _areaController.pickedImage.value;
-                      String imageUrl = '';
-                      String forestType = _selectedForest!;
-                      String landType = _selectedLand!;
-                      DateTime createdAt = DateTime.now();
-                      String notationTeam = _notationTeam.text;
-
-                      // AreaModel areaModel = AreaModel(
-                      //   areaName: areaName,
-                      //   areaLocation: locationName,
-                      //   areaImage: imageUrl,
-                      //   forestType: forestType,
-                      //   landType: landType,
-                      //   createdAt: createdAt,
-                      //   notationTeam: notationTeam,
-                      // );
-
-                      // await _areaController.insertArea(areaModel);
-
                       Get.snackbar(
                         'CarbonStock',
-                        'Add Area Success!',
-                        backgroundColor: colorSecondaryGreen,
-                        colorText: colorPrimaryWhite,
+                        'Still in development!',
+                        backgroundColor: colorSecondaryGrey1,
                       );
-
-                      sleep(const Duration(seconds: 2));
-                      Get.off(() => const HomeScreenViews());
                     }
+
+                    // String areaName = _areaNameController.text;
+                    // String locationName = _locationNameController.text;
+                    // // String imageUrl = _areaController.pickedImage.value;
+                    // String imageUrl = '';
+                    // String forestType = _selectedForest!;
+                    // String landType = _selectedLand!;
+                    // DateTime createdAt = DateTime.now();
+                    // String notationTeam = _notationTeam.text;
+
+                    // AreaModel areaModel = AreaModel(
+                    //   areaName: areaName,
+                    //   areaLocation: locationName,
+                    //   areaImage: imageUrl,
+                    //   forestType: forestType,
+                    //   landType: landType,
+                    //   createdAt: createdAt,
+                    //   notationTeam: notationTeam,
+                    // );
+
+                    // await _areaController.insertArea(areaModel);
+
+                    // Get.snackbar(
+                    //   'CarbonStock',
+                    //   'Add Area Success!',
+                    //   backgroundColor: colorSecondaryGreen,
+                    //   colorText: colorPrimaryWhite,
+                    // );
+
+                    // sleep(const Duration(seconds: 2));
+                    // Get.off(() => const HomeScreenViews());
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colorButtonAccentGreen,

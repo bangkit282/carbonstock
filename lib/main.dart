@@ -6,7 +6,7 @@ import 'package:carbonstock/data/api/controllers/plot/plot_controller.dart';
 import 'package:carbonstock/data/api/controllers/subplot/sub_plot_controller.dart';
 import 'package:carbonstock/data/local/localdb/area/area_db.dart';
 import 'package:carbonstock/data/local/localdb/plot/plot_db.dart';
-import 'package:carbonstock/data/local/localdb/subplot/sub_plot_a_db.dart';
+import 'package:carbonstock/data/local/localdb/subplot/sub_plot_db.dart';
 import 'package:carbonstock/data/local/model/area/area_model.dart';
 import 'package:carbonstock/data/local/model/plot/plot_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_a_model.dart';

@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:carbonstock/data/local/localdb/subplot/sub_plot_a_db.dart';
+import 'package:carbonstock/data/local/localdb/subplot/sub_plot_db.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_a_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
