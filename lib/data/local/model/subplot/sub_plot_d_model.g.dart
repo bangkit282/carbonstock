@@ -29,13 +29,14 @@ class SubPlotAreaDPohonModelAdapter
       biomassLand: fields[8] as double,
       carbonValue: fields[9] as double,
       carbonAbsorb: fields[10] as double,
+      updateAt: fields[11] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaDPohonModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -57,7 +58,9 @@ class SubPlotAreaDPohonModelAdapter
       ..writeByte(9)
       ..write(obj.carbonValue)
       ..writeByte(10)
-      ..write(obj.carbonAbsorb);
+      ..write(obj.carbonAbsorb)
+      ..writeByte(11)
+      ..write(obj.updateAt);
   }
 
   @override
@@ -93,13 +96,14 @@ class SubPlotAreaDNekromasModelAdapter
       biomassLand: fields[7] as double,
       carbonValue: fields[8] as double,
       carbonAbsorb: fields[9] as double,
+      updateAt: fields[10] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaDNekromasModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -119,7 +123,9 @@ class SubPlotAreaDNekromasModelAdapter
       ..writeByte(8)
       ..write(obj.carbonValue)
       ..writeByte(9)
-      ..write(obj.carbonAbsorb);
+      ..write(obj.carbonAbsorb)
+      ..writeByte(10)
+      ..write(obj.updateAt);
   }
 
   @override
@@ -155,13 +161,14 @@ class SubPlotAreaDTanahModelAdapter
       carbonTonHa: fields[7] as double,
       carbonTon: fields[8] as double,
       carbonAbsorb: fields[9] as double,
+      updateAt: fields[10] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaDTanahModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -181,7 +188,9 @@ class SubPlotAreaDTanahModelAdapter
       ..writeByte(8)
       ..write(obj.carbonTon)
       ..writeByte(9)
-      ..write(obj.carbonAbsorb);
+      ..write(obj.carbonAbsorb)
+      ..writeByte(10)
+      ..write(obj.updateAt);
   }
 
   @override

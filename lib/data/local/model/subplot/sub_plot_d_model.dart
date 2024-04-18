@@ -26,6 +26,8 @@ class SubPlotAreaDPohonModel extends HiveObject {
   final double carbonValue;
   @HiveField(10)
   final double carbonAbsorb;
+  @HiveField(11)
+  final DateTime updateAt;
 
   SubPlotAreaDPohonModel({
     required this.uuid,
@@ -39,6 +41,7 @@ class SubPlotAreaDPohonModel extends HiveObject {
     required this.biomassLand,
     required this.carbonValue,
     required this.carbonAbsorb,
+    required this.updateAt,
   });
 
   @override
@@ -54,7 +57,8 @@ class SubPlotAreaDPohonModel extends HiveObject {
         'biomassLand': $biomassLand,
         'carbonValue': $carbonValue,
         'carbonAbsorb': $carbonAbsorb,
-          ''';
+        'updateAt': $updateAt
+        ''';
   }
 }
 
@@ -80,6 +84,8 @@ class SubPlotAreaDNekromasModel extends HiveObject {
   final double carbonValue;
   @HiveField(9)
   final double carbonAbsorb;
+  @HiveField(10)
+  final DateTime updateAt;
 
   SubPlotAreaDNekromasModel({
     required this.uuid,
@@ -92,6 +98,7 @@ class SubPlotAreaDNekromasModel extends HiveObject {
     required this.biomassLand,
     required this.carbonValue,
     required this.carbonAbsorb,
+    required this.updateAt,
   });
 
   @override
@@ -104,6 +111,7 @@ class SubPlotAreaDNekromasModel extends HiveObject {
       'biomassLand': $biomassLand,
       'carbonValue': $carbonValue,
       'carbonAbsorb': $carbonAbsorb,
+      'updateAt': $updateAt
     ''';
   }
 }
@@ -130,6 +138,8 @@ class SubPlotAreaDTanahModel extends HiveObject {
   final double carbonTon;
   @HiveField(9)
   final double carbonAbsorb;
+  @HiveField(10)
+  final DateTime updateAt;
 
   SubPlotAreaDTanahModel({
     required this.uuid,
@@ -142,6 +152,7 @@ class SubPlotAreaDTanahModel extends HiveObject {
     required this.carbonTonHa,
     required this.carbonTon,
     required this.carbonAbsorb,
+    required this.updateAt,
   });
 
   @override
@@ -154,6 +165,7 @@ class SubPlotAreaDTanahModel extends HiveObject {
       'carbonTonHa': $carbonTonHa,
       'carbonTon': $carbonTon,
       'carbonAbsorb': $carbonAbsorb,
+      'updateAt': $updateAt
     ''';
   }
 }

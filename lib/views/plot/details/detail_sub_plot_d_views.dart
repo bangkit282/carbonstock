@@ -200,6 +200,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           localName: name,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
+                          updateAt: DateTime.now(),
                         );
 
                         await _controller.insertSubPlotD(
@@ -224,6 +225,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           localName: name,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
+                          updateAt: DateTime.now(),
                         );
 
                         await _controller.updateSubPlotD(
@@ -274,6 +276,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           biomassLand: biomass,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
+                          updateAt: DateTime.now(),
                         );
 
                         await _controller.insertSubPlotD(
@@ -297,6 +300,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           biomassLand: biomass,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
+                          updateAt: DateTime.now(),
                         );
 
                         await _controller.updateSubPlotD(
@@ -348,6 +352,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           carbonTonHa: karbonTonHa,
                           carbonTon: karbonTon,
                           carbonAbsorb: carbonAbsorb,
+                          updateAt: DateTime.now(),
                         );
 
                         await _controller.insertSubPlotD(
@@ -371,6 +376,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           carbonTonHa: karbonTonHa,
                           carbonTon: karbonTon,
                           carbonAbsorb: carbonAbsorb,
+                          updateAt: DateTime.now(),
                         );
 
                         await _controller.updateSubPlotD(

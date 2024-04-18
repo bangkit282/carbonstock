@@ -248,6 +248,7 @@ class SubPlotController extends GetxController {
         biomassLand: subPlotModelPohon.biomassLand,
         carbonValue: subPlotModelPohon.carbonValue,
         carbonAbsorb: subPlotModelPohon.carbonAbsorb,
+        updateAt: subPlotModelPohon.updateAt,
       );
 
       await SubPlotAreaDB.addSubPlotPohon(subPlotPohon);
@@ -266,6 +267,7 @@ class SubPlotController extends GetxController {
         biomassLand: subPlotModelNekromas.biomassLand,
         carbonValue: subPlotModelNekromas.carbonValue,
         carbonAbsorb: subPlotModelNekromas.carbonAbsorb,
+        updateAt: subPlotModelNekromas.updateAt,
       );
 
       await SubPlotAreaDB.addSubPlotNekromas(subPlotNekromas);
@@ -283,6 +285,7 @@ class SubPlotController extends GetxController {
         carbonTonHa: subPlotModelTanah.carbonTonHa,
         carbonTon: subPlotModelTanah.carbonTon,
         carbonAbsorb: subPlotModelTanah.carbonAbsorb,
+        updateAt: subPlotModelTanah.updateAt,
       );
 
       await SubPlotAreaDB.addSubPlotTanah(subPlotTanah);
@@ -310,6 +313,7 @@ class SubPlotController extends GetxController {
         biomassLand: subPlotModelPohon.biomassLand,
         carbonValue: subPlotModelPohon.carbonValue,
         carbonAbsorb: subPlotModelPohon.carbonAbsorb,
+        updateAt: subPlotModelPohon.updateAt,
       );
 
       await SubPlotAreaDB.updateSubPlotPohon(subPlotPohon);
@@ -328,6 +332,7 @@ class SubPlotController extends GetxController {
         biomassLand: subPlotModelNekromas.biomassLand,
         carbonValue: subPlotModelNekromas.carbonValue,
         carbonAbsorb: subPlotModelNekromas.carbonAbsorb,
+        updateAt: subPlotModelNekromas.updateAt,
       );
 
       await SubPlotAreaDB.updateSubPlotNekromas(subPlotNekromas);
@@ -345,6 +350,7 @@ class SubPlotController extends GetxController {
         carbonTonHa: subPlotModelTanah.carbonTonHa,
         carbonTon: subPlotModelTanah.carbonTon,
         carbonAbsorb: subPlotModelTanah.carbonAbsorb,
+        updateAt: subPlotModelTanah.updateAt,
       );
 
       await SubPlotAreaDB.updateSubPlotTanah(subPlotTanah);
