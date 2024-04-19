@@ -18,6 +18,7 @@ class DetailSubPlotCPageScreen extends StatefulWidget {
 }
 
 class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
+  final _tiangKelilingFormKey = GlobalKey<FormState>();
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
   final SubPlotController _controller = Get.find();
 
@@ -136,63 +137,67 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                       backgroundColor: colorSecondaryGrey1,
                     );
                   } else {
-                    double keliling =
-                        double.parse(_tiangKelilingController.text);
-                    double diameter =
-                        double.parse(_tiangDiameterController.text);
-                    String name = selectedLocalName.value;
-                    String bioName = selectedBioName.value;
-                    double kerapatanKayu = tiangKerapatan.value;
-                    double biomassLand = tiangBiomassLand.value;
-                    double carbonValue = tiangBiomassLand.value * 0.47;
-                    double carbonAbsorb =
-                        tiangBiomassLand.value * 0.47 * (44 / 12);
+                    if (_tiangKelilingFormKey.currentState!.validate()) {
+                      double keliling =
+                          double.parse(_tiangKelilingController.text);
+                      double diameter =
+                          double.parse(_tiangDiameterController.text);
+                      String name = selectedLocalName.value;
+                      String bioName = selectedBioName.value;
+                      double kerapatanKayu = tiangKerapatan.value;
+                      double biomassLand = tiangBiomassLand.value;
+                      double carbonValue = tiangBiomassLand.value * 0.47;
+                      double carbonAbsorb =
+                          tiangBiomassLand.value * 0.47 * (44 / 12);
 
-                    if (widget.subPlotCList.isEmpty) {
-                      Uuid uuid = const Uuid();
+                      if (widget.subPlotCList.isEmpty) {
+                        Uuid uuid = const Uuid();
 
-                      SubPlotAreaCModel subPlotCModel = SubPlotAreaCModel(
-                        uuid: uuid.v4(),
-                        areaName: widget.areaName,
-                        plotName: widget.plotName,
-                        localName: name,
-                        bioName: bioName,
-                        keliling: keliling,
-                        diameter: diameter,
-                        kerapatanKayu: kerapatanKayu,
-                        biomassLand: biomassLand,
-                        carbonValue: carbonValue,
-                        carbonAbsorb: carbonAbsorb,
-                      );
+                        SubPlotAreaCModel subPlotCModel = SubPlotAreaCModel(
+                          uuid: uuid.v4(),
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          localName: name,
+                          bioName: bioName,
+                          keliling: keliling,
+                          diameter: diameter,
+                          kerapatanKayu: kerapatanKayu,
+                          biomassLand: biomassLand,
+                          carbonValue: carbonValue,
+                          carbonAbsorb: carbonAbsorb,
+                          subPlotCPhotoUrl: '',
+                        );
 
-                      await _controller.insertSubPlotC(subPlotCModel);
-                      _sharedPref.putBool('tiang_data', true);
-                    } else {
-                      SubPlotAreaCModel subPlotCModel = SubPlotAreaCModel(
-                        uuid: widget.subPlotCList.last.uuid,
-                        areaName: widget.areaName,
-                        plotName: widget.plotName,
-                        localName: name,
-                        bioName: bioName,
-                        keliling: keliling,
-                        diameter: diameter,
-                        kerapatanKayu: kerapatanKayu,
-                        biomassLand: biomassLand,
-                        carbonValue: carbonValue,
-                        carbonAbsorb: carbonAbsorb,
-                      );
+                        await _controller.insertSubPlotC(subPlotCModel);
+                        _sharedPref.putBool('tiang_data', true);
+                      } else {
+                        SubPlotAreaCModel subPlotCModel = SubPlotAreaCModel(
+                          uuid: widget.subPlotCList.last.uuid,
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          localName: name,
+                          bioName: bioName,
+                          keliling: keliling,
+                          diameter: diameter,
+                          kerapatanKayu: kerapatanKayu,
+                          biomassLand: biomassLand,
+                          carbonValue: carbonValue,
+                          carbonAbsorb: carbonAbsorb,
+                          subPlotCPhotoUrl: '',
+                        );
 
-                      await _controller.updateSubPlotC(subPlotCModel);
-                      _sharedPref.putBool('tiang_data', true);
-                    }
+                        await _controller.updateSubPlotC(subPlotCModel);
+                        _sharedPref.putBool('tiang_data', true);
+                      }
 
-                    if (_sharedPref.checkKey('tiang_data')) {
-                      Get.back();
-                      Get.snackbar(
-                        'CarbonStock',
-                        'Edit Sub-Plot B Berhasil!',
-                        backgroundColor: colorSecondaryGrey1,
-                      );
+                      if (_sharedPref.checkKey('tiang_data')) {
+                        Get.back();
+                        Get.snackbar(
+                          'CarbonStock',
+                          'Edit Sub-Plot B Berhasil!',
+                          backgroundColor: colorSecondaryGrey1,
+                        );
+                      }
                     }
                   }
                 },
@@ -273,33 +278,44 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                 ),
                 SizedBox(
                   width: 160.w,
-                  child: TextFormField(
-                    controller: _tiangKelilingController,
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      if (value.isNotEmpty) {
-                        tiangDiameter.value = double.parse(value) / (22 / 7);
-                        _tiangDiameterController.text =
-                            tiangDiameter.value.toStringAsFixed(2);
-
-                        if (tiangKerapatan.value != 0.0) {
-                          tiangBiomassLand.value = 0.11 *
-                              tiangKerapatan.value *
-                              (pow(tiangDiameter.value, 2.62));
+                  child: Form(
+                    key: _tiangKelilingFormKey,
+                    child: TextFormField(
+                      controller: _tiangKelilingController,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (double.parse(value!) < 10 ||
+                            double.parse(value) > 19.9) {
+                          return 'Tidak boleh kurang dari\n10cm atau lebih dari\n19.9cm!';
                         }
-                      } else {
-                        _tiangDiameterController.text = '';
-                        tiangBiomassLand.value = 0.0;
-                      }
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Keliling (cm)',
-                      hintStyle: const TextStyle(color: colorSecondaryGrey1),
-                      isDense: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: const BorderSide(
-                          color: colorSecondaryGrey1,
+
+                        return null;
+                      },
+                      onChanged: (value) {
+                        if (value.isNotEmpty) {
+                          tiangDiameter.value = double.parse(value) / (22 / 7);
+                          _tiangDiameterController.text =
+                              tiangDiameter.value.toStringAsFixed(2);
+
+                          if (tiangKerapatan.value != 0.0) {
+                            tiangBiomassLand.value = 0.11 *
+                                tiangKerapatan.value *
+                                (pow(tiangDiameter.value, 2.62));
+                          }
+                        } else {
+                          _tiangDiameterController.text = '';
+                          tiangBiomassLand.value = 0.0;
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Keliling (cm)',
+                        hintStyle: const TextStyle(color: colorSecondaryGrey1),
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: const BorderSide(
+                            color: colorSecondaryGrey1,
+                          ),
                         ),
                       ),
                     ),

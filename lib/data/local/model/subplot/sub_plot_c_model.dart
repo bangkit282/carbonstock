@@ -26,6 +26,8 @@ class SubPlotAreaCModel extends HiveObject {
   final double carbonValue;
   @HiveField(10)
   final double carbonAbsorb;
+  @HiveField(11)
+  final String subPlotCPhotoUrl;
 
   SubPlotAreaCModel({
     this.uuid,
@@ -39,6 +41,7 @@ class SubPlotAreaCModel extends HiveObject {
     required this.biomassLand,
     required this.carbonValue,
     required this.carbonAbsorb,
+    required this.subPlotCPhotoUrl,
   });
 
   @override
@@ -54,6 +57,7 @@ class SubPlotAreaCModel extends HiveObject {
         'biomassLand': $biomassLand,
         'carbonValue': $carbonValue,
         'carbonAbsorb': $carbonAbsorb,
+        'subPlotCPhotoUrl': $subPlotCPhotoUrl,
           ''';
   }
 }

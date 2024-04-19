@@ -3,6 +3,42 @@ import 'package:hive/hive.dart';
 part 'sub_plot_d_model.g.dart';
 
 @HiveType(typeId: 8)
+class SubPlotAreaDModel extends HiveObject {
+  @HiveField(0)
+  final String? uuid;
+  @HiveField(1)
+  final String areaName;
+  @HiveField(2)
+  final String plotName;
+  @HiveField(3)
+  final List<dynamic>? subPlotDModels;
+  @HiveField(4)
+  final String subPlotDPhotoUrl;
+  @HiveField(5)
+  final DateTime updateAt;
+
+  SubPlotAreaDModel({
+    required this.uuid,
+    required this.areaName,
+    required this.plotName,
+    this.subPlotDModels,
+    required this.subPlotDPhotoUrl,
+    required this.updateAt,
+  });
+
+  @override
+  String toString() {
+    return '''
+      areaName: $areaName,
+      plotName: $plotName,
+      subPlotDList: $subPlotDModels,
+      subPlotDPhoto: $subPlotDPhotoUrl, 
+      updateAt: $updateAt
+    ''';
+  }
+}
+
+@HiveType(typeId: 9)
 class SubPlotAreaDPohonModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
@@ -26,6 +62,8 @@ class SubPlotAreaDPohonModel extends HiveObject {
   final double carbonValue;
   @HiveField(10)
   final double carbonAbsorb;
+  @HiveField(11)
+  final DateTime updateAt;
 
   SubPlotAreaDPohonModel({
     required this.uuid,
@@ -39,6 +77,7 @@ class SubPlotAreaDPohonModel extends HiveObject {
     required this.biomassLand,
     required this.carbonValue,
     required this.carbonAbsorb,
+    required this.updateAt,
   });
 
   @override
@@ -54,11 +93,12 @@ class SubPlotAreaDPohonModel extends HiveObject {
         'biomassLand': $biomassLand,
         'carbonValue': $carbonValue,
         'carbonAbsorb': $carbonAbsorb,
-          ''';
+        'updateAt': $updateAt
+        ''';
   }
 }
 
-@HiveType(typeId: 9)
+@HiveType(typeId: 10)
 class SubPlotAreaDNekromasModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
@@ -80,6 +120,8 @@ class SubPlotAreaDNekromasModel extends HiveObject {
   final double carbonValue;
   @HiveField(9)
   final double carbonAbsorb;
+  @HiveField(10)
+  final DateTime updateAt;
 
   SubPlotAreaDNekromasModel({
     required this.uuid,
@@ -92,6 +134,7 @@ class SubPlotAreaDNekromasModel extends HiveObject {
     required this.biomassLand,
     required this.carbonValue,
     required this.carbonAbsorb,
+    required this.updateAt,
   });
 
   @override
@@ -104,11 +147,12 @@ class SubPlotAreaDNekromasModel extends HiveObject {
       'biomassLand': $biomassLand,
       'carbonValue': $carbonValue,
       'carbonAbsorb': $carbonAbsorb,
+      'updateAt': $updateAt
     ''';
   }
 }
 
-@HiveType(typeId: 10)
+@HiveType(typeId: 11)
 class SubPlotAreaDTanahModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
@@ -130,6 +174,8 @@ class SubPlotAreaDTanahModel extends HiveObject {
   final double carbonTon;
   @HiveField(9)
   final double carbonAbsorb;
+  @HiveField(10)
+  final DateTime updateAt;
 
   SubPlotAreaDTanahModel({
     required this.uuid,
@@ -142,6 +188,7 @@ class SubPlotAreaDTanahModel extends HiveObject {
     required this.carbonTonHa,
     required this.carbonTon,
     required this.carbonAbsorb,
+    required this.updateAt,
   });
 
   @override
@@ -154,6 +201,7 @@ class SubPlotAreaDTanahModel extends HiveObject {
       'carbonTonHa': $carbonTonHa,
       'carbonTon': $carbonTon,
       'carbonAbsorb': $carbonAbsorb,
+      'updateAt': $updateAt
     ''';
   }
 }

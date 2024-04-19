@@ -73,10 +73,17 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
               margin: EdgeInsets.symmetric(horizontal: 16.w),
               child: ElevatedButton(
                 onPressed: () {
-                  Get.snackbar(
-                    'CarbonStock',
-                    'Still in development!',
-                    backgroundColor: colorSecondaryGrey1,
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => const SummaryPageViews(),
+                      transitionsBuilder: (_, animation, __, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -193,6 +200,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                           pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
                             areaName: widget.areaName,
                             plotName: widget.plotName,
+                            plotAList: SubPlotAreaDB.getAllSubPlotA(),
                             semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
                             seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
                             tumbuhanList: SubPlotAreaDB.getAllSubPlotBawah(),
@@ -229,6 +237,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                         pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
                           areaName: widget.areaName,
                           plotName: widget.plotName,
+                          plotAList: SubPlotAreaDB.getAllSubPlotA(),
                           semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
                           seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
                           tumbuhanList: SubPlotAreaDB.getAllSubPlotBawah(),
@@ -422,6 +431,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                         context,
                         PageRouteBuilder(
                           pageBuilder: (_, __, ___) => DetailSubPlotDPageScreen(
+                            subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
                             subPlotDPohonList:
                                 SubPlotAreaDB.getAllSubPlotPohon(),
                             subPlotDNekromasList:
@@ -461,6 +471,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (_, __, ___) => DetailSubPlotDPageScreen(
+                          subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
                           subPlotDPohonList: SubPlotAreaDB.getAllSubPlotPohon(),
                           subPlotDNekromasList:
                               SubPlotAreaDB.getAllSubPlotNekromas(),
@@ -497,179 +508,4 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
       return Container();
     }
   }
-
-  // Widget buildButtonAByIndex(
-  //   int index,
-  //   String areaName,
-  //   String plotName,
-  //   List<dynamic>? listModelA,
-  // ) {
-  //   if (index == 0) {
-  //     return Container(
-  //       margin: EdgeInsets.only(left: 24.w),
-  //       child: ElevatedButton(
-  //         onPressed: () {
-  //           Navigator.push(
-  //             context,
-  //             PageRouteBuilder(
-  //               pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
-  //                 areaName: areaName,
-  //                 plotName: plotName,
-  //                 subPlotA: listModelA,
-  //               ),
-  //               transitionsBuilder: (_, animation, __, child) {
-  //                 return FadeTransition(
-  //                   opacity: animation,
-  //                   child: child,
-  //                 );
-  //               },
-  //             ),
-  //           );
-  //         },
-  //         style: ElevatedButton.styleFrom(
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(8.r),
-  //           ),
-  //           backgroundColor: colorButtonAccentGreen,
-  //         ),
-  //         child: const Text(
-  //           'Edit',
-  //           style: TextStyle(
-  //             color: colorPrimaryWhite,
-  //             fontWeight: FontWeight.w600,
-  //           ),
-  //         ),
-  //       ),
-  //     );
-  //   } else {
-  //     return Container();
-  //   }
-  // }
-
-  // Widget buildButtonByIndex(
-  //   int index,
-  //   String areaName,
-  //   String plotName,
-  //   SubPlotAreaBModel? modelB,
-  //   SubPlotAreaCModel? modelC,
-  // ) {
-  //   if (index == 1) {
-  //     return Container(
-  //       margin: EdgeInsets.only(left: 24.w),
-  //       child: ElevatedButton(
-  //         onPressed: () {
-  //           Navigator.push(
-  //             context,
-  //             PageRouteBuilder(
-  //               pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
-  //                 subPlotB: modelB,
-  //                 areaName: areaName,
-  //                 plotName: plotName,
-  //               ),
-  //               transitionsBuilder: (_, animation, __, child) {
-  //                 return FadeTransition(
-  //                   opacity: animation,
-  //                   child: child,
-  //                 );
-  //               },
-  //             ),
-  //           );
-  //         },
-  //         style: ElevatedButton.styleFrom(
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(8.r),
-  //           ),
-  //           backgroundColor: colorButtonAccentGreen,
-  //         ),
-  //         child: const Text(
-  //           'Edit',
-  //           style: TextStyle(
-  //             color: colorPrimaryWhite,
-  //             fontWeight: FontWeight.w600,
-  //           ),
-  //         ),
-  //       ),
-  //     );
-  //   } else if (index == 2) {
-  //     return Container(
-  //       margin: EdgeInsets.only(left: 24.w),
-  //       child: ElevatedButton(
-  //         onPressed: () {
-  //           Navigator.push(
-  //             context,
-  //             PageRouteBuilder(
-  //               pageBuilder: (_, __, ___) => DetailSubPlotCPageScreen(
-  //                 subPlotC: modelC,
-  //                 areaName: areaName,
-  //                 plotName: plotName,
-  //               ),
-  //               transitionsBuilder: (_, animation, __, child) {
-  //                 return FadeTransition(
-  //                   opacity: animation,
-  //                   child: child,
-  //                 );
-  //               },
-  //             ),
-  //           );
-  //         },
-  //         style: ElevatedButton.styleFrom(
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(8.r),
-  //           ),
-  //           backgroundColor: colorButtonAccentGreen,
-  //         ),
-  //         child: const Text(
-  //           'Edit',
-  //           style: TextStyle(
-  //             color: colorPrimaryWhite,
-  //             fontWeight: FontWeight.w600,
-  //           ),
-  //         ),
-  //       ),
-  //     );
-  //   } else {
-  //     return Container(
-  //       margin: EdgeInsets.only(left: 24.w),
-  //       child: ElevatedButton(
-  //         onPressed: () {
-  //           Get.snackbar(
-  //             'CarbonStock',
-  //             'Still in development! Only Sub Plot B & C is ready!',
-  //             backgroundColor: colorSecondaryGrey1,
-  //           );
-
-  // Navigator.push(
-  //   context,
-  //   PageRouteBuilder(
-  //     pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
-  //       subPlotB: null,
-  //       areaName: areaName,
-  //       plotName: plotName,
-  //     ),
-  //     transitionsBuilder: (_, animation, __, child) {
-  //       return FadeTransition(
-  //         opacity: animation,
-  //         child: child,
-  //       );
-  //     },
-  //   ),
-  // );
-  // },
-  //         style: ElevatedButton.styleFrom(
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(8.r),
-  //           ),
-  //           backgroundColor: colorButtonAccentGreen,
-  //         ),
-  //         child: const Text(
-  //           'Edit',
-  //           style: TextStyle(
-  //             color: colorPrimaryWhite,
-  //             fontWeight: FontWeight.w600,
-  //           ),
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }
 }

@@ -62,7 +62,7 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
           return Center(
             child: SizedBox(
               width: 1.sw,
-              height: 300.h,
+              height: 600.h,
               child: Column(
                 children: [
                   Image.asset('assets/images/placeholder_isempty.png'),

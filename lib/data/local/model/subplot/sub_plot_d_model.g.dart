@@ -6,10 +6,59 @@ part of 'sub_plot_d_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
+class SubPlotAreaDModelAdapter extends TypeAdapter<SubPlotAreaDModel> {
+  @override
+  final int typeId = 8;
+
+  @override
+  SubPlotAreaDModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return SubPlotAreaDModel(
+      uuid: fields[0] as String?,
+      areaName: fields[1] as String,
+      plotName: fields[2] as String,
+      subPlotDModels: (fields[3] as List?)?.cast<dynamic>(),
+      subPlotDPhotoUrl: fields[4] as String,
+      updateAt: fields[5] as DateTime,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, SubPlotAreaDModel obj) {
+    writer
+      ..writeByte(6)
+      ..writeByte(0)
+      ..write(obj.uuid)
+      ..writeByte(1)
+      ..write(obj.areaName)
+      ..writeByte(2)
+      ..write(obj.plotName)
+      ..writeByte(3)
+      ..write(obj.subPlotDModels)
+      ..writeByte(4)
+      ..write(obj.subPlotDPhotoUrl)
+      ..writeByte(5)
+      ..write(obj.updateAt);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SubPlotAreaDModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
 class SubPlotAreaDPohonModelAdapter
     extends TypeAdapter<SubPlotAreaDPohonModel> {
   @override
-  final int typeId = 8;
+  final int typeId = 9;
 
   @override
   SubPlotAreaDPohonModel read(BinaryReader reader) {
@@ -29,13 +78,14 @@ class SubPlotAreaDPohonModelAdapter
       biomassLand: fields[8] as double,
       carbonValue: fields[9] as double,
       carbonAbsorb: fields[10] as double,
+      updateAt: fields[11] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaDPohonModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -57,7 +107,9 @@ class SubPlotAreaDPohonModelAdapter
       ..writeByte(9)
       ..write(obj.carbonValue)
       ..writeByte(10)
-      ..write(obj.carbonAbsorb);
+      ..write(obj.carbonAbsorb)
+      ..writeByte(11)
+      ..write(obj.updateAt);
   }
 
   @override
@@ -74,7 +126,7 @@ class SubPlotAreaDPohonModelAdapter
 class SubPlotAreaDNekromasModelAdapter
     extends TypeAdapter<SubPlotAreaDNekromasModel> {
   @override
-  final int typeId = 9;
+  final int typeId = 10;
 
   @override
   SubPlotAreaDNekromasModel read(BinaryReader reader) {
@@ -93,13 +145,14 @@ class SubPlotAreaDNekromasModelAdapter
       biomassLand: fields[7] as double,
       carbonValue: fields[8] as double,
       carbonAbsorb: fields[9] as double,
+      updateAt: fields[10] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaDNekromasModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -119,7 +172,9 @@ class SubPlotAreaDNekromasModelAdapter
       ..writeByte(8)
       ..write(obj.carbonValue)
       ..writeByte(9)
-      ..write(obj.carbonAbsorb);
+      ..write(obj.carbonAbsorb)
+      ..writeByte(10)
+      ..write(obj.updateAt);
   }
 
   @override
@@ -136,7 +191,7 @@ class SubPlotAreaDNekromasModelAdapter
 class SubPlotAreaDTanahModelAdapter
     extends TypeAdapter<SubPlotAreaDTanahModel> {
   @override
-  final int typeId = 10;
+  final int typeId = 11;
 
   @override
   SubPlotAreaDTanahModel read(BinaryReader reader) {
@@ -155,13 +210,14 @@ class SubPlotAreaDTanahModelAdapter
       carbonTonHa: fields[7] as double,
       carbonTon: fields[8] as double,
       carbonAbsorb: fields[9] as double,
+      updateAt: fields[10] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaDTanahModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -181,7 +237,9 @@ class SubPlotAreaDTanahModelAdapter
       ..writeByte(8)
       ..write(obj.carbonTon)
       ..writeByte(9)
-      ..write(obj.carbonAbsorb);
+      ..write(obj.carbonAbsorb)
+      ..writeByte(10)
+      ..write(obj.updateAt);
   }
 
   @override
