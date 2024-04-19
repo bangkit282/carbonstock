@@ -5,6 +5,7 @@ class DetailSubPlotAPageScreen extends StatefulWidget {
     super.key,
     required this.areaName,
     required this.plotName,
+    required this.plotAList,
     required this.semaiList,
     required this.seresahList,
     required this.tumbuhanList,
@@ -12,6 +13,7 @@ class DetailSubPlotAPageScreen extends StatefulWidget {
 
   final String areaName;
   final String plotName;
+  final List<SubPlotAreaAModel> plotAList;
   final List<SubPlotAreaASemaiModel> semaiList;
   final List<SubPlotAreaASeresahModel> seresahList;
   final List<SubPlotAreaATumbuhanBawahModel> tumbuhanList;
@@ -107,6 +109,19 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
               buildDetailInfo(),
               ElevatedButton(
                 onPressed: () async {
+                  Uuid uuid = const Uuid();
+
+                  final subPlotAreaAModel = SubPlotAreaAModel(
+                    uuid: uuid.v4(),
+                    areaName: widget.areaName,
+                    plotName: widget.plotName,
+                    subPlotAModels: widget.plotAList.isNotEmpty
+                        ? widget.plotAList.last.subPlotAModels
+                        : [],
+                    subPlotAPhotoUrl: '',
+                    updateAt: DateTime.now(),
+                  );
+
                   if (_semaiBTotalController.text.isNotEmpty ||
                       _semaiBSampleController.text.isNotEmpty ||
                       _semaiKSampleController.text.isNotEmpty) {
@@ -121,13 +136,10 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                     } else {
                       if (widget.semaiList.isEmpty) {
                         // d.log('isEmpty - insert', name: 'semai');
-                        Uuid uuid = const Uuid();
-
                         double semaiCarbon = (semaiKTotal.value * 0.47);
                         double carbonAbsorb = semaiCarbon * (44 / 12);
 
-                        SubPlotAreaASemaiModel subPlotASemai =
-                            SubPlotAreaASemaiModel(
+                        final subPlotASemai = SubPlotAreaASemaiModel(
                           uuid: uuid.v4(),
                           areaName: widget.areaName,
                           plotName: widget.plotName,
@@ -140,6 +152,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         await _controller.insertSubPlotA(
+                          subPlotAreaAModel,
                           subPlotASemai,
                           null,
                           null,
@@ -147,13 +160,10 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                         _sharedPref.putBool('subplot_a_data', true);
                       } else {
-                        // d.log('isNotEmpty - update', name: 'semai');
-
                         double semaiCarbon = (semaiKTotal.value * 0.47);
                         double carbonAbsorb = semaiCarbon * (44 / 12);
 
-                        SubPlotAreaASemaiModel subPlotASemai =
-                            SubPlotAreaASemaiModel(
+                        final subPlotASemai = SubPlotAreaASemaiModel(
                           uuid: widget.semaiList.last.uuid,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
@@ -165,7 +175,17 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           carbonAbsorb: carbonAbsorb,
                         );
 
+                        final subPlotAreaA = SubPlotAreaAModel(
+                          uuid: widget.plotAList.last.uuid,
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          subPlotAModels: widget.plotAList.last.subPlotAModels,
+                          subPlotAPhotoUrl: '',
+                          updateAt: DateTime.now(),
+                        );
+
                         await _controller.updateSubPlotA(
+                          subPlotAreaA,
                           subPlotASemai,
                           null,
                           null,
@@ -189,14 +209,11 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                       );
                     } else {
                       if (widget.seresahList.isEmpty) {
-                        d.log('isEmpty - insert', name: 'seresah');
-                        Uuid uuid = const Uuid();
-
+                        // d.log('isEmpty - insert', name: 'seresah');
                         double seresahCarbon = (seresahKTotal.value * 0.47);
                         double carbonAbsorb = seresahCarbon * (44 / 12);
 
-                        SubPlotAreaASeresahModel subPlotASeresah =
-                            SubPlotAreaASeresahModel(
+                        final subPlotASeresah = SubPlotAreaASeresahModel(
                           uuid: uuid.v4(),
                           areaName: widget.areaName,
                           plotName: widget.plotName,
@@ -209,6 +226,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         await _controller.insertSubPlotA(
+                          subPlotAreaAModel,
                           null,
                           subPlotASeresah,
                           null,
@@ -216,13 +234,12 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                         _sharedPref.putBool('subplot_a_data', true);
                       } else {
-                        d.log('isNotEmpty - update', name: 'seresah');
+                        // d.log('isNotEmpty - update', name: 'seresah');
 
                         double seresahCarbon = (seresahKTotal.value * 0.47);
                         double carbonAbsorb = seresahCarbon * (44 / 12);
 
-                        SubPlotAreaASeresahModel subPlotASeresah =
-                            SubPlotAreaASeresahModel(
+                        final subPlotASeresah = SubPlotAreaASeresahModel(
                           uuid: widget.seresahList.last.uuid,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
@@ -234,7 +251,17 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           carbonAbsorb: carbonAbsorb,
                         );
 
+                        final subPlotAreaA = SubPlotAreaAModel(
+                          uuid: widget.plotAList.last.uuid,
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          subPlotAModels: widget.plotAList.last.subPlotAModels,
+                          subPlotAPhotoUrl: '',
+                          updateAt: DateTime.now(),
+                        );
+
                         await _controller.updateSubPlotA(
+                          subPlotAreaA,
                           null,
                           subPlotASeresah,
                           null,
@@ -258,14 +285,12 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                       );
                     } else {
                       if (widget.tumbuhanList.isEmpty) {
-                        d.log('isEmpty - insert', name: 'tumbuhan');
-                        Uuid uuid = const Uuid();
+                        // d.log('isEmpty - insert', name: 'tumbuhan');
 
                         double tumbuhanCarbon = (tumbuhanKTotal.value * 0.47);
                         double carbonAbsorb = tumbuhanCarbon * (44 / 12);
 
-                        SubPlotAreaATumbuhanBawahModel subPlotATumbuhan =
-                            SubPlotAreaATumbuhanBawahModel(
+                        final subPlotATumbuhan = SubPlotAreaATumbuhanBawahModel(
                           uuid: uuid.v4(),
                           areaName: widget.areaName,
                           plotName: widget.plotName,
@@ -278,6 +303,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         await _controller.insertSubPlotA(
+                          subPlotAreaAModel,
                           null,
                           null,
                           subPlotATumbuhan,
@@ -285,13 +311,12 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                         _sharedPref.putBool('subplot_a_data', true);
                       } else {
-                        d.log('isNotEmpty - update', name: 'tumbuhan');
+                        // d.log('isNotEmpty - update', name: 'tumbuhan');
 
                         double tumbuhanCarbon = (tumbuhanKTotal.value * 0.47);
                         double carbonAbsorb = tumbuhanCarbon * (44 / 12);
 
-                        SubPlotAreaATumbuhanBawahModel subPlotATumbuhan =
-                            SubPlotAreaATumbuhanBawahModel(
+                        final subPlotATumbuhan = SubPlotAreaATumbuhanBawahModel(
                           uuid: widget.tumbuhanList.last.uuid,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
@@ -303,7 +328,17 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           carbonAbsorb: carbonAbsorb,
                         );
 
+                        final subPlotAreaA = SubPlotAreaAModel(
+                          uuid: widget.plotAList.last.uuid,
+                          areaName: widget.areaName,
+                          plotName: widget.plotName,
+                          subPlotAModels: widget.plotAList.last.subPlotAModels,
+                          subPlotAPhotoUrl: '',
+                          updateAt: DateTime.now(),
+                        );
+
                         await _controller.updateSubPlotA(
+                          subPlotAreaA,
                           null,
                           null,
                           subPlotATumbuhan,
@@ -361,7 +396,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
         ),
         SizedBox(height: 16.h),
         ValueListenableBuilder(
-          valueListenable: _controller.contactSemaiBox.listenable(),
+          valueListenable: _controller.contactASemaiBox.listenable(),
           builder: (context, box, _) {
             if (box.isEmpty) {
               return buildSemaiInfo(null, null, null);
@@ -376,7 +411,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
         ),
         SizedBox(height: 16.h),
         ValueListenableBuilder(
-            valueListenable: _controller.contactSeresahBox.listenable(),
+            valueListenable: _controller.contactASeresahBox.listenable(),
             builder: (context, box, _) {
               if (box.isEmpty) {
                 return buildSeresahInfo(null, null, null);
@@ -390,7 +425,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
             }),
         SizedBox(height: 16.h),
         ValueListenableBuilder(
-          valueListenable: _controller.contactTumbuhanBawahBox.listenable(),
+          valueListenable: _controller.contactATumbuhanBox.listenable(),
           builder: (context, box, _) {
             if (box.isEmpty) {
               return buildTumbuhanInfo(null, null, null);

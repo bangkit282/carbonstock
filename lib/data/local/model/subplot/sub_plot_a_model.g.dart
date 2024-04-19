@@ -6,6 +6,55 @@ part of 'sub_plot_a_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
+class SubPlotAreaAModelAdapter extends TypeAdapter<SubPlotAreaAModel> {
+  @override
+  final int typeId = 2;
+
+  @override
+  SubPlotAreaAModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return SubPlotAreaAModel(
+      uuid: fields[0] as String?,
+      areaName: fields[1] as String,
+      plotName: fields[2] as String,
+      subPlotAModels: (fields[3] as List?)?.cast<dynamic>(),
+      subPlotAPhotoUrl: fields[4] as String,
+      updateAt: fields[5] as DateTime,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, SubPlotAreaAModel obj) {
+    writer
+      ..writeByte(6)
+      ..writeByte(0)
+      ..write(obj.uuid)
+      ..writeByte(1)
+      ..write(obj.areaName)
+      ..writeByte(2)
+      ..write(obj.plotName)
+      ..writeByte(3)
+      ..write(obj.subPlotAModels)
+      ..writeByte(4)
+      ..write(obj.subPlotAPhotoUrl)
+      ..writeByte(5)
+      ..write(obj.updateAt);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SubPlotAreaAModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
 class SubPlotAreaASemaiModelAdapter
     extends TypeAdapter<SubPlotAreaASemaiModel> {
   @override

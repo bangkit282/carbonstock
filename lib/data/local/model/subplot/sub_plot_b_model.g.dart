@@ -28,13 +28,14 @@ class SubPlotAreaBModelAdapter extends TypeAdapter<SubPlotAreaBModel> {
       biomassLand: fields[8] as double,
       carbonValue: fields[9] as double,
       carbonAbsorb: fields[10] as double,
+      subPlotBPhotoUrl: fields[11] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaBModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -56,7 +57,9 @@ class SubPlotAreaBModelAdapter extends TypeAdapter<SubPlotAreaBModel> {
       ..writeByte(9)
       ..write(obj.carbonValue)
       ..writeByte(10)
-      ..write(obj.carbonAbsorb);
+      ..write(obj.carbonAbsorb)
+      ..writeByte(11)
+      ..write(obj.subPlotBPhotoUrl);
   }
 
   @override

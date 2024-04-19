@@ -18,6 +18,7 @@ import 'package:carbonstock/views/views.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -28,9 +29,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferenceService.init();
   await Hive.initFlutter();
+
   Hive.registerAdapter(AreaModelAdapter());
   Hive.registerAdapter(PlotModelAdapter());
 
+  Hive.registerAdapter(SubPlotAreaAModelAdapter());
   Hive.registerAdapter(SubPlotAreaASemaiModelAdapter());
   Hive.registerAdapter(SubPlotAreaASeresahModelAdapter());
   Hive.registerAdapter(SubPlotAreaATumbuhanBawahModelAdapter());
@@ -38,6 +41,7 @@ void main() async {
   Hive.registerAdapter(SubPlotAreaBModelAdapter());
   Hive.registerAdapter(SubPlotAreaCModelAdapter());
 
+  Hive.registerAdapter(SubPlotAreaDModelAdapter());
   Hive.registerAdapter(SubPlotAreaDPohonModelAdapter());
   Hive.registerAdapter(SubPlotAreaDNekromasModelAdapter());
   Hive.registerAdapter(SubPlotAreaDTanahModelAdapter());
@@ -135,6 +139,10 @@ class _SplashScreenViewsState extends State<SplashScreenViews> {
     // }
 
     // Store location and return the current location
+    // GeoPoint currentGeoPoint = GeoPoint(
+    //   latitude: position.latitude,
+    //   longitude: position.longitude,
+    // );
     LatLng currentLatLng = LatLng(position.latitude, position.longitude);
     Map<String, LatLng> latLngMapper = {'currentLatLng': currentLatLng};
 

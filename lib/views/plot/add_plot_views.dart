@@ -8,12 +8,12 @@ class AddPlotScreenViews extends StatefulWidget {
 }
 
 class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
-  late MapboxMapController controller;
-  late LatLng currentLatLng;
-
   final PlotController _plotController = Get.find();
   final _addPlotFormKey = GlobalKey<FormState>(debugLabel: 'add-plot');
   final SharedPreferenceService sharedPreferences = SharedPreferenceService();
+
+  late MapboxMapController controller;
+  late LatLng currentLatLng;
 
   final TextEditingController _plotLatController = TextEditingController();
   final TextEditingController _plotLngController = TextEditingController();
@@ -21,7 +21,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
   final TextEditingController _biomassAvgController = TextEditingController();
   final TextEditingController _biomassStdController = TextEditingController();
 
-  _onMapCreated(MapboxMapController controller) async {
+  _onMapCreated(MapboxMapController controller) {
     this.controller = controller;
   }
 
@@ -98,8 +98,8 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
 
                       PlotModel plotModel = PlotModel(
                         plotId: uuid.v4(),
-                        plotLat: currentLatLng.latitude,
-                        plotLng: currentLatLng.longitude,
+                        plotLat: double.parse(_plotLatController.text),
+                        plotLng: double.parse(_plotLngController.text),
                         plotSize: double.parse(size),
                         biomassAvg: double.parse(biomassAvg),
                         biomassStd: double.parse(biomassStd),
@@ -324,13 +324,13 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
       height: 200.h,
       child: MapboxMap(
         accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
-        myLocationEnabled: true,
-        trackCameraPosition: true,
+        // myLocationEnabled: true,
         tiltGesturesEnabled: false,
         rotateGesturesEnabled: false,
         onMapCreated: _onMapCreated,
         initialCameraPosition: CameraPosition(target: currentLatLng, zoom: 15),
         myLocationRenderMode: MyLocationRenderMode.GPS,
+        styleString: 'mapbox://styles/mapbox/streets-v11',
         myLocationTrackingMode: MyLocationTrackingMode.Tracking,
       ),
     );

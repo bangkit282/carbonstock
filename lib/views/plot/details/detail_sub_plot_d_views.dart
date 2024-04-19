@@ -5,6 +5,7 @@ class DetailSubPlotDPageScreen extends StatefulWidget {
     super.key,
     required this.areaName,
     required this.plotName,
+    required this.subPlotDList,
     required this.subPlotDPohonList,
     required this.subPlotDNekromasList,
     required this.subPlotDTanahList,
@@ -13,6 +14,7 @@ class DetailSubPlotDPageScreen extends StatefulWidget {
   final String areaName;
   final String plotName;
 
+  final List<SubPlotAreaDModel> subPlotDList;
   final List<SubPlotAreaDPohonModel> subPlotDPohonList;
   final List<SubPlotAreaDNekromasModel> subPlotDNekromasList;
   final List<SubPlotAreaDTanahModel> subPlotDTanahList;
@@ -23,6 +25,7 @@ class DetailSubPlotDPageScreen extends StatefulWidget {
 }
 
 class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
+  final _pohonKelilingFormKey = GlobalKey<FormState>();
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
   final SubPlotController _controller = Get.find();
 
@@ -160,6 +163,16 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
               buildDetailInfo(),
               ElevatedButton(
                 onPressed: () async {
+                  Uuid uuid = const Uuid();
+
+                  final subPlotAreaDModel = SubPlotAreaDModel(
+                    uuid: uuid.v4(),
+                    areaName: widget.areaName,
+                    plotName: widget.plotName,
+                    subPlotDPhotoUrl: '',
+                    updateAt: DateTime.now(),
+                  );
+
                   if (_pohonKelilingController.text.isNotEmpty ||
                       _pohonDiameterController.text.isNotEmpty ||
                       selectedLocalNamePohon.value != 'Pilih Nama Lokal') {
@@ -172,68 +185,68 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                         backgroundColor: colorSecondaryGrey1,
                       );
                     } else {
-                      double keliling =
-                          double.parse(_pohonKelilingController.text);
-                      double diameter =
-                          double.parse(_pohonDiameterController.text);
-                      String name = selectedLocalNamePohon.value;
-                      String bioName = selectedBioNamePohon.value;
-                      double kerapatanKayu = pohonKerapatan.value;
-                      double biomassLand = pohonBiomassLand.value;
-                      double carbonValue = pohonBiomassLand.value * 0.47;
-                      double carbonAbsorb =
-                          pohonBiomassLand.value * 0.47 * (44 / 12);
+                      if (_pohonKelilingFormKey.currentState!.validate()) {
+                        double keliling =
+                            double.parse(_pohonKelilingController.text);
+                        double diameter =
+                            double.parse(_pohonDiameterController.text);
+                        String name = selectedLocalNamePohon.value;
+                        String bioName = selectedBioNamePohon.value;
+                        double kerapatanKayu = pohonKerapatan.value;
+                        double biomassLand = pohonBiomassLand.value;
+                        double carbonValue = pohonBiomassLand.value * 0.47;
+                        double carbonAbsorb =
+                            pohonBiomassLand.value * 0.47 * (44 / 12);
 
-                      if (widget.subPlotDPohonList.isEmpty) {
-                        Uuid uuid = const Uuid();
+                        if (widget.subPlotDPohonList.isEmpty) {
+                          final subPlotAreaDPohonModel = SubPlotAreaDPohonModel(
+                            uuid: uuid.v4(),
+                            areaName: widget.areaName,
+                            plotName: widget.plotName,
+                            keliling: keliling,
+                            diameter: diameter,
+                            kerapatanKayu: kerapatanKayu,
+                            bioName: bioName,
+                            biomassLand: biomassLand,
+                            localName: name,
+                            carbonValue: carbonValue,
+                            carbonAbsorb: carbonAbsorb,
+                            updateAt: DateTime.now(),
+                          );
 
-                        SubPlotAreaDPohonModel subPlotAreaDPohonModel =
-                            SubPlotAreaDPohonModel(
-                          uuid: uuid.v4(),
-                          areaName: widget.areaName,
-                          plotName: widget.plotName,
-                          keliling: keliling,
-                          diameter: diameter,
-                          kerapatanKayu: kerapatanKayu,
-                          bioName: bioName,
-                          biomassLand: biomassLand,
-                          localName: name,
-                          carbonValue: carbonValue,
-                          carbonAbsorb: carbonAbsorb,
-                          updateAt: DateTime.now(),
-                        );
+                          await _controller.insertSubPlotD(
+                            subPlotAreaDModel,
+                            subPlotAreaDPohonModel,
+                            null,
+                            null,
+                          );
+                          _sharedPref.putBool('subplot_d_data', true);
+                        } else {
+                          // d.log('isNotEmpty - update', name: 'semai');
 
-                        await _controller.insertSubPlotD(
-                          subPlotAreaDPohonModel,
-                          null,
-                          null,
-                        );
-                        _sharedPref.putBool('subplot_d_data', true);
-                      } else {
-                        // d.log('isNotEmpty - update', name: 'semai');
+                          final subPlotAreaDPohonModel = SubPlotAreaDPohonModel(
+                            uuid: widget.subPlotDPohonList.last.uuid,
+                            areaName: widget.areaName,
+                            plotName: widget.plotName,
+                            keliling: keliling,
+                            diameter: diameter,
+                            kerapatanKayu: kerapatanKayu,
+                            bioName: bioName,
+                            biomassLand: biomassLand,
+                            localName: name,
+                            carbonValue: carbonValue,
+                            carbonAbsorb: carbonAbsorb,
+                            updateAt: DateTime.now(),
+                          );
 
-                        SubPlotAreaDPohonModel subPlotAreaDPohonModel =
-                            SubPlotAreaDPohonModel(
-                          uuid: widget.subPlotDPohonList.last.uuid,
-                          areaName: widget.areaName,
-                          plotName: widget.plotName,
-                          keliling: keliling,
-                          diameter: diameter,
-                          kerapatanKayu: kerapatanKayu,
-                          bioName: bioName,
-                          biomassLand: biomassLand,
-                          localName: name,
-                          carbonValue: carbonValue,
-                          carbonAbsorb: carbonAbsorb,
-                          updateAt: DateTime.now(),
-                        );
-
-                        await _controller.updateSubPlotD(
-                          subPlotAreaDPohonModel,
-                          null,
-                          null,
-                        );
-                        _sharedPref.putBool('subplot_d_data', true);
+                          await _controller.updateSubPlotD(
+                            subPlotAreaDModel,
+                            subPlotAreaDPohonModel,
+                            null,
+                            null,
+                          );
+                          _sharedPref.putBool('subplot_d_data', true);
+                        }
                       }
                     }
                   }
@@ -262,9 +275,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                       double carbonAbsorb = nekromasKarbon.value * 3.67;
 
                       if (widget.subPlotDPohonList.isEmpty) {
-                        Uuid uuid = const Uuid();
-
-                        SubPlotAreaDNekromasModel subPlotAreaDNekromasModel =
+                        final subPlotAreaDNekromasModel =
                             SubPlotAreaDNekromasModel(
                           uuid: uuid.v4(),
                           areaName: widget.areaName,
@@ -280,15 +291,14 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                         );
 
                         await _controller.insertSubPlotD(
+                          subPlotAreaDModel,
                           null,
                           subPlotAreaDNekromasModel,
                           null,
                         );
                         _sharedPref.putBool('subplot_d_data', true);
                       } else {
-                        // d.log('isNotEmpty - update', name: 'semai');
-
-                        SubPlotAreaDNekromasModel subPlotAreaDNekromasModel =
+                        final subPlotAreaDNekromasModel =
                             SubPlotAreaDNekromasModel(
                           uuid: widget.subPlotDNekromasList.last.uuid,
                           areaName: widget.areaName,
@@ -304,6 +314,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                         );
 
                         await _controller.updateSubPlotD(
+                          subPlotAreaDModel,
                           null,
                           subPlotAreaDNekromasModel,
                           null,
@@ -338,10 +349,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                       double carbonAbsorb = tanahKarbonTon.value * 3.67;
 
                       if (widget.subPlotDPohonList.isEmpty) {
-                        Uuid uuid = const Uuid();
-
-                        SubPlotAreaDTanahModel subPlotAreaDTanah =
-                            SubPlotAreaDTanahModel(
+                        final subPlotAreaDTanah = SubPlotAreaDTanahModel(
                           uuid: uuid.v4(),
                           areaName: widget.areaName,
                           plotName: widget.plotName,
@@ -356,6 +364,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                         );
 
                         await _controller.insertSubPlotD(
+                          subPlotAreaDModel,
                           null,
                           null,
                           subPlotAreaDTanah,
@@ -364,8 +373,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                       } else {
                         // d.log('isNotEmpty - update', name: 'semai');
 
-                        SubPlotAreaDTanahModel subPlotAreaDTanah =
-                            SubPlotAreaDTanahModel(
+                        final subPlotAreaDTanah = SubPlotAreaDTanahModel(
                           uuid: widget.subPlotDTanahList.last.uuid,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
@@ -380,6 +388,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                         );
 
                         await _controller.updateSubPlotD(
+                          subPlotAreaDModel,
                           null,
                           null,
                           subPlotAreaDTanah,
@@ -508,33 +517,43 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                 ),
                 SizedBox(
                   width: 160.w,
-                  child: TextFormField(
-                    controller: _pohonKelilingController,
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      if (value.isNotEmpty) {
-                        pohonDiameter.value = double.parse(value) / (22 / 7);
-                        _pohonDiameterController.text =
-                            pohonDiameter.value.toStringAsFixed(2);
-
-                        if (pohonKerapatan.value != 0.0) {
-                          pohonBiomassLand.value = 0.11 *
-                              pohonKerapatan.value *
-                              (pow(pohonDiameter.value, 2.62));
+                  child: Form(
+                    key: _pohonKelilingFormKey,
+                    child: TextFormField(
+                      controller: _pohonKelilingController,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (double.parse(value!) > 20) {
+                          return 'Tidak boleh lebih dari\n20cm!';
                         }
-                      } else {
-                        _pohonDiameterController.text = '';
-                        pohonBiomassLand.value = 0.0;
-                      }
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Keliling (cm)',
-                      hintStyle: const TextStyle(color: colorSecondaryGrey1),
-                      isDense: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: const BorderSide(
-                          color: colorSecondaryGrey1,
+
+                        return null;
+                      },
+                      onChanged: (value) {
+                        if (value.isNotEmpty) {
+                          pohonDiameter.value = double.parse(value) / (22 / 7);
+                          _pohonDiameterController.text =
+                              pohonDiameter.value.toStringAsFixed(2);
+
+                          if (pohonKerapatan.value != 0.0) {
+                            pohonBiomassLand.value = 0.11 *
+                                pohonKerapatan.value *
+                                (pow(pohonDiameter.value, 2.62));
+                          }
+                        } else {
+                          _pohonDiameterController.text = '';
+                          pohonBiomassLand.value = 0.0;
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Keliling (cm)',
+                        hintStyle: const TextStyle(color: colorSecondaryGrey1),
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: const BorderSide(
+                            color: colorSecondaryGrey1,
+                          ),
                         ),
                       ),
                     ),

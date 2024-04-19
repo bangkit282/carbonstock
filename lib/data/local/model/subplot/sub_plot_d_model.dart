@@ -3,6 +3,42 @@ import 'package:hive/hive.dart';
 part 'sub_plot_d_model.g.dart';
 
 @HiveType(typeId: 8)
+class SubPlotAreaDModel extends HiveObject {
+  @HiveField(0)
+  final String? uuid;
+  @HiveField(1)
+  final String areaName;
+  @HiveField(2)
+  final String plotName;
+  @HiveField(3)
+  final List<dynamic>? subPlotDModels;
+  @HiveField(4)
+  final String subPlotDPhotoUrl;
+  @HiveField(5)
+  final DateTime updateAt;
+
+  SubPlotAreaDModel({
+    required this.uuid,
+    required this.areaName,
+    required this.plotName,
+    this.subPlotDModels,
+    required this.subPlotDPhotoUrl,
+    required this.updateAt,
+  });
+
+  @override
+  String toString() {
+    return '''
+      areaName: $areaName,
+      plotName: $plotName,
+      subPlotDList: $subPlotDModels,
+      subPlotDPhoto: $subPlotDPhotoUrl, 
+      updateAt: $updateAt
+    ''';
+  }
+}
+
+@HiveType(typeId: 9)
 class SubPlotAreaDPohonModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
@@ -62,7 +98,7 @@ class SubPlotAreaDPohonModel extends HiveObject {
   }
 }
 
-@HiveType(typeId: 9)
+@HiveType(typeId: 10)
 class SubPlotAreaDNekromasModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
@@ -116,7 +152,7 @@ class SubPlotAreaDNekromasModel extends HiveObject {
   }
 }
 
-@HiveType(typeId: 10)
+@HiveType(typeId: 11)
 class SubPlotAreaDTanahModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
