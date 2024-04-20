@@ -7,18 +7,21 @@ class SubPlotAreaAModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
   @HiveField(1)
-  final String areaName;
+  final String plotId;
   @HiveField(2)
-  final String plotName;
+  final String areaName;
   @HiveField(3)
-  final List<dynamic>? subPlotAModels;
+  final String plotName;
   @HiveField(4)
-  final String subPlotAPhotoUrl;
+  final List<dynamic>? subPlotAModels;
   @HiveField(5)
+  final String subPlotAPhotoUrl;
+  @HiveField(6)
   final DateTime updateAt;
 
   SubPlotAreaAModel({
-    required this.uuid,
+    this.uuid,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
     this.subPlotAModels,
@@ -43,24 +46,27 @@ class SubPlotAreaASemaiModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
   @HiveField(1)
-  final String areaName;
+  final String plotId;
   @HiveField(2)
-  final String plotName;
+  final String areaName;
   @HiveField(3)
-  final double basahTotal;
+  final String plotName;
   @HiveField(4)
-  final double basahSample;
+  final double basahTotal;
   @HiveField(5)
-  final double keringTotal;
+  final double basahSample;
   @HiveField(6)
-  final double keringSample;
+  final double keringTotal;
   @HiveField(7)
-  final double carbonValue;
+  final double keringSample;
   @HiveField(8)
+  final double carbonValue;
+  @HiveField(9)
   final double carbonAbsorb;
 
   SubPlotAreaASemaiModel({
     this.uuid,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
     required this.basahTotal,
@@ -75,6 +81,7 @@ class SubPlotAreaASemaiModel extends HiveObject {
   String toString() {
     return '''
       SubPlotAreaASemaiModel(
+        plotId: $plotId,
         areaName: $areaName,
         plotName: $plotName,
         basahTotal: $basahTotal,
@@ -93,24 +100,27 @@ class SubPlotAreaASeresahModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
   @HiveField(1)
-  final String areaName;
+  final String plotId;
   @HiveField(2)
-  final String plotName;
+  final String areaName;
   @HiveField(3)
-  final double basahTotal;
+  final String plotName;
   @HiveField(4)
-  final double basahSample;
+  final double basahTotal;
   @HiveField(5)
-  final double keringTotal;
+  final double basahSample;
   @HiveField(6)
-  final double keringSample;
+  final double keringTotal;
   @HiveField(7)
-  final double carbonValue;
+  final double keringSample;
   @HiveField(8)
+  final double carbonValue;
+  @HiveField(9)
   final double carbonAbsorb;
 
   SubPlotAreaASeresahModel({
     this.uuid,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
     required this.basahTotal,
@@ -125,6 +135,7 @@ class SubPlotAreaASeresahModel extends HiveObject {
   String toString() {
     return '''
       SubPlotAreaASeresahModel(
+        plotId: $plotId,
         areaName: $areaName,
         plotName: $plotName,
         basahTotal: $basahTotal,
@@ -143,24 +154,27 @@ class SubPlotAreaATumbuhanBawahModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
   @HiveField(1)
-  final String areaName;
+  final String plotId;
   @HiveField(2)
-  final String plotName;
+  final String areaName;
   @HiveField(3)
-  final double basahTotal;
+  final String plotName;
   @HiveField(4)
-  final double basahSample;
+  final double basahTotal;
   @HiveField(5)
-  final double keringTotal;
+  final double basahSample;
   @HiveField(6)
-  final double keringSample;
+  final double keringTotal;
   @HiveField(7)
-  final double carbonValue;
+  final double keringSample;
   @HiveField(8)
+  final double carbonValue;
+  @HiveField(9)
   final double carbonAbsorb;
 
   SubPlotAreaATumbuhanBawahModel({
     this.uuid,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
     required this.basahTotal,
@@ -175,6 +189,7 @@ class SubPlotAreaATumbuhanBawahModel extends HiveObject {
   String toString() {
     return '''
       SubPlotAreaATumbuhanBawahModel(
+        plotId: $plotId,
         areaName: $areaName,
         plotName: $plotName,
         basahTotal: $basahTotal,

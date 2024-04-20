@@ -18,29 +18,32 @@ class SubPlotAreaDModelAdapter extends TypeAdapter<SubPlotAreaDModel> {
     };
     return SubPlotAreaDModel(
       uuid: fields[0] as String?,
-      areaName: fields[1] as String,
-      plotName: fields[2] as String,
-      subPlotDModels: (fields[3] as List?)?.cast<dynamic>(),
-      subPlotDPhotoUrl: fields[4] as String,
-      updateAt: fields[5] as DateTime,
+      plotId: fields[1] as String,
+      areaName: fields[2] as String,
+      plotName: fields[3] as String,
+      subPlotDModels: (fields[4] as List?)?.cast<dynamic>(),
+      subPlotDPhotoUrl: fields[5] as String,
+      updateAt: fields[6] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaDModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
-      ..write(obj.areaName)
+      ..write(obj.plotId)
       ..writeByte(2)
-      ..write(obj.plotName)
+      ..write(obj.areaName)
       ..writeByte(3)
-      ..write(obj.subPlotDModels)
+      ..write(obj.plotName)
       ..writeByte(4)
-      ..write(obj.subPlotDPhotoUrl)
+      ..write(obj.subPlotDModels)
       ..writeByte(5)
+      ..write(obj.subPlotDPhotoUrl)
+      ..writeByte(6)
       ..write(obj.updateAt);
   }
 
@@ -68,47 +71,50 @@ class SubPlotAreaDPohonModelAdapter
     };
     return SubPlotAreaDPohonModel(
       uuid: fields[0] as String?,
-      areaName: fields[1] as String,
-      plotName: fields[2] as String,
-      localName: fields[3] as String,
-      bioName: fields[4] as String,
-      keliling: fields[5] as double,
-      diameter: fields[6] as double,
-      kerapatanKayu: fields[7] as double,
-      biomassLand: fields[8] as double,
-      carbonValue: fields[9] as double,
-      carbonAbsorb: fields[10] as double,
-      updateAt: fields[11] as DateTime,
+      plotId: fields[1] as String,
+      areaName: fields[2] as String,
+      plotName: fields[3] as String,
+      localName: fields[4] as String,
+      bioName: fields[5] as String,
+      keliling: fields[6] as double,
+      diameter: fields[7] as double,
+      kerapatanKayu: fields[8] as double,
+      biomassLand: fields[9] as double,
+      carbonValue: fields[10] as double,
+      carbonAbsorb: fields[11] as double,
+      updateAt: fields[12] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaDPohonModel obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
-      ..write(obj.areaName)
+      ..write(obj.plotId)
       ..writeByte(2)
-      ..write(obj.plotName)
+      ..write(obj.areaName)
       ..writeByte(3)
-      ..write(obj.localName)
+      ..write(obj.plotName)
       ..writeByte(4)
-      ..write(obj.bioName)
+      ..write(obj.localName)
       ..writeByte(5)
-      ..write(obj.keliling)
+      ..write(obj.bioName)
       ..writeByte(6)
-      ..write(obj.diameter)
+      ..write(obj.keliling)
       ..writeByte(7)
-      ..write(obj.kerapatanKayu)
+      ..write(obj.diameter)
       ..writeByte(8)
-      ..write(obj.biomassLand)
+      ..write(obj.kerapatanKayu)
       ..writeByte(9)
-      ..write(obj.carbonValue)
+      ..write(obj.biomassLand)
       ..writeByte(10)
-      ..write(obj.carbonAbsorb)
+      ..write(obj.carbonValue)
       ..writeByte(11)
+      ..write(obj.carbonAbsorb)
+      ..writeByte(12)
       ..write(obj.updateAt);
   }
 
@@ -136,44 +142,47 @@ class SubPlotAreaDNekromasModelAdapter
     };
     return SubPlotAreaDNekromasModel(
       uuid: fields[0] as String?,
-      areaName: fields[1] as String,
-      plotName: fields[2] as String,
-      diameterPangkal: fields[3] as double,
-      diameterUjung: fields[4] as double,
-      panjang: fields[5] as double,
-      volume: fields[6] as double,
-      biomassLand: fields[7] as double,
-      carbonValue: fields[8] as double,
-      carbonAbsorb: fields[9] as double,
-      updateAt: fields[10] as DateTime,
+      plotId: fields[1] as String,
+      areaName: fields[2] as String,
+      plotName: fields[3] as String,
+      diameterPangkal: fields[4] as double,
+      diameterUjung: fields[5] as double,
+      panjang: fields[6] as double,
+      volume: fields[7] as double,
+      biomassLand: fields[8] as double,
+      carbonValue: fields[9] as double,
+      carbonAbsorb: fields[10] as double,
+      updateAt: fields[11] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaDNekromasModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
-      ..write(obj.areaName)
+      ..write(obj.plotId)
       ..writeByte(2)
-      ..write(obj.plotName)
+      ..write(obj.areaName)
       ..writeByte(3)
-      ..write(obj.diameterPangkal)
+      ..write(obj.plotName)
       ..writeByte(4)
-      ..write(obj.diameterUjung)
+      ..write(obj.diameterPangkal)
       ..writeByte(5)
-      ..write(obj.panjang)
+      ..write(obj.diameterUjung)
       ..writeByte(6)
-      ..write(obj.volume)
+      ..write(obj.panjang)
       ..writeByte(7)
-      ..write(obj.biomassLand)
+      ..write(obj.volume)
       ..writeByte(8)
-      ..write(obj.carbonValue)
+      ..write(obj.biomassLand)
       ..writeByte(9)
-      ..write(obj.carbonAbsorb)
+      ..write(obj.carbonValue)
       ..writeByte(10)
+      ..write(obj.carbonAbsorb)
+      ..writeByte(11)
       ..write(obj.updateAt);
   }
 
@@ -201,44 +210,47 @@ class SubPlotAreaDTanahModelAdapter
     };
     return SubPlotAreaDTanahModel(
       uuid: fields[0] as String?,
-      areaName: fields[1] as String,
-      plotName: fields[2] as String,
-      kedalamanSample: fields[3] as double,
-      beratJenisTanah: fields[4] as double,
-      organicTanah: fields[5] as double,
-      carbonGrCm: fields[6] as double,
-      carbonTonHa: fields[7] as double,
-      carbonTon: fields[8] as double,
-      carbonAbsorb: fields[9] as double,
-      updateAt: fields[10] as DateTime,
+      plotId: fields[1] as String,
+      areaName: fields[2] as String,
+      plotName: fields[3] as String,
+      kedalamanSample: fields[4] as double,
+      beratJenisTanah: fields[5] as double,
+      organicTanah: fields[6] as double,
+      carbonGrCm: fields[7] as double,
+      carbonTonHa: fields[8] as double,
+      carbonTon: fields[9] as double,
+      carbonAbsorb: fields[10] as double,
+      updateAt: fields[11] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaDTanahModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
-      ..write(obj.areaName)
+      ..write(obj.plotId)
       ..writeByte(2)
-      ..write(obj.plotName)
+      ..write(obj.areaName)
       ..writeByte(3)
-      ..write(obj.kedalamanSample)
+      ..write(obj.plotName)
       ..writeByte(4)
-      ..write(obj.beratJenisTanah)
+      ..write(obj.kedalamanSample)
       ..writeByte(5)
-      ..write(obj.organicTanah)
+      ..write(obj.beratJenisTanah)
       ..writeByte(6)
-      ..write(obj.carbonGrCm)
+      ..write(obj.organicTanah)
       ..writeByte(7)
-      ..write(obj.carbonTonHa)
+      ..write(obj.carbonGrCm)
       ..writeByte(8)
-      ..write(obj.carbonTon)
+      ..write(obj.carbonTonHa)
       ..writeByte(9)
-      ..write(obj.carbonAbsorb)
+      ..write(obj.carbonTon)
       ..writeByte(10)
+      ..write(obj.carbonAbsorb)
+      ..writeByte(11)
       ..write(obj.updateAt);
   }
 

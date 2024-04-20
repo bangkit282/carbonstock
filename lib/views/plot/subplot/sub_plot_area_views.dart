@@ -3,10 +3,12 @@ part of '../../views.dart';
 class SubPlotAreaScreenViews extends StatefulWidget {
   const SubPlotAreaScreenViews({
     super.key,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
   });
 
+  final String plotId;
   final String areaName;
   final String plotName;
 
@@ -15,8 +17,7 @@ class SubPlotAreaScreenViews extends StatefulWidget {
 }
 
 class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
-  // final SharedPreferenceService _sharedPref = SharedPreferenceService();
-  // final SubPlotController _controller = Get.find();
+  final SubPlotController _controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +77,9 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                   Navigator.push(
                     context,
                     PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => const SummaryPageViews(),
+                      pageBuilder: (_, __, ___) => SummaryPageViews(
+                        plotId: widget.plotId,
+                      ),
                       transitionsBuilder: (_, animation, __, child) {
                         return FadeTransition(
                           opacity: animation,
@@ -185,323 +188,371 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
 
   Widget buildCardButton(String plotAlphabet) {
     if (plotAlphabet == 'A') {
-      return Obx(
-        () {
-          return SubPlotAreaDB.isSubPlotSemaiDone.value ||
-                  SubPlotAreaDB.isSubPlotSeresahDone.value ||
-                  SubPlotAreaDB.isSubPlotBawahDone.value
-              ? Container(
-                  margin: EdgeInsets.only(left: 16.w),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
-                            areaName: widget.areaName,
-                            plotName: widget.plotName,
-                            plotAList: SubPlotAreaDB.getAllSubPlotA(),
-                            semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
-                            seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
-                            tumbuhanList: SubPlotAreaDB.getAllSubPlotBawah(),
-                          ),
-                          transitionsBuilder: (_, animation, __, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      backgroundColor: colorButtonAccentGreen,
-                    ),
-                    child: const Text(
-                      'Edit',
-                      style: TextStyle(
-                        color: colorPrimaryWhite,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                )
-              : TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => DetailSubPlotAPageScreen(
-                          areaName: widget.areaName,
-                          plotName: widget.plotName,
-                          plotAList: SubPlotAreaDB.getAllSubPlotA(),
-                          semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
-                          seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
-                          tumbuhanList: SubPlotAreaDB.getAllSubPlotBawah(),
-                        ),
-                        transitionsBuilder: (_, animation, __, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: child,
+      return ValueListenableBuilder(
+        valueListenable: _controller.contactABox.listenable(),
+        builder: (context, box, _) {
+          RxList list = box.values
+              .where((element) => element.plotId == widget.plotId)
+              .toList()
+              .obs;
+
+          return Obx(
+            () {
+              return list.isNotEmpty
+                  ? Container(
+                      margin: EdgeInsets.only(left: 16.w),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  DetailSubPlotAPageScreen(
+                                plotId: widget.plotId,
+                                areaName: widget.areaName,
+                                plotName: widget.plotName,
+                                plotAList: SubPlotAreaDB.getAllSubPlotA(),
+                                semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
+                                seresahList:
+                                    SubPlotAreaDB.getAllSubPlotSeresah(),
+                                tumbuhanList:
+                                    SubPlotAreaDB.getAllSubPlotBawah(),
+                              ),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ),
                           );
                         },
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          backgroundColor: colorButtonAccentGreen,
+                        ),
+                        child: const Text(
+                          'Edit',
+                          style: TextStyle(
+                            color: colorPrimaryWhite,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    )
+                  : TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) =>
+                                DetailSubPlotAPageScreen(
+                              plotId: widget.plotId,
+                              areaName: widget.areaName,
+                              plotName: widget.plotName,
+                              plotAList: SubPlotAreaDB.getAllSubPlotA(),
+                              semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
+                              seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
+                              tumbuhanList: SubPlotAreaDB.getAllSubPlotBawah(),
+                            ),
+                            transitionsBuilder: (_, animation, __, child) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        backgroundColor: colorButtonAccentGreen,
+                      ),
+                      child: const Text(
+                        'Tambah',
+                        style: TextStyle(
+                          color: colorPrimaryWhite,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     );
-                  },
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    backgroundColor: colorButtonAccentGreen,
-                  ),
-                  child: const Text(
-                    'Tambah',
-                    style: TextStyle(
-                      color: colorPrimaryWhite,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                );
+            },
+          );
         },
       );
     } else if (plotAlphabet == 'B') {
-      return Obx(
-        () {
-          return SubPlotAreaDB.isSubPlotBDone.value
-              ? Container(
-                  margin: EdgeInsets.only(left: 16.w),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
-                            subPlotBList: SubPlotAreaDB.getAllSubPlotB(),
-                            areaName: widget.areaName,
-                            plotName: widget.plotName,
-                          ),
-                          transitionsBuilder: (_, animation, __, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      backgroundColor: colorButtonAccentGreen,
-                    ),
-                    child: const Text(
-                      'Edit',
-                      style: TextStyle(
-                        color: colorPrimaryWhite,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                )
-              : TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => DetailSubPlotBPageScreen(
-                          subPlotBList: SubPlotAreaDB.getAllSubPlotB(),
-                          areaName: widget.areaName,
-                          plotName: widget.plotName,
-                        ),
-                        transitionsBuilder: (_, animation, __, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: child,
+      return ValueListenableBuilder(
+        valueListenable: _controller.contactBBox.listenable(),
+        builder: (context, box, _) {
+          RxList list = box.values
+              .where((element) => element.plotId == widget.plotId)
+              .toList()
+              .obs;
+
+          return Obx(
+            () {
+              return list.isNotEmpty
+                  ? Container(
+                      margin: EdgeInsets.only(left: 16.w),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  DetailSubPlotBPageScreen(
+                                plotId: widget.plotId,
+                                areaName: widget.areaName,
+                                plotName: widget.plotName,
+                              ),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ),
                           );
                         },
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          backgroundColor: colorButtonAccentGreen,
+                        ),
+                        child: const Text(
+                          'Edit',
+                          style: TextStyle(
+                            color: colorPrimaryWhite,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    )
+                  : TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) =>
+                                DetailSubPlotBPageScreen(
+                              plotId: widget.plotId,
+                              areaName: widget.areaName,
+                              plotName: widget.plotName,
+                            ),
+                            transitionsBuilder: (_, animation, __, child) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        backgroundColor: colorButtonAccentGreen,
+                      ),
+                      child: const Text(
+                        'Tambah',
+                        style: TextStyle(
+                          color: colorPrimaryWhite,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     );
-                  },
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    backgroundColor: colorButtonAccentGreen,
-                  ),
-                  child: const Text(
-                    'Tambah',
-                    style: TextStyle(
-                      color: colorPrimaryWhite,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                );
+            },
+          );
         },
       );
     } else if (plotAlphabet == 'C') {
-      return Obx(
-        () {
-          return SubPlotAreaDB.isSubPlotCDone.value
-              ? Container(
-                  margin: EdgeInsets.only(left: 16.w),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => DetailSubPlotCPageScreen(
-                            subPlotCList: SubPlotAreaDB.getAllSubPlotC(),
-                            areaName: widget.areaName,
-                            plotName: widget.plotName,
-                          ),
-                          transitionsBuilder: (_, animation, __, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      backgroundColor: colorButtonAccentGreen,
-                    ),
-                    child: const Text(
-                      'Edit',
-                      style: TextStyle(
-                        color: colorPrimaryWhite,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                )
-              : TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => DetailSubPlotCPageScreen(
-                          subPlotCList: SubPlotAreaDB.getAllSubPlotC(),
-                          areaName: widget.areaName,
-                          plotName: widget.plotName,
-                        ),
-                        transitionsBuilder: (_, animation, __, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: child,
+      return ValueListenableBuilder(
+        valueListenable: _controller.contactCBox.listenable(),
+        builder: (context, box, _) {
+          RxList list = box.values
+              .where((element) => element.plotId == widget.plotId)
+              .toList()
+              .obs;
+
+          return Obx(
+            () {
+              return list.isNotEmpty
+                  ? Container(
+                      margin: EdgeInsets.only(left: 16.w),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  DetailSubPlotCPageScreen(
+                                plotId: widget.plotId,
+                                areaName: widget.areaName,
+                                plotName: widget.plotName,
+                              ),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ),
                           );
                         },
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          backgroundColor: colorButtonAccentGreen,
+                        ),
+                        child: const Text(
+                          'Edit',
+                          style: TextStyle(
+                            color: colorPrimaryWhite,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    )
+                  : TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) =>
+                                DetailSubPlotCPageScreen(
+                              plotId: widget.plotId,
+                              areaName: widget.areaName,
+                              plotName: widget.plotName,
+                            ),
+                            transitionsBuilder: (_, animation, __, child) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        backgroundColor: colorButtonAccentGreen,
+                      ),
+                      child: const Text(
+                        'Tambah',
+                        style: TextStyle(
+                          color: colorPrimaryWhite,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     );
-                  },
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    backgroundColor: colorButtonAccentGreen,
-                  ),
-                  child: const Text(
-                    'Tambah',
-                    style: TextStyle(
-                      color: colorPrimaryWhite,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                );
+            },
+          );
         },
       );
     } else if (plotAlphabet == 'D') {
-      return Obx(
-        () {
-          return SubPlotAreaDB.isSubPlotPohonDone.value ||
-                  SubPlotAreaDB.isSubPlotNekromasDone.value ||
-                  SubPlotAreaDB.isSubPlotTanahDone.value
-              ? Container(
-                  margin: EdgeInsets.only(left: 16.w),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => DetailSubPlotDPageScreen(
-                            subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
-                            subPlotDPohonList:
-                                SubPlotAreaDB.getAllSubPlotPohon(),
-                            subPlotDNekromasList:
-                                SubPlotAreaDB.getAllSubPlotNekromas(),
-                            subPlotDTanahList:
-                                SubPlotAreaDB.getAllSubPlotTanah(),
-                            areaName: widget.areaName,
-                            plotName: widget.plotName,
-                          ),
-                          transitionsBuilder: (_, animation, __, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      backgroundColor: colorButtonAccentGreen,
-                    ),
-                    child: const Text(
-                      'Edit',
-                      style: TextStyle(
-                        color: colorPrimaryWhite,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                )
-              : TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => DetailSubPlotDPageScreen(
-                          subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
-                          subPlotDPohonList: SubPlotAreaDB.getAllSubPlotPohon(),
-                          subPlotDNekromasList:
-                              SubPlotAreaDB.getAllSubPlotNekromas(),
-                          subPlotDTanahList: SubPlotAreaDB.getAllSubPlotTanah(),
-                          areaName: widget.areaName,
-                          plotName: widget.plotName,
-                        ),
-                        transitionsBuilder: (_, animation, __, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: child,
+      return ValueListenableBuilder(
+        valueListenable: _controller.contactDBox.listenable(),
+        builder: (context, box, _) {
+          RxList list = box.values
+              .where((element) => element.plotId == widget.plotId)
+              .toList()
+              .obs;
+
+          return Obx(
+            () {
+              return list.isNotEmpty
+                  ? Container(
+                      margin: EdgeInsets.only(left: 16.w),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  DetailSubPlotDPageScreen(
+                                plotId: widget.plotId,
+                                areaName: widget.areaName,
+                                plotName: widget.plotName,
+                                subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
+                                subPlotDNekromasList:
+                                    SubPlotAreaDB.getAllSubPlotNekromas(),
+                                subPlotDTanahList:
+                                    SubPlotAreaDB.getAllSubPlotTanah(),
+                              ),
+                              transitionsBuilder: (_, animation, __, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ),
                           );
                         },
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          backgroundColor: colorButtonAccentGreen,
+                        ),
+                        child: const Text(
+                          'Edit',
+                          style: TextStyle(
+                            color: colorPrimaryWhite,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    )
+                  : TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) =>
+                                DetailSubPlotDPageScreen(
+                              plotId: widget.plotId,
+                              plotName: widget.plotName,
+                              areaName: widget.areaName,
+                              subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
+                              subPlotDNekromasList:
+                                  SubPlotAreaDB.getAllSubPlotNekromas(),
+                              subPlotDTanahList:
+                                  SubPlotAreaDB.getAllSubPlotTanah(),
+                            ),
+                            transitionsBuilder: (_, animation, __, child) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        backgroundColor: colorButtonAccentGreen,
+                      ),
+                      child: const Text(
+                        'Tambah',
+                        style: TextStyle(
+                          color: colorPrimaryWhite,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     );
-                  },
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    backgroundColor: colorButtonAccentGreen,
-                  ),
-                  child: const Text(
-                    'Tambah',
-                    style: TextStyle(
-                      color: colorPrimaryWhite,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                );
+            },
+          );
         },
       );
     } else {

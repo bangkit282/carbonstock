@@ -3,19 +3,19 @@ part of '../../views.dart';
 class DetailSubPlotDPageScreen extends StatefulWidget {
   const DetailSubPlotDPageScreen({
     super.key,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
     required this.subPlotDList,
-    required this.subPlotDPohonList,
     required this.subPlotDNekromasList,
     required this.subPlotDTanahList,
   });
 
+  final String plotId;
   final String areaName;
   final String plotName;
 
   final List<SubPlotAreaDModel> subPlotDList;
-  final List<SubPlotAreaDPohonModel> subPlotDPohonList;
   final List<SubPlotAreaDNekromasModel> subPlotDNekromasList;
   final List<SubPlotAreaDTanahModel> subPlotDTanahList;
 
@@ -75,6 +75,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
   RxDouble tanahKarbonTonHa = 0.0.obs;
   RxDouble tanahKarbonTon = 0.0.obs;
 
+  RxList<SubPlotAreaDPohonModel> listPohon = <SubPlotAreaDPohonModel>[].obs;
   List<Map<String, String>> knownPohonListMap = [
     {'name': 'Pilih Nama Lokal', 'bioname': ''},
     {'name': 'Kalek', 'bioname': 'Eugenia sp'},
@@ -104,26 +105,24 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
     _pohonKerapatanJenisController.text = '${pohonKerapatan.value}';
   }
 
-  void checkSinglePohon() {
-    if (widget.subPlotDPohonList.isNotEmpty) {
-      selectedLocalNamePohon.value = widget.subPlotDPohonList.last.localName;
-      selectedBioNamePohon.value = widget.subPlotDPohonList.last.bioName;
+  void checkSinglePohon(List<SubPlotAreaDPohonModel> list) {
+    if (list.isNotEmpty) {
+      selectedLocalNamePohon.value = list.last.localName;
+      selectedBioNamePohon.value = list.last.bioName;
 
-      _pohonNamaIlmiahController.text = widget.subPlotDPohonList.last.bioName;
+      _pohonNamaIlmiahController.text = list.last.bioName;
 
-      pohonBiomassLand.value = widget.subPlotDPohonList.last.biomassLand;
-      pohonKerapatan.value = widget.subPlotDPohonList.last.kerapatanKayu;
+      pohonBiomassLand.value = list.last.biomassLand;
+      pohonKerapatan.value = list.last.kerapatanKayu;
 
-      _pohonKelilingController.text =
-          widget.subPlotDPohonList.last.keliling.toStringAsFixed(2);
-      _pohonDiameterController.text =
-          widget.subPlotDPohonList.last.diameter.toStringAsFixed(2);
+      _pohonKelilingController.text = list.last.keliling.toStringAsFixed(2);
+      _pohonDiameterController.text = list.last.diameter.toStringAsFixed(2);
+      _pohonKerapatanJenisController.text = '${pohonKerapatan.value}';
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    checkSinglePohon();
     initializePohon(selectedLocalNamePohon.value);
 
     return Scaffold(
@@ -167,8 +166,12 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
 
                   final subPlotAreaDModel = SubPlotAreaDModel(
                     uuid: uuid.v4(),
+                    plotId: widget.plotId,
                     areaName: widget.areaName,
                     plotName: widget.plotName,
+                    subPlotDModels: widget.subPlotDList.isNotEmpty
+                        ? widget.subPlotDList.last.subPlotDModels
+                        : [],
                     subPlotDPhotoUrl: '',
                     updateAt: DateTime.now(),
                   );
@@ -198,9 +201,10 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                         double carbonAbsorb =
                             pohonBiomassLand.value * 0.47 * (44 / 12);
 
-                        if (widget.subPlotDPohonList.isEmpty) {
+                        if (listPohon.isEmpty) {
                           final subPlotAreaDPohonModel = SubPlotAreaDPohonModel(
                             uuid: uuid.v4(),
+                            plotId: widget.plotId,
                             areaName: widget.areaName,
                             plotName: widget.plotName,
                             keliling: keliling,
@@ -214,18 +218,22 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                             updateAt: DateTime.now(),
                           );
 
+                          _sharedPref.putDouble('karbon_d_pohon', carbonValue);
+                          _sharedPref.putDouble('absorb_d_pohon', carbonAbsorb);
                           await _controller.insertSubPlotD(
                             subPlotAreaDModel,
                             subPlotAreaDPohonModel,
                             null,
                             null,
                           );
+
                           _sharedPref.putBool('subplot_d_data', true);
                         } else {
                           // d.log('isNotEmpty - update', name: 'semai');
 
                           final subPlotAreaDPohonModel = SubPlotAreaDPohonModel(
-                            uuid: widget.subPlotDPohonList.last.uuid,
+                            uuid: listPohon.last.uuid,
+                            plotId: widget.plotId,
                             areaName: widget.areaName,
                             plotName: widget.plotName,
                             keliling: keliling,
@@ -245,6 +253,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                             null,
                             null,
                           );
+
                           _sharedPref.putBool('subplot_d_data', true);
                         }
                       }
@@ -274,10 +283,11 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                       double carbonValue = nekromasKarbon.value;
                       double carbonAbsorb = nekromasKarbon.value * 3.67;
 
-                      if (widget.subPlotDPohonList.isEmpty) {
+                      if (widget.subPlotDNekromasList.isEmpty) {
                         final subPlotAreaDNekromasModel =
                             SubPlotAreaDNekromasModel(
                           uuid: uuid.v4(),
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           diameterPangkal: dPangkal,
@@ -290,17 +300,27 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           updateAt: DateTime.now(),
                         );
 
+                        _sharedPref.putDouble(
+                          'karbon_d_nekromas',
+                          carbonValue,
+                        );
+                        _sharedPref.putDouble(
+                          'absorb_d_nekromas',
+                          carbonAbsorb,
+                        );
                         await _controller.insertSubPlotD(
                           subPlotAreaDModel,
                           null,
                           subPlotAreaDNekromasModel,
                           null,
                         );
+
                         _sharedPref.putBool('subplot_d_data', true);
                       } else {
                         final subPlotAreaDNekromasModel =
                             SubPlotAreaDNekromasModel(
                           uuid: widget.subPlotDNekromasList.last.uuid,
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           diameterPangkal: dPangkal,
@@ -313,12 +333,21 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           updateAt: DateTime.now(),
                         );
 
+                        _sharedPref.putDouble(
+                          'karbon_d_nekromas',
+                          carbonValue,
+                        );
+                        _sharedPref.putDouble(
+                          'absorb_d_nekromas',
+                          carbonAbsorb,
+                        );
                         await _controller.updateSubPlotD(
                           subPlotAreaDModel,
                           null,
                           subPlotAreaDNekromasModel,
                           null,
                         );
+
                         _sharedPref.putBool('subplot_d_data', true);
                       }
                     }
@@ -348,9 +377,10 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
 
                       double carbonAbsorb = tanahKarbonTon.value * 3.67;
 
-                      if (widget.subPlotDPohonList.isEmpty) {
+                      if (widget.subPlotDTanahList.isEmpty) {
                         final subPlotAreaDTanah = SubPlotAreaDTanahModel(
                           uuid: uuid.v4(),
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           kedalamanSample: kedalaman,
@@ -363,18 +393,26 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           updateAt: DateTime.now(),
                         );
 
+                        _sharedPref.putDouble(
+                          'karbon_d_tanah',
+                          tanahKarbonTon.value,
+                        );
+                        _sharedPref.putDouble(
+                          'absorb_d_tanah',
+                          tanahKarbonTon.value * 3.67,
+                        );
                         await _controller.insertSubPlotD(
                           subPlotAreaDModel,
                           null,
                           null,
                           subPlotAreaDTanah,
                         );
+
                         _sharedPref.putBool('subplot_d_data', true);
                       } else {
-                        // d.log('isNotEmpty - update', name: 'semai');
-
                         final subPlotAreaDTanah = SubPlotAreaDTanahModel(
                           uuid: widget.subPlotDTanahList.last.uuid,
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           kedalamanSample: kedalaman,
@@ -393,10 +431,21 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           null,
                           subPlotAreaDTanah,
                         );
+
                         _sharedPref.putBool('subplot_d_data', true);
+                        _sharedPref.putDouble(
+                          'karbon_d_tanah',
+                          karbonTon,
+                        );
+                        _sharedPref.putDouble(
+                          'absorb_d_tanah',
+                          carbonAbsorb,
+                        );
                       }
                     }
                   }
+
+                  d.log('${_sharedPref.checkKey('absorb_d_tanah')}');
 
                   if (_sharedPref.checkKey('subplot_d_data')) {
                     Get.back();
@@ -447,6 +496,11 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
         ValueListenableBuilder(
           valueListenable: _controller.contactDPohonBox.listenable(),
           builder: (context, box, _) {
+            List<SubPlotAreaDPohonModel> list = box.values
+                .where((element) => element.plotId == widget.plotId)
+                .toList();
+
+            checkSinglePohon(list);
             return buildPohonInfo();
           },
         ),
@@ -457,11 +511,21 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
             if (box.isEmpty) {
               return buildNekromasInfo(null, null, null);
             } else {
-              return buildNekromasInfo(
-                box.getAt(box.length - 1)?.diameterPangkal,
-                box.getAt(box.length - 1)?.diameterUjung,
-                box.getAt(box.length - 1)?.panjang,
-              );
+              List data = box.values
+                  .where((element) => element.plotId == widget.plotId)
+                  .toList();
+
+              d.log('nekromas: $data', name: 'Data D');
+
+              if (data.isNotEmpty) {
+                return buildNekromasInfo(
+                  data.last?.diameterPangkal,
+                  data.last?.diameterUjung,
+                  data.last?.panjang,
+                );
+              } else {
+                return const SizedBox();
+              }
             }
           },
         ),
@@ -472,11 +536,21 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
             if (box.isEmpty) {
               return buildTanahInfo(null, null, null);
             } else {
-              return buildTanahInfo(
-                box.getAt(box.length - 1)?.kedalamanSample,
-                box.getAt(box.length - 1)?.organicTanah,
-                box.getAt(box.length - 1)?.beratJenisTanah,
-              );
+              List data = box.values
+                  .where((element) => element.plotId == widget.plotId)
+                  .toList();
+
+              d.log('tanah: $data', name: 'Data D');
+
+              if (data.isNotEmpty) {
+                return buildTanahInfo(
+                  data.last?.kedalamanSample,
+                  data.last?.organicTanah,
+                  data.last?.beratJenisTanah,
+                );
+              } else {
+                return const SizedBox();
+              }
             }
           },
         ),

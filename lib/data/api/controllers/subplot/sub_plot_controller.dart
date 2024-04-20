@@ -49,6 +49,7 @@ class SubPlotController extends GetxController {
     if (subPlotModelSemai != null) {
       final subPlotSemai = SubPlotAreaASemaiModel(
         uuid: subPlotModelSemai.uuid,
+        plotId: subPlotModelSemai.plotId,
         areaName: subPlotModelSemai.areaName,
         plotName: subPlotModelSemai.plotName,
         basahTotal: subPlotModelSemai.basahTotal,
@@ -70,6 +71,7 @@ class SubPlotController extends GetxController {
     if (subPlotModelSeresah != null) {
       final subPlotSeresah = SubPlotAreaASeresahModel(
         uuid: subPlotModelSeresah.uuid,
+        plotId: subPlotModelSeresah.plotId,
         areaName: subPlotModelSeresah.areaName,
         plotName: subPlotModelSeresah.plotName,
         basahTotal: subPlotModelSeresah.basahTotal,
@@ -92,6 +94,7 @@ class SubPlotController extends GetxController {
     if (subPlotModelTumbuhanBawah != null) {
       final subPlotTumbuhanBawah = SubPlotAreaATumbuhanBawahModel(
         uuid: subPlotModelTumbuhanBawah.uuid,
+        plotId: subPlotModelTumbuhanBawah.plotId,
         areaName: subPlotModelTumbuhanBawah.areaName,
         plotName: subPlotModelTumbuhanBawah.plotName,
         basahTotal: subPlotModelTumbuhanBawah.basahTotal,
@@ -115,6 +118,7 @@ class SubPlotController extends GetxController {
 
     final subPlotA = SubPlotAreaAModel(
       uuid: subPlotAModel.uuid,
+      plotId: subPlotAModel.plotId,
       areaName: subPlotAModel.areaName,
       plotName: subPlotAModel.plotName,
       subPlotAModels: listPlotA,
@@ -140,6 +144,7 @@ class SubPlotController extends GetxController {
     if (subPlotModelSemai != null) {
       final subPlotSemai = SubPlotAreaASemaiModel(
         uuid: subPlotModelSemai.uuid,
+        plotId: subPlotModelSemai.plotId,
         areaName: subPlotModelSemai.areaName,
         plotName: subPlotModelSemai.plotName,
         basahTotal: subPlotModelSemai.basahTotal,
@@ -157,6 +162,7 @@ class SubPlotController extends GetxController {
     if (subPlotModelSeresah != null) {
       final subPlotSeresah = SubPlotAreaASeresahModel(
         uuid: subPlotModelSeresah.uuid,
+        plotId: subPlotModelSeresah.plotId,
         areaName: subPlotModelSeresah.areaName,
         plotName: subPlotModelSeresah.plotName,
         basahTotal: subPlotModelSeresah.basahTotal,
@@ -174,6 +180,7 @@ class SubPlotController extends GetxController {
     if (subPlotModelTumbuhanBawah != null) {
       final subPlotTumbuhanBawah = SubPlotAreaATumbuhanBawahModel(
         uuid: subPlotModelTumbuhanBawah.uuid,
+        plotId: subPlotModelTumbuhanBawah.plotId,
         areaName: subPlotModelTumbuhanBawah.areaName,
         plotName: subPlotModelTumbuhanBawah.plotName,
         basahTotal: subPlotModelTumbuhanBawah.basahTotal,
@@ -189,8 +196,9 @@ class SubPlotController extends GetxController {
     }
 
     if (listPlotA.isNotEmpty) {
-      final SubPlotAreaAModel subPlotA = SubPlotAreaAModel(
+      final subPlotA = SubPlotAreaAModel(
         uuid: subPlotAModel.uuid,
+        plotId: subPlotAModel.plotId,
         areaName: subPlotAModel.areaName,
         plotName: subPlotAModel.plotName,
         subPlotAModels: listPlotA,
@@ -208,6 +216,7 @@ class SubPlotController extends GetxController {
   Future<void> insertSubPlotB(SubPlotAreaBModel subPlotBModel) async {
     final SubPlotAreaBModel subPlotB = SubPlotAreaBModel(
       uuid: subPlotBModel.uuid,
+      plotId: subPlotBModel.plotId,
       areaName: subPlotBModel.areaName,
       plotName: subPlotBModel.plotName,
       keliling: subPlotBModel.keliling,
@@ -227,6 +236,7 @@ class SubPlotController extends GetxController {
   Future<void> updateSubPlotB(SubPlotAreaBModel subPlotBModel) async {
     final SubPlotAreaBModel subPlotB = SubPlotAreaBModel(
       uuid: subPlotBModel.uuid,
+      plotId: subPlotBModel.plotId,
       areaName: subPlotBModel.areaName,
       plotName: subPlotBModel.plotName,
       keliling: subPlotBModel.keliling,
@@ -247,6 +257,7 @@ class SubPlotController extends GetxController {
   Future<void> insertSubPlotC(SubPlotAreaCModel subPlotCModel) async {
     final SubPlotAreaCModel subPlotC = SubPlotAreaCModel(
       uuid: subPlotCModel.uuid,
+      plotId: subPlotCModel.plotId,
       areaName: subPlotCModel.areaName,
       plotName: subPlotCModel.plotName,
       keliling: subPlotCModel.keliling,
@@ -266,6 +277,7 @@ class SubPlotController extends GetxController {
   Future<void> updateSubPlotC(SubPlotAreaCModel subPlotCModel) async {
     final SubPlotAreaCModel subPlotC = SubPlotAreaCModel(
       uuid: subPlotCModel.uuid,
+      plotId: subPlotCModel.plotId,
       areaName: subPlotCModel.areaName,
       plotName: subPlotCModel.plotName,
       keliling: subPlotCModel.keliling,
@@ -293,8 +305,9 @@ class SubPlotController extends GetxController {
     List<dynamic>? listPlotD = subPlotModelD.subPlotDModels ?? [];
 
     if (subPlotModelPohon != null) {
-      final SubPlotAreaDPohonModel subPlotPohon = SubPlotAreaDPohonModel(
+      final subPlotPohon = SubPlotAreaDPohonModel(
         uuid: subPlotModelPohon.uuid,
+        plotId: subPlotModelPohon.plotId,
         areaName: subPlotModelPohon.areaName,
         plotName: subPlotModelPohon.plotName,
         keliling: subPlotModelPohon.keliling,
@@ -318,9 +331,9 @@ class SubPlotController extends GetxController {
     }
 
     if (subPlotModelNekromas != null) {
-      final SubPlotAreaDNekromasModel subPlotNekromas =
-          SubPlotAreaDNekromasModel(
+      final subPlotNekromas = SubPlotAreaDNekromasModel(
         uuid: subPlotModelNekromas.uuid,
+        plotId: subPlotModelNekromas.plotId,
         areaName: subPlotModelNekromas.areaName,
         plotName: subPlotModelNekromas.plotName,
         diameterPangkal: subPlotModelNekromas.diameterPangkal,
@@ -343,8 +356,9 @@ class SubPlotController extends GetxController {
     }
 
     if (subPlotModelTanah != null) {
-      final SubPlotAreaDTanahModel subPlotTanah = SubPlotAreaDTanahModel(
+      final subPlotTanah = SubPlotAreaDTanahModel(
         uuid: subPlotModelTanah.uuid,
+        plotId: subPlotModelTanah.plotId,
         areaName: subPlotModelTanah.areaName,
         plotName: subPlotModelTanah.plotName,
         kedalamanSample: subPlotModelTanah.kedalamanSample,
@@ -366,19 +380,17 @@ class SubPlotController extends GetxController {
       await SubPlotAreaDB.addSubPlotTanah(subPlotTanah);
     }
 
-    if (listPlotD.isNotEmpty) {
-      final SubPlotAreaDModel subPlotD = SubPlotAreaDModel(
-        uuid: subPlotModelD.uuid,
-        areaName: subPlotModelD.areaName,
-        plotName: subPlotModelD.plotName,
-        subPlotDModels: listPlotD,
-        subPlotDPhotoUrl: subPlotModelD.subPlotDPhotoUrl,
-        updateAt: subPlotModelD.updateAt,
-      );
+    final subPlotD = SubPlotAreaDModel(
+      uuid: subPlotModelD.uuid,
+      plotId: subPlotModelD.plotId,
+      areaName: subPlotModelD.areaName,
+      plotName: subPlotModelD.plotName,
+      subPlotDModels: listPlotD,
+      subPlotDPhotoUrl: subPlotModelD.subPlotDPhotoUrl,
+      updateAt: subPlotModelD.updateAt,
+    );
 
-      await SubPlotAreaDB.addSubPlotD(subPlotD);
-    }
-
+    await SubPlotAreaDB.addSubPlotD(subPlotD);
     isLoading(false);
   }
 
@@ -393,8 +405,9 @@ class SubPlotController extends GetxController {
     List<dynamic>? listPlotD = subPlotModelD.subPlotDModels ?? [];
 
     if (subPlotModelPohon != null) {
-      final SubPlotAreaDPohonModel subPlotPohon = SubPlotAreaDPohonModel(
+      final subPlotPohon = SubPlotAreaDPohonModel(
         uuid: subPlotModelPohon.uuid,
+        plotId: subPlotModelPohon.plotId,
         areaName: subPlotModelPohon.areaName,
         plotName: subPlotModelPohon.plotName,
         keliling: subPlotModelPohon.keliling,
@@ -413,9 +426,9 @@ class SubPlotController extends GetxController {
     }
 
     if (subPlotModelNekromas != null) {
-      final SubPlotAreaDNekromasModel subPlotNekromas =
-          SubPlotAreaDNekromasModel(
+      final subPlotNekromas = SubPlotAreaDNekromasModel(
         uuid: subPlotModelNekromas.uuid,
+        plotId: subPlotModelNekromas.plotId,
         areaName: subPlotModelNekromas.areaName,
         plotName: subPlotModelNekromas.plotName,
         diameterPangkal: subPlotModelNekromas.diameterPangkal,
@@ -433,8 +446,9 @@ class SubPlotController extends GetxController {
     }
 
     if (subPlotModelTanah != null) {
-      final SubPlotAreaDTanahModel subPlotTanah = SubPlotAreaDTanahModel(
+      final subPlotTanah = SubPlotAreaDTanahModel(
         uuid: subPlotModelTanah.uuid,
+        plotId: subPlotModelTanah.plotId,
         areaName: subPlotModelTanah.areaName,
         plotName: subPlotModelTanah.plotName,
         kedalamanSample: subPlotModelTanah.kedalamanSample,
@@ -452,8 +466,9 @@ class SubPlotController extends GetxController {
     }
 
     if (listPlotD.isNotEmpty) {
-      final SubPlotAreaDModel subPlotD = SubPlotAreaDModel(
+      final subPlotD = SubPlotAreaDModel(
         uuid: subPlotModelD.uuid,
+        plotId: subPlotModelD.plotId,
         areaName: subPlotModelD.areaName,
         plotName: subPlotModelD.plotName,
         subPlotDModels: listPlotD,

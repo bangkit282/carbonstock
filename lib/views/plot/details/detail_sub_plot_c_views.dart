@@ -3,12 +3,12 @@ part of '../../views.dart';
 class DetailSubPlotCPageScreen extends StatefulWidget {
   const DetailSubPlotCPageScreen({
     super.key,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
-    required this.subPlotCList,
   });
 
-  final List<SubPlotAreaCModel> subPlotCList;
+  final String plotId;
   final String areaName;
   final String plotName;
 
@@ -19,6 +19,7 @@ class DetailSubPlotCPageScreen extends StatefulWidget {
 
 class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
   final _tiangKelilingFormKey = GlobalKey<FormState>();
+
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
   final SubPlotController _controller = Get.find();
 
@@ -30,6 +31,8 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
       TextEditingController();
   final TextEditingController _tiangKerapatanJenisController =
       TextEditingController();
+
+  RxList<SubPlotAreaCModel> list = <SubPlotAreaCModel>[].obs;
 
   RxString selectedLocalName = 'Pilih Nama Lokal'.obs;
   RxString selectedBioName = ''.obs;
@@ -68,26 +71,24 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
     _tiangKerapatanJenisController.text = '${tiangKerapatan.value}';
   }
 
-  void checkSingleTiang() {
-    if (widget.subPlotCList.isNotEmpty) {
-      selectedLocalName.value = widget.subPlotCList.last.localName;
-      selectedBioName.value = widget.subPlotCList.last.bioName;
+  void checkSingleTiang(List<SubPlotAreaCModel> list) {
+    if (list.isNotEmpty) {
+      selectedLocalName.value = list.last.localName;
+      selectedBioName.value = list.last.bioName;
 
-      _tiangNamaIlmiahController.text = widget.subPlotCList.last.bioName;
+      _tiangNamaIlmiahController.text = list.last.bioName;
 
-      tiangBiomassLand.value = widget.subPlotCList.last.biomassLand;
-      tiangKerapatan.value = widget.subPlotCList.last.kerapatanKayu;
+      tiangBiomassLand.value = list.last.biomassLand;
+      tiangKerapatan.value = list.last.kerapatanKayu;
 
-      _tiangKelilingController.text =
-          widget.subPlotCList.last.keliling.toStringAsFixed(2);
-      _tiangDiameterController.text =
-          widget.subPlotCList.last.diameter.toStringAsFixed(2);
+      _tiangKelilingController.text = list.last.keliling.toStringAsFixed(2);
+      _tiangDiameterController.text = list.last.diameter.toStringAsFixed(2);
+      _tiangKerapatanJenisController.text = '${tiangKerapatan.value}';
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    checkSingleTiang();
     initializeTiang(selectedLocalName.value);
 
     return Scaffold(
@@ -150,11 +151,12 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                       double carbonAbsorb =
                           tiangBiomassLand.value * 0.47 * (44 / 12);
 
-                      if (widget.subPlotCList.isEmpty) {
+                      if (list.isEmpty) {
                         Uuid uuid = const Uuid();
 
-                        SubPlotAreaCModel subPlotCModel = SubPlotAreaCModel(
+                        final subPlotCModel = SubPlotAreaCModel(
                           uuid: uuid.v4(),
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           localName: name,
@@ -170,9 +172,13 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
 
                         await _controller.insertSubPlotC(subPlotCModel);
                         _sharedPref.putBool('tiang_data', true);
+
+                        _sharedPref.putDouble('karbon_c', carbonValue);
+                        _sharedPref.putDouble('absorb_c', carbonAbsorb);
                       } else {
-                        SubPlotAreaCModel subPlotCModel = SubPlotAreaCModel(
-                          uuid: widget.subPlotCList.last.uuid,
+                        final subPlotCModel = SubPlotAreaCModel(
+                          uuid: list.last.uuid,
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           localName: name,
@@ -188,6 +194,9 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
 
                         await _controller.updateSubPlotC(subPlotCModel);
                         _sharedPref.putBool('tiang_data', true);
+
+                        _sharedPref.putDouble('karbon_c', carbonValue);
+                        _sharedPref.putDouble('absorb_c', carbonAbsorb);
                       }
 
                       if (_sharedPref.checkKey('tiang_data')) {
@@ -241,6 +250,11 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
         ValueListenableBuilder(
           valueListenable: _controller.contactCBox.listenable(),
           builder: (context, box, _) {
+            List<SubPlotAreaCModel> list = box.values
+                .where((element) => element.plotId == widget.plotId)
+                .toList();
+
+            checkSingleTiang(list);
             return buildTiangInfo();
           },
         ),

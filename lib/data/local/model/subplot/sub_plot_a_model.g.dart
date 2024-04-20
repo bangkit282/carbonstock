@@ -18,29 +18,32 @@ class SubPlotAreaAModelAdapter extends TypeAdapter<SubPlotAreaAModel> {
     };
     return SubPlotAreaAModel(
       uuid: fields[0] as String?,
-      areaName: fields[1] as String,
-      plotName: fields[2] as String,
-      subPlotAModels: (fields[3] as List?)?.cast<dynamic>(),
-      subPlotAPhotoUrl: fields[4] as String,
-      updateAt: fields[5] as DateTime,
+      plotId: fields[1] as String,
+      areaName: fields[2] as String,
+      plotName: fields[3] as String,
+      subPlotAModels: (fields[4] as List?)?.cast<dynamic>(),
+      subPlotAPhotoUrl: fields[5] as String,
+      updateAt: fields[6] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaAModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
-      ..write(obj.areaName)
+      ..write(obj.plotId)
       ..writeByte(2)
-      ..write(obj.plotName)
+      ..write(obj.areaName)
       ..writeByte(3)
-      ..write(obj.subPlotAModels)
+      ..write(obj.plotName)
       ..writeByte(4)
-      ..write(obj.subPlotAPhotoUrl)
+      ..write(obj.subPlotAModels)
       ..writeByte(5)
+      ..write(obj.subPlotAPhotoUrl)
+      ..writeByte(6)
       ..write(obj.updateAt);
   }
 
@@ -68,38 +71,41 @@ class SubPlotAreaASemaiModelAdapter
     };
     return SubPlotAreaASemaiModel(
       uuid: fields[0] as String?,
-      areaName: fields[1] as String,
-      plotName: fields[2] as String,
-      basahTotal: fields[3] as double,
-      basahSample: fields[4] as double,
-      keringTotal: fields[5] as double,
-      keringSample: fields[6] as double,
-      carbonValue: fields[7] as double,
-      carbonAbsorb: fields[8] as double,
+      plotId: fields[1] as String,
+      areaName: fields[2] as String,
+      plotName: fields[3] as String,
+      basahTotal: fields[4] as double,
+      basahSample: fields[5] as double,
+      keringTotal: fields[6] as double,
+      keringSample: fields[7] as double,
+      carbonValue: fields[8] as double,
+      carbonAbsorb: fields[9] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaASemaiModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
-      ..write(obj.areaName)
+      ..write(obj.plotId)
       ..writeByte(2)
-      ..write(obj.plotName)
+      ..write(obj.areaName)
       ..writeByte(3)
-      ..write(obj.basahTotal)
+      ..write(obj.plotName)
       ..writeByte(4)
-      ..write(obj.basahSample)
+      ..write(obj.basahTotal)
       ..writeByte(5)
-      ..write(obj.keringTotal)
+      ..write(obj.basahSample)
       ..writeByte(6)
-      ..write(obj.keringSample)
+      ..write(obj.keringTotal)
       ..writeByte(7)
-      ..write(obj.carbonValue)
+      ..write(obj.keringSample)
       ..writeByte(8)
+      ..write(obj.carbonValue)
+      ..writeByte(9)
       ..write(obj.carbonAbsorb);
   }
 
@@ -127,38 +133,41 @@ class SubPlotAreaASeresahModelAdapter
     };
     return SubPlotAreaASeresahModel(
       uuid: fields[0] as String?,
-      areaName: fields[1] as String,
-      plotName: fields[2] as String,
-      basahTotal: fields[3] as double,
-      basahSample: fields[4] as double,
-      keringTotal: fields[5] as double,
-      keringSample: fields[6] as double,
-      carbonValue: fields[7] as double,
-      carbonAbsorb: fields[8] as double,
+      plotId: fields[1] as String,
+      areaName: fields[2] as String,
+      plotName: fields[3] as String,
+      basahTotal: fields[4] as double,
+      basahSample: fields[5] as double,
+      keringTotal: fields[6] as double,
+      keringSample: fields[7] as double,
+      carbonValue: fields[8] as double,
+      carbonAbsorb: fields[9] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaASeresahModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
-      ..write(obj.areaName)
+      ..write(obj.plotId)
       ..writeByte(2)
-      ..write(obj.plotName)
+      ..write(obj.areaName)
       ..writeByte(3)
-      ..write(obj.basahTotal)
+      ..write(obj.plotName)
       ..writeByte(4)
-      ..write(obj.basahSample)
+      ..write(obj.basahTotal)
       ..writeByte(5)
-      ..write(obj.keringTotal)
+      ..write(obj.basahSample)
       ..writeByte(6)
-      ..write(obj.keringSample)
+      ..write(obj.keringTotal)
       ..writeByte(7)
-      ..write(obj.carbonValue)
+      ..write(obj.keringSample)
       ..writeByte(8)
+      ..write(obj.carbonValue)
+      ..writeByte(9)
       ..write(obj.carbonAbsorb);
   }
 
@@ -186,38 +195,41 @@ class SubPlotAreaATumbuhanBawahModelAdapter
     };
     return SubPlotAreaATumbuhanBawahModel(
       uuid: fields[0] as String?,
-      areaName: fields[1] as String,
-      plotName: fields[2] as String,
-      basahTotal: fields[3] as double,
-      basahSample: fields[4] as double,
-      keringTotal: fields[5] as double,
-      keringSample: fields[6] as double,
-      carbonValue: fields[7] as double,
-      carbonAbsorb: fields[8] as double,
+      plotId: fields[1] as String,
+      areaName: fields[2] as String,
+      plotName: fields[3] as String,
+      basahTotal: fields[4] as double,
+      basahSample: fields[5] as double,
+      keringTotal: fields[6] as double,
+      keringSample: fields[7] as double,
+      carbonValue: fields[8] as double,
+      carbonAbsorb: fields[9] as double,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaATumbuhanBawahModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
-      ..write(obj.areaName)
+      ..write(obj.plotId)
       ..writeByte(2)
-      ..write(obj.plotName)
+      ..write(obj.areaName)
       ..writeByte(3)
-      ..write(obj.basahTotal)
+      ..write(obj.plotName)
       ..writeByte(4)
-      ..write(obj.basahSample)
+      ..write(obj.basahTotal)
       ..writeByte(5)
-      ..write(obj.keringTotal)
+      ..write(obj.basahSample)
       ..writeByte(6)
-      ..write(obj.keringSample)
+      ..write(obj.keringTotal)
       ..writeByte(7)
-      ..write(obj.carbonValue)
+      ..write(obj.keringSample)
       ..writeByte(8)
+      ..write(obj.carbonValue)
+      ..writeByte(9)
       ..write(obj.carbonAbsorb);
   }
 

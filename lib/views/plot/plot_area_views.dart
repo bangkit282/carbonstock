@@ -95,7 +95,7 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
             child: ListView.builder(
               itemCount: plotList.length,
               itemBuilder: (context, index) {
-                return buildPlotWidget(index);
+                return buildPlotWidget(plotList.getAt(index)!);
               },
             ),
           );
@@ -104,8 +104,8 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
     );
   }
 
-  Card buildPlotWidget(int index) {
-    String plotName = 'Plot ${index + 1}';
+  Card buildPlotWidget(PlotModel plot) {
+    String plotName = 'Plot ${plot.plotId}';
 
     return Card(
       elevation: 0.5,
@@ -114,6 +114,7 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
         onTap: () {
           Get.to(
             () => SubPlotAreaScreenViews(
+              plotId: plot.plotId!,
               areaName: 'Area Dayeuhkolot',
               plotName: plotName,
             ),

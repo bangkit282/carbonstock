@@ -7,30 +7,33 @@ class SubPlotAreaCModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
   @HiveField(1)
-  final String areaName;
+  final String plotId;
   @HiveField(2)
-  final String plotName;
+  final String areaName;
   @HiveField(3)
-  final String localName;
+  final String plotName;
   @HiveField(4)
-  final String bioName;
+  final String localName;
   @HiveField(5)
-  final double keliling;
+  final String bioName;
   @HiveField(6)
-  final double diameter;
+  final double keliling;
   @HiveField(7)
-  final double kerapatanKayu;
+  final double diameter;
   @HiveField(8)
-  final double biomassLand;
+  final double kerapatanKayu;
   @HiveField(9)
-  final double carbonValue;
+  final double biomassLand;
   @HiveField(10)
-  final double carbonAbsorb;
+  final double carbonValue;
   @HiveField(11)
+  final double carbonAbsorb;
+  @HiveField(12)
   final String subPlotCPhotoUrl;
 
   SubPlotAreaCModel({
     this.uuid,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
     required this.localName,
