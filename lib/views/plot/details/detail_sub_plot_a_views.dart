@@ -3,6 +3,7 @@ part of '../../views.dart';
 class DetailSubPlotAPageScreen extends StatefulWidget {
   const DetailSubPlotAPageScreen({
     super.key,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
     required this.plotAList,
@@ -11,8 +12,10 @@ class DetailSubPlotAPageScreen extends StatefulWidget {
     required this.tumbuhanList,
   });
 
+  final String plotId;
   final String areaName;
   final String plotName;
+
   final List<SubPlotAreaAModel> plotAList;
   final List<SubPlotAreaASemaiModel> semaiList;
   final List<SubPlotAreaASeresahModel> seresahList;
@@ -26,10 +29,6 @@ class DetailSubPlotAPageScreen extends StatefulWidget {
 class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
   final SubPlotController _controller = Get.find();
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
-
-  RxBool isSemaiExpand = false.obs;
-  RxBool isSeresahExpand = false.obs;
-  RxBool isTumbuhanKTotalExpand = false.obs;
 
   final TextEditingController _semaiBTotalController = TextEditingController();
   final TextEditingController _semaiBSampleController = TextEditingController();
@@ -113,6 +112,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                   final subPlotAreaAModel = SubPlotAreaAModel(
                     uuid: uuid.v4(),
+                    plotId: widget.plotId,
                     areaName: widget.areaName,
                     plotName: widget.plotName,
                     subPlotAModels: widget.plotAList.isNotEmpty
@@ -141,6 +141,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                         final subPlotASemai = SubPlotAreaASemaiModel(
                           uuid: uuid.v4(),
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           basahTotal: semaiTotal.value,
@@ -159,12 +160,21 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         _sharedPref.putBool('subplot_a_data', true);
+                        _sharedPref.putDouble(
+                          'karbon_a_semai',
+                          semaiCarbon,
+                        );
+                        _sharedPref.putDouble(
+                          'absorb_a_semai',
+                          carbonAbsorb,
+                        );
                       } else {
                         double semaiCarbon = (semaiKTotal.value * 0.47);
                         double carbonAbsorb = semaiCarbon * (44 / 12);
 
                         final subPlotASemai = SubPlotAreaASemaiModel(
                           uuid: widget.semaiList.last.uuid,
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           basahTotal: semaiTotal.value,
@@ -177,6 +187,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                         final subPlotAreaA = SubPlotAreaAModel(
                           uuid: widget.plotAList.last.uuid,
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           subPlotAModels: widget.plotAList.last.subPlotAModels,
@@ -192,6 +203,14 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         _sharedPref.putBool('subplot_a_data', true);
+                        _sharedPref.putDouble(
+                          'karbon_a_semai',
+                          semaiCarbon,
+                        );
+                        _sharedPref.putDouble(
+                          'absorb_a_semai',
+                          carbonAbsorb,
+                        );
                       }
                     }
                   }
@@ -215,6 +234,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                         final subPlotASeresah = SubPlotAreaASeresahModel(
                           uuid: uuid.v4(),
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           basahTotal: seresahTotal.value,
@@ -233,6 +253,14 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         _sharedPref.putBool('subplot_a_data', true);
+                        _sharedPref.putDouble(
+                          'karbon_a_seresah',
+                          seresahCarbon,
+                        );
+                        _sharedPref.putDouble(
+                          'absorb_a_seresah',
+                          carbonAbsorb,
+                        );
                       } else {
                         // d.log('isNotEmpty - update', name: 'seresah');
 
@@ -241,6 +269,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                         final subPlotASeresah = SubPlotAreaASeresahModel(
                           uuid: widget.seresahList.last.uuid,
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           basahTotal: seresahTotal.value,
@@ -253,6 +282,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                         final subPlotAreaA = SubPlotAreaAModel(
                           uuid: widget.plotAList.last.uuid,
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           subPlotAModels: widget.plotAList.last.subPlotAModels,
@@ -268,6 +298,14 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         _sharedPref.putBool('subplot_a_data', true);
+                        _sharedPref.putDouble(
+                          'karbon_a_seresah',
+                          seresahCarbon,
+                        );
+                        _sharedPref.putDouble(
+                          'absorb_a_seresah',
+                          carbonAbsorb,
+                        );
                       }
                     }
                   }
@@ -292,6 +330,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                         final subPlotATumbuhan = SubPlotAreaATumbuhanBawahModel(
                           uuid: uuid.v4(),
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           basahTotal: tumbuhanTotal.value,
@@ -310,14 +349,21 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         _sharedPref.putBool('subplot_a_data', true);
+                        _sharedPref.putDouble(
+                          'karbon_a_tumbuhan',
+                          tumbuhanCarbon,
+                        );
+                        _sharedPref.putDouble(
+                          'absorb_a_tumbuhan',
+                          carbonAbsorb,
+                        );
                       } else {
-                        // d.log('isNotEmpty - update', name: 'tumbuhan');
-
                         double tumbuhanCarbon = (tumbuhanKTotal.value * 0.47);
                         double carbonAbsorb = tumbuhanCarbon * (44 / 12);
 
                         final subPlotATumbuhan = SubPlotAreaATumbuhanBawahModel(
                           uuid: widget.tumbuhanList.last.uuid,
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           basahTotal: tumbuhanTotal.value,
@@ -330,6 +376,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
 
                         final subPlotAreaA = SubPlotAreaAModel(
                           uuid: widget.plotAList.last.uuid,
+                          plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           subPlotAModels: widget.plotAList.last.subPlotAModels,
@@ -345,6 +392,14 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         _sharedPref.putBool('subplot_a_data', true);
+                        _sharedPref.putDouble(
+                          'karbon_a_tumbuhan',
+                          tumbuhanCarbon,
+                        );
+                        _sharedPref.putDouble(
+                          'absorb_a_tumbuhan',
+                          carbonAbsorb,
+                        );
                       }
                     }
                   }
@@ -401,11 +456,21 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
             if (box.isEmpty) {
               return buildSemaiInfo(null, null, null);
             } else {
-              return buildSemaiInfo(
-                box.getAt(box.length - 1)?.basahTotal,
-                box.getAt(box.length - 1)?.basahSample,
-                box.getAt(box.length - 1)?.keringSample,
-              );
+              List data = box.values
+                  .where((element) => element.plotId == widget.plotId)
+                  .toList();
+
+              d.log('semai: $data', name: 'Data A');
+
+              if (data.isNotEmpty) {
+                return buildSemaiInfo(
+                  data.last?.basahTotal,
+                  data.last?.basahSample,
+                  data.last?.keringSample,
+                );
+              } else {
+                return const SizedBox();
+              }
             }
           },
         ),
@@ -416,11 +481,21 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
               if (box.isEmpty) {
                 return buildSeresahInfo(null, null, null);
               } else {
-                return buildSeresahInfo(
-                  box.getAt(box.length - 1)?.basahTotal,
-                  box.getAt(box.length - 1)?.basahSample,
-                  box.getAt(box.length - 1)?.keringSample,
-                );
+                List data = box.values
+                    .where((element) => element.plotId == widget.plotId)
+                    .toList();
+
+                d.log('seresah: $data', name: 'Data A');
+
+                if (data.isNotEmpty) {
+                  return buildSeresahInfo(
+                    data.last?.basahTotal,
+                    data.last?.basahSample,
+                    data.last?.keringSample,
+                  );
+                } else {
+                  return const SizedBox();
+                }
               }
             }),
         SizedBox(height: 16.h),
@@ -430,11 +505,21 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
             if (box.isEmpty) {
               return buildTumbuhanInfo(null, null, null);
             } else {
-              return buildTumbuhanInfo(
-                box.getAt(box.length - 1)?.basahTotal,
-                box.getAt(box.length - 1)?.basahSample,
-                box.getAt(box.length - 1)?.keringSample,
-              );
+              List data = box.values
+                  .where((element) => element.plotId == widget.plotId)
+                  .toList();
+
+              d.log('tumbuhan: $data', name: 'Data A');
+
+              if (data.isNotEmpty) {
+                return buildTumbuhanInfo(
+                  data.last?.basahTotal,
+                  data.last?.basahSample,
+                  data.last?.keringSample,
+                );
+              } else {
+                return const SizedBox();
+              }
             }
           },
         ),

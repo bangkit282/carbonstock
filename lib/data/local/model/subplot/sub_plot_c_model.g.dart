@@ -18,47 +18,50 @@ class SubPlotAreaCModelAdapter extends TypeAdapter<SubPlotAreaCModel> {
     };
     return SubPlotAreaCModel(
       uuid: fields[0] as String?,
-      areaName: fields[1] as String,
-      plotName: fields[2] as String,
-      localName: fields[3] as String,
-      bioName: fields[4] as String,
-      keliling: fields[5] as double,
-      diameter: fields[6] as double,
-      kerapatanKayu: fields[7] as double,
-      biomassLand: fields[8] as double,
-      carbonValue: fields[9] as double,
-      carbonAbsorb: fields[10] as double,
-      subPlotCPhotoUrl: fields[11] as String,
+      plotId: fields[1] as String,
+      areaName: fields[2] as String,
+      plotName: fields[3] as String,
+      localName: fields[4] as String,
+      bioName: fields[5] as String,
+      keliling: fields[6] as double,
+      diameter: fields[7] as double,
+      kerapatanKayu: fields[8] as double,
+      biomassLand: fields[9] as double,
+      carbonValue: fields[10] as double,
+      carbonAbsorb: fields[11] as double,
+      subPlotCPhotoUrl: fields[12] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaCModel obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
-      ..write(obj.areaName)
+      ..write(obj.plotId)
       ..writeByte(2)
-      ..write(obj.plotName)
+      ..write(obj.areaName)
       ..writeByte(3)
-      ..write(obj.localName)
+      ..write(obj.plotName)
       ..writeByte(4)
-      ..write(obj.bioName)
+      ..write(obj.localName)
       ..writeByte(5)
-      ..write(obj.keliling)
+      ..write(obj.bioName)
       ..writeByte(6)
-      ..write(obj.diameter)
+      ..write(obj.keliling)
       ..writeByte(7)
-      ..write(obj.kerapatanKayu)
+      ..write(obj.diameter)
       ..writeByte(8)
-      ..write(obj.biomassLand)
+      ..write(obj.kerapatanKayu)
       ..writeByte(9)
-      ..write(obj.carbonValue)
+      ..write(obj.biomassLand)
       ..writeByte(10)
-      ..write(obj.carbonAbsorb)
+      ..write(obj.carbonValue)
       ..writeByte(11)
+      ..write(obj.carbonAbsorb)
+      ..writeByte(12)
       ..write(obj.subPlotCPhotoUrl);
   }
 

@@ -7,18 +7,21 @@ class SubPlotAreaDModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
   @HiveField(1)
-  final String areaName;
+  final String plotId;
   @HiveField(2)
-  final String plotName;
+  final String areaName;
   @HiveField(3)
-  final List<dynamic>? subPlotDModels;
+  final String plotName;
   @HiveField(4)
-  final String subPlotDPhotoUrl;
+  final List<dynamic>? subPlotDModels;
   @HiveField(5)
+  final String subPlotDPhotoUrl;
+  @HiveField(6)
   final DateTime updateAt;
 
   SubPlotAreaDModel({
-    required this.uuid,
+    this.uuid,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
     this.subPlotDModels,
@@ -43,30 +46,33 @@ class SubPlotAreaDPohonModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
   @HiveField(1)
-  final String areaName;
+  final String plotId;
   @HiveField(2)
-  final String plotName;
+  final String areaName;
   @HiveField(3)
-  final String localName;
+  final String plotName;
   @HiveField(4)
-  final String bioName;
+  final String localName;
   @HiveField(5)
-  final double keliling;
+  final String bioName;
   @HiveField(6)
-  final double diameter;
+  final double keliling;
   @HiveField(7)
-  final double kerapatanKayu;
+  final double diameter;
   @HiveField(8)
-  final double biomassLand;
+  final double kerapatanKayu;
   @HiveField(9)
-  final double carbonValue;
+  final double biomassLand;
   @HiveField(10)
-  final double carbonAbsorb;
+  final double carbonValue;
   @HiveField(11)
+  final double carbonAbsorb;
+  @HiveField(12)
   final DateTime updateAt;
 
   SubPlotAreaDPohonModel({
-    required this.uuid,
+    this.uuid,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
     required this.localName,
@@ -83,6 +89,7 @@ class SubPlotAreaDPohonModel extends HiveObject {
   @override
   String toString() {
     return '''
+        plotId: $plotId,
         'areaName': $areaName,
         'plotName': $plotName,
         'localName': $localName,
@@ -103,28 +110,31 @@ class SubPlotAreaDNekromasModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
   @HiveField(1)
-  final String areaName;
+  final String plotId;
   @HiveField(2)
-  final String plotName;
+  final String areaName;
   @HiveField(3)
-  final double diameterPangkal;
+  final String plotName;
   @HiveField(4)
-  final double diameterUjung;
+  final double diameterPangkal;
   @HiveField(5)
-  final double panjang;
+  final double diameterUjung;
   @HiveField(6)
-  final double volume;
+  final double panjang;
   @HiveField(7)
-  final double biomassLand;
+  final double volume;
   @HiveField(8)
-  final double carbonValue;
+  final double biomassLand;
   @HiveField(9)
-  final double carbonAbsorb;
+  final double carbonValue;
   @HiveField(10)
+  final double carbonAbsorb;
+  @HiveField(11)
   final DateTime updateAt;
 
   SubPlotAreaDNekromasModel({
-    required this.uuid,
+    this.uuid,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
     required this.diameterPangkal,
@@ -140,6 +150,7 @@ class SubPlotAreaDNekromasModel extends HiveObject {
   @override
   String toString() {
     return '''
+      plotId: $plotId,
       'diameterPangkal': $diameterPangkal,
       'diameterUjung': $diameterUjung,
       'panjang': $panjang,
@@ -157,28 +168,31 @@ class SubPlotAreaDTanahModel extends HiveObject {
   @HiveField(0)
   final String? uuid;
   @HiveField(1)
-  final String areaName;
+  final String plotId;
   @HiveField(2)
-  final String plotName;
+  final String areaName;
   @HiveField(3)
-  final double kedalamanSample;
+  final String plotName;
   @HiveField(4)
-  final double beratJenisTanah;
+  final double kedalamanSample;
   @HiveField(5)
-  final double organicTanah;
+  final double beratJenisTanah;
   @HiveField(6)
-  final double carbonGrCm;
+  final double organicTanah;
   @HiveField(7)
-  final double carbonTonHa;
+  final double carbonGrCm;
   @HiveField(8)
-  final double carbonTon;
+  final double carbonTonHa;
   @HiveField(9)
-  final double carbonAbsorb;
+  final double carbonTon;
   @HiveField(10)
+  final double carbonAbsorb;
+  @HiveField(11)
   final DateTime updateAt;
 
   SubPlotAreaDTanahModel({
-    required this.uuid,
+    this.uuid,
+    required this.plotId,
     required this.areaName,
     required this.plotName,
     required this.kedalamanSample,
@@ -194,6 +208,7 @@ class SubPlotAreaDTanahModel extends HiveObject {
   @override
   String toString() {
     return '''
+      'plotId': $plotId,
       'kedalamanSample': $kedalamanSample,
       'beratJenisTanah': $beratJenisTanah,
       'organicTanah': $organicTanah,
