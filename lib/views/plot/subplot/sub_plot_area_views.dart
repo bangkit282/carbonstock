@@ -18,6 +18,7 @@ class SubPlotAreaScreenViews extends StatefulWidget {
 
 class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
   final SubPlotController _controller = Get.find();
+  final RxInt clicked = 0.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -44,29 +45,53 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: EdgeInsets.all(24.r),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Data Sub Plot',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
+            GestureDetector(
+              onTap: () {
+                clicked.value += 1;
+
+                if (clicked.value == 3) {
+                  Get.snackbar(
+                    'CarbonStock',
+                    'Wow, kamu berhasil menemukan Easter Egg!',
+                    backgroundColor: colorSecondaryGrey1,
+                  );
+
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => const EasterEggPageViews(),
+                      transitionsBuilder: (_, animation, __, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+
+                  clicked.value = 0;
+                }
+              },
+              child: Container(
+                padding: EdgeInsets.all(24.r),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Data Sub Plot',
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w700,
                       ),
-                      Text(
-                        'Masukkan data zona yang akan dituju',
-                        style: TextStyle(fontSize: 12.sp),
-                      ),
-                    ],
-                  ),
-                ],
+                    ),
+                    Text(
+                      'Masukkan data zona yang akan dituju',
+                      style: TextStyle(fontSize: 12.sp),
+                    ),
+                  ],
+                ),
               ),
             ),
             fetchSubPlotListData(),

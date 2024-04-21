@@ -12,15 +12,19 @@ class PlotDB {
     return plotBox.values.toList();
   }
 
-  static PlotModel? getSpecificPlot(PlotModel plotModel) {
-    return plotBox.get(plotModel.plotId);
-  }
+  // static PlotModel? getSpecificPlot(PlotModel plotModel) {
+  //   return plotBox.get(plotModel.plotId);
+  // }
 
   static Future<void> addPlot(PlotModel plotModel) async {
     await plotBox.add(plotModel);
   }
 
-  static Future<void> deletePlot(PlotModel plotModel) async {
-    await plotBox.delete(plotModel.plotId);
+  static Future<void> updatePlot(PlotModel plotModel) async {
+    await plotBox.put(plotModel.plotId, plotModel);
   }
+
+  // static Future<void> deletePlot(PlotModel plotModel) async {
+  //   await plotBox.delete(plotModel.plotId);
+  // }
 }

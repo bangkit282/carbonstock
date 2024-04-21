@@ -1,7 +1,12 @@
 part of '../views.dart';
 
 class AddPlotScreenViews extends StatefulWidget {
-  const AddPlotScreenViews({super.key});
+  const AddPlotScreenViews({
+    super.key,
+    this.plotId,
+  });
+
+  final String? plotId;
 
   @override
   State<AddPlotScreenViews> createState() => _AddPlotScreenViewsState();
@@ -9,11 +14,14 @@ class AddPlotScreenViews extends StatefulWidget {
 
 class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
   final PlotController _plotController = Get.find();
+
   final _addPlotFormKey = GlobalKey<FormState>(debugLabel: 'add-plot');
   final SharedPreferenceService sharedPreferences = SharedPreferenceService();
 
   late MapboxMapController controller;
   late LatLng currentLatLng;
+
+  RxList<PlotModel> listPlot = <PlotModel>[].obs;
 
   final TextEditingController _plotLatController = TextEditingController();
   final TextEditingController _plotLngController = TextEditingController();
@@ -23,6 +31,17 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
 
   _onMapCreated(MapboxMapController controller) {
     this.controller = controller;
+  }
+
+  void checkPlotData(List<PlotModel> list) {
+    if (list.isNotEmpty) {
+      _plotLatController.text = list.last.plotLat.toStringAsFixed(5);
+      _plotLngController.text = list.last.plotLng.toStringAsFixed(5);
+
+      _plotSizeController.text = list.last.plotSize.toStringAsFixed(2);
+      _biomassAvgController.text = list.last.biomassAvg.toStringAsFixed(2);
+      _biomassStdController.text = list.last.biomassStd.toStringAsFixed(2);
+    }
   }
 
   @override
@@ -84,7 +103,18 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                 ),
               ),
               SizedBox(height: 16.h),
-              buildCardPlotForm(),
+              ValueListenableBuilder(
+                valueListenable: _plotController.contactBox.listenable(),
+                builder: (context, box, _) {
+                  listPlot.value = box.values.toList();
+                  List<PlotModel> list = box.values
+                      .where((element) => element.plotId == widget.plotId)
+                      .toList();
+
+                  checkPlotData(list);
+                  return buildCardPlotForm();
+                },
+              ),
               SizedBox(height: 16.h),
               Container(
                 margin: EdgeInsets.only(bottom: 24.h),
@@ -96,6 +126,32 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                       String biomassAvg = _biomassAvgController.text;
                       String biomassStd = _biomassStdController.text;
 
+                      // d.log(listPlot.toString(), name: 'plot');
+
+                      // if (listPlot.isEmpty) {
+                      //   PlotModel plotModel = PlotModel(
+                      //     plotId: uuid.v4(),
+                      //     plotLat: double.parse(_plotLatController.text),
+                      //     plotLng: double.parse(_plotLngController.text),
+                      //     plotSize: double.parse(size),
+                      //     biomassAvg: double.parse(biomassAvg),
+                      //     biomassStd: double.parse(biomassStd),
+                      //   );
+
+                      //   await _plotController.insertPlot(plotModel);
+                      // } else {
+                      //   PlotModel plotModel = PlotModel(
+                      //     plotId: widget.plotId,
+                      //     plotLat: double.parse(_plotLatController.text),
+                      //     plotLng: double.parse(_plotLngController.text),
+                      //     plotSize: double.parse(size),
+                      //     biomassAvg: double.parse(biomassAvg),
+                      //     biomassStd: double.parse(biomassStd),
+                      //   );
+
+                      //   await _plotController.updatePlot(plotModel);
+                      // }
+
                       PlotModel plotModel = PlotModel(
                         plotId: uuid.v4(),
                         plotLat: double.parse(_plotLatController.text),
@@ -106,11 +162,10 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                       );
 
                       await _plotController.insertPlot(plotModel);
-                      // await _plotController.insertPlot(plotModel);
 
                       Get.snackbar(
                         'CarbonStock',
-                        'Add Plot Success!',
+                        'Update Plot Success!',
                         backgroundColor: colorSecondaryGrey1,
                       );
 

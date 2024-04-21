@@ -1,4 +1,4 @@
-part of '../../views.dart';
+part of '../../../views.dart';
 
 class DetailSubPlotCPageScreen extends StatefulWidget {
   const DetailSubPlotCPageScreen({
