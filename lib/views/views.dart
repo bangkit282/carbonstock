@@ -18,15 +18,12 @@ import 'package:carbonstock/views/easter/easter_egg_views.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:uuid/uuid.dart';
-import 'package:video_player/video_player.dart';
 
 // Home
 part 'home/home_views.dart';

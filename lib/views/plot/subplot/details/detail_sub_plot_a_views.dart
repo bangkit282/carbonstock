@@ -460,7 +460,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                   .where((element) => element.plotId == widget.plotId)
                   .toList();
 
-              d.log('semai: $data', name: 'Data A');
+              // d.log('semai: $data', name: 'Data A');
 
               if (data.isNotEmpty) {
                 return buildSemaiInfo(
@@ -485,7 +485,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                     .where((element) => element.plotId == widget.plotId)
                     .toList();
 
-                d.log('seresah: $data', name: 'Data A');
+                // d.log('seresah: $data', name: 'Data A');
 
                 if (data.isNotEmpty) {
                   return buildSeresahInfo(
@@ -509,7 +509,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                   .where((element) => element.plotId == widget.plotId)
                   .toList();
 
-              d.log('tumbuhan: $data', name: 'Data A');
+              // d.log('tumbuhan: $data', name: 'Data A');
 
               if (data.isNotEmpty) {
                 return buildTumbuhanInfo(
@@ -524,6 +524,8 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
           },
         ),
         SizedBox(height: 16.h),
+        // buildCardImagePicker(),
+        // SizedBox(height: 16.h),
       ],
     );
   }
@@ -1456,6 +1458,80 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
           ),
           SizedBox(height: 8.h),
         ],
+      ),
+    );
+  }
+
+  Card buildCardImagePicker() {
+    return Card(
+      elevation: 0.5,
+      color: colorPrimaryWhite,
+      shadowColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          _controller.pickImageFromGallery();
+        },
+        child: Container(
+          width: 1.sw,
+          padding: EdgeInsets.symmetric(
+            horizontal: 24.w,
+            vertical: 8.h,
+          ),
+          child: DottedBorder(
+            borderType: BorderType.RRect,
+            radius: Radius.circular(8.r),
+            child: Obx(
+              () {
+                if (_controller.pickedImage.value != '' ||
+                    _controller.pickedImage.isNotEmpty) {
+                  return Center(
+                    child: Container(
+                      height: 120.h,
+                      width: 200.w,
+                      margin: EdgeInsets.all(16.r),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        image: DecorationImage(
+                          image: FileImage(
+                            File(_controller.pickedImage.value),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 16.h),
+                      Icon(
+                        CupertinoIcons.folder_fill_badge_plus,
+                        color: colorSecondaryGreen,
+                        size: 120.sp,
+                      ),
+                      SizedBox(height: 8.h),
+                      SizedBox(
+                        width: 1.sw,
+                        child: Text(
+                          'Foto Wilayah maksimal 2MB',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: colorSecondaryGreen,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
+                    ],
+                  );
+                }
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
