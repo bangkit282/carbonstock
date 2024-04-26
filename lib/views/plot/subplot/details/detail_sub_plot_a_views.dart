@@ -118,8 +118,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                     subPlotAModels: widget.plotAList.isNotEmpty
                         ? widget.plotAList.last.subPlotAModels
                         : [],
-                    subPlotAPhotoUrl: '',
-                    updateAt: DateTime.now(),
+                    updatedAt: DateTime.now(),
                   );
 
                   if (_semaiBTotalController.text.isNotEmpty ||
@@ -150,6 +149,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           keringSample: semaiKSample.value,
                           carbonValue: semaiCarbon,
                           carbonAbsorb: carbonAbsorb,
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.insertSubPlotA(
@@ -183,6 +183,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           keringSample: semaiKSample.value,
                           carbonValue: semaiCarbon,
                           carbonAbsorb: carbonAbsorb,
+                          updatedAt: DateTime.now(),
                         );
 
                         final subPlotAreaA = SubPlotAreaAModel(
@@ -191,8 +192,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           subPlotAModels: widget.plotAList.last.subPlotAModels,
-                          subPlotAPhotoUrl: '',
-                          updateAt: DateTime.now(),
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.updateSubPlotA(
@@ -243,6 +243,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           keringSample: seresahKSample.value,
                           carbonValue: seresahCarbon,
                           carbonAbsorb: carbonAbsorb,
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.insertSubPlotA(
@@ -278,6 +279,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           keringSample: seresahKSample.value,
                           carbonValue: seresahCarbon,
                           carbonAbsorb: carbonAbsorb,
+                          updatedAt: DateTime.now(),
                         );
 
                         final subPlotAreaA = SubPlotAreaAModel(
@@ -286,8 +288,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           subPlotAModels: widget.plotAList.last.subPlotAModels,
-                          subPlotAPhotoUrl: '',
-                          updateAt: DateTime.now(),
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.updateSubPlotA(
@@ -339,6 +340,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           keringSample: tumbuhanKSample.value,
                           carbonValue: tumbuhanCarbon,
                           carbonAbsorb: carbonAbsorb,
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.insertSubPlotA(
@@ -372,6 +374,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           keringSample: tumbuhanKSample.value,
                           carbonValue: tumbuhanCarbon,
                           carbonAbsorb: carbonAbsorb,
+                          updatedAt: DateTime.now(),
                         );
 
                         final subPlotAreaA = SubPlotAreaAModel(
@@ -380,8 +383,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           areaName: widget.areaName,
                           plotName: widget.plotName,
                           subPlotAModels: widget.plotAList.last.subPlotAModels,
-                          subPlotAPhotoUrl: '',
-                          updateAt: DateTime.now(),
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.updateSubPlotA(

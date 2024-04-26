@@ -30,6 +30,7 @@ class PlotController extends GetxController {
       plotSize: plotModel.plotSize,
       biomassAvg: plotModel.biomassAvg,
       biomassStd: plotModel.biomassStd,
+      updatedAt: plotModel.updatedAt,
     );
 
     await PlotDB.addPlot(plot);
@@ -43,6 +44,7 @@ class PlotController extends GetxController {
       plotSize: plotModel.plotSize,
       biomassAvg: plotModel.biomassAvg,
       biomassStd: plotModel.biomassStd,
+      updatedAt: plotModel.updatedAt,
     );
 
     await PlotDB.updatePlot(plot);

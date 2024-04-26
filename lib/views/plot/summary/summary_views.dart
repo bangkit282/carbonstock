@@ -386,6 +386,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               'Total Kandungan Carbon',
               style: TextStyle(
                 fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
                 color: colorPrimaryBlack,
               ),
             ),
@@ -397,6 +398,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                     subCarbonValue.toStringAsFixed(2),
                     style: TextStyle(
                       fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
                       color: colorPrimaryBlack,
                     ),
                   );
@@ -421,6 +423,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               'Total Serapan CO2',
               style: TextStyle(
                 fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
                 color: colorPrimaryBlack,
               ),
             ),
@@ -432,6 +435,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                     subCarbonAbsorb.toStringAsFixed(2),
                     style: TextStyle(
                       fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
                       color: colorPrimaryBlack,
                     ),
                   );
@@ -745,6 +749,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               'Total Carbon',
               style: TextStyle(
                 fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
                 color: colorPrimaryBlack,
               ),
             ),
@@ -756,6 +761,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                     subCarbonValue.toStringAsFixed(2),
                     style: TextStyle(
                       fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
                       color: colorPrimaryBlack,
                     ),
                   );
@@ -1072,9 +1078,10 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Total Carbon',
+              'Total Serapan CO2',
               style: TextStyle(
                 fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
                 color: colorPrimaryBlack,
               ),
             ),
@@ -1086,6 +1093,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                     subCarbonAbsorb.toStringAsFixed(2),
                     style: TextStyle(
                       fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
                       color: colorPrimaryBlack,
                     ),
                   );

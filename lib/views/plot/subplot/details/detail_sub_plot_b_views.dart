@@ -204,7 +204,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                           biomassLand: biomassLand,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
-                          subPlotBPhotoUrl: '',
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.insertSubPlotB(subPlotBModel);
@@ -232,7 +232,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                           biomassLand: biomassLand,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
-                          subPlotBPhotoUrl: '',
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.updateSubPlotB(subPlotBModel);

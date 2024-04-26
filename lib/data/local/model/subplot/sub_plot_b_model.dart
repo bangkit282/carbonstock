@@ -29,7 +29,7 @@ class SubPlotAreaBModel extends HiveObject {
   @HiveField(11)
   final double carbonAbsorb;
   @HiveField(12)
-  final String subPlotBPhotoUrl;
+  final DateTime updatedAt;
 
   SubPlotAreaBModel({
     this.uuid,
@@ -44,7 +44,7 @@ class SubPlotAreaBModel extends HiveObject {
     required this.biomassLand,
     required this.carbonValue,
     required this.carbonAbsorb,
-    required this.subPlotBPhotoUrl,
+    required this.updatedAt,
   });
 
   @override
@@ -61,7 +61,7 @@ class SubPlotAreaBModel extends HiveObject {
         'biomassLand': $biomassLand,
         'carbonValue': $carbonValue,
         'carbonAbsorb': $carbonAbsorb,
-        'subPlotBPhotoUrl': $subPlotBPhotoUrl,
+        'updatedAt': $updatedAt
     ''';
   }
 }

@@ -22,15 +22,14 @@ class SubPlotAreaAModelAdapter extends TypeAdapter<SubPlotAreaAModel> {
       areaName: fields[2] as String,
       plotName: fields[3] as String,
       subPlotAModels: (fields[4] as List?)?.cast<dynamic>(),
-      subPlotAPhotoUrl: fields[5] as String,
-      updateAt: fields[6] as DateTime,
+      updatedAt: fields[5] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaAModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -42,9 +41,7 @@ class SubPlotAreaAModelAdapter extends TypeAdapter<SubPlotAreaAModel> {
       ..writeByte(4)
       ..write(obj.subPlotAModels)
       ..writeByte(5)
-      ..write(obj.subPlotAPhotoUrl)
-      ..writeByte(6)
-      ..write(obj.updateAt);
+      ..write(obj.updatedAt);
   }
 
   @override
@@ -80,13 +77,14 @@ class SubPlotAreaASemaiModelAdapter
       keringSample: fields[7] as double,
       carbonValue: fields[8] as double,
       carbonAbsorb: fields[9] as double,
+      updatedAt: fields[10] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaASemaiModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -106,7 +104,9 @@ class SubPlotAreaASemaiModelAdapter
       ..writeByte(8)
       ..write(obj.carbonValue)
       ..writeByte(9)
-      ..write(obj.carbonAbsorb);
+      ..write(obj.carbonAbsorb)
+      ..writeByte(10)
+      ..write(obj.updatedAt);
   }
 
   @override
@@ -142,13 +142,14 @@ class SubPlotAreaASeresahModelAdapter
       keringSample: fields[7] as double,
       carbonValue: fields[8] as double,
       carbonAbsorb: fields[9] as double,
+      updatedAt: fields[10] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaASeresahModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -168,7 +169,9 @@ class SubPlotAreaASeresahModelAdapter
       ..writeByte(8)
       ..write(obj.carbonValue)
       ..writeByte(9)
-      ..write(obj.carbonAbsorb);
+      ..write(obj.carbonAbsorb)
+      ..writeByte(10)
+      ..write(obj.updatedAt);
   }
 
   @override
@@ -204,13 +207,14 @@ class SubPlotAreaATumbuhanBawahModelAdapter
       keringSample: fields[7] as double,
       carbonValue: fields[8] as double,
       carbonAbsorb: fields[9] as double,
+      updatedAt: fields[10] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaATumbuhanBawahModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -230,7 +234,9 @@ class SubPlotAreaATumbuhanBawahModelAdapter
       ..writeByte(8)
       ..write(obj.carbonValue)
       ..writeByte(9)
-      ..write(obj.carbonAbsorb);
+      ..write(obj.carbonAbsorb)
+      ..writeByte(10)
+      ..write(obj.updatedAt);
   }
 
   @override

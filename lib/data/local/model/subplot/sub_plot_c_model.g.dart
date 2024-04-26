@@ -29,7 +29,7 @@ class SubPlotAreaCModelAdapter extends TypeAdapter<SubPlotAreaCModel> {
       biomassLand: fields[9] as double,
       carbonValue: fields[10] as double,
       carbonAbsorb: fields[11] as double,
-      subPlotCPhotoUrl: fields[12] as String,
+      updatedAt: fields[12] as DateTime,
     );
   }
 
@@ -62,7 +62,7 @@ class SubPlotAreaCModelAdapter extends TypeAdapter<SubPlotAreaCModel> {
       ..writeByte(11)
       ..write(obj.carbonAbsorb)
       ..writeByte(12)
-      ..write(obj.subPlotCPhotoUrl);
+      ..write(obj.updatedAt);
   }
 
   @override

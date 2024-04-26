@@ -3,7 +3,6 @@ import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_d_model.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:hive/hive.dart';
 
 class SubPlotAreaDB {
@@ -69,20 +68,20 @@ class SubPlotAreaDB {
     return subPlotBawahBox.values.toList();
   }
 
-  // static SubPlotAreaASemaiModel? getSpecificSubPlotSemai(
-  //   SubPlotAreaASemaiModel semaiModel,
-  // ) =>
-  //     subPlotSemaiBox.get(semaiModel.uuid);
+  static SubPlotAreaASemaiModel? getSpecificSubPlotSemai(
+    SubPlotAreaASemaiModel semaiModel,
+  ) =>
+      subPlotSemaiBox.get(semaiModel.uuid);
 
-  // static SubPlotAreaASeresahModel? getSpecificSubPlotSeresah(
-  //   SubPlotAreaASeresahModel seresahModel,
-  // ) =>
-  //     subPlotSeresahBox.get(seresahModel.uuid);
+  static SubPlotAreaASeresahModel? getSpecificSubPlotSeresah(
+    SubPlotAreaASeresahModel seresahModel,
+  ) =>
+      subPlotSeresahBox.get(seresahModel.uuid);
 
-  // static SubPlotAreaATumbuhanBawahModel? getSpecificSubPlotBawah(
-  //   SubPlotAreaATumbuhanBawahModel bawahModel,
-  // ) =>
-  //     subPlotBawahBox.get(bawahModel.uuid);
+  static SubPlotAreaATumbuhanBawahModel? getSpecificSubPlotBawah(
+    SubPlotAreaATumbuhanBawahModel bawahModel,
+  ) =>
+      subPlotBawahBox.get(bawahModel.uuid);
 
   static Future<void> addSubPlotA(SubPlotAreaAModel modelA) async {
     await subPlotABox.add(modelA);
@@ -133,10 +132,10 @@ class SubPlotAreaDB {
     return subPlotBBox.values.toList();
   }
 
-  // static SubPlotAreaBModel? getSpecificSubPlotB(
-  //   SubPlotAreaBModel bModel,
-  // ) =>
-  //     subPlotBBox.get(bModel.uuid);
+  static SubPlotAreaBModel? getSpecificSubPlotB(
+    SubPlotAreaBModel bModel,
+  ) =>
+      subPlotBBox.get(bModel.uuid);
 
   static Future<void> addSubPlotB(SubPlotAreaBModel modelB) async {
     isSubPlotBDone.value = true;
@@ -151,10 +150,10 @@ class SubPlotAreaDB {
     return subPlotCBox.values.toList();
   }
 
-  // static SubPlotAreaCModel? getSpecificSubPlotC(
-  //   SubPlotAreaCModel bModel,
-  // ) =>
-  //     subPlotCBox.get(bModel.uuid);
+  static SubPlotAreaCModel? getSpecificSubPlotC(
+    SubPlotAreaCModel bModel,
+  ) =>
+      subPlotCBox.get(bModel.uuid);
 
   static Future<void> addSubPlotC(SubPlotAreaCModel bModel) async {
     isSubPlotCDone.value = true;
@@ -181,20 +180,20 @@ class SubPlotAreaDB {
     return subPlotDTanahBox.values.toList();
   }
 
-  // static SubPlotAreaDPohonModel? getSpecificSubPlotPohon(
-  //   SubPlotAreaDPohonModel pohonModel,
-  // ) =>
-  //     subPlotDPohonBox.get(pohonModel.uuid);
+  static SubPlotAreaDPohonModel? getSpecificSubPlotPohon(
+    SubPlotAreaDPohonModel pohonModel,
+  ) =>
+      subPlotDPohonBox.get(pohonModel.uuid);
 
-  // static SubPlotAreaDNekromasModel? getSpecificSubPlotNekromas(
-  //   SubPlotAreaDNekromasModel nekromasModel,
-  // ) =>
-  //     subPlotDNekromasBox.get(nekromasModel.uuid);
+  static SubPlotAreaDNekromasModel? getSpecificSubPlotNekromas(
+    SubPlotAreaDNekromasModel nekromasModel,
+  ) =>
+      subPlotDNekromasBox.get(nekromasModel.uuid);
 
-  // static SubPlotAreaDTanahModel? getSpecificSubPlotTanah(
-  //   SubPlotAreaDTanahModel tanahModel,
-  // ) =>
-  //     subPlotDTanahBox.get(tanahModel.uuid);
+  static SubPlotAreaDTanahModel? getSpecificSubPlotTanah(
+    SubPlotAreaDTanahModel tanahModel,
+  ) =>
+      subPlotDTanahBox.get(tanahModel.uuid);
 
   static Future<void> addSubPlotD(SubPlotAreaDModel modelD) async {
     await subPlotDBox.add(modelD);

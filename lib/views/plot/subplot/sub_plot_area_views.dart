@@ -55,7 +55,8 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                   Get.snackbar(
                     'CarbonStock',
                     'Wow, kamu berhasil menemukan Easter Egg!',
-                    backgroundColor: colorSecondaryGrey1,
+                    backgroundColor: Colors.amber,
+                    colorText: Colors.black,
                   );
 
                   Navigator.push(

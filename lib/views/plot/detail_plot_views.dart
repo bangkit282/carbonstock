@@ -159,6 +159,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                         plotSize: double.parse(size),
                         biomassAvg: double.parse(biomassAvg),
                         biomassStd: double.parse(biomassStd),
+                        updatedAt: DateTime.now()
                       );
 
                       await _plotController.insertPlot(plotModel);
