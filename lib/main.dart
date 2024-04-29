@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       child: GetMaterialApp(
+        title: 'CarbonRangers',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
@@ -166,7 +167,7 @@ class _SplashScreenViewsState extends State<SplashScreenViews> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset('assets/images/carbon_stock_logo.png'),
+        child: Image.asset('assets/images/carbon-rangers_logo.png'),
       ),
     );
   }
