@@ -3,7 +3,6 @@ import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_d_model.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:hive/hive.dart';
 
 class SubPlotAreaDB {

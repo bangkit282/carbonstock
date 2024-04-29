@@ -22,15 +22,14 @@ class SubPlotAreaDModelAdapter extends TypeAdapter<SubPlotAreaDModel> {
       areaName: fields[2] as String,
       plotName: fields[3] as String,
       subPlotDModels: (fields[4] as List?)?.cast<dynamic>(),
-      subPlotDPhotoUrl: fields[5] as String,
-      updateAt: fields[6] as DateTime,
+      updatedAt: fields[5] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, SubPlotAreaDModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -42,9 +41,7 @@ class SubPlotAreaDModelAdapter extends TypeAdapter<SubPlotAreaDModel> {
       ..writeByte(4)
       ..write(obj.subPlotDModels)
       ..writeByte(5)
-      ..write(obj.subPlotDPhotoUrl)
-      ..writeByte(6)
-      ..write(obj.updateAt);
+      ..write(obj.updatedAt);
   }
 
   @override
@@ -82,7 +79,7 @@ class SubPlotAreaDPohonModelAdapter
       biomassLand: fields[9] as double,
       carbonValue: fields[10] as double,
       carbonAbsorb: fields[11] as double,
-      updateAt: fields[12] as DateTime,
+      updatedAt: fields[12] as DateTime,
     );
   }
 
@@ -115,7 +112,7 @@ class SubPlotAreaDPohonModelAdapter
       ..writeByte(11)
       ..write(obj.carbonAbsorb)
       ..writeByte(12)
-      ..write(obj.updateAt);
+      ..write(obj.updatedAt);
   }
 
   @override
@@ -152,7 +149,7 @@ class SubPlotAreaDNekromasModelAdapter
       biomassLand: fields[8] as double,
       carbonValue: fields[9] as double,
       carbonAbsorb: fields[10] as double,
-      updateAt: fields[11] as DateTime,
+      updatedAt: fields[11] as DateTime,
     );
   }
 
@@ -183,7 +180,7 @@ class SubPlotAreaDNekromasModelAdapter
       ..writeByte(10)
       ..write(obj.carbonAbsorb)
       ..writeByte(11)
-      ..write(obj.updateAt);
+      ..write(obj.updatedAt);
   }
 
   @override
@@ -220,7 +217,7 @@ class SubPlotAreaDTanahModelAdapter
       carbonTonHa: fields[8] as double,
       carbonTon: fields[9] as double,
       carbonAbsorb: fields[10] as double,
-      updateAt: fields[11] as DateTime,
+      updatedAt: fields[11] as DateTime,
     );
   }
 
@@ -251,7 +248,7 @@ class SubPlotAreaDTanahModelAdapter
       ..writeByte(10)
       ..write(obj.carbonAbsorb)
       ..writeByte(11)
-      ..write(obj.updateAt);
+      ..write(obj.updatedAt);
   }
 
   @override

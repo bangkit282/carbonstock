@@ -10,6 +10,7 @@
 .svn/
 migrate_working_dir/
 /assets/configs/.env
+/assets/images/pedropedro.mp4
 
 # IntelliJ related
 *.iml

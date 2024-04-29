@@ -1,4 +1,4 @@
-part of '../../views.dart';
+part of '../../../views.dart';
 
 class DetailSubPlotDPageScreen extends StatefulWidget {
   const DetailSubPlotDPageScreen({
@@ -172,8 +172,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                     subPlotDModels: widget.subPlotDList.isNotEmpty
                         ? widget.subPlotDList.last.subPlotDModels
                         : [],
-                    subPlotDPhotoUrl: '',
-                    updateAt: DateTime.now(),
+                    updatedAt: DateTime.now(),
                   );
 
                   if (_pohonKelilingController.text.isNotEmpty ||
@@ -215,7 +214,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                             localName: name,
                             carbonValue: carbonValue,
                             carbonAbsorb: carbonAbsorb,
-                            updateAt: DateTime.now(),
+                            updatedAt: DateTime.now(),
                           );
 
                           _sharedPref.putDouble('karbon_d_pohon', carbonValue);
@@ -244,7 +243,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                             localName: name,
                             carbonValue: carbonValue,
                             carbonAbsorb: carbonAbsorb,
-                            updateAt: DateTime.now(),
+                            updatedAt: DateTime.now(),
                           );
 
                           await _controller.updateSubPlotD(
@@ -297,7 +296,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           biomassLand: biomass,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
-                          updateAt: DateTime.now(),
+                          updatedAt: DateTime.now(),
                         );
 
                         _sharedPref.putDouble(
@@ -330,7 +329,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           biomassLand: biomass,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
-                          updateAt: DateTime.now(),
+                          updatedAt: DateTime.now(),
                         );
 
                         _sharedPref.putDouble(
@@ -390,7 +389,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           carbonTonHa: karbonTonHa,
                           carbonTon: karbonTon,
                           carbonAbsorb: carbonAbsorb,
-                          updateAt: DateTime.now(),
+                          updatedAt: DateTime.now(),
                         );
 
                         _sharedPref.putDouble(
@@ -422,7 +421,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           carbonTonHa: karbonTonHa,
                           carbonTon: karbonTon,
                           carbonAbsorb: carbonAbsorb,
-                          updateAt: DateTime.now(),
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.updateSubPlotD(

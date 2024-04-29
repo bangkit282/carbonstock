@@ -15,9 +15,7 @@ class SubPlotAreaAModel extends HiveObject {
   @HiveField(4)
   final List<dynamic>? subPlotAModels;
   @HiveField(5)
-  final String subPlotAPhotoUrl;
-  @HiveField(6)
-  final DateTime updateAt;
+  final DateTime updatedAt;
 
   SubPlotAreaAModel({
     this.uuid,
@@ -25,8 +23,7 @@ class SubPlotAreaAModel extends HiveObject {
     required this.areaName,
     required this.plotName,
     this.subPlotAModels,
-    required this.subPlotAPhotoUrl,
-    required this.updateAt,
+    required this.updatedAt,
   });
 
   @override
@@ -35,8 +32,7 @@ class SubPlotAreaAModel extends HiveObject {
       areaName: $areaName,
       plotName: $plotName,
       subPlotAList: $subPlotAModels,
-      subPlotAPhoto: $subPlotAPhotoUrl, 
-      updateAt: $updateAt
+      updatedAt: $updatedAt
     ''';
   }
 }
@@ -63,6 +59,8 @@ class SubPlotAreaASemaiModel extends HiveObject {
   final double carbonValue;
   @HiveField(9)
   final double carbonAbsorb;
+  @HiveField(10)
+  final DateTime updatedAt;
 
   SubPlotAreaASemaiModel({
     this.uuid,
@@ -75,6 +73,7 @@ class SubPlotAreaASemaiModel extends HiveObject {
     required this.keringSample,
     required this.carbonValue,
     required this.carbonAbsorb,
+    required this.updatedAt,
   });
 
   @override
@@ -90,6 +89,7 @@ class SubPlotAreaASemaiModel extends HiveObject {
         keringSample: $keringSample,
         carbonValue: $carbonValue,
         carbonAbsorb: $carbonAbsorb
+        updatedAt: $updatedAt
       )
     ''';
   }
@@ -117,6 +117,8 @@ class SubPlotAreaASeresahModel extends HiveObject {
   final double carbonValue;
   @HiveField(9)
   final double carbonAbsorb;
+  @HiveField(10)
+  final DateTime updatedAt;
 
   SubPlotAreaASeresahModel({
     this.uuid,
@@ -129,6 +131,7 @@ class SubPlotAreaASeresahModel extends HiveObject {
     required this.keringSample,
     required this.carbonValue,
     required this.carbonAbsorb,
+    required this.updatedAt,
   });
 
   @override
@@ -143,7 +146,8 @@ class SubPlotAreaASeresahModel extends HiveObject {
         keringTotal: $keringTotal,
         keringSample: $keringSample,
         carbonValue: $carbonValue,
-        carbonAbsorb: $carbonAbsorb
+        carbonAbsorb: $carbonAbsorb,
+        updatedAt: $updatedAt
       )
     ''';
   }
@@ -171,6 +175,8 @@ class SubPlotAreaATumbuhanBawahModel extends HiveObject {
   final double carbonValue;
   @HiveField(9)
   final double carbonAbsorb;
+  @HiveField(10)
+  final DateTime updatedAt;
 
   SubPlotAreaATumbuhanBawahModel({
     this.uuid,
@@ -183,6 +189,7 @@ class SubPlotAreaATumbuhanBawahModel extends HiveObject {
     required this.keringSample,
     required this.carbonValue,
     required this.carbonAbsorb,
+    required this.updatedAt,
   });
 
   @override
@@ -197,7 +204,8 @@ class SubPlotAreaATumbuhanBawahModel extends HiveObject {
         keringTotal: $keringTotal,
         keringSample: $keringSample,
         carbonValue: $carbonValue,
-        carbonAbsorb: $carbonAbsorb
+        carbonAbsorb: $carbonAbsorb,
+        updatedAt: $updatedAt
       )
     ''';
   }

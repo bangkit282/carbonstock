@@ -18,7 +18,6 @@ import 'package:carbonstock/views/views.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -71,6 +70,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       child: GetMaterialApp(
+        title: 'CarbonRangers',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
@@ -167,7 +167,7 @@ class _SplashScreenViewsState extends State<SplashScreenViews> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset('assets/images/carbon_stock_logo.png'),
+        child: Image.asset('assets/images/carbon-rangers_logo.png'),
       ),
     );
   }

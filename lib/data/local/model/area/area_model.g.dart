@@ -23,7 +23,7 @@ class AreaModelAdapter extends TypeAdapter<AreaModel> {
       areaImage: fields[3] as String,
       forestType: fields[4] as String,
       landType: fields[5] as String,
-      createdAt: fields[6] as DateTime,
+      updatedAt: fields[6] as DateTime,
     );
   }
 
@@ -44,7 +44,7 @@ class AreaModelAdapter extends TypeAdapter<AreaModel> {
       ..writeByte(5)
       ..write(obj.landType)
       ..writeByte(6)
-      ..write(obj.createdAt);
+      ..write(obj.updatedAt);
   }
 
   @override

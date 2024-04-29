@@ -16,6 +16,8 @@ class PlotModel extends HiveObject {
   final double biomassAvg;
   @HiveField(5)
   final double biomassStd;
+  @HiveField(6)
+  final DateTime updatedAt;
 
   PlotModel({
     this.plotId,
@@ -24,6 +26,7 @@ class PlotModel extends HiveObject {
     required this.plotSize,
     required this.biomassAvg,
     required this.biomassStd,
+    required this.updatedAt,
   });
 
   @override
@@ -33,7 +36,8 @@ class PlotModel extends HiveObject {
       'plotLng': $plotLng,
       'plotSize': $plotSize,
       'biomassAvg': $biomassAvg,
-      'biomassStd': $biomassStd
+      'biomassStd': $biomassStd,
+      'updatedAt': $updatedAt
     ''';
   }
 }

@@ -30,8 +30,23 @@ class PlotController extends GetxController {
       plotSize: plotModel.plotSize,
       biomassAvg: plotModel.biomassAvg,
       biomassStd: plotModel.biomassStd,
+      updatedAt: plotModel.updatedAt,
     );
 
     await PlotDB.addPlot(plot);
+  }
+
+  Future<void> updatePlot(PlotModel plotModel) async {
+    final PlotModel plot = PlotModel(
+      plotId: plotModel.plotId,
+      plotLat: plotModel.plotLat,
+      plotLng: plotModel.plotLng,
+      plotSize: plotModel.plotSize,
+      biomassAvg: plotModel.biomassAvg,
+      biomassStd: plotModel.biomassStd,
+      updatedAt: plotModel.updatedAt,
+    );
+
+    await PlotDB.updatePlot(plot);
   }
 }

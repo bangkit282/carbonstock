@@ -1,4 +1,4 @@
-part of '../../views.dart';
+part of '../../../views.dart';
 
 class DetailSubPlotCPageScreen extends StatefulWidget {
   const DetailSubPlotCPageScreen({
@@ -167,7 +167,7 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                           biomassLand: biomassLand,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
-                          subPlotCPhotoUrl: '',
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.insertSubPlotC(subPlotCModel);
@@ -189,7 +189,7 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                           biomassLand: biomassLand,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
-                          subPlotCPhotoUrl: '',
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.updateSubPlotC(subPlotCModel);

@@ -1,4 +1,4 @@
-part of '../../views.dart';
+part of '../../../views.dart';
 
 class DetailSubPlotBPageScreen extends StatefulWidget {
   const DetailSubPlotBPageScreen({
@@ -31,7 +31,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
   final TextEditingController _pancangKerapatanJenisController =
       TextEditingController();
 
-  RxList<SubPlotAreaBModel> list = <SubPlotAreaBModel>[].obs;
+  RxList<SubPlotAreaBModel> listB = <SubPlotAreaBModel>[].obs;
 
   RxString selectedLocalName = 'Pilih Nama Lokal'.obs;
   RxString selectedBioName = ''.obs;
@@ -188,7 +188,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                       double carbonAbsorb =
                           pancangBiomassLand.value * 0.47 * (44 / 12);
 
-                      if (list.isEmpty) {
+                      if (listB.isEmpty) {
                         Uuid uuid = const Uuid();
 
                         final subPlotBModel = SubPlotAreaBModel(
@@ -204,7 +204,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                           biomassLand: biomassLand,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
-                          subPlotBPhotoUrl: '',
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.insertSubPlotB(subPlotBModel);
@@ -220,7 +220,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                         );
                       } else {
                         SubPlotAreaBModel subPlotBModel = SubPlotAreaBModel(
-                          uuid: list.last.uuid,
+                          uuid: listB.last.uuid,
                           plotId: widget.plotId,
                           areaName: widget.areaName,
                           plotName: widget.plotName,
@@ -232,7 +232,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                           biomassLand: biomassLand,
                           carbonValue: carbonValue,
                           carbonAbsorb: carbonAbsorb,
-                          subPlotBPhotoUrl: '',
+                          updatedAt: DateTime.now(),
                         );
 
                         await _controller.updateSubPlotB(subPlotBModel);
@@ -290,6 +290,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
         ValueListenableBuilder(
           valueListenable: _controller.contactBBox.listenable(),
           builder: (context, box, _) {
+            listB.value = box.values.toList();
             List<SubPlotAreaBModel> list = box.values
                 .where((element) => element.plotId == widget.plotId)
                 .toList();

@@ -17,7 +17,7 @@ class AreaModel extends HiveObject {
   @HiveField(5)
   final String landType;
   @HiveField(6)
-  final DateTime createdAt;
+  final DateTime updatedAt;
 
   AreaModel({
     this.areaId,
@@ -26,7 +26,7 @@ class AreaModel extends HiveObject {
     required this.areaImage,
     required this.forestType,
     required this.landType,
-    required this.createdAt,
+    required this.updatedAt,
   });
 
   @override
@@ -37,7 +37,7 @@ class AreaModel extends HiveObject {
       'areaImage': $areaImage,
       'forestType': $forestType,
       'landType': $landType,
-      'createdAt': $createdAt
+      'updatedAt': $updatedAt
     ''';
   }
 }

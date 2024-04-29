@@ -99,7 +99,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
             children: [
               SizedBox(
                 width: 1.sw,
-                height: 300.h,
+                height: 280.h,
                 child: Card(
                   elevation: 0,
                   child: Padding(
@@ -116,12 +116,33 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            // Text(
-                            //   'Edit Plot Data',
-                            //   style: TextStyle(
-                            //     fontSize: 14.sp,
-                            //     color: const Color.fromRGBO(255, 168, 0, 1),
-                            //     fontWeight: FontWeight.w700,
+                            // const Spacer(flex: 2),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //       context,
+                            //       PageRouteBuilder(
+                            //         pageBuilder: (_, __, ___) =>
+                            //             AddPlotScreenViews(
+                            //           plotId: widget.plotId,
+                            //         ),
+                            //         transitionsBuilder:
+                            //             (_, animation, __, child) {
+                            //           return FadeTransition(
+                            //             opacity: animation,
+                            //             child: child,
+                            //           );
+                            //         },
+                            //       ),
+                            //     );
+                            //   },
+                            //   child: Text(
+                            //     'Edit Plot Data',
+                            //     style: TextStyle(
+                            //       fontSize: 14.sp,
+                            //       color: const Color.fromRGBO(255, 168, 0, 1),
+                            //       fontWeight: FontWeight.w700,
+                            //     ),
                             //   ),
                             // ),
                           ],
@@ -141,7 +162,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               Text(
                 'Summary Hitungan Total',
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 18.sp,
                   color: colorPrimaryBlack,
                   fontWeight: FontWeight.w700,
                 ),
@@ -149,32 +170,21 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               SizedBox(height: 16.h),
               SizedBox(
                 width: 1.sw,
-                height: 360.h,
+                height: 386.h,
                 child: Card(
                   elevation: 0,
                   child: Padding(
                     padding: EdgeInsets.all(16.r),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Kandungan Karbon (Ton C/Ha)',
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                color: colorPrimaryBlack,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            // Text(
-                            //   'Edit Plot Data',
-                            //   style: TextStyle(
-                            //     fontSize: 14.sp,
-                            //     color: const Color.fromRGBO(255, 168, 0, 1),
-                            //     fontWeight: FontWeight.w700,
-                            //   ),
-                            // ),
-                          ],
+                        Text(
+                          'Kandungan Karbon\n(Ton C/Ha)',
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: colorPrimaryBlack,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                         Container(
                           width: 1.sw,
@@ -196,26 +206,15 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                   child: Padding(
                     padding: EdgeInsets.all(16.r),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Serapan CO2 (Ton C/Ha)',
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                color: colorPrimaryBlack,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            // Text(
-                            //   'Edit Plot Data',
-                            //   style: TextStyle(
-                            //     fontSize: 14.sp,
-                            //     color: const Color.fromRGBO(255, 168, 0, 1),
-                            //     fontWeight: FontWeight.w700,
-                            //   ),
-                            // ),
-                          ],
+                        Text(
+                          'Serapan CO2\n(Ton C/Ha)',
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: colorPrimaryBlack,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                         Container(
                           width: 1.sw,
@@ -254,7 +253,8 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
                   return Text(
-                    '${box.getAt(box.length - 1)?.plotLat}, ${box.getAt(box.length - 1)?.plotLng}',
+                    '${box.getAt(box.length - 1)?.plotLat.toStringAsFixed(5)}'
+                    ' ${box.getAt(box.length - 1)?.plotLng.toStringAsFixed(5)}',
                     style: TextStyle(
                       fontSize: 12.sp,
                       color: colorPrimaryBlack,
@@ -386,6 +386,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               'Total Kandungan Carbon',
               style: TextStyle(
                 fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
                 color: colorPrimaryBlack,
               ),
             ),
@@ -397,6 +398,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                     subCarbonValue.toStringAsFixed(2),
                     style: TextStyle(
                       fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
                       color: colorPrimaryBlack,
                     ),
                   );
@@ -421,6 +423,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               'Total Serapan CO2',
               style: TextStyle(
                 fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
                 color: colorPrimaryBlack,
               ),
             ),
@@ -432,6 +435,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                     subCarbonAbsorb.toStringAsFixed(2),
                     style: TextStyle(
                       fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
                       color: colorPrimaryBlack,
                     ),
                   );
@@ -745,6 +749,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               'Total Carbon',
               style: TextStyle(
                 fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
                 color: colorPrimaryBlack,
               ),
             ),
@@ -756,6 +761,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                     subCarbonValue.toStringAsFixed(2),
                     style: TextStyle(
                       fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
                       color: colorPrimaryBlack,
                     ),
                   );
@@ -1072,9 +1078,10 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Total Carbon',
+              'Total Serapan CO2',
               style: TextStyle(
                 fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
                 color: colorPrimaryBlack,
               ),
             ),
@@ -1086,6 +1093,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                     subCarbonAbsorb.toStringAsFixed(2),
                     style: TextStyle(
                       fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
                       color: colorPrimaryBlack,
                     ),
                   );

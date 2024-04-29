@@ -14,11 +14,11 @@ import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_d_model.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/utils/style_theme.dart';
+import 'package:carbonstock/views/easter/easter_egg_views.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -27,18 +27,18 @@ import 'package:uuid/uuid.dart';
 
 // Home
 part 'home/home_views.dart';
-part 'home/add_home_views.dart';
+part 'home/detail_home_views.dart';
 
 // Plot
 part 'plot/plot_area_views.dart';
-part 'plot/add_plot_views.dart';
+part 'plot/detail_plot_views.dart';
 
 // Sub-Plot
 part 'plot/subplot/sub_plot_area_views.dart';
-part 'plot/details/detail_sub_plot_a_views.dart';
-part 'plot/details/detail_sub_plot_b_views.dart';
-part 'plot/details/detail_sub_plot_c_views.dart';
-part 'plot/details/detail_sub_plot_d_views.dart';
+part 'plot/subplot/details/detail_sub_plot_a_views.dart';
+part 'plot/subplot/details/detail_sub_plot_b_views.dart';
+part 'plot/subplot/details/detail_sub_plot_c_views.dart';
+part 'plot/subplot/details/detail_sub_plot_d_views.dart';
 part 'plot/summary/summary_views.dart';
 
 part 'auth/login_views.dart';

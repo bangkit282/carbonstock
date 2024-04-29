@@ -7,9 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
     <application
-        android:label="carbonstock"
+        android:label="CarbonRangers"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/carbon_ranger_logo">
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -23,13 +23,14 @@ class PlotModelAdapter extends TypeAdapter<PlotModel> {
       plotSize: fields[3] as double,
       biomassAvg: fields[4] as double,
       biomassStd: fields[5] as double,
+      updatedAt: fields[6] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, PlotModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.plotId)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class PlotModelAdapter extends TypeAdapter<PlotModel> {
       ..writeByte(4)
       ..write(obj.biomassAvg)
       ..writeByte(5)
-      ..write(obj.biomassStd);
+      ..write(obj.biomassStd)
+      ..writeByte(6)
+      ..write(obj.updatedAt);
   }
 
   @override

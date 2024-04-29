@@ -58,6 +58,7 @@ class SubPlotController extends GetxController {
         keringSample: subPlotModelSemai.keringSample,
         carbonValue: subPlotModelSemai.carbonValue,
         carbonAbsorb: subPlotModelSemai.carbonAbsorb,
+        updatedAt: subPlotAModel.updatedAt,
       );
 
       if (listPlotA.isEmpty) {
@@ -80,6 +81,7 @@ class SubPlotController extends GetxController {
         keringSample: subPlotModelSeresah.keringSample,
         carbonValue: subPlotModelSeresah.carbonValue,
         carbonAbsorb: subPlotModelSeresah.carbonAbsorb,
+        updatedAt: subPlotAModel.updatedAt,
       );
 
       if (listPlotA.isEmpty) {
@@ -103,6 +105,7 @@ class SubPlotController extends GetxController {
         keringSample: subPlotModelTumbuhanBawah.keringSample,
         carbonValue: subPlotModelTumbuhanBawah.carbonValue,
         carbonAbsorb: subPlotModelTumbuhanBawah.carbonAbsorb,
+        updatedAt: subPlotAModel.updatedAt,
       );
 
       if (listPlotA.isEmpty) {
@@ -122,8 +125,7 @@ class SubPlotController extends GetxController {
       areaName: subPlotAModel.areaName,
       plotName: subPlotAModel.plotName,
       subPlotAModels: listPlotA,
-      subPlotAPhotoUrl: subPlotAModel.subPlotAPhotoUrl,
-      updateAt: subPlotAModel.updateAt,
+      updatedAt: subPlotAModel.updatedAt,
     );
 
     await SubPlotAreaDB.addSubPlotA(subPlotA);
@@ -153,6 +155,7 @@ class SubPlotController extends GetxController {
         keringSample: subPlotModelSemai.keringSample,
         carbonValue: subPlotModelSemai.carbonValue,
         carbonAbsorb: subPlotModelSemai.carbonAbsorb,
+        updatedAt: subPlotAModel.updatedAt,
       );
 
       listPlotA[0] = subPlotSemai;
@@ -171,6 +174,7 @@ class SubPlotController extends GetxController {
         keringSample: subPlotModelSeresah.keringSample,
         carbonValue: subPlotModelSeresah.carbonValue,
         carbonAbsorb: subPlotModelSeresah.carbonAbsorb,
+        updatedAt: subPlotAModel.updatedAt,
       );
 
       listPlotA[1] = subPlotSeresah;
@@ -189,6 +193,7 @@ class SubPlotController extends GetxController {
         keringSample: subPlotModelTumbuhanBawah.keringSample,
         carbonValue: subPlotModelTumbuhanBawah.carbonValue,
         carbonAbsorb: subPlotModelTumbuhanBawah.carbonAbsorb,
+        updatedAt: subPlotAModel.updatedAt,
       );
 
       listPlotA[2] = subPlotTumbuhanBawah;
@@ -202,8 +207,7 @@ class SubPlotController extends GetxController {
         areaName: subPlotAModel.areaName,
         plotName: subPlotAModel.plotName,
         subPlotAModels: listPlotA,
-        subPlotAPhotoUrl: subPlotAModel.subPlotAPhotoUrl,
-        updateAt: subPlotAModel.updateAt,
+        updatedAt: subPlotAModel.updatedAt,
       );
 
       await SubPlotAreaDB.updateSubPlotA(subPlotA);
@@ -227,7 +231,7 @@ class SubPlotController extends GetxController {
       biomassLand: subPlotBModel.biomassLand,
       carbonValue: subPlotBModel.carbonValue,
       carbonAbsorb: subPlotBModel.carbonAbsorb,
-      subPlotBPhotoUrl: subPlotBModel.subPlotBPhotoUrl,
+      updatedAt: subPlotBModel.updatedAt,
     );
 
     await SubPlotAreaDB.addSubPlotB(subPlotB);
@@ -247,7 +251,7 @@ class SubPlotController extends GetxController {
       biomassLand: subPlotBModel.biomassLand,
       carbonValue: subPlotBModel.carbonValue,
       carbonAbsorb: subPlotBModel.carbonAbsorb,
-      subPlotBPhotoUrl: subPlotBModel.subPlotBPhotoUrl,
+      updatedAt: subPlotBModel.updatedAt,
     );
 
     await SubPlotAreaDB.updateSubPlotB(subPlotB);
@@ -268,7 +272,7 @@ class SubPlotController extends GetxController {
       biomassLand: subPlotCModel.biomassLand,
       carbonValue: subPlotCModel.carbonValue,
       carbonAbsorb: subPlotCModel.carbonAbsorb,
-      subPlotCPhotoUrl: subPlotCModel.subPlotCPhotoUrl,
+      updatedAt: subPlotCModel.updatedAt,
     );
 
     await SubPlotAreaDB.addSubPlotC(subPlotC);
@@ -288,7 +292,7 @@ class SubPlotController extends GetxController {
       biomassLand: subPlotCModel.biomassLand,
       carbonValue: subPlotCModel.carbonValue,
       carbonAbsorb: subPlotCModel.carbonAbsorb,
-      subPlotCPhotoUrl: subPlotCModel.subPlotCPhotoUrl,
+      updatedAt: subPlotCModel.updatedAt,
     );
 
     await SubPlotAreaDB.updateSubPlotC(subPlotC);
@@ -318,7 +322,7 @@ class SubPlotController extends GetxController {
         biomassLand: subPlotModelPohon.biomassLand,
         carbonValue: subPlotModelPohon.carbonValue,
         carbonAbsorb: subPlotModelPohon.carbonAbsorb,
-        updateAt: subPlotModelPohon.updateAt,
+        updatedAt: subPlotModelPohon.updatedAt,
       );
 
       if (listPlotD.isEmpty) {
@@ -343,7 +347,7 @@ class SubPlotController extends GetxController {
         biomassLand: subPlotModelNekromas.biomassLand,
         carbonValue: subPlotModelNekromas.carbonValue,
         carbonAbsorb: subPlotModelNekromas.carbonAbsorb,
-        updateAt: subPlotModelNekromas.updateAt,
+        updatedAt: subPlotModelNekromas.updatedAt,
       );
 
       if (listPlotD.isEmpty) {
@@ -368,7 +372,7 @@ class SubPlotController extends GetxController {
         carbonTonHa: subPlotModelTanah.carbonTonHa,
         carbonTon: subPlotModelTanah.carbonTon,
         carbonAbsorb: subPlotModelTanah.carbonAbsorb,
-        updateAt: subPlotModelTanah.updateAt,
+        updatedAt: subPlotModelTanah.updatedAt,
       );
 
       if (listPlotD.isEmpty) {
@@ -386,8 +390,7 @@ class SubPlotController extends GetxController {
       areaName: subPlotModelD.areaName,
       plotName: subPlotModelD.plotName,
       subPlotDModels: listPlotD,
-      subPlotDPhotoUrl: subPlotModelD.subPlotDPhotoUrl,
-      updateAt: subPlotModelD.updateAt,
+      updatedAt: subPlotModelD.updatedAt,
     );
 
     await SubPlotAreaDB.addSubPlotD(subPlotD);
@@ -418,7 +421,7 @@ class SubPlotController extends GetxController {
         biomassLand: subPlotModelPohon.biomassLand,
         carbonValue: subPlotModelPohon.carbonValue,
         carbonAbsorb: subPlotModelPohon.carbonAbsorb,
-        updateAt: subPlotModelPohon.updateAt,
+        updatedAt: subPlotModelPohon.updatedAt,
       );
 
       listPlotD[0] = subPlotPohon;
@@ -438,7 +441,7 @@ class SubPlotController extends GetxController {
         biomassLand: subPlotModelNekromas.biomassLand,
         carbonValue: subPlotModelNekromas.carbonValue,
         carbonAbsorb: subPlotModelNekromas.carbonAbsorb,
-        updateAt: subPlotModelNekromas.updateAt,
+        updatedAt: subPlotModelNekromas.updatedAt,
       );
 
       listPlotD[1] = subPlotNekromas;
@@ -458,7 +461,7 @@ class SubPlotController extends GetxController {
         carbonTonHa: subPlotModelTanah.carbonTonHa,
         carbonTon: subPlotModelTanah.carbonTon,
         carbonAbsorb: subPlotModelTanah.carbonAbsorb,
-        updateAt: subPlotModelTanah.updateAt,
+        updatedAt: subPlotModelTanah.updatedAt,
       );
 
       listPlotD[2] = subPlotTanah;
@@ -472,8 +475,7 @@ class SubPlotController extends GetxController {
         areaName: subPlotModelD.areaName,
         plotName: subPlotModelD.plotName,
         subPlotDModels: listPlotD,
-        subPlotDPhotoUrl: subPlotModelD.subPlotDPhotoUrl,
-        updateAt: subPlotModelD.updateAt,
+        updatedAt: subPlotModelD.updatedAt,
       );
 
       await SubPlotAreaDB.updateSubPlotD(subPlotD);
