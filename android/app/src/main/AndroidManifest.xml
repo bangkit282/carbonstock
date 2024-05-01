@@ -9,7 +9,7 @@
     <application
         android:label="CarbonRangers"
         android:name="${applicationName}"
-        android:icon="@drawable/carbon_ranger_logo">
+        android:icon="@mipmap/carbon_rangers_icon_foreground">
         <activity
             android:name=".MainActivity"
             android:exported="true"
