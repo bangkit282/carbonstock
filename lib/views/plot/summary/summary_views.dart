@@ -4,8 +4,16 @@ class SummaryPageViews extends StatefulWidget {
   const SummaryPageViews({
     super.key,
     required this.plotId,
+    required this.idA,
+    required this.idB,
+    required this.idC,
+    required this.idD,
   });
 
+  final String idA;
+  final String idB;
+  final String idC;
+  final String idD;
   final String plotId;
 
   @override
@@ -13,62 +21,355 @@ class SummaryPageViews extends StatefulWidget {
 }
 
 class _SummaryPageViewsState extends State<SummaryPageViews> {
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
 
   final SubPlotController _subPlotController = Get.find();
   final PlotController _plotController = Get.find();
+  final SummarySubplotController _summaryController = Get.find();
 
-  final RxDouble subCarbonValue = 0.0.obs;
-  final RxDouble subCarbonAbsorb = 0.0.obs;
+  double valCarbonA = 0.0;
+  double valCarbonASemai = 0.0;
+  double valCarbonASeresah = 0.0;
+  double valCarbonATumbuhan = 0.0;
+  double valAbsorbA = 0.0;
+  double valAbsorbASemai = 0.0;
+  double valAbsorbASeresah = 0.0;
+  double valAbsorbATumbuhan = 0.0;
 
-  void totalCarbonValue() {
-    double carbonSemai = _sharedPref.getDouble('karbon_a_semai');
-    double carbonSeresah = _sharedPref.getDouble('karbon_a_seresah');
-    double carbonTumbuhan = _sharedPref.getDouble('karbon_a_tumbuhan');
+  double valCarbonB = 0.0;
+  double valAbsorbB = 0.0;
 
-    double carbonPancang = _sharedPref.getDouble('karbon_b');
-    double carbonTiang = _sharedPref.getDouble('karbon_c');
+  double valCarbonC = 0.0;
+  double valAbsorbC = 0.0;
 
-    double carbonPohon = _sharedPref.getDouble('karbon_d_pohon');
-    double carbonNekromas = _sharedPref.getDouble('karbon_d_nekromas');
-    double carbonTanah = _sharedPref.getDouble('karbon_d_tanah');
+  double valCarbonD = 0.0;
+  double valCarbonDPohon = 0.0;
+  double valCarbonDNekromas = 0.0;
+  double valCarbonDTanah = 0.0;
+  double valAbsorbD = 0.0;
+  double valAbsorbDPohon = 0.0;
+  double valAbsorbDNekromas = 0.0;
+  double valAbsorbDTanah = 0.0;
 
-    subCarbonValue.value = carbonSemai +
-        carbonSeresah +
-        carbonTumbuhan +
-        carbonPancang +
-        carbonTiang +
-        carbonPohon +
-        carbonNekromas +
-        carbonTanah;
+  RxDouble subCarbonValue = 0.0.obs;
+  RxDouble subCarbonAbsorb = 0.0.obs;
+
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      d.log('Couldn\'t check connectivity status', error: e);
+      return;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
   }
 
-  void totalAbsorbValue() {
-    double absorbSemai = _sharedPref.getDouble('absorb_a_semai');
-    double absorbSeresah = _sharedPref.getDouble('absorb_a_seresah');
-    double absorbTumbuhan = _sharedPref.getDouble('absorb_a_tumbuhan');
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    setState(() {
+      _connectionStatus = result;
+    });
+  }
 
-    double absorbPancang = _sharedPref.getDouble('absorb_b');
-    double absorbTiang = _sharedPref.getDouble('absorb_c');
-
-    double absorbPohon = _sharedPref.getDouble('absorb_d_pohon');
-    double absorbNekromas = _sharedPref.getDouble('absorb_d_nekromas');
-    double absorbTanah = _sharedPref.getDouble('absorb_d_tanah');
-
-    subCarbonAbsorb.value = absorbSemai +
-        absorbSeresah +
-        absorbTumbuhan +
-        absorbPancang +
-        absorbTiang +
-        absorbPohon +
-        absorbNekromas +
-        absorbTanah;
+  @override
+  void initState() {
+    initConnectivity();
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
+      _updateConnectionStatus,
+    );
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    totalCarbonValue();
-    totalAbsorbValue();
+    if (widget.idA != '') {
+      List<SubPlotAreaAModel> listA =
+          _subPlotController.contactABox.values.toList();
+      SubPlotAreaAModel plotAFiltered =
+          listA.firstWhere((element) => element.uuid == widget.idA);
+
+      valCarbonASemai = plotAFiltered.subPlotAModels![0] != null
+          ? plotAFiltered.subPlotAModels![0].carbonValue
+          : 0.0;
+      valCarbonASeresah = plotAFiltered.subPlotAModels![1] != null
+          ? plotAFiltered.subPlotAModels![1].carbonValue
+          : 0.0;
+      valCarbonATumbuhan = plotAFiltered.subPlotAModels![2] != null
+          ? plotAFiltered.subPlotAModels![2].carbonValue
+          : 0.0;
+
+      valAbsorbASemai = plotAFiltered.subPlotAModels![0] != null
+          ? plotAFiltered.subPlotAModels![0].carbonAbsorb
+          : 0.0;
+      valAbsorbASeresah = plotAFiltered.subPlotAModels![1] != null
+          ? plotAFiltered.subPlotAModels![1].carbonAbsorb
+          : 0.0;
+      valAbsorbATumbuhan = plotAFiltered.subPlotAModels![2] != null
+          ? plotAFiltered.subPlotAModels![2].carbonAbsorb
+          : 0.0;
+
+      valCarbonA = valCarbonASemai + valCarbonASeresah + valCarbonATumbuhan;
+      valAbsorbA = valAbsorbASemai + valAbsorbASeresah + valAbsorbATumbuhan;
+
+      if (_connectionStatus == ConnectivityResult.mobile ||
+          _connectionStatus == ConnectivityResult.wifi) {
+        Future.delayed(
+          const Duration(seconds: 10),
+          () {
+            _summaryController.postSubPlotA(
+              uuid: plotAFiltered.uuid.toString(),
+              plotId: plotAFiltered.plotId,
+              areaName: plotAFiltered.areaName,
+              plotName: plotAFiltered.plotName,
+              updatedAt: DateTime.now(),
+            );
+
+            if (plotAFiltered.subPlotAModels![0] != null) {
+              _summaryController.postSubPlotAParts(
+                part: 'Semai',
+                uuid: plotAFiltered.subPlotAModels![0].uuid.toString(),
+                plotAuuid: plotAFiltered.uuid.toString(),
+                plotId: plotAFiltered.plotId,
+                areaName: plotAFiltered.areaName,
+                plotName: plotAFiltered.plotName,
+                basahTotal: plotAFiltered.subPlotAModels![0].basahTotal,
+                keringTotal: plotAFiltered.subPlotAModels![0].keringTotal,
+                basahSample: plotAFiltered.subPlotAModels![0].basahSample,
+                keringSample: plotAFiltered.subPlotAModels![0].keringSample,
+                carbonValue: valCarbonASemai,
+                carbonAbsorb: valAbsorbASemai,
+                updatedAt: DateTime.now(),
+              );
+            }
+
+            if (plotAFiltered.subPlotAModels![1] != null) {
+              _summaryController.postSubPlotAParts(
+                part: 'Seresah',
+                uuid: plotAFiltered.subPlotAModels![1].uuid.toString(),
+                plotAuuid: plotAFiltered.uuid.toString(),
+                plotId: plotAFiltered.plotId,
+                areaName: plotAFiltered.areaName,
+                plotName: plotAFiltered.plotName,
+                basahTotal: plotAFiltered.subPlotAModels![1].basahTotal,
+                keringTotal: plotAFiltered.subPlotAModels![1].keringTotal,
+                basahSample: plotAFiltered.subPlotAModels![1].basahSample,
+                keringSample: plotAFiltered.subPlotAModels![1].keringSample,
+                carbonValue: valCarbonASeresah,
+                carbonAbsorb: valAbsorbASeresah,
+                updatedAt: DateTime.now(),
+              );
+            }
+
+            if (plotAFiltered.subPlotAModels![2] != null) {
+              _summaryController.postSubPlotAParts(
+                part: 'Bawah',
+                uuid: plotAFiltered.subPlotAModels![2].uuid.toString(),
+                plotAuuid: plotAFiltered.uuid.toString(),
+                plotId: plotAFiltered.plotId,
+                areaName: plotAFiltered.areaName,
+                plotName: plotAFiltered.plotName,
+                basahTotal: plotAFiltered.subPlotAModels![2].basahTotal,
+                keringTotal: plotAFiltered.subPlotAModels![2].keringTotal,
+                basahSample: plotAFiltered.subPlotAModels![2].basahSample,
+                keringSample: plotAFiltered.subPlotAModels![2].keringSample,
+                carbonValue: valCarbonATumbuhan,
+                carbonAbsorb: valAbsorbATumbuhan,
+                updatedAt: DateTime.now(),
+              );
+            }
+
+            d.log('A submit', name: 'test-post');
+          },
+        );
+      }
+    }
+
+    if (widget.idB != '') {
+      List<SubPlotAreaBModel> listB =
+          _subPlotController.contactBBox.values.toList();
+      SubPlotAreaBModel plotBFiltered =
+          listB.firstWhere((element) => element.uuid == widget.idB);
+
+      valCarbonB = plotBFiltered.carbonValue;
+      valAbsorbB = plotBFiltered.carbonAbsorb;
+
+      if (_connectionStatus == ConnectivityResult.mobile ||
+          _connectionStatus == ConnectivityResult.wifi) {
+        Future.delayed(
+          const Duration(seconds: 10),
+          () {
+            _summaryController.postSubPlotB(
+              uuid: plotBFiltered.uuid.toString(),
+              plotId: plotBFiltered.plotId,
+              areaName: plotBFiltered.areaName,
+              plotName: plotBFiltered.plotName,
+              localName: plotBFiltered.localName,
+              bioName: plotBFiltered.bioName,
+              keliling: plotBFiltered.keliling,
+              diameter: plotBFiltered.diameter,
+              kerapatankayu: plotBFiltered.kerapatanKayu,
+              biomass: plotBFiltered.biomassLand,
+              carbonValue: valCarbonB,
+              carbonAbsorb: valAbsorbB,
+              updatedAt: DateTime.now(),
+            );
+
+            d.log('B submit', name: 'test-post');
+          },
+        );
+      }
+    }
+
+    if (widget.idC != '') {
+      List<SubPlotAreaCModel> listC =
+          _subPlotController.contactCBox.values.toList();
+      SubPlotAreaCModel plotCFiltered =
+          listC.firstWhere((element) => element.uuid == widget.idC);
+
+      valCarbonC = plotCFiltered.carbonValue;
+      valAbsorbC = plotCFiltered.carbonAbsorb;
+
+      Future.delayed(
+        const Duration(seconds: 10),
+        () {
+          _summaryController.postSubPlotC(
+            uuid: plotCFiltered.uuid.toString(),
+            plotId: plotCFiltered.plotId,
+            areaName: plotCFiltered.areaName,
+            plotName: plotCFiltered.plotName,
+            localName: plotCFiltered.localName,
+            bioName: plotCFiltered.bioName,
+            keliling: plotCFiltered.keliling,
+            diameter: plotCFiltered.diameter,
+            kerapatankayu: plotCFiltered.kerapatanKayu,
+            biomass: plotCFiltered.biomassLand,
+            carbonValue: valCarbonC,
+            carbonAbsorb: valAbsorbC,
+            updatedAt: DateTime.now(),
+          );
+
+          d.log('C submit', name: 'test-post');
+        },
+      );
+    }
+
+    if (widget.idD != '') {
+      List<SubPlotAreaDModel> listD =
+          _subPlotController.contactDBox.values.toList();
+      SubPlotAreaDModel plotDFiltered =
+          listD.firstWhere((element) => element.uuid == widget.idD);
+
+      valCarbonDPohon = plotDFiltered.subPlotDModels![0] != null
+          ? plotDFiltered.subPlotDModels![0].carbonValue
+          : 0.0;
+      valCarbonDNekromas = plotDFiltered.subPlotDModels![1] != null
+          ? plotDFiltered.subPlotDModels![1].carbonValue
+          : 0.0;
+      valCarbonDTanah = plotDFiltered.subPlotDModels![2] != null
+          ? plotDFiltered.subPlotDModels![2].carbonValue
+          : 0.0;
+
+      valAbsorbDPohon = plotDFiltered.subPlotDModels![0] != null
+          ? plotDFiltered.subPlotDModels![0].carbonAbsorb
+          : 0.0;
+      valAbsorbDNekromas = plotDFiltered.subPlotDModels![1] != null
+          ? plotDFiltered.subPlotDModels![1].carbonAbsorb
+          : 0.0;
+      valAbsorbDTanah = plotDFiltered.subPlotDModels![2] != null
+          ? plotDFiltered.subPlotDModels![2].carbonAbsorb
+          : 0.0;
+
+      valCarbonD = valCarbonDPohon + valCarbonDNekromas + valCarbonDTanah;
+      valAbsorbD = valAbsorbDPohon + valAbsorbDNekromas + valAbsorbDTanah;
+
+      Future.delayed(
+        const Duration(seconds: 10),
+        () {
+          _summaryController.postSubPlotD(
+            uuid: plotDFiltered.uuid.toString(),
+            plotId: plotDFiltered.plotId,
+            areaName: plotDFiltered.areaName,
+            plotName: plotDFiltered.plotName,
+            updatedAt: DateTime.now(),
+          );
+
+          if (plotDFiltered.subPlotDModels![0] != null) {
+            _summaryController.postSubPlotDPohon(
+              uuid: plotDFiltered.uuid.toString(),
+              plotDuuid: plotDFiltered.subPlotDModels![0].uuid.toString(),
+              plotId: plotDFiltered.plotId,
+              areaName: plotDFiltered.areaName,
+              plotName: plotDFiltered.plotName,
+              localName: plotDFiltered.subPlotDModels![0].localName,
+              bioName: plotDFiltered.subPlotDModels![0].bioName,
+              keliling: plotDFiltered.subPlotDModels![0].keliling,
+              diameter: plotDFiltered.subPlotDModels![0].diameter,
+              kerapatankayu: plotDFiltered.subPlotDModels![0].kerapatanKayu,
+              biomass: plotDFiltered.subPlotDModels![0].biomassLand,
+              carbonValue: valCarbonDPohon,
+              carbonAbsorb: valAbsorbDPohon,
+              updatedAt: DateTime.now(),
+            );
+          }
+
+          if (plotDFiltered.subPlotDModels![1] != null) {
+            _summaryController.postSubPlotDNekromas(
+              uuid: plotDFiltered.uuid.toString(),
+              plotDuuid: plotDFiltered.subPlotDModels![1].uuid.toString(),
+              plotId: plotDFiltered.plotId,
+              areaName: plotDFiltered.areaName,
+              plotName: plotDFiltered.plotName,
+              diameterPangkal: plotDFiltered.subPlotDModels![1].diameterPangkal,
+              diameterUjung: plotDFiltered.subPlotDModels![1].diameterUjung,
+              panjang: plotDFiltered.subPlotDModels![1].panjang,
+              volume: plotDFiltered.subPlotDModels![1].volume,
+              biomass: plotDFiltered.subPlotDModels![1].biomassLand,
+              carbonValue: valCarbonDNekromas,
+              carbonAbsorb: valAbsorbDNekromas,
+              updatedAt: DateTime.now(),
+            );
+          }
+
+          if (plotDFiltered.subPlotDModels![2] != null) {
+            _summaryController.postSubPlotDTanah(
+              uuid: plotDFiltered.uuid.toString(),
+              plotDuuid: plotDFiltered.subPlotDModels![2].uuid.toString(),
+              plotId: plotDFiltered.plotId,
+              areaName: plotDFiltered.areaName,
+              plotName: plotDFiltered.plotName,
+              kedalamanSample: plotDFiltered.subPlotDModels![2].kedalamanSample,
+              beratJenis: plotDFiltered.subPlotDModels![2].beratJenisTanah,
+              organikCTanah: plotDFiltered.subPlotDModels![2].organicTanah,
+              carbonGrCm: plotDFiltered.subPlotDModels![2].carbonGrCm,
+              carbonTonHa: plotDFiltered.subPlotDModels![2].carbonTonHa,
+              carbonTon: plotDFiltered.subPlotDModels![2].carbonTon,
+              carbonAbsorb: valAbsorbDTanah,
+              updatedAt: DateTime.now(),
+            );
+          }
+
+          d.log('D submit', name: 'test-post');
+        },
+      );
+    }
+
+    subCarbonAbsorb.value = valAbsorbA + valAbsorbB + valAbsorbC + valAbsorbD;
+    subCarbonValue.value = valCarbonA + valCarbonB + valCarbonC + valCarbonD;
+
+    // d.log('${subCarbonValue.value} ${subCarbonAbsorb.value}', name: 'test');
 
     return Scaffold(
       backgroundColor: colorPrimaryBackground,

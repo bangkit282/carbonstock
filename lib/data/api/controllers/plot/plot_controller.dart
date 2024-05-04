@@ -36,7 +36,7 @@ class PlotController extends GetxController {
     await PlotDB.addPlot(plot);
   }
 
-  Future<void> updatePlot(PlotModel plotModel) async {
+  Future<void> updatePlot(int index, PlotModel plotModel) async {
     final PlotModel plot = PlotModel(
       plotId: plotModel.plotId,
       plotLat: plotModel.plotLat,
@@ -47,6 +47,6 @@ class PlotController extends GetxController {
       updatedAt: plotModel.updatedAt,
     );
 
-    await PlotDB.updatePlot(plot);
+    await PlotDB.updatePlot(index, plot);
   }
 }

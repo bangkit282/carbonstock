@@ -3,6 +3,10 @@ part of '../../../views.dart';
 class DetailSubPlotDPageScreen extends StatefulWidget {
   const DetailSubPlotDPageScreen({
     super.key,
+    required this.indexD,
+    required this.indexPohon,
+    required this.indexNekromas,
+    required this.indexTanah,
     required this.plotId,
     required this.areaName,
     required this.plotName,
@@ -10,6 +14,11 @@ class DetailSubPlotDPageScreen extends StatefulWidget {
     required this.subPlotDNekromasList,
     required this.subPlotDTanahList,
   });
+
+  final int indexD;
+  final int indexPohon;
+  final int indexNekromas;
+  final int indexTanah;
 
   final String plotId;
   final String areaName;
@@ -184,7 +193,8 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                       Get.snackbar(
                         'CarbonStock',
                         'Lengkapi data Pohon terlebih dahulu atau biarkan kosong sebelum menyimpan!',
-                        backgroundColor: colorSecondaryGrey1,
+                        backgroundColor: Colors.redAccent,
+                        colorText: colorPrimaryWhite,
                       );
                     } else {
                       if (_pohonKelilingFormKey.currentState!.validate()) {
@@ -219,6 +229,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
 
                           _sharedPref.putDouble('karbon_d_pohon', carbonValue);
                           _sharedPref.putDouble('absorb_d_pohon', carbonAbsorb);
+
                           await _controller.insertSubPlotD(
                             subPlotAreaDModel,
                             subPlotAreaDPohonModel,
@@ -247,6 +258,10 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           );
 
                           await _controller.updateSubPlotD(
+                            widget.indexD,
+                            widget.indexPohon,
+                            widget.indexNekromas,
+                            widget.indexTanah,
                             subPlotAreaDModel,
                             subPlotAreaDPohonModel,
                             null,
@@ -268,7 +283,8 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                       Get.snackbar(
                         'CarbonStock',
                         'Lengkapi data Nekromas terlebih dahulu atau biarkan kosong sebelum menyimpan!',
-                        backgroundColor: colorSecondaryGrey1,
+                        backgroundColor: Colors.redAccent,
+                        colorText: colorPrimaryWhite,
                       );
                     } else {
                       double dPangkal =
@@ -341,6 +357,10 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           carbonAbsorb,
                         );
                         await _controller.updateSubPlotD(
+                          widget.indexD,
+                          widget.indexPohon,
+                          widget.indexNekromas,
+                          widget.indexTanah,
                           subPlotAreaDModel,
                           null,
                           subPlotAreaDNekromasModel,
@@ -361,7 +381,8 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                       Get.snackbar(
                         'CarbonStock',
                         'Lengkapi data Tanah terlebih dahulu atau biarkan kosong sebelum menyimpan!',
-                        backgroundColor: colorSecondaryGrey1,
+                        backgroundColor: Colors.redAccent,
+                        colorText: colorPrimaryWhite,
                       );
                     } else {
                       double kedalaman =
@@ -425,6 +446,10 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                         );
 
                         await _controller.updateSubPlotD(
+                          widget.indexD,
+                          widget.indexPohon,
+                          widget.indexNekromas,
+                          widget.indexTanah,
                           subPlotAreaDModel,
                           null,
                           null,

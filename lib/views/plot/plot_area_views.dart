@@ -93,7 +93,7 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
             width: 1.sw,
             height: 1.sh - 80.h,
             child: ListView.builder(
-              itemCount: plotList.length,
+              itemCount: _plotController.contactBox.length,
               itemBuilder: (context, index) {
                 return buildPlotWidget(plotList.getAt(index)!);
               },

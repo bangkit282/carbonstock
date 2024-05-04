@@ -3,11 +3,13 @@ part of '../../../views.dart';
 class DetailSubPlotCPageScreen extends StatefulWidget {
   const DetailSubPlotCPageScreen({
     super.key,
+    required this.indexC,
     required this.plotId,
     required this.areaName,
     required this.plotName,
   });
 
+  final int indexC;
   final String plotId;
   final String areaName;
   final String plotName;
@@ -40,6 +42,7 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
   RxDouble tiangDiameter = 0.0.obs;
   RxDouble tiangBiomassLand = 0.0.obs;
   RxDouble tiangKerapatan = 0.0.obs;
+
   // RxDouble tiangKarbon = 0.0.obs;
 
   List<Map<String, String>> knownTiangListMap = [
@@ -135,7 +138,8 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                     Get.snackbar(
                       'CarbonStock',
                       'Lengkapi data terlebih dahulu',
-                      backgroundColor: colorSecondaryGrey1,
+                      backgroundColor: Colors.redAccent,
+                        colorText: colorPrimaryWhite,
                     );
                   } else {
                     if (_tiangKelilingFormKey.currentState!.validate()) {
@@ -192,7 +196,7 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                           updatedAt: DateTime.now(),
                         );
 
-                        await _controller.updateSubPlotC(subPlotCModel);
+                        await _controller.updateSubPlotC(widget.indexC, subPlotCModel,);
                         _sharedPref.putBool('tiang_data', true);
 
                         _sharedPref.putDouble('karbon_c', carbonValue);

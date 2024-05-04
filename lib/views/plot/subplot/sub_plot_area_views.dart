@@ -104,6 +104,42 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                     context,
                     PageRouteBuilder(
                       pageBuilder: (_, __, ___) => SummaryPageViews(
+                        idA: _controller.contactABox.values.toList().isNotEmpty
+                            ? _controller.contactABox.values
+                                .toList()[_controller.contactABox.values
+                                    .toList()
+                                    .indexWhere((element) =>
+                                        element.plotId == widget.plotId)]
+                                .uuid
+                                .toString()
+                            : '',
+                        idB: _controller.contactBBox.values.toList().isNotEmpty
+                            ? _controller.contactBBox.values
+                                .toList()[_controller.contactBBox.values
+                                    .toList()
+                                    .indexWhere((element) =>
+                                        element.plotId == widget.plotId)]
+                                .uuid
+                                .toString()
+                            : '',
+                        idC: _controller.contactCBox.values.toList().isNotEmpty
+                            ? _controller.contactCBox.values
+                                .toList()[_controller.contactCBox.values
+                                    .toList()
+                                    .indexWhere((element) =>
+                                        element.plotId == widget.plotId)]
+                                .uuid
+                                .toString()
+                            : '',
+                        idD: _controller.contactDBox.values.toList().isNotEmpty
+                            ? _controller.contactDBox.values
+                                .toList()[_controller.contactDBox.values
+                                    .toList()
+                                    .indexWhere((element) =>
+                                        element.plotId == widget.plotId)]
+                                .uuid
+                                .toString()
+                            : '',
                         plotId: widget.plotId,
                       ),
                       transitionsBuilder: (_, animation, __, child) {
@@ -217,10 +253,27 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
       return ValueListenableBuilder(
         valueListenable: _controller.contactABox.listenable(),
         builder: (context, box, _) {
-          RxList list = box.values
+          RxInt indexA = 0.obs;
+          RxInt indexSemai = 0.obs;
+          RxInt indexSeresah = 0.obs;
+          RxInt indexTumbuhan = 0.obs;
+
+          RxList<SubPlotAreaAModel> list = box.values
               .where((element) => element.plotId == widget.plotId)
               .toList()
               .obs;
+
+          if (list.isNotEmpty) {
+            for (var e in list) {
+              indexA.value = list.indexWhere((e) => e.plotId == widget.plotId);
+              indexSemai.value = e.subPlotAModels!
+                  .indexWhere((element) => element.plotId == widget.plotId);
+              indexSeresah.value = e.subPlotAModels!
+                  .indexWhere((element) => element.plotId == widget.plotId);
+              indexTumbuhan.value = e.subPlotAModels!
+                  .indexWhere((element) => element.plotId == widget.plotId);
+            }
+          }
 
           return Obx(
             () {
@@ -232,8 +285,12 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                           Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
+                              pageBuilder: (context, __, ___) =>
                                   DetailSubPlotAPageScreen(
+                                indexA: indexA.value,
+                                indexSemai: indexSemai.value,
+                                indexSeresah: indexSeresah.value,
+                                indexTumbuhan: indexTumbuhan.value,
                                 plotId: widget.plotId,
                                 areaName: widget.areaName,
                                 plotName: widget.plotName,
@@ -275,6 +332,10 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                           PageRouteBuilder(
                             pageBuilder: (_, __, ___) =>
                                 DetailSubPlotAPageScreen(
+                              indexA: indexA.value,
+                              indexSemai: indexSemai.value,
+                              indexSeresah: indexSeresah.value,
+                              indexTumbuhan: indexTumbuhan.value,
                               plotId: widget.plotId,
                               areaName: widget.areaName,
                               plotName: widget.plotName,
@@ -314,10 +375,16 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
       return ValueListenableBuilder(
         valueListenable: _controller.contactBBox.listenable(),
         builder: (context, box, _) {
+          RxInt indexB = 0.obs;
+
           RxList list = box.values
               .where((element) => element.plotId == widget.plotId)
               .toList()
               .obs;
+
+          if (list.isNotEmpty) {
+            indexB.value = list.indexWhere((e) => e.plotId == widget.plotId);
+          }
 
           return Obx(
             () {
@@ -331,6 +398,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                             PageRouteBuilder(
                               pageBuilder: (_, __, ___) =>
                                   DetailSubPlotBPageScreen(
+                                indexB: indexB.value,
                                 plotId: widget.plotId,
                                 areaName: widget.areaName,
                                 plotName: widget.plotName,
@@ -366,6 +434,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                           PageRouteBuilder(
                             pageBuilder: (_, __, ___) =>
                                 DetailSubPlotBPageScreen(
+                              indexB: indexB.value,
                               plotId: widget.plotId,
                               areaName: widget.areaName,
                               plotName: widget.plotName,
@@ -401,10 +470,16 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
       return ValueListenableBuilder(
         valueListenable: _controller.contactCBox.listenable(),
         builder: (context, box, _) {
+          RxInt indexC = 0.obs;
+
           RxList list = box.values
               .where((element) => element.plotId == widget.plotId)
               .toList()
               .obs;
+
+          if (list.isNotEmpty) {
+            indexC.value = list.indexWhere((e) => e.plotId == widget.plotId);
+          }
 
           return Obx(
             () {
@@ -418,6 +493,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                             PageRouteBuilder(
                               pageBuilder: (_, __, ___) =>
                                   DetailSubPlotCPageScreen(
+                                indexC: indexC.value,
                                 plotId: widget.plotId,
                                 areaName: widget.areaName,
                                 plotName: widget.plotName,
@@ -453,6 +529,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                           PageRouteBuilder(
                             pageBuilder: (_, __, ___) =>
                                 DetailSubPlotCPageScreen(
+                              indexC: indexC.value,
                               plotId: widget.plotId,
                               areaName: widget.areaName,
                               plotName: widget.plotName,
@@ -488,10 +565,27 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
       return ValueListenableBuilder(
         valueListenable: _controller.contactDBox.listenable(),
         builder: (context, box, _) {
-          RxList list = box.values
+          RxInt indexD = 0.obs;
+          RxInt indexPohon = 0.obs;
+          RxInt indexNekromas = 0.obs;
+          RxInt indexTanah = 0.obs;
+
+          RxList<SubPlotAreaDModel> list = box.values
               .where((element) => element.plotId == widget.plotId)
               .toList()
               .obs;
+
+          if (list.isNotEmpty) {
+            for (var e in list) {
+              indexD.value = list.indexWhere((e) => e.plotId == widget.plotId);
+              indexPohon.value = e.subPlotDModels!
+                  .indexWhere((element) => element.plotId == widget.plotId);
+              indexNekromas.value = e.subPlotDModels!
+                  .indexWhere((element) => element.plotId == widget.plotId);
+              indexTanah.value = e.subPlotDModels!
+                  .indexWhere((element) => element.plotId == widget.plotId);
+            }
+          }
 
           return Obx(
             () {
@@ -505,6 +599,10 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                             PageRouteBuilder(
                               pageBuilder: (_, __, ___) =>
                                   DetailSubPlotDPageScreen(
+                                indexD: indexD.value,
+                                indexPohon: indexPohon.value,
+                                indexNekromas: indexNekromas.value,
+                                indexTanah: indexTanah.value,
                                 plotId: widget.plotId,
                                 areaName: widget.areaName,
                                 plotName: widget.plotName,
@@ -545,6 +643,10 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                           PageRouteBuilder(
                             pageBuilder: (_, __, ___) =>
                                 DetailSubPlotDPageScreen(
+                              indexD: indexD.value,
+                              indexPohon: indexPohon.value,
+                              indexNekromas: indexNekromas.value,
+                              indexTanah: indexTanah.value,
                               plotId: widget.plotId,
                               plotName: widget.plotName,
                               areaName: widget.areaName,

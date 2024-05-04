@@ -3,6 +3,10 @@ part of '../../../views.dart';
 class DetailSubPlotAPageScreen extends StatefulWidget {
   const DetailSubPlotAPageScreen({
     super.key,
+    required this.indexA,
+    required this.indexSemai,
+    required this.indexSeresah,
+    required this.indexTumbuhan,
     required this.plotId,
     required this.areaName,
     required this.plotName,
@@ -11,6 +15,11 @@ class DetailSubPlotAPageScreen extends StatefulWidget {
     required this.seresahList,
     required this.tumbuhanList,
   });
+
+  final int indexA;
+  final int indexSemai;
+  final int indexSeresah;
+  final int indexTumbuhan;
 
   final String plotId;
   final String areaName;
@@ -130,7 +139,8 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                       Get.snackbar(
                         'CarbonStock',
                         'Lengkapi data Semai terlebih dahulu atau biarkan kosong sebelum menyimpan!',
-                        backgroundColor: colorSecondaryGrey1,
+                        backgroundColor: Colors.redAccent,
+                        colorText: colorPrimaryWhite,
                       );
                     } else {
                       if (widget.semaiList.isEmpty) {
@@ -196,6 +206,10 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         await _controller.updateSubPlotA(
+                          widget.indexA,
+                          widget.indexSemai,
+                          widget.indexSeresah,
+                          widget.indexTumbuhan,
                           subPlotAreaA,
                           subPlotASemai,
                           null,
@@ -224,7 +238,8 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                       Get.snackbar(
                         'CarbonStock',
                         'Lengkapi data Seresah terlebih dahulu atau biarkan kosong sebelum menyimpan!',
-                        backgroundColor: colorSecondaryGrey1,
+                        backgroundColor: Colors.redAccent,
+                        colorText: colorPrimaryWhite,
                       );
                     } else {
                       if (widget.seresahList.isEmpty) {
@@ -292,6 +307,10 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         await _controller.updateSubPlotA(
+                          widget.indexA,
+                          widget.indexSemai,
+                          widget.indexSeresah,
+                          widget.indexTumbuhan,
                           subPlotAreaA,
                           null,
                           subPlotASeresah,
@@ -320,7 +339,8 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                       Get.snackbar(
                         'CarbonStock',
                         'Lengkapi data Tumbuhan Bawah terlebih dahulu atau biarkan kosong sebelum menyimpan!',
-                        backgroundColor: colorSecondaryGrey1,
+                        backgroundColor: Colors.redAccent,
+                        colorText: colorPrimaryWhite,
                       );
                     } else {
                       if (widget.tumbuhanList.isEmpty) {
@@ -387,6 +407,10 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         );
 
                         await _controller.updateSubPlotA(
+                          widget.indexA,
+                          widget.indexSemai,
+                          widget.indexSeresah,
+                          widget.indexTumbuhan,
                           subPlotAreaA,
                           null,
                           null,
@@ -409,7 +433,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                   if (_sharedPref.checkKey('subplot_a_data')) {
                     Get.back();
                     Get.snackbar(
-                      'CarbonStock',
+                      'CarbonRangers',
                       'Simpan Sub-Plot A Berhasil!',
                       backgroundColor: colorSecondaryGrey1,
                     );
@@ -461,8 +485,6 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
               List data = box.values
                   .where((element) => element.plotId == widget.plotId)
                   .toList();
-
-              // d.log('semai: $data', name: 'Data A');
 
               if (data.isNotEmpty) {
                 return buildSemaiInfo(
