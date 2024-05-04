@@ -21,10 +21,16 @@ class SummaryPageViews extends StatefulWidget {
 }
 
 class _SummaryPageViewsState extends State<SummaryPageViews> {
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
 
   final SubPlotController _subPlotController = Get.find();
   final PlotController _plotController = Get.find();
+  final SummarySubplotController _summaryController = Get.find();
 
   double valCarbonA = 0.0;
   double valCarbonASemai = 0.0;
@@ -52,6 +58,40 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
 
   RxDouble subCarbonValue = 0.0.obs;
   RxDouble subCarbonAbsorb = 0.0.obs;
+
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      d.log('Couldn\'t check connectivity status', error: e);
+      return;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    setState(() {
+      _connectionStatus = result;
+    });
+  }
+
+  @override
+  void initState() {
+    initConnectivity();
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
+      _updateConnectionStatus,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +123,78 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
 
       valCarbonA = valCarbonASemai + valCarbonASeresah + valCarbonATumbuhan;
       valAbsorbA = valAbsorbASemai + valAbsorbASeresah + valAbsorbATumbuhan;
+
+      if (_connectionStatus == ConnectivityResult.mobile ||
+          _connectionStatus == ConnectivityResult.wifi) {
+        Future.delayed(
+          const Duration(seconds: 10),
+          () {
+            _summaryController.postSubPlotA(
+              uuid: plotAFiltered.uuid.toString(),
+              plotId: plotAFiltered.plotId,
+              areaName: plotAFiltered.areaName,
+              plotName: plotAFiltered.plotName,
+              updatedAt: DateTime.now(),
+            );
+
+            if (plotAFiltered.subPlotAModels![0] != null) {
+              _summaryController.postSubPlotAParts(
+                part: 'Semai',
+                uuid: plotAFiltered.subPlotAModels![0].uuid.toString(),
+                plotAuuid: plotAFiltered.uuid.toString(),
+                plotId: plotAFiltered.plotId,
+                areaName: plotAFiltered.areaName,
+                plotName: plotAFiltered.plotName,
+                basahTotal: plotAFiltered.subPlotAModels![0].basahTotal,
+                keringTotal: plotAFiltered.subPlotAModels![0].keringTotal,
+                basahSample: plotAFiltered.subPlotAModels![0].basahSample,
+                keringSample: plotAFiltered.subPlotAModels![0].keringSample,
+                carbonValue: valCarbonASemai,
+                carbonAbsorb: valAbsorbASemai,
+                updatedAt: DateTime.now(),
+              );
+            }
+
+            if (plotAFiltered.subPlotAModels![1] != null) {
+              _summaryController.postSubPlotAParts(
+                part: 'Seresah',
+                uuid: plotAFiltered.subPlotAModels![1].uuid.toString(),
+                plotAuuid: plotAFiltered.uuid.toString(),
+                plotId: plotAFiltered.plotId,
+                areaName: plotAFiltered.areaName,
+                plotName: plotAFiltered.plotName,
+                basahTotal: plotAFiltered.subPlotAModels![1].basahTotal,
+                keringTotal: plotAFiltered.subPlotAModels![1].keringTotal,
+                basahSample: plotAFiltered.subPlotAModels![1].basahSample,
+                keringSample: plotAFiltered.subPlotAModels![1].keringSample,
+                carbonValue: valCarbonASeresah,
+                carbonAbsorb: valAbsorbASeresah,
+                updatedAt: DateTime.now(),
+              );
+            }
+
+            if (plotAFiltered.subPlotAModels![2] != null) {
+              _summaryController.postSubPlotAParts(
+                part: 'Bawah',
+                uuid: plotAFiltered.subPlotAModels![2].uuid.toString(),
+                plotAuuid: plotAFiltered.uuid.toString(),
+                plotId: plotAFiltered.plotId,
+                areaName: plotAFiltered.areaName,
+                plotName: plotAFiltered.plotName,
+                basahTotal: plotAFiltered.subPlotAModels![2].basahTotal,
+                keringTotal: plotAFiltered.subPlotAModels![2].keringTotal,
+                basahSample: plotAFiltered.subPlotAModels![2].basahSample,
+                keringSample: plotAFiltered.subPlotAModels![2].keringSample,
+                carbonValue: valCarbonATumbuhan,
+                carbonAbsorb: valAbsorbATumbuhan,
+                updatedAt: DateTime.now(),
+              );
+            }
+
+            d.log('A submit', name: 'test-post');
+          },
+        );
+      }
     }
 
     if (widget.idB != '') {
@@ -93,6 +205,32 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
 
       valCarbonB = plotBFiltered.carbonValue;
       valAbsorbB = plotBFiltered.carbonAbsorb;
+
+      if (_connectionStatus == ConnectivityResult.mobile ||
+          _connectionStatus == ConnectivityResult.wifi) {
+        Future.delayed(
+          const Duration(seconds: 10),
+          () {
+            _summaryController.postSubPlotB(
+              uuid: plotBFiltered.uuid.toString(),
+              plotId: plotBFiltered.plotId,
+              areaName: plotBFiltered.areaName,
+              plotName: plotBFiltered.plotName,
+              localName: plotBFiltered.localName,
+              bioName: plotBFiltered.bioName,
+              keliling: plotBFiltered.keliling,
+              diameter: plotBFiltered.diameter,
+              kerapatankayu: plotBFiltered.kerapatanKayu,
+              biomass: plotBFiltered.biomassLand,
+              carbonValue: valCarbonB,
+              carbonAbsorb: valAbsorbB,
+              updatedAt: DateTime.now(),
+            );
+
+            d.log('B submit', name: 'test-post');
+          },
+        );
+      }
     }
 
     if (widget.idC != '') {
@@ -103,6 +241,29 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
 
       valCarbonC = plotCFiltered.carbonValue;
       valAbsorbC = plotCFiltered.carbonAbsorb;
+
+      Future.delayed(
+        const Duration(seconds: 10),
+        () {
+          _summaryController.postSubPlotC(
+            uuid: plotCFiltered.uuid.toString(),
+            plotId: plotCFiltered.plotId,
+            areaName: plotCFiltered.areaName,
+            plotName: plotCFiltered.plotName,
+            localName: plotCFiltered.localName,
+            bioName: plotCFiltered.bioName,
+            keliling: plotCFiltered.keliling,
+            diameter: plotCFiltered.diameter,
+            kerapatankayu: plotCFiltered.kerapatanKayu,
+            biomass: plotCFiltered.biomassLand,
+            carbonValue: valCarbonC,
+            carbonAbsorb: valAbsorbC,
+            updatedAt: DateTime.now(),
+          );
+
+          d.log('C submit', name: 'test-post');
+        },
+      );
     }
 
     if (widget.idD != '') {
@@ -133,12 +294,82 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
 
       valCarbonD = valCarbonDPohon + valCarbonDNekromas + valCarbonDTanah;
       valAbsorbD = valAbsorbDPohon + valAbsorbDNekromas + valAbsorbDTanah;
+
+      Future.delayed(
+        const Duration(seconds: 10),
+        () {
+          _summaryController.postSubPlotD(
+            uuid: plotDFiltered.uuid.toString(),
+            plotId: plotDFiltered.plotId,
+            areaName: plotDFiltered.areaName,
+            plotName: plotDFiltered.plotName,
+            updatedAt: DateTime.now(),
+          );
+
+          if (plotDFiltered.subPlotDModels![0] != null) {
+            _summaryController.postSubPlotDPohon(
+              uuid: plotDFiltered.uuid.toString(),
+              plotDuuid: plotDFiltered.subPlotDModels![0].uuid.toString(),
+              plotId: plotDFiltered.plotId,
+              areaName: plotDFiltered.areaName,
+              plotName: plotDFiltered.plotName,
+              localName: plotDFiltered.subPlotDModels![0].localName,
+              bioName: plotDFiltered.subPlotDModels![0].bioName,
+              keliling: plotDFiltered.subPlotDModels![0].keliling,
+              diameter: plotDFiltered.subPlotDModels![0].diameter,
+              kerapatankayu: plotDFiltered.subPlotDModels![0].kerapatanKayu,
+              biomass: plotDFiltered.subPlotDModels![0].biomassLand,
+              carbonValue: valCarbonDPohon,
+              carbonAbsorb: valAbsorbDPohon,
+              updatedAt: DateTime.now(),
+            );
+          }
+
+          if (plotDFiltered.subPlotDModels![1] != null) {
+            _summaryController.postSubPlotDNekromas(
+              uuid: plotDFiltered.uuid.toString(),
+              plotDuuid: plotDFiltered.subPlotDModels![1].uuid.toString(),
+              plotId: plotDFiltered.plotId,
+              areaName: plotDFiltered.areaName,
+              plotName: plotDFiltered.plotName,
+              diameterPangkal: plotDFiltered.subPlotDModels![1].diameterPangkal,
+              diameterUjung: plotDFiltered.subPlotDModels![1].diameterUjung,
+              panjang: plotDFiltered.subPlotDModels![1].panjang,
+              volume: plotDFiltered.subPlotDModels![1].volume,
+              biomass: plotDFiltered.subPlotDModels![1].biomassLand,
+              carbonValue: valCarbonDNekromas,
+              carbonAbsorb: valAbsorbDNekromas,
+              updatedAt: DateTime.now(),
+            );
+          }
+
+          if (plotDFiltered.subPlotDModels![2] != null) {
+            _summaryController.postSubPlotDTanah(
+              uuid: plotDFiltered.uuid.toString(),
+              plotDuuid: plotDFiltered.subPlotDModels![2].uuid.toString(),
+              plotId: plotDFiltered.plotId,
+              areaName: plotDFiltered.areaName,
+              plotName: plotDFiltered.plotName,
+              kedalamanSample: plotDFiltered.subPlotDModels![2].kedalamanSample,
+              beratJenis: plotDFiltered.subPlotDModels![2].beratJenisTanah,
+              organikCTanah: plotDFiltered.subPlotDModels![2].organicTanah,
+              carbonGrCm: plotDFiltered.subPlotDModels![2].carbonGrCm,
+              carbonTonHa: plotDFiltered.subPlotDModels![2].carbonTonHa,
+              carbonTon: plotDFiltered.subPlotDModels![2].carbonTon,
+              carbonAbsorb: valAbsorbDTanah,
+              updatedAt: DateTime.now(),
+            );
+          }
+
+          d.log('D submit', name: 'test-post');
+        },
+      );
     }
 
     subCarbonAbsorb.value = valAbsorbA + valAbsorbB + valAbsorbC + valAbsorbD;
     subCarbonValue.value = valCarbonA + valCarbonB + valCarbonC + valCarbonD;
 
-    d.log('${subCarbonValue.value} ${subCarbonAbsorb.value}', name: 'test');
+    // d.log('${subCarbonValue.value} ${subCarbonAbsorb.value}', name: 'test');
 
     return Scaffold(
       backgroundColor: colorPrimaryBackground,
@@ -186,35 +417,35 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            // const Spacer(flex: 2),
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     Navigator.push(
-                            //       context,
-                            //       PageRouteBuilder(
-                            //         pageBuilder: (_, __, ___) =>
-                            //             AddPlotScreenViews(
-                            //           plotId: widget.plotId,
-                            //         ),
-                            //         transitionsBuilder:
-                            //             (_, animation, __, child) {
-                            //           return FadeTransition(
-                            //             opacity: animation,
-                            //             child: child,
-                            //           );
-                            //         },
-                            //       ),
-                            //     );
-                            //   },
-                            //   child: Text(
-                            //     'Edit Plot Data',
-                            //     style: TextStyle(
-                            //       fontSize: 14.sp,
-                            //       color: const Color.fromRGBO(255, 168, 0, 1),
-                            //       fontWeight: FontWeight.w700,
-                            //     ),
-                            //   ),
-                            // ),
+                            const Spacer(flex: 2),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (_, __, ___) =>
+                                        AddPlotScreenViews(
+                                      plotId: widget.plotId,
+                                    ),
+                                    transitionsBuilder:
+                                        (_, animation, __, child) {
+                                      return FadeTransition(
+                                        opacity: animation,
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Edit Plot Data',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: const Color.fromRGBO(255, 168, 0, 1),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                         Container(

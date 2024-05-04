@@ -5,6 +5,7 @@ import 'package:carbonstock/data/api/controllers/area/area_controller.dart';
 import 'package:carbonstock/data/api/controllers/auth/auth_controller.dart';
 import 'package:carbonstock/data/api/controllers/plot/plot_controller.dart';
 import 'package:carbonstock/data/api/controllers/subplot/sub_plot_controller.dart';
+import 'package:carbonstock/data/api/controllers/subplot/summary_controller.dart';
 import 'package:carbonstock/data/local/localdb/area/area_db.dart';
 import 'package:carbonstock/data/local/localdb/auth/auth_db.dart';
 import 'package:carbonstock/data/local/localdb/plot/plot_db.dart';
@@ -63,6 +64,7 @@ void main() async {
   Get.put(AuthController(), permanent: true);
   Get.put(PlotController(), permanent: true);
   Get.put(SubPlotController(), permanent: true);
+  Get.put(SummarySubplotController(), permanent: true);
 
   await dotenv.load(fileName: 'assets/configs/.env');
 
