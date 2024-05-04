@@ -417,35 +417,35 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            const Spacer(flex: 2),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder: (_, __, ___) =>
-                                        AddPlotScreenViews(
-                                      plotId: widget.plotId,
-                                    ),
-                                    transitionsBuilder:
-                                        (_, animation, __, child) {
-                                      return FadeTransition(
-                                        opacity: animation,
-                                        child: child,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                'Edit Plot Data',
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: const Color.fromRGBO(255, 168, 0, 1),
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
+                            // const Spacer(flex: 2),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //       context,
+                            //       PageRouteBuilder(
+                            //         pageBuilder: (_, __, ___) =>
+                            //             AddPlotScreenViews(
+                            //           plotId: widget.plotId,
+                            //         ),
+                            //         transitionsBuilder:
+                            //             (_, animation, __, child) {
+                            //           return FadeTransition(
+                            //             opacity: animation,
+                            //             child: child,
+                            //           );
+                            //         },
+                            //       ),
+                            //     );
+                            //   },
+                            //   child: Text(
+                            //     'Edit Plot Data',
+                            //     style: TextStyle(
+                            //       fontSize: 14.sp,
+                            //       color: const Color.fromRGBO(255, 168, 0, 1),
+                            //       fontWeight: FontWeight.w700,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                         Container(
