@@ -58,6 +58,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
     _plotLngController.text = currentLatLng.longitude.toString();
 
     return Scaffold(
+      extendBody: true,
       backgroundColor: colorPrimaryBackground,
       appBar: AppBar(
         centerTitle: false,
@@ -78,121 +79,125 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
         ),
         backgroundColor: colorSecondaryGreen,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.r),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildMapView(),
-              SizedBox(height: 16.h),
-              Text(
-                'Plot Area',
-                style: TextStyle(
-                  fontSize: 26.sp,
-                  color: colorPrimaryBlack,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Text(
-                'Masukkan Plot Area yang akan dicatat',
-                style: TextStyle(
-                  fontSize: 10.sp,
-                  color: colorPrimaryBlack,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              SizedBox(height: 16.h),
-              ValueListenableBuilder(
-                valueListenable: _plotController.contactBox.listenable(),
-                builder: (context, box, _) {
-                  listPlot.value = box.values.toList();
-                  List<PlotModel> list = box.values
-                      .where((element) => element.plotId == widget.plotId)
-                      .toList();
-
-                  checkPlotData(list);
-                  return buildCardPlotForm();
-                },
-              ),
-              SizedBox(height: 16.h),
-              Container(
-                margin: EdgeInsets.only(bottom: 24.h),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_addPlotFormKey.currentState!.validate()) {
-                      Uuid uuid = const Uuid();
-                      String size = _plotSizeController.text;
-                      String biomassAvg = _biomassAvgController.text;
-                      String biomassStd = _biomassStdController.text;
-
-                      // d.log(listPlot.toString(), name: 'plot');
-
-                      // if (listPlot.isEmpty) {
-                      //   PlotModel plotModel = PlotModel(
-                      //     plotId: uuid.v4(),
-                      //     plotLat: double.parse(_plotLatController.text),
-                      //     plotLng: double.parse(_plotLngController.text),
-                      //     plotSize: double.parse(size),
-                      //     biomassAvg: double.parse(biomassAvg),
-                      //     biomassStd: double.parse(biomassStd),
-                      //   );
-
-                      //   await _plotController.insertPlot(plotModel);
-                      // } else {
-                      //   PlotModel plotModel = PlotModel(
-                      //     plotId: widget.plotId,
-                      //     plotLat: double.parse(_plotLatController.text),
-                      //     plotLng: double.parse(_plotLngController.text),
-                      //     plotSize: double.parse(size),
-                      //     biomassAvg: double.parse(biomassAvg),
-                      //     biomassStd: double.parse(biomassStd),
-                      //   );
-
-                      //   await _plotController.updatePlot(plotModel);
-                      // }
-
-                      PlotModel plotModel = PlotModel(
-                        plotId: uuid.v4(),
-                        plotLat: double.parse(_plotLatController.text),
-                        plotLng: double.parse(_plotLngController.text),
-                        plotSize: double.parse(size),
-                        biomassAvg: double.parse(biomassAvg),
-                        biomassStd: double.parse(biomassStd),
-                        updatedAt: DateTime.now()
-                      );
-
-                      await _plotController.insertPlot(plotModel);
-
-                      Get.snackbar(
-                        'CarbonStock',
-                        'Update Plot Success!',
-                        backgroundColor: colorSecondaryGrey1,
-                      );
-
-                      sleep(const Duration(seconds: 2));
-                      Get.off(() => const PlotAreaScreenViews());
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: colorButtonAccentGreen,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    fixedSize: Size(1.sw, 40.h),
-                  ),
-                  child: Text(
-                    'Simpan',
+      body: Padding(
+        padding: EdgeInsets.all(16.r),
+        child: Stack(
+          children: [
+            SizedBox(
+              width: 1.sw,
+              height: 1.sh,
+              child: ListView(
+                children: [
+                  SizedBox(height: 124.h),
+                  Text(
+                    'Plot Area',
                     style: TextStyle(
-                      color: colorPrimaryWhite,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 26.sp,
+                      color: colorPrimaryBlack,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                ),
+                  Text(
+                    'Masukkan Plot Area yang akan dicatat',
+                    style: TextStyle(
+                      fontSize: 10.sp,
+                      color: colorPrimaryBlack,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  ValueListenableBuilder(
+                    valueListenable: _plotController.contactBox.listenable(),
+                    builder: (context, box, _) {
+                      listPlot.value = box.values.toList();
+                      List<PlotModel> list = box.values
+                          .where((element) => element.plotId == widget.plotId)
+                          .toList();
+
+                      checkPlotData(list);
+                      return buildCardPlotForm();
+                    },
+                  ),
+                  SizedBox(height: 8.h),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 24.h),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_addPlotFormKey.currentState!.validate()) {
+                          Uuid uuid = const Uuid();
+                          String size = _plotSizeController.text;
+                          String biomassAvg = _biomassAvgController.text;
+                          String biomassStd = _biomassStdController.text;
+
+                          // d.log(listPlot.toString(), name: 'plot');
+
+                          // if (listPlot.isEmpty) {
+                          //   PlotModel plotModel = PlotModel(
+                          //     plotId: uuid.v4(),
+                          //     plotLat: double.parse(_plotLatController.text),
+                          //     plotLng: double.parse(_plotLngController.text),
+                          //     plotSize: double.parse(size),
+                          //     biomassAvg: double.parse(biomassAvg),
+                          //     biomassStd: double.parse(biomassStd),
+                          //   );
+
+                          //   await _plotController.insertPlot(plotModel);
+                          // } else {
+                          //   PlotModel plotModel = PlotModel(
+                          //     plotId: widget.plotId,
+                          //     plotLat: double.parse(_plotLatController.text),
+                          //     plotLng: double.parse(_plotLngController.text),
+                          //     plotSize: double.parse(size),
+                          //     biomassAvg: double.parse(biomassAvg),
+                          //     biomassStd: double.parse(biomassStd),
+                          //   );
+
+                          //   await _plotController.updatePlot(plotModel);
+                          // }
+
+                          PlotModel plotModel = PlotModel(
+                              plotId: uuid.v4(),
+                              plotLat: double.parse(_plotLatController.text),
+                              plotLng: double.parse(_plotLngController.text),
+                              plotSize: double.parse(size),
+                              biomassAvg: double.parse(biomassAvg),
+                              biomassStd: double.parse(biomassStd),
+                              updatedAt: DateTime.now());
+
+                          await _plotController.insertPlot(plotModel);
+
+                          Get.snackbar(
+                            'CarbonStock',
+                            'Update Plot Success!',
+                            backgroundColor: colorSecondaryGrey1,
+                          );
+
+                          sleep(const Duration(seconds: 2));
+                          Get.off(() => const PlotAreaScreenViews());
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: colorButtonAccentGreen,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        fixedSize: Size(1.sw, 40.h),
+                      ),
+                      child: Text(
+                        'Simpan',
+                        style: TextStyle(
+                          color: colorPrimaryWhite,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            buildMapView(),
+          ],
         ),
       ),
     );
@@ -204,7 +209,6 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
       color: colorPrimaryWhite,
       shadowColor: Colors.transparent,
       child: Container(
-        margin: EdgeInsets.all(16.r),
         padding: EdgeInsets.all(8.r),
         child: Form(
           key: _addPlotFormKey,
@@ -221,7 +225,6 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                   ),
                 ),
               ),
-              SizedBox(height: 4.h),
               TextFormField(
                 controller: _plotLatController,
                 enabled: false,
@@ -237,7 +240,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                   ),
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 4.h),
               SizedBox(
                 width: 1.sw,
                 child: Text(
@@ -265,7 +268,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                   ),
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 4.h),
               SizedBox(
                 width: 1.sw,
                 child: Text(
@@ -299,7 +302,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                   ),
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 4.h),
               SizedBox(
                 width: 1.sw,
                 child: Text(
@@ -333,7 +336,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                   ),
                 ),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 4.h),
               SizedBox(
                 width: 1.sw,
                 child: Text(
@@ -377,17 +380,27 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
   SizedBox buildMapView() {
     return SizedBox(
       width: 1.sw,
-      height: 200.h,
+      height: 120.h,
       child: MapboxMap(
         accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
-        // myLocationEnabled: true,
+        dragEnabled: false,
         tiltGesturesEnabled: false,
         rotateGesturesEnabled: false,
         onMapCreated: _onMapCreated,
+        cameraTargetBounds: CameraTargetBounds(
+          LatLngBounds(
+            southwest: LatLng(currentLatLng.latitude, currentLatLng.longitude),
+            northeast: LatLng(currentLatLng.latitude, currentLatLng.longitude),
+          ),
+        ),
+        onMapClick: (point, coordinates) {
+          Get.snackbar(
+            'CarbonRangers',
+            'Map bukan untuk memberi titik custom!',
+            backgroundColor: colorSecondaryGrey1,
+          );
+        },
         initialCameraPosition: CameraPosition(target: currentLatLng, zoom: 15),
-        myLocationRenderMode: MyLocationRenderMode.GPS,
-        styleString: 'mapbox://styles/mapbox/streets-v11',
-        myLocationTrackingMode: MyLocationTrackingMode.Tracking,
       ),
     );
   }

@@ -3,10 +3,13 @@ part of '../../../views.dart';
 class DetailSubPlotBPageScreen extends StatefulWidget {
   const DetailSubPlotBPageScreen({
     super.key,
+    required this.indexB,
     required this.plotId,
     required this.areaName,
     required this.plotName,
   });
+
+  final int indexB;
   final String plotId;
   final String areaName;
   final String plotName;
@@ -172,7 +175,8 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                     Get.snackbar(
                       'CarbonStock',
                       'Lengkapi data terlebih dahulu',
-                      backgroundColor: colorSecondaryGrey1,
+                      backgroundColor: Colors.redAccent,
+                      colorText: colorPrimaryWhite,
                     );
                   } else {
                     if (_kelilingFormKey.currentState!.validate()) {
@@ -235,7 +239,11 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                           updatedAt: DateTime.now(),
                         );
 
-                        await _controller.updateSubPlotB(subPlotBModel);
+                        await _controller.updateSubPlotB(
+                          widget.indexB,
+                          subPlotBModel,
+                        );
+
                         _sharedPref.putBool('pancang_data', true);
                       }
 

@@ -2,12 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:carbonstock/data/api/controllers/area/area_controller.dart';
+import 'package:carbonstock/data/api/controllers/auth/auth_controller.dart';
 import 'package:carbonstock/data/api/controllers/plot/plot_controller.dart';
 import 'package:carbonstock/data/api/controllers/subplot/sub_plot_controller.dart';
 import 'package:carbonstock/data/local/localdb/area/area_db.dart';
+import 'package:carbonstock/data/local/localdb/auth/auth_db.dart';
 import 'package:carbonstock/data/local/localdb/plot/plot_db.dart';
 import 'package:carbonstock/data/local/localdb/subplot/sub_plot_db.dart';
 import 'package:carbonstock/data/local/model/area/area_model.dart';
+import 'package:carbonstock/data/local/model/auth/user_model.dart';
 import 'package:carbonstock/data/local/model/plot/plot_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_a_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_b_model.dart';
@@ -29,6 +32,12 @@ void main() async {
   await SharedPreferenceService.init();
   await Hive.initFlutter();
 
+  // if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+  //   await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
+  // }
+
+  Hive.registerAdapter(UserModelAdapter());
+
   Hive.registerAdapter(AreaModelAdapter());
   Hive.registerAdapter(PlotModelAdapter());
 
@@ -45,11 +54,13 @@ void main() async {
   Hive.registerAdapter(SubPlotAreaDNekromasModelAdapter());
   Hive.registerAdapter(SubPlotAreaDTanahModelAdapter());
 
-  await PlotDB.init();
   await AreaDB.init();
+  await AuthDB.init();
+  await PlotDB.init();
   await SubPlotAreaDB.init();
 
   Get.put(AreaController(), permanent: true);
+  Get.put(AuthController(), permanent: true);
   Get.put(PlotController(), permanent: true);
   Get.put(SubPlotController(), permanent: true);
 
@@ -60,8 +71,6 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(const MyApp()));
 }
-
-class SubPlotModelAdapter {}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -97,7 +106,7 @@ class SplashScreenViews extends StatefulWidget {
 }
 
 class _SplashScreenViewsState extends State<SplashScreenViews> {
-  final SharedPreferenceService sharedPreferences = SharedPreferenceService();
+  final SharedPreferenceService _sharedPref = SharedPreferenceService();
 
   Future<Position> initializeLocationAndSave() async {
     // Ensure all permissions are collected for Locations
@@ -143,10 +152,11 @@ class _SplashScreenViewsState extends State<SplashScreenViews> {
     //   latitude: position.latitude,
     //   longitude: position.longitude,
     // );
+
     LatLng currentLatLng = LatLng(position.latitude, position.longitude);
     Map<String, LatLng> latLngMapper = {'currentLatLng': currentLatLng};
 
-    sharedPreferences.putString('latLng', jsonEncode(latLngMapper));
+    _sharedPref.putString('latLng', jsonEncode(latLngMapper));
     return await Geolocator.getCurrentPosition();
   }
 
@@ -156,7 +166,11 @@ class _SplashScreenViewsState extends State<SplashScreenViews> {
 
     Timer(
       const Duration(seconds: 3),
-      () => Get.off(() => const PlotAreaScreenViews()),
+      () => _sharedPref.checkKey('isLogin')
+          ? _sharedPref.getInt('isLogin') == 1
+              ? Get.off(() => const PlotAreaScreenViews())
+              : Get.off(() => const LoginScreenViews())
+          : Get.off(() => const LoginScreenViews()),
     );
 
     super.initState();

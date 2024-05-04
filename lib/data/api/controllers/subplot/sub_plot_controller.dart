@@ -129,11 +129,17 @@ class SubPlotController extends GetxController {
     );
 
     await SubPlotAreaDB.addSubPlotA(subPlotA);
-
     isLoading(false);
   }
 
+  Future<SubPlotAreaAModel> getSpecificSubPlotA(String uuid) async =>
+      SubPlotAreaDB.getSpecificSubPlotA(uuid);
+
   Future<void> updateSubPlotA(
+    int indexA,
+    int indexSemai,
+    int indexSeresah,
+    int indexTumbuhan,
     SubPlotAreaAModel subPlotAModel,
     SubPlotAreaASemaiModel? subPlotModelSemai,
     SubPlotAreaASeresahModel? subPlotModelSeresah,
@@ -159,7 +165,10 @@ class SubPlotController extends GetxController {
       );
 
       listPlotA[0] = subPlotSemai;
-      await SubPlotAreaDB.updateSubPlotASemai(subPlotSemai);
+      await SubPlotAreaDB.updateSubPlotASemai(
+        indexSemai,
+        subPlotSemai,
+      );
     }
 
     if (subPlotModelSeresah != null) {
@@ -178,7 +187,10 @@ class SubPlotController extends GetxController {
       );
 
       listPlotA[1] = subPlotSeresah;
-      await SubPlotAreaDB.updateSubPlotASeresah(subPlotSeresah);
+      await SubPlotAreaDB.updateSubPlotASeresah(
+        indexSeresah,
+        subPlotSeresah,
+      );
     }
 
     if (subPlotModelTumbuhanBawah != null) {
@@ -197,7 +209,10 @@ class SubPlotController extends GetxController {
       );
 
       listPlotA[2] = subPlotTumbuhanBawah;
-      await SubPlotAreaDB.updateSubPlotABawah(subPlotTumbuhanBawah);
+      await SubPlotAreaDB.updateSubPlotABawah(
+        indexTumbuhan,
+        subPlotTumbuhanBawah,
+      );
     }
 
     if (listPlotA.isNotEmpty) {
@@ -210,7 +225,7 @@ class SubPlotController extends GetxController {
         updatedAt: subPlotAModel.updatedAt,
       );
 
-      await SubPlotAreaDB.updateSubPlotA(subPlotA);
+      await SubPlotAreaDB.updateSubPlotA(indexA, subPlotA);
     }
 
     isLoading(false);
@@ -237,7 +252,13 @@ class SubPlotController extends GetxController {
     await SubPlotAreaDB.addSubPlotB(subPlotB);
   }
 
-  Future<void> updateSubPlotB(SubPlotAreaBModel subPlotBModel) async {
+  Future<SubPlotAreaBModel> getSpecificSubPlotB(String uuid) async =>
+      SubPlotAreaDB.getSpecificSubPlotB(uuid);
+
+  Future<void> updateSubPlotB(
+    int index,
+    SubPlotAreaBModel subPlotBModel,
+  ) async {
     final SubPlotAreaBModel subPlotB = SubPlotAreaBModel(
       uuid: subPlotBModel.uuid,
       plotId: subPlotBModel.plotId,
@@ -254,11 +275,13 @@ class SubPlotController extends GetxController {
       updatedAt: subPlotBModel.updatedAt,
     );
 
-    await SubPlotAreaDB.updateSubPlotB(subPlotB);
+    await SubPlotAreaDB.updateSubPlotB(index, subPlotB);
   }
 
   // Sub Plot C
-  Future<void> insertSubPlotC(SubPlotAreaCModel subPlotCModel) async {
+  Future<void> insertSubPlotC(
+    SubPlotAreaCModel subPlotCModel,
+  ) async {
     final SubPlotAreaCModel subPlotC = SubPlotAreaCModel(
       uuid: subPlotCModel.uuid,
       plotId: subPlotCModel.plotId,
@@ -278,7 +301,13 @@ class SubPlotController extends GetxController {
     await SubPlotAreaDB.addSubPlotC(subPlotC);
   }
 
-  Future<void> updateSubPlotC(SubPlotAreaCModel subPlotCModel) async {
+  Future<SubPlotAreaCModel> getSpecificSubPlotC(String uuid) async =>
+      SubPlotAreaDB.getSpecificSubPlotC(uuid);
+
+  Future<void> updateSubPlotC(
+    int index,
+    SubPlotAreaCModel subPlotCModel,
+  ) async {
     final SubPlotAreaCModel subPlotC = SubPlotAreaCModel(
       uuid: subPlotCModel.uuid,
       plotId: subPlotCModel.plotId,
@@ -295,7 +324,7 @@ class SubPlotController extends GetxController {
       updatedAt: subPlotCModel.updatedAt,
     );
 
-    await SubPlotAreaDB.updateSubPlotC(subPlotC);
+    await SubPlotAreaDB.updateSubPlotC(index, subPlotC);
   }
 
   // Sub Plot D
@@ -397,7 +426,14 @@ class SubPlotController extends GetxController {
     isLoading(false);
   }
 
+  Future<SubPlotAreaDModel> getSpecificSubPlotD(String uuid) async =>
+      SubPlotAreaDB.getSpecificSubPlotD(uuid);
+
   Future<void> updateSubPlotD(
+    int indexD,
+    int indexPohon,
+    int indexNekromas,
+    int indexTanah,
     SubPlotAreaDModel subPlotModelD,
     SubPlotAreaDPohonModel? subPlotModelPohon,
     SubPlotAreaDNekromasModel? subPlotModelNekromas,
@@ -425,7 +461,7 @@ class SubPlotController extends GetxController {
       );
 
       listPlotD[0] = subPlotPohon;
-      await SubPlotAreaDB.updateSubPlotPohon(subPlotPohon);
+      await SubPlotAreaDB.updateSubPlotPohon(indexPohon, subPlotPohon);
     }
 
     if (subPlotModelNekromas != null) {
@@ -445,7 +481,7 @@ class SubPlotController extends GetxController {
       );
 
       listPlotD[1] = subPlotNekromas;
-      await SubPlotAreaDB.updateSubPlotNekromas(subPlotNekromas);
+      await SubPlotAreaDB.updateSubPlotNekromas(indexNekromas, subPlotNekromas);
     }
 
     if (subPlotModelTanah != null) {
@@ -465,7 +501,7 @@ class SubPlotController extends GetxController {
       );
 
       listPlotD[2] = subPlotTanah;
-      await SubPlotAreaDB.updateSubPlotTanah(subPlotTanah);
+      await SubPlotAreaDB.updateSubPlotTanah(indexTanah, subPlotTanah);
     }
 
     if (listPlotD.isNotEmpty) {
@@ -478,7 +514,7 @@ class SubPlotController extends GetxController {
         updatedAt: subPlotModelD.updatedAt,
       );
 
-      await SubPlotAreaDB.updateSubPlotD(subPlotD);
+      await SubPlotAreaDB.updateSubPlotD(indexD, subPlotD);
     }
 
     isLoading(false);

@@ -20,8 +20,8 @@ class SharedPreferenceService {
 
   Future putBool(String key, bool value) => _prefsInstance.setBool(key, value);
 
-  Future putStringList(String key, List<String> value) =>
-      _prefsInstance.setStringList(key, value);
+  // Future putStringList(String key, List<String> value) =>
+  //     _prefsInstance.setStringList(key, value);
 
   String getString(String key) => _prefsInstance.getString(key) ?? '';
 
@@ -31,7 +31,7 @@ class SharedPreferenceService {
 
   bool getBool(String key) => _prefsInstance.getBool(key) ?? false;
 
-  List getStringList(String key) => _prefsInstance.getStringList(key) ?? [];
+  // List getStringList(String key) => _prefsInstance.getStringList(key) ?? [];
 
   Future removeKey(String key) async => _prefsInstance.remove(key);
 }

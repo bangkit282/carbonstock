@@ -20,8 +20,8 @@ class PlotDB {
     await plotBox.add(plotModel);
   }
 
-  static Future<void> updatePlot(PlotModel plotModel) async {
-    await plotBox.put(plotModel.plotId, plotModel);
+  static Future<void> updatePlot(int index, PlotModel plotModel) async {
+    await plotBox.putAt(index, plotModel);
   }
 
   // static Future<void> deletePlot(PlotModel plotModel) async {

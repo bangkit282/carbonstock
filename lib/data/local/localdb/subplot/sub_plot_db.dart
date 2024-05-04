@@ -68,20 +68,8 @@ class SubPlotAreaDB {
     return subPlotBawahBox.values.toList();
   }
 
-  static SubPlotAreaASemaiModel? getSpecificSubPlotSemai(
-    SubPlotAreaASemaiModel semaiModel,
-  ) =>
-      subPlotSemaiBox.get(semaiModel.uuid);
-
-  static SubPlotAreaASeresahModel? getSpecificSubPlotSeresah(
-    SubPlotAreaASeresahModel seresahModel,
-  ) =>
-      subPlotSeresahBox.get(seresahModel.uuid);
-
-  static SubPlotAreaATumbuhanBawahModel? getSpecificSubPlotBawah(
-    SubPlotAreaATumbuhanBawahModel bawahModel,
-  ) =>
-      subPlotBawahBox.get(bawahModel.uuid);
+  static SubPlotAreaAModel getSpecificSubPlotA(String uuid) =>
+      subPlotABox.values.toList().firstWhere((element) => uuid == element.uuid);
 
   static Future<void> addSubPlotA(SubPlotAreaAModel modelA) async {
     await subPlotABox.add(modelA);
@@ -109,59 +97,86 @@ class SubPlotAreaDB {
     await subPlotBawahBox.add(bawahModel);
   }
 
-  static Future<void> updateSubPlotA(SubPlotAreaAModel modelA) async =>
-      await subPlotABox.put(modelA.uuid, modelA);
+  static Future<void> updateSubPlotA(
+    int index,
+    SubPlotAreaAModel modelA,
+  ) async =>
+      await subPlotABox.putAt(
+        index,
+        modelA,
+      );
 
   static Future<void> updateSubPlotASemai(
+    int index,
     SubPlotAreaASemaiModel semaiModel,
   ) async =>
-      await subPlotSemaiBox.put(semaiModel.uuid, semaiModel);
+      await subPlotSemaiBox.putAt(
+        index,
+        semaiModel,
+      );
 
   static Future<void> updateSubPlotASeresah(
+    int index,
     SubPlotAreaASeresahModel seresahModel,
   ) async =>
-      await subPlotSeresahBox.put(seresahModel.uuid, seresahModel);
+      await subPlotSeresahBox.put(
+        index,
+        seresahModel,
+      );
 
   static Future<void> updateSubPlotABawah(
+    int index,
     SubPlotAreaATumbuhanBawahModel bawahModel,
   ) async =>
-      await subPlotBawahBox.put(bawahModel.uuid, bawahModel);
+      await subPlotBawahBox.putAt(
+        index,
+        bawahModel,
+      );
 
   // Sub Plot B
   static List<SubPlotAreaBModel> getAllSubPlotB() {
     return subPlotBBox.values.toList();
   }
 
-  static SubPlotAreaBModel? getSpecificSubPlotB(
-    SubPlotAreaBModel bModel,
-  ) =>
-      subPlotBBox.get(bModel.uuid);
+  static SubPlotAreaBModel getSpecificSubPlotB(String uuid) {
+    return subPlotBBox.values.toList().firstWhere((element) => uuid == element.uuid);
+  }
 
   static Future<void> addSubPlotB(SubPlotAreaBModel modelB) async {
     isSubPlotBDone.value = true;
     await subPlotBBox.add(modelB);
   }
 
-  static Future<void> updateSubPlotB(SubPlotAreaBModel modelB) async =>
-      await subPlotBBox.put(modelB.uuid, modelB);
+  static Future<void> updateSubPlotB(
+    int index,
+    SubPlotAreaBModel modelB,
+  ) async =>
+      await subPlotBBox.putAt(
+        index,
+        modelB,
+      );
 
   // Sub Plot C
   static List<SubPlotAreaCModel> getAllSubPlotC() {
     return subPlotCBox.values.toList();
   }
 
-  static SubPlotAreaCModel? getSpecificSubPlotC(
-    SubPlotAreaCModel bModel,
-  ) =>
-      subPlotCBox.get(bModel.uuid);
+  static SubPlotAreaCModel getSpecificSubPlotC(String uuid) =>
+      subPlotCBox.values.toList().firstWhere((element) => uuid == element.uuid);
 
   static Future<void> addSubPlotC(SubPlotAreaCModel bModel) async {
     isSubPlotCDone.value = true;
     await subPlotCBox.add(bModel);
   }
 
-  static Future<void> updateSubPlotC(SubPlotAreaCModel bModel) async =>
-      await subPlotCBox.put(bModel.uuid, bModel);
+  static Future<void> updateSubPlotC(
+    int index,
+    SubPlotAreaCModel modelC,
+  ) async =>
+      await subPlotCBox.putAt(
+        index,
+        modelC,
+      );
 
   // Sub Plot D
   static List<SubPlotAreaDModel> getAllSubPlotD() {
@@ -180,20 +195,8 @@ class SubPlotAreaDB {
     return subPlotDTanahBox.values.toList();
   }
 
-  static SubPlotAreaDPohonModel? getSpecificSubPlotPohon(
-    SubPlotAreaDPohonModel pohonModel,
-  ) =>
-      subPlotDPohonBox.get(pohonModel.uuid);
-
-  static SubPlotAreaDNekromasModel? getSpecificSubPlotNekromas(
-    SubPlotAreaDNekromasModel nekromasModel,
-  ) =>
-      subPlotDNekromasBox.get(nekromasModel.uuid);
-
-  static SubPlotAreaDTanahModel? getSpecificSubPlotTanah(
-    SubPlotAreaDTanahModel tanahModel,
-  ) =>
-      subPlotDTanahBox.get(tanahModel.uuid);
+  static SubPlotAreaDModel getSpecificSubPlotD(String uuid) =>
+      subPlotDBox.values.toList().firstWhere((element) => uuid == element.uuid);
 
   static Future<void> addSubPlotD(SubPlotAreaDModel modelD) async {
     await subPlotDBox.add(modelD);
@@ -220,21 +223,39 @@ class SubPlotAreaDB {
     await subPlotDTanahBox.add(tanahModel);
   }
 
-  static Future<void> updateSubPlotD(SubPlotAreaDModel modelD) async =>
-      await subPlotDBox.put(modelD.uuid, modelD);
+  static Future<void> updateSubPlotD(
+    int index,
+    SubPlotAreaDModel modelD,
+  ) async =>
+      await subPlotDBox.putAt(
+        index,
+        modelD,
+      );
 
   static Future<void> updateSubPlotPohon(
+    int index,
     SubPlotAreaDPohonModel pohonModel,
   ) async =>
-      await subPlotDPohonBox.put(pohonModel.uuid, pohonModel);
+      await subPlotDPohonBox.putAt(
+        index,
+        pohonModel,
+      );
 
   static Future<void> updateSubPlotNekromas(
+    int index,
     SubPlotAreaDNekromasModel nekromasModel,
   ) async =>
-      await subPlotDNekromasBox.put(nekromasModel.uuid, nekromasModel);
+      await subPlotDNekromasBox.putAt(
+        index,
+        nekromasModel,
+      );
 
   static Future<void> updateSubPlotTanah(
+    int index,
     SubPlotAreaDTanahModel tanahModel,
   ) async =>
-      await subPlotDTanahBox.put(tanahModel.uuid, tanahModel);
+      await subPlotDTanahBox.putAt(
+        index,
+        tanahModel,
+      );
 }

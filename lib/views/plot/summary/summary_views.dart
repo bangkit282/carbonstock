@@ -4,8 +4,16 @@ class SummaryPageViews extends StatefulWidget {
   const SummaryPageViews({
     super.key,
     required this.plotId,
+    required this.idA,
+    required this.idB,
+    required this.idC,
+    required this.idD,
   });
 
+  final String idA;
+  final String idB;
+  final String idC;
+  final String idD;
   final String plotId;
 
   @override
@@ -18,57 +26,119 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
   final SubPlotController _subPlotController = Get.find();
   final PlotController _plotController = Get.find();
 
-  final RxDouble subCarbonValue = 0.0.obs;
-  final RxDouble subCarbonAbsorb = 0.0.obs;
+  double valCarbonA = 0.0;
+  double valCarbonASemai = 0.0;
+  double valCarbonASeresah = 0.0;
+  double valCarbonATumbuhan = 0.0;
+  double valAbsorbA = 0.0;
+  double valAbsorbASemai = 0.0;
+  double valAbsorbASeresah = 0.0;
+  double valAbsorbATumbuhan = 0.0;
 
-  void totalCarbonValue() {
-    double carbonSemai = _sharedPref.getDouble('karbon_a_semai');
-    double carbonSeresah = _sharedPref.getDouble('karbon_a_seresah');
-    double carbonTumbuhan = _sharedPref.getDouble('karbon_a_tumbuhan');
+  double valCarbonB = 0.0;
+  double valAbsorbB = 0.0;
 
-    double carbonPancang = _sharedPref.getDouble('karbon_b');
-    double carbonTiang = _sharedPref.getDouble('karbon_c');
+  double valCarbonC = 0.0;
+  double valAbsorbC = 0.0;
 
-    double carbonPohon = _sharedPref.getDouble('karbon_d_pohon');
-    double carbonNekromas = _sharedPref.getDouble('karbon_d_nekromas');
-    double carbonTanah = _sharedPref.getDouble('karbon_d_tanah');
+  double valCarbonD = 0.0;
+  double valCarbonDPohon = 0.0;
+  double valCarbonDNekromas = 0.0;
+  double valCarbonDTanah = 0.0;
+  double valAbsorbD = 0.0;
+  double valAbsorbDPohon = 0.0;
+  double valAbsorbDNekromas = 0.0;
+  double valAbsorbDTanah = 0.0;
 
-    subCarbonValue.value = carbonSemai +
-        carbonSeresah +
-        carbonTumbuhan +
-        carbonPancang +
-        carbonTiang +
-        carbonPohon +
-        carbonNekromas +
-        carbonTanah;
-  }
-
-  void totalAbsorbValue() {
-    double absorbSemai = _sharedPref.getDouble('absorb_a_semai');
-    double absorbSeresah = _sharedPref.getDouble('absorb_a_seresah');
-    double absorbTumbuhan = _sharedPref.getDouble('absorb_a_tumbuhan');
-
-    double absorbPancang = _sharedPref.getDouble('absorb_b');
-    double absorbTiang = _sharedPref.getDouble('absorb_c');
-
-    double absorbPohon = _sharedPref.getDouble('absorb_d_pohon');
-    double absorbNekromas = _sharedPref.getDouble('absorb_d_nekromas');
-    double absorbTanah = _sharedPref.getDouble('absorb_d_tanah');
-
-    subCarbonAbsorb.value = absorbSemai +
-        absorbSeresah +
-        absorbTumbuhan +
-        absorbPancang +
-        absorbTiang +
-        absorbPohon +
-        absorbNekromas +
-        absorbTanah;
-  }
+  RxDouble subCarbonValue = 0.0.obs;
+  RxDouble subCarbonAbsorb = 0.0.obs;
 
   @override
   Widget build(BuildContext context) {
-    totalCarbonValue();
-    totalAbsorbValue();
+    if (widget.idA != '') {
+      List<SubPlotAreaAModel> listA =
+          _subPlotController.contactABox.values.toList();
+      SubPlotAreaAModel plotAFiltered =
+          listA.firstWhere((element) => element.uuid == widget.idA);
+
+      valCarbonASemai = plotAFiltered.subPlotAModels![0] != null
+          ? plotAFiltered.subPlotAModels![0].carbonValue
+          : 0.0;
+      valCarbonASeresah = plotAFiltered.subPlotAModels![1] != null
+          ? plotAFiltered.subPlotAModels![1].carbonValue
+          : 0.0;
+      valCarbonATumbuhan = plotAFiltered.subPlotAModels![2] != null
+          ? plotAFiltered.subPlotAModels![2].carbonValue
+          : 0.0;
+
+      valAbsorbASemai = plotAFiltered.subPlotAModels![0] != null
+          ? plotAFiltered.subPlotAModels![0].carbonAbsorb
+          : 0.0;
+      valAbsorbASeresah = plotAFiltered.subPlotAModels![1] != null
+          ? plotAFiltered.subPlotAModels![1].carbonAbsorb
+          : 0.0;
+      valAbsorbATumbuhan = plotAFiltered.subPlotAModels![2] != null
+          ? plotAFiltered.subPlotAModels![2].carbonAbsorb
+          : 0.0;
+
+      valCarbonA = valCarbonASemai + valCarbonASeresah + valCarbonATumbuhan;
+      valAbsorbA = valAbsorbASemai + valAbsorbASeresah + valAbsorbATumbuhan;
+    }
+
+    if (widget.idB != '') {
+      List<SubPlotAreaBModel> listB =
+          _subPlotController.contactBBox.values.toList();
+      SubPlotAreaBModel plotBFiltered =
+          listB.firstWhere((element) => element.uuid == widget.idB);
+
+      valCarbonB = plotBFiltered.carbonValue;
+      valAbsorbB = plotBFiltered.carbonAbsorb;
+    }
+
+    if (widget.idC != '') {
+      List<SubPlotAreaCModel> listC =
+          _subPlotController.contactCBox.values.toList();
+      SubPlotAreaCModel plotCFiltered =
+          listC.firstWhere((element) => element.uuid == widget.idC);
+
+      valCarbonC = plotCFiltered.carbonValue;
+      valAbsorbC = plotCFiltered.carbonAbsorb;
+    }
+
+    if (widget.idD != '') {
+      List<SubPlotAreaDModel> listD =
+          _subPlotController.contactDBox.values.toList();
+      SubPlotAreaDModel plotDFiltered =
+          listD.firstWhere((element) => element.uuid == widget.idD);
+
+      valCarbonDPohon = plotDFiltered.subPlotDModels![0] != null
+          ? plotDFiltered.subPlotDModels![0].carbonValue
+          : 0.0;
+      valCarbonDNekromas = plotDFiltered.subPlotDModels![1] != null
+          ? plotDFiltered.subPlotDModels![1].carbonValue
+          : 0.0;
+      valCarbonDTanah = plotDFiltered.subPlotDModels![2] != null
+          ? plotDFiltered.subPlotDModels![2].carbonValue
+          : 0.0;
+
+      valAbsorbDPohon = plotDFiltered.subPlotDModels![0] != null
+          ? plotDFiltered.subPlotDModels![0].carbonAbsorb
+          : 0.0;
+      valAbsorbDNekromas = plotDFiltered.subPlotDModels![1] != null
+          ? plotDFiltered.subPlotDModels![1].carbonAbsorb
+          : 0.0;
+      valAbsorbDTanah = plotDFiltered.subPlotDModels![2] != null
+          ? plotDFiltered.subPlotDModels![2].carbonAbsorb
+          : 0.0;
+
+      valCarbonD = valCarbonDPohon + valCarbonDNekromas + valCarbonDTanah;
+      valAbsorbD = valAbsorbDPohon + valAbsorbDNekromas + valAbsorbDTanah;
+    }
+
+    subCarbonAbsorb.value = valAbsorbA + valAbsorbB + valAbsorbC + valAbsorbD;
+    subCarbonValue.value = valCarbonA + valCarbonB + valCarbonC + valCarbonD;
+
+    d.log('${subCarbonValue.value} ${subCarbonAbsorb.value}', name: 'test');
 
     return Scaffold(
       backgroundColor: colorPrimaryBackground,
