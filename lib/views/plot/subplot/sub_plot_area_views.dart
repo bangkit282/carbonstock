@@ -439,18 +439,11 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
       return ValueListenableBuilder(
         valueListenable: _controller.contactBBox.listenable(),
         builder: (context, box, _) {
-          RxInt indexB = 0.obs;
-
           RxList list = box.values
               .where(
                   (element) => element.plotId == widget.plotData.id.toString())
               .toList()
               .obs;
-
-          if (list.isNotEmpty) {
-            indexB.value = list
-                .indexWhere((e) => e.plotId == widget.plotData.id.toString());
-          }
 
           return Obx(
             () {
@@ -459,24 +452,30 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       margin: EdgeInsets.only(left: 16.w),
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  DetailSubPlotBPageScreen(
-                                indexB: indexB.value,
-                                plotId: widget.plotData.id.toString(),
-                                areaName: widget.areaName,
-                                plotName: widget.plotData.namaPlot,
-                              ),
-                              transitionsBuilder: (_, animation, __, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
+                          Get.to(
+                            () => SubPlotBListPageViews(
+                              plotData: widget.plotData,
+                              areaName: widget.areaName,
                             ),
                           );
+                          // Navigator.push(
+                          //   context,
+                          //   PageRouteBuilder(
+                          //     pageBuilder: (_, __, ___) =>
+                          //         DetailSubPlotBPageScreen(
+                          //       indexB: indexB.value,
+                          //       plotId: widget.plotData.id.toString(),
+                          //       areaName: widget.areaName,
+                          //       plotName: widget.plotData.namaPlot,
+                          //     ),
+                          //     transitionsBuilder: (_, animation, __, child) {
+                          //       return FadeTransition(
+                          //         opacity: animation,
+                          //         child: child,
+                          //       );
+                          //     },
+                          //   ),
+                          // );
                         },
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -495,24 +494,30 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                     )
                   : TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (_, __, ___) =>
-                                DetailSubPlotBPageScreen(
-                              indexB: indexB.value,
-                              plotId: widget.plotData.id.toString(),
-                              areaName: widget.areaName,
-                              plotName: widget.plotData.namaPlot,
-                            ),
-                            transitionsBuilder: (_, animation, __, child) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              );
-                            },
+                        Get.to(
+                          () => SubPlotBListPageViews(
+                            plotData: widget.plotData,
+                            areaName: widget.areaName,
                           ),
                         );
+                        // Navigator.push(
+                        //   context,
+                        //   PageRouteBuilder(
+                        //     pageBuilder: (_, __, ___) =>
+                        //         DetailSubPlotBPageScreen(
+                        //       indexB: indexB.value,
+                        //       plotId: widget.plotData.id.toString(),
+                        //       areaName: widget.areaName,
+                        //       plotName: widget.plotData.namaPlot,
+                        //     ),
+                        //     transitionsBuilder: (_, animation, __, child) {
+                        //       return FadeTransition(
+                        //         opacity: animation,
+                        //         child: child,
+                        //       );
+                        //     },
+                        //   ),
+                        // );
                       },
                       style: TextButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -556,24 +561,30 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       margin: EdgeInsets.only(left: 16.w),
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  DetailSubPlotCPageScreen(
-                                indexC: indexC.value,
-                                plotId: widget.plotData.id.toString(),
-                                areaName: widget.areaName,
-                                plotName: widget.plotData.namaPlot,
-                              ),
-                              transitionsBuilder: (_, animation, __, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
+                          Get.to(
+                                () => SubPlotCListPageViews(
+                              plotData: widget.plotData,
+                              areaName: widget.areaName,
                             ),
                           );
+                          // Navigator.push(
+                          //   context,
+                          //   PageRouteBuilder(
+                          //     pageBuilder: (_, __, ___) =>
+                          //         DetailSubPlotCPageScreen(
+                          //       indexC: indexC.value,
+                          //       plotId: widget.plotData.id.toString(),
+                          //       areaName: widget.areaName,
+                          //       plotName: widget.plotData.namaPlot,
+                          //     ),
+                          //     transitionsBuilder: (_, animation, __, child) {
+                          //       return FadeTransition(
+                          //         opacity: animation,
+                          //         child: child,
+                          //       );
+                          //     },
+                          //   ),
+                          // );
                         },
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -592,24 +603,30 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                     )
                   : TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (_, __, ___) =>
-                                DetailSubPlotCPageScreen(
-                              indexC: indexC.value,
-                              plotId: widget.plotData.id.toString(),
-                              areaName: widget.areaName,
-                              plotName: widget.plotData.namaPlot,
-                            ),
-                            transitionsBuilder: (_, animation, __, child) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              );
-                            },
+                        Get.to(
+                              () => SubPlotCListPageViews(
+                            plotData: widget.plotData,
+                            areaName: widget.areaName,
                           ),
                         );
+                        // Navigator.push(
+                        //   context,
+                        //   PageRouteBuilder(
+                        //     pageBuilder: (_, __, ___) =>
+                        //         DetailSubPlotCPageScreen(
+                        //       indexC: indexC.value,
+                        //       plotId: widget.plotData.id.toString(),
+                        //       areaName: widget.areaName,
+                        //       plotName: widget.plotData.namaPlot,
+                        //     ),
+                        //     transitionsBuilder: (_, animation, __, child) {
+                        //       return FadeTransition(
+                        //         opacity: animation,
+                        //         child: child,
+                        //       );
+                        //     },
+                        //   ),
+                        // );
                       },
                       style: TextButton.styleFrom(
                         shape: RoundedRectangleBorder(

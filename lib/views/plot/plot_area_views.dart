@@ -137,56 +137,6 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
     );
   }
 
-  // ValueListenableBuilder fetchPlotListData() {
-  //   return ValueListenableBuilder(
-  //     valueListenable: _plotController.contactBox.listenable(),
-  //     builder: (context, plotList, _) {
-  //       if (plotList.isEmpty) {
-  //         return Center(
-  //           child: SizedBox(
-  //             width: 1.sw,
-  //             height: 600.h,
-  //             child: Column(
-  //               children: [
-  //                 Image.asset('assets/images/placeholder_isempty.png'),
-  //                 const SizedBox(height: 8),
-  //                 Text(
-  //                   'Data Masih Kosong',
-  //                   style: TextStyle(
-  //                     fontWeight: FontWeight.w700,
-  //                     color: colorPrimaryBlack,
-  //                     fontSize: 16.sp,
-  //                   ),
-  //                 ),
-  //                 SizedBox(height: 8.h),
-  //                 Text(
-  //                   'Silakan input data plot area terlebih dahulu',
-  //                   style: TextStyle(
-  //                     color: colorSecondaryGrey2,
-  //                     fontSize: 12.sp,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       } else {
-  //         return Container(
-  //           margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-  //           width: 1.sw,
-  //           height: 1.sh - 80.h,
-  //           child: ListView.builder(
-  //             itemCount: _plotController.contactBox.length,
-  //             itemBuilder: (context, index) {
-  //               return buildPlotWidget(plotList);
-  //             },
-  //           ),
-  //         );
-  //       }
-  //     },
-  //   );
-  // }
-
   Card buildPlotWidget(Plot plot, Datum plotData) {
     String plotName = 'Plot ${plotData.namaPlot}';
 
@@ -195,8 +145,6 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
       color: colorPrimaryWhite,
       child: InkWell(
         onTap: () {
-          // d.log('$plot', name: 'plot');
-
           Get.to(
             () => DetailPlotScreenViews(plot: plot, plotData: plotData),
             transition: Transition.cupertino,

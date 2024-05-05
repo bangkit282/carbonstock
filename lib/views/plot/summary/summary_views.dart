@@ -856,18 +856,34 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                   if (box.values.toList().indexWhere((element) =>
                           element.plotId == widget.plotData.id.toString()) !=
                       -1) {
-                    return Text(
-                      (box.values
-                              .lastWhere((element) =>
-                                  element.plotId ==
-                                  widget.plotData.id.toString())
-                              .carbonValue)
-                          .toStringAsFixed(2),
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: colorPrimaryBlack,
-                      ),
-                    );
+                    if (box.values.toList().length > 1) {
+                      double total = 0;
+
+                      for (var i = 0; i < box.values.toList().length; i++) {
+                        total += box.values.toList()[i].carbonValue;
+                      }
+
+                      return Text(
+                        total.toStringAsFixed(2),
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: colorPrimaryBlack,
+                        ),
+                      );
+                    } else {
+                      return Text(
+                        (box.values
+                                .lastWhere((element) =>
+                                    element.plotId ==
+                                    widget.plotData.id.toString())
+                                .carbonValue)
+                            .toStringAsFixed(2),
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: colorPrimaryBlack,
+                        ),
+                      );
+                    }
                   } else {
                     return Text(
                       'No data',
@@ -908,18 +924,34 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                   if (box.values.toList().indexWhere((element) =>
                           element.plotId == widget.plotData.id.toString()) !=
                       -1) {
-                    return Text(
-                      (box.values
-                              .lastWhere((element) =>
-                                  element.plotId ==
-                                  widget.plotData.id.toString())
-                              .carbonValue)
-                          .toStringAsFixed(2),
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: colorPrimaryBlack,
-                      ),
-                    );
+                    if (box.values.toList().length > 1) {
+                      double total = 0;
+
+                      for (var i = 0; i < box.values.toList().length; i++) {
+                        total += box.values.toList()[i].carbonValue;
+                      }
+
+                      return Text(
+                        total.toStringAsFixed(2),
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: colorPrimaryBlack,
+                        ),
+                      );
+                    } else {
+                      return Text(
+                        (box.values
+                                .lastWhere((element) =>
+                                    element.plotId ==
+                                    widget.plotData.id.toString())
+                                .carbonValue)
+                            .toStringAsFixed(2),
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: colorPrimaryBlack,
+                        ),
+                      );
+                    }
                   } else {
                     return Text(
                       'No data',
@@ -1303,18 +1335,34 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                   if (box.values.toList().indexWhere((element) =>
                           element.plotId == widget.plotData.id.toString()) !=
                       -1) {
-                    return Text(
-                      (box.values
-                              .lastWhere((element) =>
-                                  element.plotId ==
-                                  widget.plotData.id.toString())
-                              .carbonAbsorb)
-                          .toStringAsFixed(2),
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: colorPrimaryBlack,
-                      ),
-                    );
+                    if (box.values.toList().length > 1) {
+                      double total = 0;
+
+                      for (var i = 0; i < box.values.toList().length; i++) {
+                        total += box.values.toList()[i].carbonAbsorb;
+                      }
+
+                      return Text(
+                        total.toStringAsFixed(2),
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: colorPrimaryBlack,
+                        ),
+                      );
+                    } else {
+                      return Text(
+                        (box.values
+                                .lastWhere((element) =>
+                                    element.plotId ==
+                                    widget.plotData.id.toString())
+                                .carbonAbsorb)
+                            .toStringAsFixed(2),
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: colorPrimaryBlack,
+                        ),
+                      );
+                    }
                   } else {
                     return Text(
                       'No data',
@@ -1355,18 +1403,34 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                   if (box.values.toList().indexWhere((element) =>
                           element.plotId == widget.plotData.id.toString()) !=
                       -1) {
-                    return Text(
-                      (box.values
-                              .lastWhere((element) =>
-                                  element.plotId ==
-                                  widget.plotData.id.toString())
-                              .carbonAbsorb)
-                          .toStringAsFixed(2),
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: colorPrimaryBlack,
-                      ),
-                    );
+                    if (box.values.toList().length > 1) {
+                      double total = 0;
+
+                      for (var i = 0; i < box.values.toList().length; i++) {
+                        total += box.values.toList()[i].carbonAbsorb;
+                      }
+
+                      return Text(
+                        total.toStringAsFixed(2),
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: colorPrimaryBlack,
+                        ),
+                      );
+                    } else {
+                      return Text(
+                        (box.values
+                                .lastWhere((element) =>
+                                    element.plotId ==
+                                    widget.plotData.id.toString())
+                                .carbonAbsorb)
+                            .toStringAsFixed(2),
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: colorPrimaryBlack,
+                        ),
+                      );
+                    }
                   } else {
                     return Text(
                       'No data',
