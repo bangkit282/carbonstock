@@ -23,6 +23,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorPrimaryBackground,
       extendBody: true,
       appBar: AppBar(
         centerTitle: false,
@@ -258,20 +259,46 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
           RxInt indexSeresah = 0.obs;
           RxInt indexTumbuhan = 0.obs;
 
-          RxList<SubPlotAreaAModel> list = box.values
+          RxList<SubPlotAreaAModel> list = _controller.contactABox.values
+              .where((element) => element.plotId == widget.plotId)
+              .toList()
+              .obs;
+
+          RxList<SubPlotAreaASemaiModel> listSemai = _controller
+              .contactASemaiBox.values
+              .where((element) => element.plotId == widget.plotId)
+              .toList()
+              .obs;
+
+          RxList<SubPlotAreaASeresahModel> listSeresah = _controller
+              .contactASeresahBox.values
+              .where((element) => element.plotId == widget.plotId)
+              .toList()
+              .obs;
+
+          RxList<SubPlotAreaATumbuhanBawahModel> listTumbuhan = _controller
+              .contactATumbuhanBox.values
               .where((element) => element.plotId == widget.plotId)
               .toList()
               .obs;
 
           if (list.isNotEmpty) {
-            for (var e in list) {
-              indexA.value = list.indexWhere((e) => e.plotId == widget.plotId);
-              indexSemai.value = e.subPlotAModels!
-                  .indexWhere((element) => element.plotId == widget.plotId);
-              indexSeresah.value = e.subPlotAModels!
-                  .indexWhere((element) => element.plotId == widget.plotId);
-              indexTumbuhan.value = e.subPlotAModels!
-                  .indexWhere((element) => element.plotId == widget.plotId);
+            indexA.value =
+                list.lastIndexWhere((e) => e.plotId == widget.plotId);
+
+            if (listSemai.isNotEmpty) {
+              indexSemai.value =
+                  listSemai.lastIndexWhere((e) => e.plotId == widget.plotId);
+            }
+
+            if (listSeresah.isNotEmpty) {
+              indexSeresah.value =
+                  listSeresah.lastIndexWhere((e) => e.plotId == widget.plotId);
+            }
+
+            if (listTumbuhan.isNotEmpty) {
+              indexTumbuhan.value =
+                  listTumbuhan.lastIndexWhere((e) => e.plotId == widget.plotId);
             }
           }
 
@@ -282,6 +309,8 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       margin: EdgeInsets.only(left: 16.w),
                       child: TextButton(
                         onPressed: () {
+                          // d.log('$list ${widget.plotId}', name: 'plot');
+
                           Navigator.push(
                             context,
                             PageRouteBuilder(
@@ -570,20 +599,45 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
           RxInt indexNekromas = 0.obs;
           RxInt indexTanah = 0.obs;
 
-          RxList<SubPlotAreaDModel> list = box.values
+          RxList<SubPlotAreaDModel> list = _controller.contactDBox.values
+              .where((element) => element.plotId == widget.plotId)
+              .toList()
+              .obs;
+
+          RxList<SubPlotAreaDPohonModel> listPohon = _controller
+              .contactDPohonBox.values
+              .where((element) => element.plotId == widget.plotId)
+              .toList()
+              .obs;
+
+          RxList<SubPlotAreaDNekromasModel> listNekromas = _controller
+              .contactDNekromasBox.values
+              .where((element) => element.plotId == widget.plotId)
+              .toList()
+              .obs;
+
+          RxList<SubPlotAreaDTanahModel> listTanah = _controller
+              .contactDTanahBox.values
               .where((element) => element.plotId == widget.plotId)
               .toList()
               .obs;
 
           if (list.isNotEmpty) {
-            for (var e in list) {
-              indexD.value = list.indexWhere((e) => e.plotId == widget.plotId);
-              indexPohon.value = e.subPlotDModels!
-                  .indexWhere((element) => element.plotId == widget.plotId);
-              indexNekromas.value = e.subPlotDModels!
-                  .indexWhere((element) => element.plotId == widget.plotId);
-              indexTanah.value = e.subPlotDModels!
-                  .indexWhere((element) => element.plotId == widget.plotId);
+            indexD.value = list.lastIndexOf((e) => e.plotId == widget.plotId);
+
+            if (listPohon.isNotEmpty) {
+              indexPohon.value =
+                  listPohon.lastIndexWhere((e) => e.plotId == widget.plotId);
+            }
+
+            if (listNekromas.isNotEmpty) {
+              indexNekromas.value =
+                  listNekromas.lastIndexWhere((e) => e.plotId == widget.plotId);
+            }
+
+            if (listTanah.isNotEmpty) {
+              indexTanah.value =
+                  listTanah.lastIndexWhere((e) => e.plotId == widget.plotId);
             }
           }
 

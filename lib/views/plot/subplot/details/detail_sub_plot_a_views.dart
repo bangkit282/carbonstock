@@ -80,6 +80,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorPrimaryBackground,
       extendBody: true,
       appBar: AppBar(
         centerTitle: false,
@@ -362,6 +363,8 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           carbonAbsorb: carbonAbsorb,
                           updatedAt: DateTime.now(),
                         );
+
+                        // d.log('$subPlotATumbuhan', name: 'subPlotATumbuhan');
 
                         await _controller.insertSubPlotA(
                           subPlotAreaAModel,

@@ -95,6 +95,7 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
     initializeTiang(selectedLocalName.value);
 
     return Scaffold(
+      backgroundColor: colorPrimaryBackground,
       extendBody: true,
       appBar: AppBar(
         centerTitle: false,

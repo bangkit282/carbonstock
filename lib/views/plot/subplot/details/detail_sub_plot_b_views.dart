@@ -132,6 +132,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
     initializePancang(selectedLocalName.value);
 
     return Scaffold(
+      backgroundColor: colorPrimaryBackground,
       extendBody: true,
       appBar: AppBar(
         centerTitle: false,

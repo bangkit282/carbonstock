@@ -135,6 +135,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
     initializePohon(selectedLocalNamePohon.value);
 
     return Scaffold(
+      backgroundColor: colorPrimaryBackground,
       extendBody: true,
       appBar: AppBar(
         centerTitle: false,

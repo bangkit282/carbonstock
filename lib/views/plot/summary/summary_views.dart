@@ -24,7 +24,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
 
   final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
 
@@ -87,7 +87,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
   @override
   void initState() {
     initConnectivity();
-    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
+    _connectivity.onConnectivityChanged.listen(
       _updateConnectionStatus,
     );
     super.initState();

@@ -1,4 +1,4 @@
-import 'package:carbonstock/data/api/endpoint/api_endpoint.dart';
+import 'package:carbonstock/utils/api_endpoint.dart';
 import 'package:carbonstock/data/api/response/failed.dart';
 import 'package:carbonstock/data/api/response/subplot/subplot_response.dart';
 import 'package:dartz/dartz.dart';

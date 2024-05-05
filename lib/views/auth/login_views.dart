@@ -29,7 +29,9 @@ class _LoginScreenViewsState extends State<LoginScreenViews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorPrimaryBackground,
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'Selamat Datang',
           style: TextStyle(

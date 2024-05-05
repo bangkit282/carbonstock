@@ -13,6 +13,7 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorPrimaryBackground,
       body: fetchPlotListData(),
       appBar: AppBar(
         centerTitle: false,
@@ -112,9 +113,11 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
       color: colorPrimaryWhite,
       child: InkWell(
         onTap: () {
+          // d.log('$plot', name: 'plot');
+
           Get.to(
             () => SubPlotAreaScreenViews(
-              plotId: plot.plotId!,
+              plotId: plot.plotId.toString(),
               areaName: 'Area Dayeuhkolot',
               plotName: plotName,
             ),
