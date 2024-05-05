@@ -1,22 +1,28 @@
 part of '../views.dart';
 
-class AddPlotScreenViews extends StatefulWidget {
-  const AddPlotScreenViews({
+class DetailPlotScreenViews extends StatefulWidget {
+  const DetailPlotScreenViews({
     super.key,
-    this.plotId,
+    required this.plot,
+    required this.plotData,
   });
 
-  final String? plotId;
+  final Plot plot;
+  final Datum plotData;
 
   @override
-  State<AddPlotScreenViews> createState() => _AddPlotScreenViewsState();
+  State<DetailPlotScreenViews> createState() => _DetailPlotScreenViewsState();
 }
 
-class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
-  final PlotController _plotController = Get.find();
+class _DetailPlotScreenViewsState extends State<DetailPlotScreenViews> {
+  // final PlotController _plotController = Get.find();
+  final HamparanController _hamparanController = Get.find();
 
   final _addPlotFormKey = GlobalKey<FormState>(debugLabel: 'add-plot');
   final SharedPreferenceService sharedPreferences = SharedPreferenceService();
+
+  int hamparanId = 0;
+  String hamparanName = '';
 
   late MapboxMapController controller;
   late LatLng currentLatLng;
@@ -26,26 +32,29 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
   final TextEditingController _plotLatController = TextEditingController();
   final TextEditingController _plotLngController = TextEditingController();
   final TextEditingController _plotSizeController = TextEditingController();
-  final TextEditingController _biomassAvgController = TextEditingController();
-  final TextEditingController _biomassStdController = TextEditingController();
+
+  // final TextEditingController _biomassAvgController = TextEditingController();
+  // final TextEditingController _biomassStdController = TextEditingController();
 
   _onMapCreated(MapboxMapController controller) {
     this.controller = controller;
   }
 
-  void checkPlotData(List<PlotModel> list) {
-    if (list.isNotEmpty) {
-      _plotLatController.text = list.last.plotLat.toStringAsFixed(5);
-      _plotLngController.text = list.last.plotLng.toStringAsFixed(5);
-
-      _plotSizeController.text = list.last.plotSize.toStringAsFixed(2);
-      _biomassAvgController.text = list.last.biomassAvg.toStringAsFixed(2);
-      _biomassStdController.text = list.last.biomassStd.toStringAsFixed(2);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    _hamparanController.getAllHamparan().then((value) {
+      var data = value as Hamparan;
+
+      hamparanId = data.data!
+          .firstWhere((element) => element.id == widget.plotData.idHamparan)
+          .id;
+      hamparanName = data.data!
+          .firstWhere((element) => element.id == widget.plotData.idHamparan)
+          .namaHamparan;
+
+      d.log('${hamparanId.toString()} $hamparanName', name: 'hamparan');
+    });
+
     String sharedLatLng = sharedPreferences.getString('latLng');
     Map<String, dynamic> latLngMapper = jsonDecode(sharedLatLng);
 
@@ -98,7 +107,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                     ),
                   ),
                   Text(
-                    'Masukkan Plot Area yang akan dicatat',
+                    'Pilih plot area yang akan dicatat',
                     style: TextStyle(
                       fontSize: 10.sp,
                       color: colorPrimaryBlack,
@@ -106,75 +115,70 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                     ),
                   ),
                   SizedBox(height: 16.h),
-                  ValueListenableBuilder(
-                    valueListenable: _plotController.contactBox.listenable(),
-                    builder: (context, box, _) {
-                      listPlot.value = box.values.toList();
-                      List<PlotModel> list = box.values
-                          .where((element) => element.plotId == widget.plotId)
-                          .toList();
-
-                      checkPlotData(list);
-                      return buildCardPlotForm();
-                    },
-                  ),
+                  buildCardPlotForm(),
                   SizedBox(height: 8.h),
                   Container(
                     margin: EdgeInsets.only(bottom: 24.h),
                     child: ElevatedButton(
-                      onPressed: () async {
-                        if (_addPlotFormKey.currentState!.validate()) {
-                          Uuid uuid = const Uuid();
-                          String size = _plotSizeController.text;
-                          String biomassAvg = _biomassAvgController.text;
-                          String biomassStd = _biomassStdController.text;
+                      onPressed: () {
+                        Get.to(
+                          () => SubPlotAreaScreenViews(
+                            plotData: widget.plotData,
+                            areaName: hamparanName,
+                          ),
+                        );
+                        // if (_addPlotFormKey.currentState!.validate()) {
+                        // Uuid uuid = const Uuid();
+                        // String size = _plotSizeController.text;
+                        // String biomassAvg = _biomassAvgController.text;
+                        // String biomassStd = _biomassStdController.text;
 
-                          // d.log(listPlot.toString(), name: 'plot');
+                        // d.log(listPlot.toString(), name: 'plot');
 
-                          // if (listPlot.isEmpty) {
-                          //   PlotModel plotModel = PlotModel(
-                          //     plotId: uuid.v4(),
-                          //     plotLat: double.parse(_plotLatController.text),
-                          //     plotLng: double.parse(_plotLngController.text),
-                          //     plotSize: double.parse(size),
-                          //     biomassAvg: double.parse(biomassAvg),
-                          //     biomassStd: double.parse(biomassStd),
-                          //   );
+                        // if (listPlot.isEmpty) {
+                        //   PlotModel plotModel = PlotModel(
+                        //     plotId: uuid.v4(),
+                        //     plotLat: double.parse(_plotLatController.text),
+                        //     plotLng: double.parse(_plotLngController.text),
+                        //     plotSize: double.parse(size),
+                        //     biomassAvg: double.parse(biomassAvg),
+                        //     biomassStd: double.parse(biomassStd),
+                        //   );
 
-                          //   await _plotController.insertPlot(plotModel);
-                          // } else {
-                          //   PlotModel plotModel = PlotModel(
-                          //     plotId: widget.plotId,
-                          //     plotLat: double.parse(_plotLatController.text),
-                          //     plotLng: double.parse(_plotLngController.text),
-                          //     plotSize: double.parse(size),
-                          //     biomassAvg: double.parse(biomassAvg),
-                          //     biomassStd: double.parse(biomassStd),
-                          //   );
+                        //   await _plotController.insertPlot(plotModel);
+                        // } else {
+                        //   PlotModel plotModel = PlotModel(
+                        //     plotId: widget.plotId,
+                        //     plotLat: double.parse(_plotLatController.text),
+                        //     plotLng: double.parse(_plotLngController.text),
+                        //     plotSize: double.parse(size),
+                        //     biomassAvg: double.parse(biomassAvg),
+                        //     biomassStd: double.parse(biomassStd),
+                        //   );
 
-                          //   await _plotController.updatePlot(plotModel);
-                          // }
+                        //   await _plotController.updatePlot(plotModel);
+                        // }
 
-                          PlotModel plotModel = PlotModel(
-                              plotId: uuid.v4(),
-                              plotLat: double.parse(_plotLatController.text),
-                              plotLng: double.parse(_plotLngController.text),
-                              plotSize: double.parse(size),
-                              biomassAvg: double.parse(biomassAvg),
-                              biomassStd: double.parse(biomassStd),
-                              updatedAt: DateTime.now());
+                        // PlotModel plotModel = PlotModel(
+                        //   plotId: uuid.v4(),
+                        //   plotLat: double.parse(_plotLatController.text),
+                        //   plotLng: double.parse(_plotLngController.text),
+                        //   plotSize: double.parse(size),
+                        //   biomassAvg: double.parse(biomassAvg),
+                        //   biomassStd: double.parse(biomassStd),
+                        //   updatedAt: DateTime.now(),
+                        // );
+                        //
+                        // await _plotController.insertPlot(plotModel);
 
-                          await _plotController.insertPlot(plotModel);
+                        // Get.snackbar(
+                        //   'CarbonStock',
+                        //   'Update Plot Success!',
+                        //   backgroundColor: colorSecondaryGrey1,
+                        // );
 
-                          Get.snackbar(
-                            'CarbonStock',
-                            'Update Plot Success!',
-                            backgroundColor: colorSecondaryGrey1,
-                          );
-
-                          sleep(const Duration(seconds: 2));
-                          Get.off(() => const PlotAreaScreenViews());
-                        }
+                        // sleep(const Duration(seconds: 2));
+                        // }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: colorButtonAccentGreen,
@@ -184,7 +188,7 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                         fixedSize: Size(1.sw, 40.h),
                       ),
                       child: Text(
-                        'Simpan',
+                        'Konfirmasi',
                         style: TextStyle(
                           color: colorPrimaryWhite,
                           fontSize: 14.sp,
@@ -204,6 +208,10 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
   }
 
   Card buildCardPlotForm() {
+    _plotLatController.text = widget.plotData.latitude.toString();
+    _plotLngController.text = widget.plotData.longitude.toString();
+    _plotSizeController.text = widget.plotData.plot.ukuranPlot.toString();
+
     return Card(
       elevation: 0.5,
       color: colorPrimaryWhite,
@@ -284,9 +292,10 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
               TextFormField(
                 controller: _plotSizeController,
                 keyboardType: TextInputType.text,
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Tidak boleh kosong'
-                    : null,
+                enabled: false,
+                // validator: (value) => value == null || value.isEmpty
+                //     ? 'Tidak boleh kosong'
+                //     : null,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(8.r),
                   enabledBorder: OutlineInputBorder(
@@ -303,73 +312,73 @@ class _AddPlotScreenViewsState extends State<AddPlotScreenViews> {
                 ),
               ),
               SizedBox(height: 4.h),
-              SizedBox(
-                width: 1.sw,
-                child: Text(
-                  'Rataan Biomasa',
-                  style: TextStyle(
-                    color: colorPrimaryBlack,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16.sp,
-                  ),
-                ),
-              ),
-              SizedBox(height: 4.h),
-              TextFormField(
-                controller: _biomassAvgController,
-                keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Tidak boleh kosong'
-                    : null,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(8.r),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: const BorderSide(
-                      color: colorSecondaryGrey1,
-                    ),
-                  ),
-                  focusedBorder: const OutlineInputBorder(),
-                  hintText: 'Masukkan Rataan Biomasa',
-                  hintStyle: const TextStyle(
-                    color: colorSecondaryGrey1,
-                  ),
-                ),
-              ),
-              SizedBox(height: 4.h),
-              SizedBox(
-                width: 1.sw,
-                child: Text(
-                  'Standar Deviasi Biomasa',
-                  style: TextStyle(
-                    color: colorPrimaryBlack,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16.sp,
-                  ),
-                ),
-              ),
-              SizedBox(height: 4.h),
-              TextFormField(
-                controller: _biomassStdController,
-                keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Tidak boleh kosong'
-                    : null,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(8.r),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: const BorderSide(
-                      color: colorSecondaryGrey1,
-                    ),
-                  ),
-                  focusedBorder: const OutlineInputBorder(),
-                  hintText: 'Masukkan STD Biomasa',
-                  hintStyle: const TextStyle(
-                    color: colorSecondaryGrey1,
-                  ),
-                ),
-              ),
+              // SizedBox(
+              //   width: 1.sw,
+              //   child: Text(
+              //     'Rataan Biomasa',
+              //     style: TextStyle(
+              //       color: colorPrimaryBlack,
+              //       fontWeight: FontWeight.w700,
+              //       fontSize: 16.sp,
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(height: 4.h),
+              // TextFormField(
+              //   controller: _biomassAvgController,
+              //   keyboardType: TextInputType.number,
+              //   validator: (value) => value == null || value.isEmpty
+              //       ? 'Tidak boleh kosong'
+              //       : null,
+              //   decoration: InputDecoration(
+              //     contentPadding: EdgeInsets.all(8.r),
+              //     enabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8.r),
+              //       borderSide: const BorderSide(
+              //         color: colorSecondaryGrey1,
+              //       ),
+              //     ),
+              //     focusedBorder: const OutlineInputBorder(),
+              //     hintText: 'Masukkan Rataan Biomasa',
+              //     hintStyle: const TextStyle(
+              //       color: colorSecondaryGrey1,
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(height: 4.h),
+              // SizedBox(
+              //   width: 1.sw,
+              //   child: Text(
+              //     'Standar Deviasi Biomasa',
+              //     style: TextStyle(
+              //       color: colorPrimaryBlack,
+              //       fontWeight: FontWeight.w700,
+              //       fontSize: 16.sp,
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(height: 4.h),
+              // TextFormField(
+              //   controller: _biomassStdController,
+              //   keyboardType: TextInputType.number,
+              //   validator: (value) => value == null || value.isEmpty
+              //       ? 'Tidak boleh kosong'
+              //       : null,
+              //   decoration: InputDecoration(
+              //     contentPadding: EdgeInsets.all(8.r),
+              //     enabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(8.r),
+              //       borderSide: const BorderSide(
+              //         color: colorSecondaryGrey1,
+              //       ),
+              //     ),
+              //     focusedBorder: const OutlineInputBorder(),
+              //     hintText: 'Masukkan STD Biomasa',
+              //     hintStyle: const TextStyle(
+              //       color: colorSecondaryGrey1,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

@@ -33,13 +33,11 @@ class AuthController extends GetxController {
     );
 
     response.fold(
-      (l) {        
-        // log(l.message, name: 'authcontroller-login');
-        return l;
+      (l) {
+        log(l.message, name: 'authcontroller-login');
       },
       (r) {
         res = r;
-        return r;
       },
     );
 
@@ -61,12 +59,13 @@ class AuthController extends GetxController {
       deletedAt: user.deletedAt,
       isActive: user.isActive,
       role: user.role,
+      listplot: user.listplot,
     );
 
     await contactAuthBox.add(userModel);
   }
 
-  Stream<UserModel> getSingleUser(String id) async* {
-    yield AuthDB.getSpecificUser(id);
+  UserModel getSingleUser(String id) {
+    return AuthDB.getSpecificUser(id);
   }
 }

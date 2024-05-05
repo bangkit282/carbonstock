@@ -3,16 +3,18 @@ part of '../../../views.dart';
 class DetailSubPlotBPageScreen extends StatefulWidget {
   const DetailSubPlotBPageScreen({
     super.key,
+    required this.type,
     required this.indexB,
-    required this.plotId,
+    required this.plot,
     required this.areaName,
-    required this.plotName,
+    required this.model,
   });
 
   final int indexB;
-  final String plotId;
+  final int type; // 0 - create, 1 - edit
+  final Datum plot;
   final String areaName;
-  final String plotName;
+  final SubPlotAreaBModel? model;
 
   @override
   State<DetailSubPlotBPageScreen> createState() =>
@@ -111,18 +113,20 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
     _pancangKerapatanJenisController.text = '${pancangKerapatan.value}';
   }
 
-  void checkSinglePancang(List<SubPlotAreaBModel> list) {
-    if (list.isNotEmpty) {
-      selectedLocalName.value = list.last.localName;
-      selectedBioName.value = list.last.bioName;
+  void checkSinglePancang() {
+    if (widget.type == 1) {
+      selectedLocalName.value = widget.model!.localName;
+      selectedBioName.value = widget.model!.bioName;
 
-      _pancangNamaIlmiahController.text = list.last.bioName;
+      _pancangNamaIlmiahController.text = widget.model!.bioName;
 
-      pancangBiomassLand.value = list.last.biomassLand;
-      pancangKerapatan.value = list.last.kerapatanKayu;
+      pancangBiomassLand.value = widget.model!.biomassLand;
+      pancangKerapatan.value = widget.model!.kerapatanKayu;
 
-      _pancangKelilingController.text = list.last.keliling.toStringAsFixed(2);
-      _pancangDiameterController.text = list.last.diameter.toStringAsFixed(2);
+      _pancangKelilingController.text =
+          widget.model!.keliling.toStringAsFixed(2);
+      _pancangDiameterController.text =
+          widget.model!.diameter.toStringAsFixed(2);
       _pancangKerapatanJenisController.text = '${pancangKerapatan.value}';
     }
   }
@@ -132,6 +136,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
     initializePancang(selectedLocalName.value);
 
     return Scaffold(
+      backgroundColor: colorPrimaryBackground,
       extendBody: true,
       appBar: AppBar(
         centerTitle: false,
@@ -192,14 +197,14 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                       double carbonAbsorb =
                           pancangBiomassLand.value * 0.47 * (44 / 12);
 
-                      if (listB.isEmpty) {
+                      if (widget.type == 0 || widget.model == null) {
                         Uuid uuid = const Uuid();
 
                         final subPlotBModel = SubPlotAreaBModel(
                           uuid: uuid.v4(),
-                          plotId: widget.plotId,
+                          plotId: widget.plot.id.toString(),
                           areaName: widget.areaName,
-                          plotName: widget.plotName,
+                          plotName: widget.plot.namaPlot,
                           localName: name,
                           bioName: bioName,
                           keliling: keliling,
@@ -212,38 +217,30 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                         );
 
                         await _controller.insertSubPlotB(subPlotBModel);
-
                         _sharedPref.putBool('pancang_data', true);
-                        _sharedPref.putDouble(
-                          'karbon_b',
-                          carbonValue,
-                        );
-                        _sharedPref.putDouble(
-                          'absorb_b',
-                          carbonAbsorb,
-                        );
                       } else {
-                        SubPlotAreaBModel subPlotBModel = SubPlotAreaBModel(
-                          uuid: listB.last.uuid,
-                          plotId: widget.plotId,
-                          areaName: widget.areaName,
-                          plotName: widget.plotName,
-                          localName: name,
-                          bioName: bioName,
-                          keliling: keliling,
-                          diameter: diameter,
-                          kerapatanKayu: kerapatanKayu,
-                          biomassLand: biomassLand,
-                          carbonValue: carbonValue,
-                          carbonAbsorb: carbonAbsorb,
-                          updatedAt: DateTime.now(),
-                        );
+                        if (widget.type == 1) {
+                          SubPlotAreaBModel subPlotBModel = SubPlotAreaBModel(
+                            uuid: widget.model!.uuid,
+                            plotId: widget.plot.id.toString(),
+                            areaName: widget.areaName,
+                            plotName: widget.plot.namaPlot,
+                            localName: name,
+                            bioName: bioName,
+                            keliling: keliling,
+                            diameter: diameter,
+                            kerapatanKayu: kerapatanKayu,
+                            biomassLand: biomassLand,
+                            carbonValue: carbonValue,
+                            carbonAbsorb: carbonAbsorb,
+                            updatedAt: DateTime.now(),
+                          );
 
-                        await _controller.updateSubPlotB(
-                          widget.indexB,
-                          subPlotBModel,
-                        );
-
+                          await _controller.updateSubPlotB(
+                            widget.indexB,
+                            subPlotBModel,
+                          );
+                        }
                         _sharedPref.putBool('pancang_data', true);
                       }
 
@@ -282,6 +279,8 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
   }
 
   Widget buildDetailInfo() {
+    checkSinglePancang();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -295,18 +294,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
           ),
         ),
         SizedBox(height: 16.h),
-        ValueListenableBuilder(
-          valueListenable: _controller.contactBBox.listenable(),
-          builder: (context, box, _) {
-            listB.value = box.values.toList();
-            List<SubPlotAreaBModel> list = box.values
-                .where((element) => element.plotId == widget.plotId)
-                .toList();
-
-            checkSinglePancang(list);
-            return buildPancangInfo();
-          },
-        ),
+        buildPancangInfo(),
       ],
     );
   }

@@ -3,9 +3,15 @@ import 'package:hive/hive.dart';
 
 class AuthDB {
   static Box<UserModel> authBox = Hive.box('auth');
+  static Box<ListPlotModel> listPlotBox = Hive.box('listPlot');
 
   static Future<void> init() async {
     await Hive.openBox<UserModel>('auth');
+    await Hive.openBox<ListPlotModel>('listPlot');
+  }
+
+  static List<ListPlotModel> getAllListPlot() {
+    return listPlotBox.values.toList();
   }
 
   static List<UserModel> getAllUsers() {
