@@ -24,14 +24,9 @@ class SummaryPageViews extends StatefulWidget {
 
 class _SummaryPageViewsState extends State<SummaryPageViews> {
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
-
   final Connectivity _connectivity = Connectivity();
 
-  // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-  final SharedPreferenceService _sharedPref = SharedPreferenceService();
-
   final SubPlotController _subPlotController = Get.find();
-  final PlotController _plotController = Get.find();
   final SummarySubplotController _summaryController = Get.find();
 
   DateTime today = DateTime.now();
