@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:carbonstock/data/api/response/failed.dart';
 import 'package:carbonstock/data/api/response/plot/plot_response.dart';
 import 'package:carbonstock/utils/api_endpoint.dart';
