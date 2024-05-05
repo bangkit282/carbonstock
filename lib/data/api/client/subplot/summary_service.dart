@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carbonstock/utils/api_endpoint.dart';
 import 'package:carbonstock/data/api/response/failed.dart';
 import 'package:carbonstock/data/api/response/subplot/subplot_response.dart';
@@ -23,6 +25,7 @@ class SummarySubplotService {
       'plot_id': plotId,
       'area_name': areaName,
       'plot_name': plotName,
+      'subplot_a_photo_url': '',
       'updated_at': updatedAt,
     });
 
@@ -33,10 +36,17 @@ class SummarySubplotService {
           apiSubplotA,
         ),
         data: formData,
+        options: Options(
+          validateStatus: (int? status) {
+            return status != null;
+            // return status != null && status >= 200 && status < 300;
+          },
+        ),
       );
 
+      // log(response.statusMessage.toString(), name: 'summary-subplot-a');
+
       if (response.statusCode == 200) {
-        // log(response.data, name: 'summary-subplot-a');
         return Right(subPlotFromJson(response.data));
       } else {
         throw '${response.statusCode}: ${response.statusMessage}';
@@ -224,6 +234,7 @@ class SummarySubplotService {
       'biomass': biomass,
       'carbon_value': carbonValue,
       'carbon_absorb': carbonAbsorb,
+      'subplot_b_photo_url': '',
       'updated_at': updatedAt,
     });
 
@@ -275,6 +286,7 @@ class SummarySubplotService {
       'biomass': biomass,
       'carbon_value': carbonValue,
       'carbon_absorb': carbonAbsorb,
+      'subplot_c_photo_url': '',
       'updated_at': updatedAt,
     });
 
@@ -310,17 +322,28 @@ class SummarySubplotService {
       'plot_id': plotId,
       'area_name': areaName,
       'plot_name': plotName,
+      'subplot_d_photo_url': '',
       'updated_at': updatedAt,
     });
 
     try {
       final response = await dio.postUri(
-        Uri.http(apiBaseUrl, apiSubplotD),
+        Uri.http(
+          apiBaseUrl,
+          apiSubplotD,
+        ),
         data: formData,
+        options: Options(
+          validateStatus: (int? status) {
+            return status != null;
+            // return status != null && status >= 200 && status < 300;
+          },
+        ),
       );
 
+      log(response.statusMessage.toString(), name: 'summary-subplot-d');
+
       if (response.statusCode == 200) {
-        // log(response.data, name: 'authservice-login');
         return Right(subPlotFromJson(response.data));
       } else {
         throw '${response.statusCode}: ${response.statusMessage}';

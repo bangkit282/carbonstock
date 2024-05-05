@@ -3,14 +3,12 @@ part of '../../views.dart';
 class SubPlotAreaScreenViews extends StatefulWidget {
   const SubPlotAreaScreenViews({
     super.key,
-    required this.plotId,
     required this.areaName,
-    required this.plotName,
+    required this.plotData,
   });
 
-  final String plotId;
+  final Datum plotData;
   final String areaName;
-  final String plotName;
 
   @override
   State<SubPlotAreaScreenViews> createState() => _SubPlotAreaScreenViewsState();
@@ -107,41 +105,74 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       pageBuilder: (_, __, ___) => SummaryPageViews(
                         idA: _controller.contactABox.values.toList().isNotEmpty
                             ? _controller.contactABox.values
-                                .toList()[_controller.contactABox.values
-                                    .toList()
-                                    .indexWhere((element) =>
-                                        element.plotId == widget.plotId)]
-                                .uuid
-                                .toString()
+                                        .toList()
+                                        .indexWhere((element) =>
+                                            element.plotId ==
+                                            widget.plotData.id.toString()) !=
+                                    -1
+                                ? _controller.contactABox
+                                    .getAt(_controller.contactABox.values
+                                        .toList()
+                                        .indexWhere((element) =>
+                                            element.plotId ==
+                                            widget.plotData.id.toString()))
+                                    ?.uuid
+                                    .toString()
+                                : ''
                             : '',
                         idB: _controller.contactBBox.values.toList().isNotEmpty
                             ? _controller.contactBBox.values
-                                .toList()[_controller.contactBBox.values
-                                    .toList()
-                                    .indexWhere((element) =>
-                                        element.plotId == widget.plotId)]
-                                .uuid
-                                .toString()
+                                        .toList()
+                                        .indexWhere((element) =>
+                                            element.plotId ==
+                                            widget.plotData.id.toString()) !=
+                                    -1
+                                ? _controller.contactBBox
+                                    .getAt(_controller.contactBBox.values
+                                        .toList()
+                                        .indexWhere((element) =>
+                                            element.plotId ==
+                                            widget.plotData.id.toString()))
+                                    ?.uuid
+                                    .toString()
+                                : ''
                             : '',
                         idC: _controller.contactCBox.values.toList().isNotEmpty
                             ? _controller.contactCBox.values
-                                .toList()[_controller.contactCBox.values
-                                    .toList()
-                                    .indexWhere((element) =>
-                                        element.plotId == widget.plotId)]
-                                .uuid
-                                .toString()
+                                        .toList()
+                                        .indexWhere((element) =>
+                                            element.plotId ==
+                                            widget.plotData.id.toString()) !=
+                                    -1
+                                ? _controller.contactCBox
+                                    .getAt(_controller.contactCBox.values
+                                        .toList()
+                                        .indexWhere((element) =>
+                                            element.plotId ==
+                                            widget.plotData.id.toString()))
+                                    ?.uuid
+                                    .toString()
+                                : ''
                             : '',
                         idD: _controller.contactDBox.values.toList().isNotEmpty
                             ? _controller.contactDBox.values
-                                .toList()[_controller.contactDBox.values
-                                    .toList()
-                                    .indexWhere((element) =>
-                                        element.plotId == widget.plotId)]
-                                .uuid
-                                .toString()
+                                        .toList()
+                                        .indexWhere((element) =>
+                                            element.plotId ==
+                                            widget.plotData.id.toString()) !=
+                                    -1
+                                ? _controller.contactDBox
+                                    .getAt(_controller.contactDBox.values
+                                        .toList()
+                                        .indexWhere((element) =>
+                                            element.plotId ==
+                                            widget.plotData.id.toString()))
+                                    ?.uuid
+                                    .toString()
+                                : ''
                             : '',
-                        plotId: widget.plotId,
+                        plotId: widget.plotData.id.toString(),
+                        plotData: widget.plotData,
                       ),
                       transitionsBuilder: (_, animation, __, child) {
                         return FadeTransition(
@@ -227,7 +258,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                         SizedBox(
                           width: 150.w,
                           child: Text(
-                            '${widget.plotName}, ${widget.areaName}',
+                            '${widget.plotData.namaPlot}, ${widget.areaName}',
                             textAlign: TextAlign.left,
                             maxLines: 1,
                             style: TextStyle(
@@ -260,45 +291,49 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
           RxInt indexTumbuhan = 0.obs;
 
           RxList<SubPlotAreaAModel> list = _controller.contactABox.values
-              .where((element) => element.plotId == widget.plotId)
+              .where(
+                  (element) => element.plotId == widget.plotData.id.toString())
               .toList()
               .obs;
 
           RxList<SubPlotAreaASemaiModel> listSemai = _controller
               .contactASemaiBox.values
-              .where((element) => element.plotId == widget.plotId)
+              .where(
+                  (element) => element.plotId == widget.plotData.id.toString())
               .toList()
               .obs;
 
           RxList<SubPlotAreaASeresahModel> listSeresah = _controller
               .contactASeresahBox.values
-              .where((element) => element.plotId == widget.plotId)
+              .where(
+                  (element) => element.plotId == widget.plotData.id.toString())
               .toList()
               .obs;
 
           RxList<SubPlotAreaATumbuhanBawahModel> listTumbuhan = _controller
               .contactATumbuhanBox.values
-              .where((element) => element.plotId == widget.plotId)
+              .where(
+                  (element) => element.plotId == widget.plotData.id.toString())
               .toList()
               .obs;
 
           if (list.isNotEmpty) {
-            indexA.value =
-                list.lastIndexWhere((e) => e.plotId == widget.plotId);
+            indexA.value = list.lastIndexWhere(
+                (e) => e.plotId == widget.plotData.id.toString());
 
             if (listSemai.isNotEmpty) {
-              indexSemai.value =
-                  listSemai.lastIndexWhere((e) => e.plotId == widget.plotId);
+              indexSemai.value = listSemai.lastIndexWhere(
+                  (e) => e.plotId == widget.plotData.id.toString());
             }
 
             if (listSeresah.isNotEmpty) {
-              indexSeresah.value =
-                  listSeresah.lastIndexWhere((e) => e.plotId == widget.plotId);
+              indexSeresah.value = listSeresah.lastIndexWhere(
+                  (e) => e.plotId == widget.plotData.id.toString());
             }
 
             if (listTumbuhan.isNotEmpty) {
-              indexTumbuhan.value =
-                  listTumbuhan.lastIndexWhere((e) => e.plotId == widget.plotId);
+              indexTumbuhan.value = listTumbuhan.lastIndexWhere(
+                  (e) => e.plotId == widget.plotData.id.toString());
             }
           }
 
@@ -309,7 +344,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       margin: EdgeInsets.only(left: 16.w),
                       child: TextButton(
                         onPressed: () {
-                          // d.log('$list ${widget.plotId}', name: 'plot');
+                          // d.log('$list ${widget.plotData.id.toString()}', name: 'plot');
 
                           Navigator.push(
                             context,
@@ -320,9 +355,9 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                                 indexSemai: indexSemai.value,
                                 indexSeresah: indexSeresah.value,
                                 indexTumbuhan: indexTumbuhan.value,
-                                plotId: widget.plotId,
+                                plotId: widget.plotData.id.toString(),
                                 areaName: widget.areaName,
-                                plotName: widget.plotName,
+                                plotName: widget.plotData.namaPlot,
                                 plotAList: SubPlotAreaDB.getAllSubPlotA(),
                                 semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
                                 seresahList:
@@ -365,9 +400,9 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                               indexSemai: indexSemai.value,
                               indexSeresah: indexSeresah.value,
                               indexTumbuhan: indexTumbuhan.value,
-                              plotId: widget.plotId,
+                              plotId: widget.plotData.id.toString(),
                               areaName: widget.areaName,
-                              plotName: widget.plotName,
+                              plotName: widget.plotData.namaPlot,
                               plotAList: SubPlotAreaDB.getAllSubPlotA(),
                               semaiList: SubPlotAreaDB.getAllSubPlotSemai(),
                               seresahList: SubPlotAreaDB.getAllSubPlotSeresah(),
@@ -407,12 +442,14 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
           RxInt indexB = 0.obs;
 
           RxList list = box.values
-              .where((element) => element.plotId == widget.plotId)
+              .where(
+                  (element) => element.plotId == widget.plotData.id.toString())
               .toList()
               .obs;
 
           if (list.isNotEmpty) {
-            indexB.value = list.indexWhere((e) => e.plotId == widget.plotId);
+            indexB.value = list
+                .indexWhere((e) => e.plotId == widget.plotData.id.toString());
           }
 
           return Obx(
@@ -428,9 +465,9 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                               pageBuilder: (_, __, ___) =>
                                   DetailSubPlotBPageScreen(
                                 indexB: indexB.value,
-                                plotId: widget.plotId,
+                                plotId: widget.plotData.id.toString(),
                                 areaName: widget.areaName,
-                                plotName: widget.plotName,
+                                plotName: widget.plotData.namaPlot,
                               ),
                               transitionsBuilder: (_, animation, __, child) {
                                 return FadeTransition(
@@ -464,9 +501,9 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                             pageBuilder: (_, __, ___) =>
                                 DetailSubPlotBPageScreen(
                               indexB: indexB.value,
-                              plotId: widget.plotId,
+                              plotId: widget.plotData.id.toString(),
                               areaName: widget.areaName,
-                              plotName: widget.plotName,
+                              plotName: widget.plotData.namaPlot,
                             ),
                             transitionsBuilder: (_, animation, __, child) {
                               return FadeTransition(
@@ -502,12 +539,14 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
           RxInt indexC = 0.obs;
 
           RxList list = box.values
-              .where((element) => element.plotId == widget.plotId)
+              .where(
+                  (element) => element.plotId == widget.plotData.id.toString())
               .toList()
               .obs;
 
           if (list.isNotEmpty) {
-            indexC.value = list.indexWhere((e) => e.plotId == widget.plotId);
+            indexC.value = list
+                .indexWhere((e) => e.plotId == widget.plotData.id.toString());
           }
 
           return Obx(
@@ -523,9 +562,9 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                               pageBuilder: (_, __, ___) =>
                                   DetailSubPlotCPageScreen(
                                 indexC: indexC.value,
-                                plotId: widget.plotId,
+                                plotId: widget.plotData.id.toString(),
                                 areaName: widget.areaName,
-                                plotName: widget.plotName,
+                                plotName: widget.plotData.namaPlot,
                               ),
                               transitionsBuilder: (_, animation, __, child) {
                                 return FadeTransition(
@@ -559,9 +598,9 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                             pageBuilder: (_, __, ___) =>
                                 DetailSubPlotCPageScreen(
                               indexC: indexC.value,
-                              plotId: widget.plotId,
+                              plotId: widget.plotData.id.toString(),
                               areaName: widget.areaName,
-                              plotName: widget.plotName,
+                              plotName: widget.plotData.namaPlot,
                             ),
                             transitionsBuilder: (_, animation, __, child) {
                               return FadeTransition(
@@ -600,44 +639,49 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
           RxInt indexTanah = 0.obs;
 
           RxList<SubPlotAreaDModel> list = _controller.contactDBox.values
-              .where((element) => element.plotId == widget.plotId)
+              .where(
+                  (element) => element.plotId == widget.plotData.id.toString())
               .toList()
               .obs;
 
           RxList<SubPlotAreaDPohonModel> listPohon = _controller
               .contactDPohonBox.values
-              .where((element) => element.plotId == widget.plotId)
+              .where(
+                  (element) => element.plotId == widget.plotData.id.toString())
               .toList()
               .obs;
 
           RxList<SubPlotAreaDNekromasModel> listNekromas = _controller
               .contactDNekromasBox.values
-              .where((element) => element.plotId == widget.plotId)
+              .where(
+                  (element) => element.plotId == widget.plotData.id.toString())
               .toList()
               .obs;
 
           RxList<SubPlotAreaDTanahModel> listTanah = _controller
               .contactDTanahBox.values
-              .where((element) => element.plotId == widget.plotId)
+              .where(
+                  (element) => element.plotId == widget.plotData.id.toString())
               .toList()
               .obs;
 
           if (list.isNotEmpty) {
-            indexD.value = list.lastIndexOf((e) => e.plotId == widget.plotId);
+            indexD.value = list
+                .lastIndexOf((e) => e.plotId == widget.plotData.id.toString());
 
             if (listPohon.isNotEmpty) {
-              indexPohon.value =
-                  listPohon.lastIndexWhere((e) => e.plotId == widget.plotId);
+              indexPohon.value = listPohon.lastIndexWhere(
+                  (e) => e.plotId == widget.plotData.id.toString());
             }
 
             if (listNekromas.isNotEmpty) {
-              indexNekromas.value =
-                  listNekromas.lastIndexWhere((e) => e.plotId == widget.plotId);
+              indexNekromas.value = listNekromas.lastIndexWhere(
+                  (e) => e.plotId == widget.plotData.id.toString());
             }
 
             if (listTanah.isNotEmpty) {
-              indexTanah.value =
-                  listTanah.lastIndexWhere((e) => e.plotId == widget.plotId);
+              indexTanah.value = listTanah.lastIndexWhere(
+                  (e) => e.plotId == widget.plotData.id.toString());
             }
           }
 
@@ -657,9 +701,9 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                                 indexPohon: indexPohon.value,
                                 indexNekromas: indexNekromas.value,
                                 indexTanah: indexTanah.value,
-                                plotId: widget.plotId,
+                                plotId: widget.plotData.id.toString(),
                                 areaName: widget.areaName,
-                                plotName: widget.plotName,
+                                plotName: widget.plotData.namaPlot,
                                 subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
                                 subPlotDNekromasList:
                                     SubPlotAreaDB.getAllSubPlotNekromas(),
@@ -701,8 +745,8 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                               indexPohon: indexPohon.value,
                               indexNekromas: indexNekromas.value,
                               indexTanah: indexTanah.value,
-                              plotId: widget.plotId,
-                              plotName: widget.plotName,
+                              plotId: widget.plotData.id.toString(),
+                              plotName: widget.plotData.namaPlot,
                               areaName: widget.areaName,
                               subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
                               subPlotDNekromasList:

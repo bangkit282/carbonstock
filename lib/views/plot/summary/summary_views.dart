@@ -8,13 +8,15 @@ class SummaryPageViews extends StatefulWidget {
     required this.idB,
     required this.idC,
     required this.idD,
+    required this.plotData,
   });
 
-  final String idA;
-  final String idB;
-  final String idC;
-  final String idD;
+  final String? idA;
+  final String? idB;
+  final String? idC;
+  final String? idD;
   final String plotId;
+  final Datum plotData;
 
   @override
   State<SummaryPageViews> createState() => _SummaryPageViewsState();
@@ -24,13 +26,15 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
 
   final Connectivity _connectivity = Connectivity();
-  // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
+  // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
 
   final SubPlotController _subPlotController = Get.find();
   final PlotController _plotController = Get.find();
   final SummarySubplotController _summaryController = Get.find();
+
+  DateTime today = DateTime.now();
 
   double valCarbonA = 0.0;
   double valCarbonASemai = 0.0;
@@ -69,12 +73,10 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
       return;
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) {
       return Future.value(null);
     }
+
     return _updateConnectionStatus(result);
   }
 
@@ -87,6 +89,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
   @override
   void initState() {
     initConnectivity();
+
     _connectivity.onConnectivityChanged.listen(
       _updateConnectionStatus,
     );
@@ -126,74 +129,71 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
 
       if (_connectionStatus == ConnectivityResult.mobile ||
           _connectionStatus == ConnectivityResult.wifi) {
-        Future.delayed(
-          const Duration(seconds: 10),
-          () {
-            _summaryController.postSubPlotA(
-              uuid: plotAFiltered.uuid.toString(),
-              plotId: plotAFiltered.plotId,
-              areaName: plotAFiltered.areaName,
-              plotName: plotAFiltered.plotName,
-              updatedAt: DateTime.now(),
-            );
-
-            if (plotAFiltered.subPlotAModels![0] != null) {
-              _summaryController.postSubPlotAParts(
-                part: 'Semai',
-                uuid: plotAFiltered.subPlotAModels![0].uuid.toString(),
-                plotAuuid: plotAFiltered.uuid.toString(),
-                plotId: plotAFiltered.plotId,
-                areaName: plotAFiltered.areaName,
-                plotName: plotAFiltered.plotName,
-                basahTotal: plotAFiltered.subPlotAModels![0].basahTotal,
-                keringTotal: plotAFiltered.subPlotAModels![0].keringTotal,
-                basahSample: plotAFiltered.subPlotAModels![0].basahSample,
-                keringSample: plotAFiltered.subPlotAModels![0].keringSample,
-                carbonValue: valCarbonASemai,
-                carbonAbsorb: valAbsorbASemai,
-                updatedAt: DateTime.now(),
-              );
-            }
-
-            if (plotAFiltered.subPlotAModels![1] != null) {
-              _summaryController.postSubPlotAParts(
-                part: 'Seresah',
-                uuid: plotAFiltered.subPlotAModels![1].uuid.toString(),
-                plotAuuid: plotAFiltered.uuid.toString(),
-                plotId: plotAFiltered.plotId,
-                areaName: plotAFiltered.areaName,
-                plotName: plotAFiltered.plotName,
-                basahTotal: plotAFiltered.subPlotAModels![1].basahTotal,
-                keringTotal: plotAFiltered.subPlotAModels![1].keringTotal,
-                basahSample: plotAFiltered.subPlotAModels![1].basahSample,
-                keringSample: plotAFiltered.subPlotAModels![1].keringSample,
-                carbonValue: valCarbonASeresah,
-                carbonAbsorb: valAbsorbASeresah,
-                updatedAt: DateTime.now(),
-              );
-            }
-
-            if (plotAFiltered.subPlotAModels![2] != null) {
-              _summaryController.postSubPlotAParts(
-                part: 'Bawah',
-                uuid: plotAFiltered.subPlotAModels![2].uuid.toString(),
-                plotAuuid: plotAFiltered.uuid.toString(),
-                plotId: plotAFiltered.plotId,
-                areaName: plotAFiltered.areaName,
-                plotName: plotAFiltered.plotName,
-                basahTotal: plotAFiltered.subPlotAModels![2].basahTotal,
-                keringTotal: plotAFiltered.subPlotAModels![2].keringTotal,
-                basahSample: plotAFiltered.subPlotAModels![2].basahSample,
-                keringSample: plotAFiltered.subPlotAModels![2].keringSample,
-                carbonValue: valCarbonATumbuhan,
-                carbonAbsorb: valAbsorbATumbuhan,
-                updatedAt: DateTime.now(),
-              );
-            }
-
-            d.log('A submit', name: 'test-post');
-          },
+        _summaryController.postSubPlotA(
+          uuid: plotAFiltered.uuid.toString(),
+          plotId: plotAFiltered.plotId,
+          areaName: plotAFiltered.areaName,
+          plotName: plotAFiltered.plotName,
+          updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
         );
+
+        if (plotAFiltered.subPlotAModels![0] != null) {
+          _summaryController.postSubPlotAParts(
+            part: 'Semai',
+            uuid: plotAFiltered.subPlotAModels![0].uuid.toString(),
+            plotAuuid: plotAFiltered.uuid.toString(),
+            plotId: plotAFiltered.plotId,
+            areaName: plotAFiltered.areaName,
+            plotName: plotAFiltered.plotName,
+            basahTotal: plotAFiltered.subPlotAModels![0].basahTotal,
+            keringTotal: plotAFiltered.subPlotAModels![0].keringTotal,
+            basahSample: plotAFiltered.subPlotAModels![0].basahSample,
+            keringSample: plotAFiltered.subPlotAModels![0].keringSample,
+            carbonValue: valCarbonASemai,
+            carbonAbsorb: valAbsorbASemai,
+            updatedAt:
+                DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
+          );
+        }
+
+        if (plotAFiltered.subPlotAModels![1] != null) {
+          _summaryController.postSubPlotAParts(
+            part: 'Seresah',
+            uuid: plotAFiltered.subPlotAModels![1].uuid.toString(),
+            plotAuuid: plotAFiltered.uuid.toString(),
+            plotId: plotAFiltered.plotId,
+            areaName: plotAFiltered.areaName,
+            plotName: plotAFiltered.plotName,
+            basahTotal: plotAFiltered.subPlotAModels![1].basahTotal,
+            keringTotal: plotAFiltered.subPlotAModels![1].keringTotal,
+            basahSample: plotAFiltered.subPlotAModels![1].basahSample,
+            keringSample: plotAFiltered.subPlotAModels![1].keringSample,
+            carbonValue: valCarbonASeresah,
+            carbonAbsorb: valAbsorbASeresah,
+            updatedAt:
+                DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
+          );
+        }
+
+        if (plotAFiltered.subPlotAModels![2] != null) {
+          _summaryController.postSubPlotAParts(
+            part: 'Bawah',
+            uuid: plotAFiltered.subPlotAModels![2].uuid.toString(),
+            plotAuuid: plotAFiltered.uuid.toString(),
+            plotId: plotAFiltered.plotId,
+            areaName: plotAFiltered.areaName,
+            plotName: plotAFiltered.plotName,
+            basahTotal: plotAFiltered.subPlotAModels![2].basahTotal,
+            keringTotal: plotAFiltered.subPlotAModels![2].keringTotal,
+            basahSample: plotAFiltered.subPlotAModels![2].basahSample,
+            keringSample: plotAFiltered.subPlotAModels![2].keringSample,
+            carbonValue: valCarbonATumbuhan,
+            carbonAbsorb: valAbsorbATumbuhan,
+            updatedAt:
+                DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
+          );
+        }
+        // d.log('A submit $plotAFiltered', name: 'test-post');
       }
     }
 
@@ -208,28 +208,22 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
 
       if (_connectionStatus == ConnectivityResult.mobile ||
           _connectionStatus == ConnectivityResult.wifi) {
-        Future.delayed(
-          const Duration(seconds: 10),
-          () {
-            _summaryController.postSubPlotB(
-              uuid: plotBFiltered.uuid.toString(),
-              plotId: plotBFiltered.plotId,
-              areaName: plotBFiltered.areaName,
-              plotName: plotBFiltered.plotName,
-              localName: plotBFiltered.localName,
-              bioName: plotBFiltered.bioName,
-              keliling: plotBFiltered.keliling,
-              diameter: plotBFiltered.diameter,
-              kerapatankayu: plotBFiltered.kerapatanKayu,
-              biomass: plotBFiltered.biomassLand,
-              carbonValue: valCarbonB,
-              carbonAbsorb: valAbsorbB,
-              updatedAt: DateTime.now(),
-            );
-
-            d.log('B submit', name: 'test-post');
-          },
+        _summaryController.postSubPlotB(
+          uuid: plotBFiltered.uuid.toString(),
+          plotId: plotBFiltered.plotId,
+          areaName: plotBFiltered.areaName,
+          plotName: plotBFiltered.plotName,
+          localName: plotBFiltered.localName,
+          bioName: plotBFiltered.bioName,
+          keliling: plotBFiltered.keliling,
+          diameter: plotBFiltered.diameter,
+          kerapatankayu: plotBFiltered.kerapatanKayu,
+          biomass: plotBFiltered.biomassLand,
+          carbonValue: valCarbonB,
+          carbonAbsorb: valAbsorbB,
+          updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
         );
+        // d.log('B submit', name: 'test-post');
       }
     }
 
@@ -242,28 +236,22 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
       valCarbonC = plotCFiltered.carbonValue;
       valAbsorbC = plotCFiltered.carbonAbsorb;
 
-      Future.delayed(
-        const Duration(seconds: 10),
-        () {
-          _summaryController.postSubPlotC(
-            uuid: plotCFiltered.uuid.toString(),
-            plotId: plotCFiltered.plotId,
-            areaName: plotCFiltered.areaName,
-            plotName: plotCFiltered.plotName,
-            localName: plotCFiltered.localName,
-            bioName: plotCFiltered.bioName,
-            keliling: plotCFiltered.keliling,
-            diameter: plotCFiltered.diameter,
-            kerapatankayu: plotCFiltered.kerapatanKayu,
-            biomass: plotCFiltered.biomassLand,
-            carbonValue: valCarbonC,
-            carbonAbsorb: valAbsorbC,
-            updatedAt: DateTime.now(),
-          );
-
-          d.log('C submit', name: 'test-post');
-        },
+      _summaryController.postSubPlotC(
+        uuid: plotCFiltered.uuid.toString(),
+        plotId: plotCFiltered.plotId,
+        areaName: plotCFiltered.areaName,
+        plotName: plotCFiltered.plotName,
+        localName: plotCFiltered.localName,
+        bioName: plotCFiltered.bioName,
+        keliling: plotCFiltered.keliling,
+        diameter: plotCFiltered.diameter,
+        kerapatankayu: plotCFiltered.kerapatanKayu,
+        biomass: plotCFiltered.biomassLand,
+        carbonValue: valCarbonC,
+        carbonAbsorb: valAbsorbC,
+        updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
       );
+      // d.log('C submit', name: 'test-post');
     }
 
     if (widget.idD != '') {
@@ -279,7 +267,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
           ? plotDFiltered.subPlotDModels![1].carbonValue
           : 0.0;
       valCarbonDTanah = plotDFiltered.subPlotDModels![2] != null
-          ? plotDFiltered.subPlotDModels![2].carbonValue
+          ? plotDFiltered.subPlotDModels![2].carbonTon
           : 0.0;
 
       valAbsorbDPohon = plotDFiltered.subPlotDModels![0] != null
@@ -295,81 +283,75 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
       valCarbonD = valCarbonDPohon + valCarbonDNekromas + valCarbonDTanah;
       valAbsorbD = valAbsorbDPohon + valAbsorbDNekromas + valAbsorbDTanah;
 
-      Future.delayed(
-        const Duration(seconds: 10),
-        () {
-          _summaryController.postSubPlotD(
-            uuid: plotDFiltered.uuid.toString(),
-            plotId: plotDFiltered.plotId,
-            areaName: plotDFiltered.areaName,
-            plotName: plotDFiltered.plotName,
-            updatedAt: DateTime.now(),
-          );
-
-          if (plotDFiltered.subPlotDModels![0] != null) {
-            _summaryController.postSubPlotDPohon(
-              uuid: plotDFiltered.uuid.toString(),
-              plotDuuid: plotDFiltered.subPlotDModels![0].uuid.toString(),
-              plotId: plotDFiltered.plotId,
-              areaName: plotDFiltered.areaName,
-              plotName: plotDFiltered.plotName,
-              localName: plotDFiltered.subPlotDModels![0].localName,
-              bioName: plotDFiltered.subPlotDModels![0].bioName,
-              keliling: plotDFiltered.subPlotDModels![0].keliling,
-              diameter: plotDFiltered.subPlotDModels![0].diameter,
-              kerapatankayu: plotDFiltered.subPlotDModels![0].kerapatanKayu,
-              biomass: plotDFiltered.subPlotDModels![0].biomassLand,
-              carbonValue: valCarbonDPohon,
-              carbonAbsorb: valAbsorbDPohon,
-              updatedAt: DateTime.now(),
-            );
-          }
-
-          if (plotDFiltered.subPlotDModels![1] != null) {
-            _summaryController.postSubPlotDNekromas(
-              uuid: plotDFiltered.uuid.toString(),
-              plotDuuid: plotDFiltered.subPlotDModels![1].uuid.toString(),
-              plotId: plotDFiltered.plotId,
-              areaName: plotDFiltered.areaName,
-              plotName: plotDFiltered.plotName,
-              diameterPangkal: plotDFiltered.subPlotDModels![1].diameterPangkal,
-              diameterUjung: plotDFiltered.subPlotDModels![1].diameterUjung,
-              panjang: plotDFiltered.subPlotDModels![1].panjang,
-              volume: plotDFiltered.subPlotDModels![1].volume,
-              biomass: plotDFiltered.subPlotDModels![1].biomassLand,
-              carbonValue: valCarbonDNekromas,
-              carbonAbsorb: valAbsorbDNekromas,
-              updatedAt: DateTime.now(),
-            );
-          }
-
-          if (plotDFiltered.subPlotDModels![2] != null) {
-            _summaryController.postSubPlotDTanah(
-              uuid: plotDFiltered.uuid.toString(),
-              plotDuuid: plotDFiltered.subPlotDModels![2].uuid.toString(),
-              plotId: plotDFiltered.plotId,
-              areaName: plotDFiltered.areaName,
-              plotName: plotDFiltered.plotName,
-              kedalamanSample: plotDFiltered.subPlotDModels![2].kedalamanSample,
-              beratJenis: plotDFiltered.subPlotDModels![2].beratJenisTanah,
-              organikCTanah: plotDFiltered.subPlotDModels![2].organicTanah,
-              carbonGrCm: plotDFiltered.subPlotDModels![2].carbonGrCm,
-              carbonTonHa: plotDFiltered.subPlotDModels![2].carbonTonHa,
-              carbonTon: plotDFiltered.subPlotDModels![2].carbonTon,
-              carbonAbsorb: valAbsorbDTanah,
-              updatedAt: DateTime.now(),
-            );
-          }
-
-          d.log('D submit', name: 'test-post');
-        },
+      // Plot D
+      _summaryController.postSubPlotD(
+        uuid: plotDFiltered.uuid.toString(),
+        plotId: plotDFiltered.plotId,
+        areaName: plotDFiltered.areaName,
+        plotName: plotDFiltered.plotName,
+        updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
       );
+
+      if (plotDFiltered.subPlotDModels![0] != null) {
+        _summaryController.postSubPlotDPohon(
+          uuid: plotDFiltered.uuid.toString(),
+          plotDuuid: plotDFiltered.subPlotDModels![0].uuid.toString(),
+          plotId: plotDFiltered.plotId,
+          areaName: plotDFiltered.areaName,
+          plotName: plotDFiltered.plotName,
+          localName: plotDFiltered.subPlotDModels![0].localName,
+          bioName: plotDFiltered.subPlotDModels![0].bioName,
+          keliling: plotDFiltered.subPlotDModels![0].keliling,
+          diameter: plotDFiltered.subPlotDModels![0].diameter,
+          kerapatankayu: plotDFiltered.subPlotDModels![0].kerapatanKayu,
+          biomass: plotDFiltered.subPlotDModels![0].biomassLand,
+          carbonValue: valCarbonDPohon,
+          carbonAbsorb: valAbsorbDPohon,
+          updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
+        );
+      }
+
+      if (plotDFiltered.subPlotDModels![1] != null) {
+        _summaryController.postSubPlotDNekromas(
+          uuid: plotDFiltered.uuid.toString(),
+          plotDuuid: plotDFiltered.subPlotDModels![1].uuid.toString(),
+          plotId: plotDFiltered.plotId,
+          areaName: plotDFiltered.areaName,
+          plotName: plotDFiltered.plotName,
+          diameterPangkal: plotDFiltered.subPlotDModels![1].diameterPangkal,
+          diameterUjung: plotDFiltered.subPlotDModels![1].diameterUjung,
+          panjang: plotDFiltered.subPlotDModels![1].panjang,
+          volume: plotDFiltered.subPlotDModels![1].volume,
+          biomass: plotDFiltered.subPlotDModels![1].biomassLand,
+          carbonValue: valCarbonDNekromas,
+          carbonAbsorb: valAbsorbDNekromas,
+          updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
+        );
+      }
+
+      if (plotDFiltered.subPlotDModels![2] != null) {
+        _summaryController.postSubPlotDTanah(
+          uuid: plotDFiltered.uuid.toString(),
+          plotDuuid: plotDFiltered.subPlotDModels![2].uuid.toString(),
+          plotId: plotDFiltered.plotId,
+          areaName: plotDFiltered.areaName,
+          plotName: plotDFiltered.plotName,
+          kedalamanSample: plotDFiltered.subPlotDModels![2].kedalamanSample,
+          beratJenis: plotDFiltered.subPlotDModels![2].beratJenisTanah,
+          organikCTanah: plotDFiltered.subPlotDModels![2].organicTanah,
+          carbonGrCm: plotDFiltered.subPlotDModels![2].carbonGrCm,
+          carbonTonHa: plotDFiltered.subPlotDModels![2].carbonTonHa,
+          carbonTon: plotDFiltered.subPlotDModels![2].carbonTon,
+          carbonAbsorb: valAbsorbDTanah,
+          updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
+        );
+      }
+      // d.log('D submit', name: 'test-post');
     }
 
     subCarbonAbsorb.value = valAbsorbA + valAbsorbB + valAbsorbC + valAbsorbD;
     subCarbonValue.value = valCarbonA + valCarbonB + valCarbonC + valCarbonD;
-
-    // d.log('${subCarbonValue.value} ${subCarbonAbsorb.value}', name: 'test');
+    d.log('${subCarbonAbsorb.value} ${subCarbonValue.value}', name: 'test');
 
     return Scaffold(
       backgroundColor: colorPrimaryBackground,
@@ -400,7 +382,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
             children: [
               SizedBox(
                 width: 1.sw,
-                height: 280.h,
+                height: 215.h,
                 child: Card(
                   elevation: 0,
                   child: Padding(
@@ -549,28 +531,12 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                 color: colorPrimaryBlack,
               ),
             ),
-            ValueListenableBuilder(
-              valueListenable: _plotController.contactBox.listenable(),
-              builder: (context, box, _) {
-                if (box.isNotEmpty) {
-                  return Text(
-                    '${box.getAt(box.length - 1)?.plotLat.toStringAsFixed(5)}'
-                    ' ${box.getAt(box.length - 1)?.plotLng.toStringAsFixed(5)}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                } else {
-                  return Text(
-                    'No data',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                }
-              },
+            Text(
+              '${widget.plotData.latitude}, ${widget.plotData.longitude}',
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: colorPrimaryBlack,
+              ),
             ),
           ],
         ),
@@ -585,100 +551,85 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                 color: colorPrimaryBlack,
               ),
             ),
-            ValueListenableBuilder(
-              valueListenable: _plotController.contactBox.listenable(),
-              builder: (context, box, _) {
-                if (box.isNotEmpty) {
-                  return Text(
-                    '${box.getAt(box.length - 1)?.plotSize}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                } else {
-                  return Text(
-                    'No data',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
-        SizedBox(height: 16.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
             Text(
-              'Rataan Biomasa',
+              widget.plotData.plot.ukuranPlot,
               style: TextStyle(
                 fontSize: 12.sp,
                 color: colorPrimaryBlack,
               ),
             ),
-            ValueListenableBuilder(
-              valueListenable: _plotController.contactBox.listenable(),
-              builder: (context, box, _) {
-                if (box.isNotEmpty) {
-                  return Text(
-                    '${box.getAt(box.length - 1)?.biomassAvg}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                } else {
-                  return Text(
-                    'No data',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                }
-              },
-            ),
           ],
         ),
-        SizedBox(height: 16.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Standar Deviasi Biomasa',
-              style: TextStyle(
-                fontSize: 12.sp,
-                color: colorPrimaryBlack,
-              ),
-            ),
-            ValueListenableBuilder(
-              valueListenable: _plotController.contactBox.listenable(),
-              builder: (context, box, _) {
-                if (box.isNotEmpty) {
-                  return Text(
-                    '${box.getAt(box.length - 1)?.biomassStd}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                } else {
-                  return Text(
-                    'No data',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
+        // SizedBox(height: 16.h),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Text(
+        //       'Rataan Biomasa',
+        //       style: TextStyle(
+        //         fontSize: 12.sp,
+        //         color: colorPrimaryBlack,
+        //       ),
+        //     ),
+        //     ValueListenableBuilder(
+        //       valueListenable: _plotController.contactBox.listenable(),
+        //       builder: (context, box, _) {
+        //         if (box.isNotEmpty) {
+        //           return Text(
+        //             '${box.getAt(box.length - 1)?.biomassAvg}',
+        //             style: TextStyle(
+        //               fontSize: 12.sp,
+        //               color: colorPrimaryBlack,
+        //             ),
+        //           );
+        //         } else {
+        //           return Text(
+        //             'No data',
+        //             style: TextStyle(
+        //               fontSize: 12.sp,
+        //               color: colorPrimaryBlack,
+        //             ),
+        //           );
+        //         }
+        //       },
+        //     ),
+        //   ],
+        // ),
+        // SizedBox(height: 16.h),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Text(
+        //       'Standar Deviasi Biomasa',
+        //       style: TextStyle(
+        //         fontSize: 12.sp,
+        //         color: colorPrimaryBlack,
+        //       ),
+        //     ),
+        //     ValueListenableBuilder(
+        //       valueListenable: _plotController.contactBox.listenable(),
+        //       builder: (context, box, _) {
+        //         if (box.isNotEmpty) {
+        //           return Text(
+        //             '${box.getAt(box.length - 1)?.biomassStd}',
+        //             style: TextStyle(
+        //               fontSize: 12.sp,
+        //               color: colorPrimaryBlack,
+        //             ),
+        //           );
+        //         } else {
+        //           return Text(
+        //             'No data',
+        //             style: TextStyle(
+        //               fontSize: 12.sp,
+        //               color: colorPrimaryBlack,
+        //             ),
+        //           );
+        //         }
+        //       },
+        //     ),
+        //   ],
+        // ),
         SizedBox(height: 16.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -691,28 +642,13 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                 color: colorPrimaryBlack,
               ),
             ),
-            ValueListenableBuilder(
-              valueListenable: _plotController.contactBox.listenable(),
-              builder: (context, box, _) {
-                if (box.isNotEmpty) {
-                  return Text(
-                    subCarbonValue.toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                } else {
-                  return Text(
-                    'No data',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                }
-              },
+            Text(
+              subCarbonValue.toStringAsFixed(2),
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
+                color: colorPrimaryBlack,
+              ),
             ),
           ],
         ),
@@ -728,28 +664,13 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                 color: colorPrimaryBlack,
               ),
             ),
-            ValueListenableBuilder(
-              valueListenable: _plotController.contactBox.listenable(),
-              builder: (context, box, _) {
-                if (box.isNotEmpty) {
-                  return Text(
-                    subCarbonAbsorb.toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                } else {
-                  return Text(
-                    'No data',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                }
-              },
+            Text(
+              subCarbonAbsorb.toStringAsFixed(2),
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
+                color: colorPrimaryBlack,
+              ),
             ),
           ],
         ),
@@ -775,13 +696,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                   _subPlotController.contactASeresahBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    '${(box.getAt(box.length - 1)?.carbonValue)?.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonValue)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -811,13 +749,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                   _subPlotController.contactATumbuhanBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    '${(box.getAt(box.length - 1)?.carbonValue)?.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonValue)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -846,13 +801,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               valueListenable: _subPlotController.contactASemaiBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    '${(box.getAt(box.length - 1)?.carbonValue)?.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonValue)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -881,13 +853,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               valueListenable: _subPlotController.contactBBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    '${(box.getAt(box.length - 1)?.carbonValue)?.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonValue)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -916,13 +905,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               valueListenable: _subPlotController.contactCBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    '${(box.getAt(box.length - 1)?.carbonValue)?.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonValue)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -951,13 +957,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               valueListenable: _subPlotController.contactDPohonBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    '${(box.getAt(box.length - 1)?.carbonValue)?.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonValue)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -987,13 +1010,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                   _subPlotController.contactDNekromasBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    '${(box.getAt(box.length - 1)?.carbonValue)?.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonValue)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -1022,13 +1062,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               valueListenable: _subPlotController.contactDTanahBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    '${(box.getAt(box.length - 1)?.carbonTon)?.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonTon)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -1054,28 +1111,13 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                 color: colorPrimaryBlack,
               ),
             ),
-            ValueListenableBuilder(
-              valueListenable: _plotController.contactBox.listenable(),
-              builder: (context, box, _) {
-                if (box.isNotEmpty) {
-                  return Text(
-                    subCarbonValue.toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                } else {
-                  return Text(
-                    'No data',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                }
-              },
+            Text(
+              subCarbonValue.toStringAsFixed(2),
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
+                color: colorPrimaryBlack,
+              ),
             ),
           ],
         ),
@@ -1101,15 +1143,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                   _subPlotController.contactASeresahBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    _sharedPref
-                        .getDouble('absorb_a_seresah')
-                        .toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonAbsorb)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -1139,15 +1196,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                   _subPlotController.contactATumbuhanBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    _sharedPref
-                        .getDouble('absorb_a_tumbuhan')
-                        .toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonAbsorb)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -1176,13 +1248,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               valueListenable: _subPlotController.contactASemaiBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    _sharedPref.getDouble('absorb_a_semai').toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonAbsorb)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -1211,13 +1300,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               valueListenable: _subPlotController.contactBBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    _sharedPref.getDouble('absorb_b').toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonAbsorb)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -1246,13 +1352,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               valueListenable: _subPlotController.contactCBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    _sharedPref.getDouble('absorb_c').toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonAbsorb)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -1281,13 +1404,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               valueListenable: _subPlotController.contactDPohonBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    _sharedPref.getDouble('absorb_d_pohon').toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonAbsorb)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -1317,15 +1457,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                   _subPlotController.contactDNekromasBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    _sharedPref
-                        .getDouble('absorb_d_nekromas')
-                        .toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonAbsorb)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -1354,13 +1509,30 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               valueListenable: _subPlotController.contactDTanahBox.listenable(),
               builder: (context, box, _) {
                 if (box.isNotEmpty) {
-                  return Text(
-                    _sharedPref.getDouble('absorb_d_tanah').toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
+                  if (box.values.toList().indexWhere((element) =>
+                          element.plotId == widget.plotData.id.toString()) !=
+                      -1) {
+                    return Text(
+                      (box.values
+                              .lastWhere((element) =>
+                                  element.plotId ==
+                                  widget.plotData.id.toString())
+                              .carbonAbsorb)
+                          .toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      'No data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: colorPrimaryBlack,
+                      ),
+                    );
+                  }
                 } else {
                   return Text(
                     'No data',
@@ -1386,28 +1558,13 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                 color: colorPrimaryBlack,
               ),
             ),
-            ValueListenableBuilder(
-              valueListenable: _plotController.contactBox.listenable(),
-              builder: (context, box, _) {
-                if (box.isNotEmpty) {
-                  return Text(
-                    subCarbonAbsorb.toStringAsFixed(2),
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                } else {
-                  return Text(
-                    'No data',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: colorPrimaryBlack,
-                    ),
-                  );
-                }
-              },
+            Text(
+              subCarbonAbsorb.toStringAsFixed(2),
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
+                color: colorPrimaryBlack,
+              ),
             ),
           ],
         ),

@@ -26,14 +26,18 @@ class SubPlot {
   });
 
   factory SubPlot.fromJson(Map<String, dynamic> json) => SubPlot(
-    status: json['status'],
-    message: json['message'],
-    data: List<dynamic>.from(json['data'].map((x) => x)),
-  );
+        status: json['status'],
+        message: json['message'],
+        data: List<dynamic>.from(json['data'].map((x) => x)),
+      );
 
   Map<String, dynamic> toJson() => {
-    'status': status,
-    'message': message,
-    'data': List<dynamic>.from(data.map((x) => x)),
-  };
+        'status': status,
+        'message': message,
+        'data': List<dynamic>.from(data.map((x) => x)),
+      };
+
+  @override
+  String toString() =>
+      'SubPlot{status: $status, message: $message, data: $data}';
 }

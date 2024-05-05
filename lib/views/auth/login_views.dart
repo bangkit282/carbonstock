@@ -128,22 +128,37 @@ class _LoginScreenViewsState extends State<LoginScreenViews> {
                   _controller.postLogin(email: email, password: password).then(
                     (value) {
                       if (value.status == true) {
-                        d.log(value.data.toString(), name: 'login');
+                        List<ListPlotModel> listPlot = value.data.listplot
+                            .map(
+                              (e) => ListPlotModel(
+                                id: e.id,
+                                idHamparan: e.idHamparan,
+                                namaPlot: e.namaPlot,
+                                typePlot: e.typePlot,
+                                latitude: e.latitude ?? '-6.859973002',
+                                longitude: e.longitude ?? '107.62911',
+                                createdAt: e.createdAt,
+                                updatedAt: e.updatedAt,
+                                deletedAt: e.deletedAt,
+                              ),
+                            )
+                            .toList();
 
                         UserModel user = UserModel(
-                          id: value.data['id'],
-                          nama: value.data['nama'],
-                          tempatLahir: value.data['tempatLahir'],
-                          tanggalLahir: value.data['tanggalLahir'],
-                          telepon: value.data['telepon'],
-                          jenisKelamin: value.data['jenisKelamin'],
-                          email: value.data['email'],
-                          password: value.data['password'],
-                          createdAt: value.data['createdAt'],
-                          updatedAt: value.data['updatedAt'],
-                          deletedAt: value.data['deletedAt'],
-                          isActive: value.data['isActive'],
-                          role: value.data['role'],
+                          id: value.data.id,
+                          nama: value.data.nama,
+                          tempatLahir: value.data.tempatLahir,
+                          tanggalLahir: value.data.tanggalLahir,
+                          telepon: value.data.telepon,
+                          jenisKelamin: value.data.jenisKelamin,
+                          email: value.data.email,
+                          password: value.data.password,
+                          createdAt: value.data.createdAt,
+                          updatedAt: value.data.updatedAt,
+                          deletedAt: value.data.deletedAt,
+                          isActive: value.data.isActive,
+                          role: value.data.role,
+                          listplot: listPlot,
                         );
 
                         _controller.insertUser(user);
@@ -154,6 +169,7 @@ class _LoginScreenViewsState extends State<LoginScreenViews> {
                           backgroundColor: colorSecondaryGrey1,
                         );
 
+                        _sharedPrefs.putString('id', value.data.id);
                         _sharedPrefs.putInt('isLogin', 1);
                         Get.offAll(() => const PlotAreaScreenViews());
                       } else {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carbonstock/data/api/client/subplot/summary_service.dart';
 import 'package:carbonstock/data/api/response/subplot/subplot_response.dart';
 import 'package:dio/dio.dart';
@@ -24,10 +26,9 @@ class SummarySubplotController extends GetxController {
     );
 
     response.fold((l) {
-      return l;
+      log(l.message, name: 'summary-controller-a');
     }, (r) {
       res = r;
-      return r;
     });
 
     return res;
@@ -67,13 +68,12 @@ class SummarySubplotController extends GetxController {
       );
 
       response.fold((l) {
-        return l;
+        log(l.message, name: 'summary-controller-semai');
       }, (r) {
         res = r;
-        return r;
       });
 
-      return res;
+      // return res;
     }
 
     if (part == 'Seresah') {
@@ -93,13 +93,12 @@ class SummarySubplotController extends GetxController {
       );
 
       response.fold((l) {
-        return l;
+        log(l.message, name: 'summary-controller-seresah');
       }, (r) {
         res = r;
-        return r;
       });
 
-      return res;
+      // return res;
     }
 
     if (part == 'Bawah') {
@@ -119,13 +118,15 @@ class SummarySubplotController extends GetxController {
       );
 
       response.fold((l) {
-        return l;
+        log(l.message, name: 'summary-controller-tumbuhan');
       }, (r) {
         res = r;
-        return r;
       });
+
+      // return res;
     }
 
+    log('postSubPlotAPart: $res', name: 'summary-controller');
     return res;
   }
 
@@ -163,12 +164,12 @@ class SummarySubplotController extends GetxController {
     );
 
     response.fold((l) {
-      return l;
+      log(l.message, name: 'summary-controller-b');
     }, (r) {
       res = r;
-      return r;
     });
 
+    log('postSubPlotB: $res', name: 'summary-controller');
     return res;
   }
 
@@ -206,12 +207,12 @@ class SummarySubplotController extends GetxController {
     );
 
     response.fold((l) {
-      return l;
+      log(l.message, name: 'summary-controller-c');
     }, (r) {
       res = r;
-      return r;
     });
 
+    log('postSubPlotC: $res', name: 'summary-controller');
     return res;
   }
 
@@ -233,12 +234,12 @@ class SummarySubplotController extends GetxController {
     );
 
     response.fold((l) {
-      return l;
+      log(l.message, name: 'summary-controller-d');
     }, (r) {
       res = r;
-      return r;
     });
 
+    log('postSubPlotD: $res', name: 'summary-controller');
     return res;
   }
 
@@ -278,12 +279,12 @@ class SummarySubplotController extends GetxController {
     );
 
     response.fold((l) {
-      return l;
+      log(l.message, name: 'summary-controller-pohon');
     }, (r) {
       res = r;
-      return r;
     });
 
+    log('postSubPlotDPohon: $res', name: 'summary-controller');
     return res;
   }
 
@@ -321,12 +322,12 @@ class SummarySubplotController extends GetxController {
     );
 
     response.fold((l) {
-      return l;
+      log(l.message, name: 'summary-controller-nekromas');
     }, (r) {
       res = r;
-      return r;
     });
 
+    log('postSubPlotDNekromas: $res', name: 'summary-controller');
     return res;
   }
 
@@ -364,12 +365,12 @@ class SummarySubplotController extends GetxController {
     );
 
     response.fold((l) {
-      return l;
+      log(l.message, name: 'summary-controller-tanah');
     }, (r) {
       res = r;
-      return r;
     });
 
+    log('postSubPlotDTanah: $res', name: 'summary-controller');
     return res;
   }
 }

@@ -1,13 +1,21 @@
 import 'dart:developer';
 
+import 'package:carbonstock/data/api/client/plot/plot_service.dart';
+import 'package:carbonstock/data/api/response/plot/plot_response.dart';
 import 'package:carbonstock/data/local/localdb/plot/plot_db.dart';
 import 'package:carbonstock/data/local/model/plot/plot_model.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PlotController extends GetxController {
   RxString pickedImage = ''.obs;
   RxBool isLoading = false.obs;
+
+  final _plotService = PlotService(dio: Dio());
+  final contactBox = PlotDB.plotBox;
+
+  Plot plot = Plot();
 
   Future pickImageFromGallery() async {
     final picker = ImagePicker();
@@ -20,7 +28,20 @@ class PlotController extends GetxController {
     }
   }
 
-  final contactBox = PlotDB.plotBox;
+  Future getAllPlot() async {
+    final response = await _plotService.getAllPlot();
+
+    response.fold(
+      (l) {
+        log(l.message, name: 'plot-controller');
+      },
+      (r) {
+        plot = r;
+      },
+    );
+
+    return plot;
+  }
 
   Future<void> insertPlot(PlotModel plotModel) async {
     final PlotModel plot = PlotModel(

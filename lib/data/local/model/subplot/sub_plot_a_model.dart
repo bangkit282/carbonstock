@@ -29,6 +29,7 @@ class SubPlotAreaAModel extends HiveObject {
   @override
   String toString() {
     return '''
+      uuid: $uuid,
       areaName: $areaName,
       plotName: $plotName,
       subPlotAList: $subPlotAModels,
