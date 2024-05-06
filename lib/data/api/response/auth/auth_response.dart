@@ -93,7 +93,7 @@ class Data {
         isActive: json['is_active'],
         role: json['role'],
         listTim: List<ListTim>.from(
-            json["list_tim"].map((x) => ListTim.fromJson(x))),
+            json['list_tim'].map((x) => ListTim.fromJson(x))),
         listplot: List<Listplot>.from(
             json['listplot'].map((x) => Listplot.fromJson(x))),
       );
@@ -112,7 +112,7 @@ class Data {
         'deleted_at': deletedAt ?? '',
         'is_active': isActive,
         'role': role,
-        "list_tim": List<dynamic>.from(listTim.map((x) => x.toJson())),
+        'list_tim': List<dynamic>.from(listTim.map((x) => x.toJson())),
         'listplot': List<dynamic>.from(listplot.map((x) => x.toJson())),
       };
 

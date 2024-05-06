@@ -458,24 +458,6 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                               areaName: widget.areaName,
                             ),
                           );
-                          // Navigator.push(
-                          //   context,
-                          //   PageRouteBuilder(
-                          //     pageBuilder: (_, __, ___) =>
-                          //         DetailSubPlotBPageScreen(
-                          //       indexB: indexB.value,
-                          //       plotId: widget.plotData.id.toString(),
-                          //       areaName: widget.areaName,
-                          //       plotName: widget.plotData.namaPlot,
-                          //     ),
-                          //     transitionsBuilder: (_, animation, __, child) {
-                          //       return FadeTransition(
-                          //         opacity: animation,
-                          //         child: child,
-                          //       );
-                          //     },
-                          //   ),
-                          // );
                         },
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -500,24 +482,6 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                             areaName: widget.areaName,
                           ),
                         );
-                        // Navigator.push(
-                        //   context,
-                        //   PageRouteBuilder(
-                        //     pageBuilder: (_, __, ___) =>
-                        //         DetailSubPlotBPageScreen(
-                        //       indexB: indexB.value,
-                        //       plotId: widget.plotData.id.toString(),
-                        //       areaName: widget.areaName,
-                        //       plotName: widget.plotData.namaPlot,
-                        //     ),
-                        //     transitionsBuilder: (_, animation, __, child) {
-                        //       return FadeTransition(
-                        //         opacity: animation,
-                        //         child: child,
-                        //       );
-                        //     },
-                        //   ),
-                        // );
                       },
                       style: TextButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -562,29 +526,11 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       child: TextButton(
                         onPressed: () {
                           Get.to(
-                                () => SubPlotCListPageViews(
+                            () => SubPlotCListPageViews(
                               plotData: widget.plotData,
                               areaName: widget.areaName,
                             ),
                           );
-                          // Navigator.push(
-                          //   context,
-                          //   PageRouteBuilder(
-                          //     pageBuilder: (_, __, ___) =>
-                          //         DetailSubPlotCPageScreen(
-                          //       indexC: indexC.value,
-                          //       plotId: widget.plotData.id.toString(),
-                          //       areaName: widget.areaName,
-                          //       plotName: widget.plotData.namaPlot,
-                          //     ),
-                          //     transitionsBuilder: (_, animation, __, child) {
-                          //       return FadeTransition(
-                          //         opacity: animation,
-                          //         child: child,
-                          //       );
-                          //     },
-                          //   ),
-                          // );
                         },
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -604,7 +550,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                   : TextButton(
                       onPressed: () {
                         Get.to(
-                              () => SubPlotCListPageViews(
+                          () => SubPlotCListPageViews(
                             plotData: widget.plotData,
                             areaName: widget.areaName,
                           ),
@@ -661,6 +607,9 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
               .toList()
               .obs;
 
+          d.log('list: $list - data: ${widget.plotData.id.toString()}',
+              name: 'list');
+
           RxList<SubPlotAreaDPohonModel> listPohon = _controller
               .contactDPohonBox.values
               .where(
@@ -683,8 +632,8 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
               .obs;
 
           if (list.isNotEmpty) {
-            indexD.value = list
-                .lastIndexOf((e) => e.plotId == widget.plotData.id.toString());
+            indexD.value = list.lastIndexWhere(
+                (e) => e.plotId == widget.plotData.id.toString());
 
             if (listPohon.isNotEmpty) {
               indexPohon.value = listPohon.lastIndexWhere(
@@ -709,11 +658,24 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       margin: EdgeInsets.only(left: 16.w),
                       child: TextButton(
                         onPressed: () {
+                          d.log(
+                            '${indexD.value} ${indexPohon.value} ${indexNekromas.value} ${indexTanah.value}',
+                            name: 'index',
+                          );
+
+                          // Get.to(
+                          //   () => SubPlotDListPageViews(
+                          //     areaName: widget.areaName,
+                          //     plotData: widget.plotData,
+                          //   ),
+                          // );
+
                           Navigator.push(
                             context,
                             PageRouteBuilder(
                               pageBuilder: (_, __, ___) =>
                                   DetailSubPlotDPageScreen(
+                                type: 1,
                                 indexD: indexD.value,
                                 indexPohon: indexPohon.value,
                                 indexNekromas: indexNekromas.value,
@@ -722,6 +684,8 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                                 areaName: widget.areaName,
                                 plotName: widget.plotData.namaPlot,
                                 subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
+                                subPlotDPohonList:
+                                    SubPlotAreaDB.getAllSubPlotPohon(),
                                 subPlotDNekromasList:
                                     SubPlotAreaDB.getAllSubPlotNekromas(),
                                 subPlotDTanahList:
@@ -753,11 +717,24 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                     )
                   : TextButton(
                       onPressed: () {
+                        d.log(
+                          '${indexD.value} ${indexPohon.value} ${indexNekromas.value} ${indexTanah.value}',
+                          name: 'index',
+                        );
+
+                        // Get.to(
+                        //   () => SubPlotDListPageViews(
+                        //     areaName: widget.areaName,
+                        //     plotData: widget.plotData,
+                        //   ),
+                        // );
+
                         Navigator.push(
                           context,
                           PageRouteBuilder(
                             pageBuilder: (_, __, ___) =>
                                 DetailSubPlotDPageScreen(
+                              type: 0,
                               indexD: indexD.value,
                               indexPohon: indexPohon.value,
                               indexNekromas: indexNekromas.value,
@@ -766,6 +743,8 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                               plotName: widget.plotData.namaPlot,
                               areaName: widget.areaName,
                               subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
+                              subPlotDPohonList:
+                                  SubPlotAreaDB.getAllSubPlotPohon(),
                               subPlotDNekromasList:
                                   SubPlotAreaDB.getAllSubPlotNekromas(),
                               subPlotDTanahList:

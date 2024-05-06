@@ -27,14 +27,10 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
   final SubPlotController _controller = Get.find();
 
-  final TextEditingController _tiangKelilingController =
-      TextEditingController();
-  final TextEditingController _tiangDiameterController =
-      TextEditingController();
-  final TextEditingController _tiangNamaIlmiahController =
-      TextEditingController();
-  final TextEditingController _tiangKerapatanJenisController =
-      TextEditingController();
+  final _tiangKelilingController = TextEditingController();
+  final _tiangDiameterController = TextEditingController();
+  final _tiangNamaIlmiahController = TextEditingController();
+  final _tiangKerapatanJenisController = TextEditingController();
 
   RxString selectedLocalName = 'Pilih Nama Lokal'.obs;
   RxString selectedBioName = ''.obs;
@@ -86,6 +82,7 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
 
       _tiangKelilingController.text = widget.model!.keliling.toStringAsFixed(2);
       _tiangDiameterController.text = widget.model!.diameter.toStringAsFixed(2);
+
       _tiangKerapatanJenisController.text = '${tiangKerapatan.value}';
     }
   }

@@ -31,6 +31,7 @@ class SubPlotAreaDModel extends HiveObject {
     return '''
       areaName: $areaName,
       plotName: $plotName,
+      plotId: $plotId,
       subPlotDList: $subPlotDModels,
       updateAt: $updatedAt
     ''';

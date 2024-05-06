@@ -184,7 +184,7 @@ class _SubPlotCListPageViewsState extends State<SubPlotCListPageViews> {
               SizedBox(
                 width: 1.sw - 200.w,
                 child: Text(
-                  'Tiang ${indexC + 1}',
+                  'Tiang ${indexC.value + 1}',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     color: colorPrimaryBlack,

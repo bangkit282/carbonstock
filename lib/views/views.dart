@@ -55,7 +55,7 @@ part 'plot/summary/summary_views.dart';
 // Sub-Plot List View
 part 'plot/subplot/sub_plot_b_views.dart';
 part 'plot/subplot/sub_plot_c_views.dart';
-part 'plot/subplot/sub_plot_d_views.dart';
+// part 'plot/subplot/sub_plot_d_views.dart';
 
 part 'auth/login_views.dart';
 part 'auth/register_web_views.dart';

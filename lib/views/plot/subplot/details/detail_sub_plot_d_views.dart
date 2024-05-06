@@ -3,6 +3,7 @@ part of '../../../views.dart';
 class DetailSubPlotDPageScreen extends StatefulWidget {
   const DetailSubPlotDPageScreen({
     super.key,
+    required this.type,
     required this.indexD,
     required this.indexPohon,
     required this.indexNekromas,
@@ -11,9 +12,12 @@ class DetailSubPlotDPageScreen extends StatefulWidget {
     required this.areaName,
     required this.plotName,
     required this.subPlotDList,
+    required this.subPlotDPohonList,
     required this.subPlotDNekromasList,
     required this.subPlotDTanahList,
   });
+
+  final int type;
 
   final int indexD;
   final int indexPohon;
@@ -25,6 +29,7 @@ class DetailSubPlotDPageScreen extends StatefulWidget {
   final String plotName;
 
   final List<SubPlotAreaDModel> subPlotDList;
+  final List<SubPlotAreaDPohonModel> subPlotDPohonList;
   final List<SubPlotAreaDNekromasModel> subPlotDNekromasList;
   final List<SubPlotAreaDTanahModel> subPlotDTanahList;
 
@@ -85,6 +90,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
   RxDouble tanahKarbonTon = 0.0.obs;
 
   RxList<SubPlotAreaDPohonModel> listPohon = <SubPlotAreaDPohonModel>[].obs;
+
   List<Map<String, String>> knownPohonListMap = [
     {'name': 'Pilih Nama Lokal', 'bioname': ''},
     {'name': 'Kalek', 'bioname': 'Eugenia sp'},
@@ -294,6 +300,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                           double.parse(_nekromasDiameterUjungController.text);
                       double panjang =
                           double.parse(_nekromasPanjangController.text);
+
                       double volume = nekromasVolume.value;
                       double biomass = nekromasBiomassLand.value;
                       double carbonValue = nekromasKarbon.value;
@@ -1333,9 +1340,9 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
       _tanahBeratJenisController.text = beratJenis.toString();
       tanahBeratJenis.value = beratJenis;
 
-      tanahKarbonGrCm2.value = kedalaman * organikC * beratJenis;
-      tanahKarbonTonHa.value = tanahKarbonGrCm2 * 100;
-      tanahKarbonTon.value = tanahKarbonTonHa.value * 11.5;
+      tanahKarbonGrCm2.value = (kedalaman * organikC * beratJenis) / 100;
+      tanahKarbonTonHa.value = (tanahKarbonGrCm2.value / 100) * 10000;
+      tanahKarbonTon.value = ((tanahKarbonTonHa.value * 11.5) / 100) * 100;
     }
 
     return Card(
@@ -1575,7 +1582,7 @@ class _DetailSubPlotDPageScreenState extends State<DetailSubPlotDPageScreen> {
                   child: Obx(
                     () => tanahKarbonTonHa.value != 0
                         ? Text(
-                            '${tanahKarbonTonHa.value.toStringAsFixed(2)} Ton/Ha',
+                            '${((tanahKarbonTonHa.value / 10000) * 1000).toStringAsFixed(2)} Ton/Ha',
                             style: TextStyle(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w700,

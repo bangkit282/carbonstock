@@ -13,6 +13,13 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
 
   final SharedPreferenceService _sharedPrefs = SharedPreferenceService();
 
+  Rx<Plot> plotObs = Plot().obs;
+
+  Future<void> _onRefresh() async {
+    await Future.delayed(const Duration(seconds: 2));
+    plotObs.value = await _plotController.getAllPlot();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +37,7 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
           ),
         ),
       ),
-      body: fetchPlotList(),
+      body: RefreshIndicator(onRefresh: _onRefresh, child: fetchPlotList()),
     );
   }
 
@@ -59,14 +66,15 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
               width: 1.sw,
               height: 1.sh,
               child: ListView.builder(
-                itemCount: data.data?.length,
+                itemCount: plotObs.value.data?.length,
                 itemBuilder: (context, index) {
                   int filteredIndex = user.listplot.indexWhere(
                     (element) => element.id == data.data![index].id,
                   );
 
                   return filteredIndex != -1
-                      ? buildPlotWidget(data, data.data![indices[filteredIndex]])
+                      ? buildPlotWidget(
+                          data, data.data![indices[filteredIndex]])
                       : Container();
                 },
               ),
