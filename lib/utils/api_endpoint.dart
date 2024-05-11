@@ -4,10 +4,10 @@ const String apiBaseUrl = 'carbonstock.live';
 const String apiLoginUrl = '/api/user/login';
 
 // Plot
-const String apiPlot = '/api/admin/plot';
+const String apiPlot = '/api/laporan/list-plot';
 
 // Hamparan
-const String apiHamparan = '/api/admin/hamparan';
+const String apiHamparan = '/api/laporan/list-hamparan';
 
 // Laporan Mobile
 const String apiSubplotA = '/api/laporan-mobile/subplot-a';

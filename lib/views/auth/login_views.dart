@@ -158,6 +158,7 @@ class _LoginScreenViewsState extends State<LoginScreenViews> {
                           deletedAt: value.data.deletedAt,
                           isActive: value.data.isActive,
                           role: value.data.role,
+                          token: value.data.token,
                           listplot: listPlot,
                         );
 
@@ -169,6 +170,10 @@ class _LoginScreenViewsState extends State<LoginScreenViews> {
                           backgroundColor: colorSecondaryGrey1,
                         );
 
+                        _sharedPrefs.putString(
+                          'token',
+                          value.data.token.toString(),
+                        );
                         _sharedPrefs.putString('id', value.data.id);
                         _sharedPrefs.putInt('isLogin', 1);
                         Get.offAll(() => const PlotAreaScreenViews());

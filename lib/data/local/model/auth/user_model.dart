@@ -31,6 +31,8 @@ class UserModel extends HiveObject {
   @HiveField(12)
   String? role;
   @HiveField(13)
+  String? token;
+  @HiveField(14)
   List<ListPlotModel> listplot;
 
   UserModel({
@@ -47,6 +49,7 @@ class UserModel extends HiveObject {
     required this.deletedAt,
     required this.isActive,
     required this.role,
+    required this.token,
     required this.listplot,
   });
 
@@ -67,6 +70,7 @@ class UserModel extends HiveObject {
         deletedAt: $deletedAt, 
         isActive: $isActive, 
         role: $role,
+        token: $token,
         listplot: $listplot
     }''';
   }

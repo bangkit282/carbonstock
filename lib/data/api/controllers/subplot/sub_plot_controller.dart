@@ -328,14 +328,12 @@ class SubPlotController extends GetxController {
   }
 
   // Sub Plot D
-  Future<void> insertSubPlotD(
-    SubPlotAreaDModel subPlotModelD,
+  Future<void> insertSubPlotDPohon(
+    SubPlotAreaDModel? subPlotModelD,
     SubPlotAreaDPohonModel? subPlotModelPohon,
-    SubPlotAreaDNekromasModel? subPlotModelNekromas,
-    SubPlotAreaDTanahModel? subPlotModelTanah,
   ) async {
     isLoading(true);
-    List<dynamic>? listPlotD = subPlotModelD.subPlotDModels ?? [];
+    List<dynamic>? listPlotD = subPlotModelD?.subPlotDModels ?? [];
 
     if (subPlotModelPohon != null) {
       final subPlotPohon = SubPlotAreaDPohonModel(
@@ -361,7 +359,56 @@ class SubPlotController extends GetxController {
       }
 
       await SubPlotAreaDB.addSubPlotPohon(subPlotPohon);
+
+      if (SubPlotAreaDB.subPlotDBox.values.toList().isNotEmpty) {
+        SubPlotAreaDModel? subPlotD = SubPlotAreaDB.subPlotDBox.values
+            .toList()
+            .firstWhereOrNull((e) => e.plotId == subPlotModelPohon.plotId);
+
+        if (subPlotD != null) {
+          if (subPlotModelD != null) {
+            final subPlotD = SubPlotAreaDModel(
+              uuid: subPlotModelD.uuid,
+              plotId: subPlotModelD.plotId,
+              areaName: subPlotModelD.areaName,
+              plotName: subPlotModelD.plotName,
+              subPlotDModels: listPlotD,
+              updatedAt: subPlotModelD.updatedAt,
+            );
+
+            await SubPlotAreaDB.updateSubPlotD(
+              SubPlotAreaDB.subPlotDBox.values
+                  .toList()
+                  .indexWhere((e) => e.plotId == subPlotModelPohon.plotId),
+              subPlotD,
+            );
+          }
+        }
+      } else {
+        if (subPlotModelD != null) {
+          final subPlotD = SubPlotAreaDModel(
+            uuid: subPlotModelD.uuid,
+            plotId: subPlotModelD.plotId,
+            areaName: subPlotModelD.areaName,
+            plotName: subPlotModelD.plotName,
+            subPlotDModels: listPlotD,
+            updatedAt: subPlotModelD.updatedAt,
+          );
+
+          await SubPlotAreaDB.addSubPlotD(subPlotD);
+        }
+      }
     }
+
+    isLoading(false);
+  }
+
+  Future<void> insertSubPlotDNekromas(
+    SubPlotAreaDModel? subPlotModelD,
+    SubPlotAreaDNekromasModel? subPlotModelNekromas,
+  ) async {
+    isLoading(true);
+    List<dynamic>? listPlotD = subPlotModelD?.subPlotDModels ?? [];
 
     if (subPlotModelNekromas != null) {
       final subPlotNekromas = SubPlotAreaDNekromasModel(
@@ -386,7 +433,56 @@ class SubPlotController extends GetxController {
       }
 
       await SubPlotAreaDB.addSubPlotNekromas(subPlotNekromas);
+
+      if (SubPlotAreaDB.subPlotDBox.values.toList().isNotEmpty) {
+        SubPlotAreaDModel? subPlotD = SubPlotAreaDB.subPlotDBox.values
+            .toList()
+            .firstWhereOrNull((e) => e.plotId == subPlotModelNekromas.plotId);
+
+        if (subPlotD != null) {
+          if (subPlotModelD != null) {
+            final subPlotD = SubPlotAreaDModel(
+              uuid: subPlotModelD.uuid,
+              plotId: subPlotModelD.plotId,
+              areaName: subPlotModelD.areaName,
+              plotName: subPlotModelD.plotName,
+              subPlotDModels: listPlotD,
+              updatedAt: subPlotModelD.updatedAt,
+            );
+
+            await SubPlotAreaDB.updateSubPlotD(
+              SubPlotAreaDB.subPlotDBox.values
+                  .toList()
+                  .indexWhere((e) => e.plotId == subPlotModelNekromas.plotId),
+              subPlotD,
+            );
+          }
+        }
+      } else {
+        if (subPlotModelD != null) {
+          final subPlotD = SubPlotAreaDModel(
+            uuid: subPlotModelD.uuid,
+            plotId: subPlotModelD.plotId,
+            areaName: subPlotModelD.areaName,
+            plotName: subPlotModelD.plotName,
+            subPlotDModels: listPlotD,
+            updatedAt: subPlotModelD.updatedAt,
+          );
+
+          await SubPlotAreaDB.addSubPlotD(subPlotD);
+        }
+      }
     }
+
+    isLoading(false);
+  }
+
+  Future<void> insertSubPlotDTanah(
+    SubPlotAreaDModel? subPlotModelD,
+    SubPlotAreaDTanahModel? subPlotModelTanah,
+  ) async {
+    isLoading(true);
+    List<dynamic>? listPlotD = subPlotModelD?.subPlotDModels ?? [];
 
     if (subPlotModelTanah != null) {
       final subPlotTanah = SubPlotAreaDTanahModel(
@@ -397,10 +493,10 @@ class SubPlotController extends GetxController {
         kedalamanSample: subPlotModelTanah.kedalamanSample,
         beratJenisTanah: subPlotModelTanah.beratJenisTanah,
         organicTanah: subPlotModelTanah.organicTanah,
-        carbonGrCm: subPlotModelTanah.carbonGrCm,
-        carbonTonHa: subPlotModelTanah.carbonTonHa,
-        carbonTon: subPlotModelTanah.carbonTon,
         carbonAbsorb: subPlotModelTanah.carbonAbsorb,
+        carbonTonHa: subPlotModelTanah.carbonTonHa,
+        carbonGrCm: subPlotModelTanah.carbonGrCm,
+        carbonTon: subPlotModelTanah.carbonTon,
         updatedAt: subPlotModelTanah.updatedAt,
       );
 
@@ -411,7 +507,134 @@ class SubPlotController extends GetxController {
       }
 
       await SubPlotAreaDB.addSubPlotTanah(subPlotTanah);
+
+      if (SubPlotAreaDB.subPlotDBox.values.toList().isNotEmpty) {
+        SubPlotAreaDModel? subPlotD = SubPlotAreaDB.subPlotDBox.values
+            .toList()
+            .firstWhereOrNull((e) => e.plotId == subPlotTanah.plotId);
+
+        if (subPlotD != null) {
+          if (subPlotModelD != null) {
+            final subPlotD = SubPlotAreaDModel(
+              uuid: subPlotModelD.uuid,
+              plotId: subPlotModelD.plotId,
+              areaName: subPlotModelD.areaName,
+              plotName: subPlotModelD.plotName,
+              subPlotDModels: listPlotD,
+              updatedAt: subPlotModelD.updatedAt,
+            );
+
+            await SubPlotAreaDB.updateSubPlotD(
+              SubPlotAreaDB.subPlotDBox.values
+                  .toList()
+                  .indexWhere((e) => e.plotId == subPlotTanah.plotId),
+              subPlotD,
+            );
+          }
+        }
+      } else {
+        if (subPlotModelD != null) {
+          final subPlotD = SubPlotAreaDModel(
+            uuid: subPlotModelD.uuid,
+            plotId: subPlotModelD.plotId,
+            areaName: subPlotModelD.areaName,
+            plotName: subPlotModelD.plotName,
+            subPlotDModels: listPlotD,
+            updatedAt: subPlotModelD.updatedAt,
+          );
+
+          await SubPlotAreaDB.addSubPlotD(subPlotD);
+        }
+      }
     }
+
+    isLoading(false);
+  }
+
+  Future<void> insertSubPlotD(
+    SubPlotAreaDModel subPlotModelD,
+    SubPlotAreaDPohonModel? subPlotModelPohon,
+    SubPlotAreaDNekromasModel? subPlotModelNekromas,
+    SubPlotAreaDTanahModel? subPlotModelTanah,
+  ) async {
+    isLoading(true);
+    List<dynamic>? listPlotD = subPlotModelD.subPlotDModels ?? [];
+
+    // if (subPlotModelPohon != null) {
+    //   final subPlotPohon = SubPlotAreaDPohonModel(
+    //     uuid: subPlotModelPohon.uuid,
+    //     plotId: subPlotModelPohon.plotId,
+    //     areaName: subPlotModelPohon.areaName,
+    //     plotName: subPlotModelPohon.plotName,
+    //     keliling: subPlotModelPohon.keliling,
+    //     diameter: subPlotModelPohon.diameter,
+    //     localName: subPlotModelPohon.localName,
+    //     bioName: subPlotModelPohon.bioName,
+    //     kerapatanKayu: subPlotModelPohon.kerapatanKayu,
+    //     biomassLand: subPlotModelPohon.biomassLand,
+    //     carbonValue: subPlotModelPohon.carbonValue,
+    //     carbonAbsorb: subPlotModelPohon.carbonAbsorb,
+    //     updatedAt: subPlotModelPohon.updatedAt,
+    //   );
+
+    //   if (listPlotD.isEmpty) {
+    //     listPlotD.addAll([subPlotPohon, null, null]);
+    //   } else {
+    //     listPlotD[0] = subPlotPohon;
+    //   }
+
+    //   await SubPlotAreaDB.addSubPlotPohon(subPlotPohon);
+    // }
+
+    // if (subPlotModelNekromas != null) {
+    //   final subPlotNekromas = SubPlotAreaDNekromasModel(
+    //     uuid: subPlotModelNekromas.uuid,
+    //     plotId: subPlotModelNekromas.plotId,
+    //     areaName: subPlotModelNekromas.areaName,
+    //     plotName: subPlotModelNekromas.plotName,
+    //     diameterPangkal: subPlotModelNekromas.diameterPangkal,
+    //     diameterUjung: subPlotModelNekromas.diameterUjung,
+    //     panjang: subPlotModelNekromas.panjang,
+    //     volume: subPlotModelNekromas.volume,
+    //     biomassLand: subPlotModelNekromas.biomassLand,
+    //     carbonValue: subPlotModelNekromas.carbonValue,
+    //     carbonAbsorb: subPlotModelNekromas.carbonAbsorb,
+    //     updatedAt: subPlotModelNekromas.updatedAt,
+    //   );
+
+    //   if (listPlotD.isEmpty) {
+    //     listPlotD.addAll([null, subPlotNekromas, null]);
+    //   } else {
+    //     listPlotD[1] = subPlotNekromas;
+    //   }
+
+    //   await SubPlotAreaDB.addSubPlotNekromas(subPlotNekromas);
+    // }
+
+    // if (subPlotModelTanah != null) {
+    //   final subPlotTanah = SubPlotAreaDTanahModel(
+    //     uuid: subPlotModelTanah.uuid,
+    //     plotId: subPlotModelTanah.plotId,
+    //     areaName: subPlotModelTanah.areaName,
+    //     plotName: subPlotModelTanah.plotName,
+    //     kedalamanSample: subPlotModelTanah.kedalamanSample,
+    //     beratJenisTanah: subPlotModelTanah.beratJenisTanah,
+    //     organicTanah: subPlotModelTanah.organicTanah,
+    //     carbonGrCm: subPlotModelTanah.carbonGrCm,
+    //     carbonTonHa: subPlotModelTanah.carbonTonHa,
+    //     carbonTon: subPlotModelTanah.carbonTon,
+    //     carbonAbsorb: subPlotModelTanah.carbonAbsorb,
+    //     updatedAt: subPlotModelTanah.updatedAt,
+    //   );
+
+    //   if (listPlotD.isEmpty) {
+    //     listPlotD.addAll([null, null, subPlotTanah]);
+    //   } else {
+    //     listPlotD[2] = subPlotTanah;
+    //   }
+
+    //   await SubPlotAreaDB.addSubPlotTanah(subPlotTanah);
+    // }
 
     final subPlotD = SubPlotAreaDModel(
       uuid: subPlotModelD.uuid,
@@ -429,80 +652,85 @@ class SubPlotController extends GetxController {
   Future<SubPlotAreaDModel> getSpecificSubPlotD(String uuid) async =>
       SubPlotAreaDB.getSpecificSubPlotD(uuid);
 
+  Future<void> updateSubPlotDPohon(
+    int indexD,
+    int indexPohon,
+    SubPlotAreaDModel subPlotModelD,
+    SubPlotAreaDPohonModel subPlotModelPohon,
+  ) async {
+    isLoading(true);
+    List<dynamic>? listPlotD = subPlotModelD.subPlotDModels ?? [];
+
+    final subPlotPohon = SubPlotAreaDPohonModel(
+      uuid: subPlotModelPohon.uuid,
+      plotId: subPlotModelPohon.plotId,
+      areaName: subPlotModelPohon.areaName,
+      plotName: subPlotModelPohon.plotName,
+      keliling: subPlotModelPohon.keliling,
+      diameter: subPlotModelPohon.diameter,
+      localName: subPlotModelPohon.localName,
+      bioName: subPlotModelPohon.bioName,
+      kerapatanKayu: subPlotModelPohon.kerapatanKayu,
+      biomassLand: subPlotModelPohon.biomassLand,
+      carbonValue: subPlotModelPohon.carbonValue,
+      carbonAbsorb: subPlotModelPohon.carbonAbsorb,
+      updatedAt: subPlotModelPohon.updatedAt,
+    );
+
+    listPlotD[0] = subPlotPohon;
+    await SubPlotAreaDB.updateSubPlotPohon(indexPohon, subPlotPohon);
+  }
+
+  Future<void> updateSubPlotDNekromas(
+    int indexD,
+    int indexNekromas,
+    SubPlotAreaDModel subPlotModelD,
+    SubPlotAreaDNekromasModel subPlotModelNekromas,
+  ) async {
+    isLoading(true);
+    List<dynamic>? listPlotD = subPlotModelD.subPlotDModels ?? [];
+
+    final subPlotNekromas = SubPlotAreaDNekromasModel(
+      uuid: subPlotModelNekromas.uuid,
+      plotId: subPlotModelNekromas.plotId,
+      areaName: subPlotModelNekromas.areaName,
+      plotName: subPlotModelNekromas.plotName,
+      diameterPangkal: subPlotModelNekromas.diameterPangkal,
+      diameterUjung: subPlotModelNekromas.diameterUjung,
+      panjang: subPlotModelNekromas.panjang,
+      volume: subPlotModelNekromas.volume,
+      biomassLand: subPlotModelNekromas.biomassLand,
+      carbonValue: subPlotModelNekromas.carbonValue,
+      carbonAbsorb: subPlotModelNekromas.carbonAbsorb,
+      updatedAt: subPlotModelNekromas.updatedAt,
+    );
+
+    listPlotD[1] = subPlotNekromas;
+    await SubPlotAreaDB.updateSubPlotNekromas(indexNekromas, subPlotNekromas);
+  }
+
+  Future<void> updateSubPlotDTanah(
+    int indexD,
+    int indexTanah,
+    SubPlotAreaDModel subPlotModelD,
+    SubPlotAreaDTanahModel subPlotModelTanah,
+  ) async {
+    isLoading(true);
+    List<dynamic>? listPlotD = subPlotModelD.subPlotDModels ?? [];
+
+    listPlotD[2] = subPlotModelTanah;
+    await SubPlotAreaDB.updateSubPlotTanah(indexTanah, subPlotModelTanah);
+  }
+
   Future<void> updateSubPlotD(
     int indexD,
     int indexPohon,
     int indexNekromas,
     int indexTanah,
     SubPlotAreaDModel subPlotModelD,
-    SubPlotAreaDPohonModel? subPlotModelPohon,
-    SubPlotAreaDNekromasModel? subPlotModelNekromas,
-    SubPlotAreaDTanahModel? subPlotModelTanah,
   ) async {
     isLoading(true);
-
     List<dynamic>? listPlotD = subPlotModelD.subPlotDModels ?? [];
-
-    if (subPlotModelPohon != null) {
-      final subPlotPohon = SubPlotAreaDPohonModel(
-        uuid: subPlotModelPohon.uuid,
-        plotId: subPlotModelPohon.plotId,
-        areaName: subPlotModelPohon.areaName,
-        plotName: subPlotModelPohon.plotName,
-        keliling: subPlotModelPohon.keliling,
-        diameter: subPlotModelPohon.diameter,
-        localName: subPlotModelPohon.localName,
-        bioName: subPlotModelPohon.bioName,
-        kerapatanKayu: subPlotModelPohon.kerapatanKayu,
-        biomassLand: subPlotModelPohon.biomassLand,
-        carbonValue: subPlotModelPohon.carbonValue,
-        carbonAbsorb: subPlotModelPohon.carbonAbsorb,
-        updatedAt: subPlotModelPohon.updatedAt,
-      );
-
-      listPlotD[0] = subPlotPohon;
-      await SubPlotAreaDB.updateSubPlotPohon(indexPohon, subPlotPohon);
-    }
-
-    if (subPlotModelNekromas != null) {
-      final subPlotNekromas = SubPlotAreaDNekromasModel(
-        uuid: subPlotModelNekromas.uuid,
-        plotId: subPlotModelNekromas.plotId,
-        areaName: subPlotModelNekromas.areaName,
-        plotName: subPlotModelNekromas.plotName,
-        diameterPangkal: subPlotModelNekromas.diameterPangkal,
-        diameterUjung: subPlotModelNekromas.diameterUjung,
-        panjang: subPlotModelNekromas.panjang,
-        volume: subPlotModelNekromas.volume,
-        biomassLand: subPlotModelNekromas.biomassLand,
-        carbonValue: subPlotModelNekromas.carbonValue,
-        carbonAbsorb: subPlotModelNekromas.carbonAbsorb,
-        updatedAt: subPlotModelNekromas.updatedAt,
-      );
-
-      listPlotD[1] = subPlotNekromas;
-      await SubPlotAreaDB.updateSubPlotNekromas(indexNekromas, subPlotNekromas);
-    }
-
-    if (subPlotModelTanah != null) {
-      final subPlotTanah = SubPlotAreaDTanahModel(
-        uuid: subPlotModelTanah.uuid,
-        plotId: subPlotModelTanah.plotId,
-        areaName: subPlotModelTanah.areaName,
-        plotName: subPlotModelTanah.plotName,
-        kedalamanSample: subPlotModelTanah.kedalamanSample,
-        beratJenisTanah: subPlotModelTanah.beratJenisTanah,
-        organicTanah: subPlotModelTanah.organicTanah,
-        carbonGrCm: subPlotModelTanah.carbonGrCm,
-        carbonTonHa: subPlotModelTanah.carbonTonHa,
-        carbonTon: subPlotModelTanah.carbonTon,
-        carbonAbsorb: subPlotModelTanah.carbonAbsorb,
-        updatedAt: subPlotModelTanah.updatedAt,
-      );
-
-      listPlotD[2] = subPlotTanah;
-      await SubPlotAreaDB.updateSubPlotTanah(indexTanah, subPlotTanah);
-    }
 
     if (listPlotD.isNotEmpty) {
       final subPlotD = SubPlotAreaDModel(

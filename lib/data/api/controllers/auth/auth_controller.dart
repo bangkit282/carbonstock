@@ -59,6 +59,7 @@ class AuthController extends GetxController {
       deletedAt: user.deletedAt,
       isActive: user.isActive,
       role: user.role,
+      token: user.token,
       listplot: user.listplot,
     );
 

@@ -25,6 +25,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
       extendBody: true,
       appBar: AppBar(
         centerTitle: false,
+        automaticallyImplyLeading: false,
         title: Text(
           'Sub Plot',
           style: TextStyle(
@@ -34,7 +35,17 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
           ),
         ),
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.of(context).pushReplacement(
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) => const PlotAreaScreenViews(),
+              transitionsBuilder: (_, animation, __, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            ),
+          ),
           icon: const Icon(
             CupertinoIcons.back,
             color: Colors.white,
@@ -607,9 +618,6 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
               .toList()
               .obs;
 
-          d.log('list: $list - data: ${widget.plotData.id.toString()}',
-              name: 'list');
-
           RxList<SubPlotAreaDPohonModel> listPohon = _controller
               .contactDPohonBox.values
               .where(
@@ -658,47 +666,42 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                       margin: EdgeInsets.only(left: 16.w),
                       child: TextButton(
                         onPressed: () {
-                          d.log(
-                            '${indexD.value} ${indexPohon.value} ${indexNekromas.value} ${indexTanah.value}',
-                            name: 'index',
-                          );
-
-                          // Get.to(
-                          //   () => SubPlotDListPageViews(
-                          //     areaName: widget.areaName,
-                          //     plotData: widget.plotData,
-                          //   ),
-                          // );
-
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  DetailSubPlotDPageScreen(
-                                type: 1,
-                                indexD: indexD.value,
-                                indexPohon: indexPohon.value,
-                                indexNekromas: indexNekromas.value,
-                                indexTanah: indexTanah.value,
-                                plotId: widget.plotData.id.toString(),
-                                areaName: widget.areaName,
-                                plotName: widget.plotData.namaPlot,
-                                subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
-                                subPlotDPohonList:
-                                    SubPlotAreaDB.getAllSubPlotPohon(),
-                                subPlotDNekromasList:
-                                    SubPlotAreaDB.getAllSubPlotNekromas(),
-                                subPlotDTanahList:
-                                    SubPlotAreaDB.getAllSubPlotTanah(),
-                              ),
-                              transitionsBuilder: (_, animation, __, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
+                          Get.to(
+                            () => SubPlotDListPageViews(
+                              areaName: widget.areaName,
+                              plotData: widget.plotData,
                             ),
                           );
+
+                          // Navigator.push(
+                          //   context,
+                          //   PageRouteBuilder(
+                          //     pageBuilder: (_, __, ___) =>
+                          //         DetailSubPlotDPageScreen(
+                          //       type: 1,
+                          //       indexD: indexD.value,
+                          //       indexPohon: indexPohon.value,
+                          //       indexNekromas: indexNekromas.value,
+                          //       indexTanah: indexTanah.value,
+                          //       plotId: widget.plotData.id.toString(),
+                          //       areaName: widget.areaName,
+                          //       plotName: widget.plotData.namaPlot,
+                          //       subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
+                          //       subPlotDPohonList:
+                          //           SubPlotAreaDB.getAllSubPlotPohon(),
+                          //       subPlotDNekromasList:
+                          //           SubPlotAreaDB.getAllSubPlotNekromas(),
+                          //       subPlotDTanahList:
+                          //           SubPlotAreaDB.getAllSubPlotTanah(),
+                          //     ),
+                          //     transitionsBuilder: (_, animation, __, child) {
+                          //       return FadeTransition(
+                          //         opacity: animation,
+                          //         child: child,
+                          //       );
+                          //     },
+                          //   ),
+                          // );
                         },
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -717,47 +720,42 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                     )
                   : TextButton(
                       onPressed: () {
-                        d.log(
-                          '${indexD.value} ${indexPohon.value} ${indexNekromas.value} ${indexTanah.value}',
-                          name: 'index',
-                        );
-
-                        // Get.to(
-                        //   () => SubPlotDListPageViews(
-                        //     areaName: widget.areaName,
-                        //     plotData: widget.plotData,
-                        //   ),
-                        // );
-
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (_, __, ___) =>
-                                DetailSubPlotDPageScreen(
-                              type: 0,
-                              indexD: indexD.value,
-                              indexPohon: indexPohon.value,
-                              indexNekromas: indexNekromas.value,
-                              indexTanah: indexTanah.value,
-                              plotId: widget.plotData.id.toString(),
-                              plotName: widget.plotData.namaPlot,
-                              areaName: widget.areaName,
-                              subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
-                              subPlotDPohonList:
-                                  SubPlotAreaDB.getAllSubPlotPohon(),
-                              subPlotDNekromasList:
-                                  SubPlotAreaDB.getAllSubPlotNekromas(),
-                              subPlotDTanahList:
-                                  SubPlotAreaDB.getAllSubPlotTanah(),
-                            ),
-                            transitionsBuilder: (_, animation, __, child) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              );
-                            },
+                        Get.to(
+                          () => SubPlotDListPageViews(
+                            areaName: widget.areaName,
+                            plotData: widget.plotData,
                           ),
                         );
+
+                        // Navigator.push(
+                        //   context,
+                        //   PageRouteBuilder(
+                        //     pageBuilder: (_, __, ___) =>
+                        //         DetailSubPlotDPageScreen(
+                        //       type: 0,
+                        //       indexD: indexD.value,
+                        //       indexPohon: indexPohon.value,
+                        //       indexNekromas: indexNekromas.value,
+                        //       indexTanah: indexTanah.value,
+                        //       plotId: widget.plotData.id.toString(),
+                        //       plotName: widget.plotData.namaPlot,
+                        //       areaName: widget.areaName,
+                        //       subPlotDList: SubPlotAreaDB.getAllSubPlotD(),
+                        //       subPlotDPohonList:
+                        //           SubPlotAreaDB.getAllSubPlotPohon(),
+                        //       subPlotDNekromasList:
+                        //           SubPlotAreaDB.getAllSubPlotNekromas(),
+                        //       subPlotDTanahList:
+                        //           SubPlotAreaDB.getAllSubPlotTanah(),
+                        //     ),
+                        //     transitionsBuilder: (_, animation, __, child) {
+                        //       return FadeTransition(
+                        //         opacity: animation,
+                        //         child: child,
+                        //       );
+                        //     },
+                        //   ),
+                        // );
                       },
                       style: TextButton.styleFrom(
                         shape: RoundedRectangleBorder(

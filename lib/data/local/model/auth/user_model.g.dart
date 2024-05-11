@@ -30,14 +30,15 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       deletedAt: fields[10] as String?,
       isActive: fields[11] as int?,
       role: fields[12] as String?,
-      listplot: (fields[13] as List).cast<ListPlotModel>(),
+      token: fields[13] as String?,
+      listplot: (fields[14] as List).cast<ListPlotModel>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, UserModel obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -65,6 +66,8 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(12)
       ..write(obj.role)
       ..writeByte(13)
+      ..write(obj.token)
+      ..writeByte(14)
       ..write(obj.listplot);
   }
 

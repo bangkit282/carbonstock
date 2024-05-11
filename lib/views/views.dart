@@ -27,6 +27,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,12 +51,15 @@ part 'plot/subplot/details/detail_sub_plot_a_views.dart';
 part 'plot/subplot/details/detail_sub_plot_b_views.dart';
 part 'plot/subplot/details/detail_sub_plot_c_views.dart';
 part 'plot/subplot/details/detail_sub_plot_d_views.dart';
+part 'plot/subplot/details/detail_sub_plot_d_pohon_views.dart';
+part 'plot/subplot/details/detail_sub_plot_d_nekromas_views.dart';
+part 'plot/subplot/details/detail_sub_plot_d_tanah_views.dart';
 part 'plot/summary/summary_views.dart';
 
 // Sub-Plot List View
 part 'plot/subplot/sub_plot_b_views.dart';
 part 'plot/subplot/sub_plot_c_views.dart';
-// part 'plot/subplot/sub_plot_d_views.dart';
+part 'plot/subplot/sub_plot_d_views.dart';
 
 part 'auth/login_views.dart';
 part 'auth/register_web_views.dart';
