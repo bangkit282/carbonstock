@@ -67,7 +67,7 @@ class SubPlotAreaDPohonModelAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SubPlotAreaDPohonModel(
-      uuid: fields[0] as String?,
+      uuid: fields[0] as String,
       plotId: fields[1] as String,
       areaName: fields[2] as String,
       plotName: fields[3] as String,
@@ -138,7 +138,7 @@ class SubPlotAreaDNekromasModelAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SubPlotAreaDNekromasModel(
-      uuid: fields[0] as String?,
+      uuid: fields[0] as String,
       plotId: fields[1] as String,
       areaName: fields[2] as String,
       plotName: fields[3] as String,
@@ -206,7 +206,7 @@ class SubPlotAreaDTanahModelAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SubPlotAreaDTanahModel(
-      uuid: fields[0] as String?,
+      uuid: fields[0] as String,
       plotId: fields[1] as String,
       areaName: fields[2] as String,
       plotName: fields[3] as String,

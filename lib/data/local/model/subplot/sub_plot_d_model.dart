@@ -29,8 +29,10 @@ class SubPlotAreaDModel extends HiveObject {
   @override
   String toString() {
     return '''
+      uuid: $uuid,
       areaName: $areaName,
       plotName: $plotName,
+      plotId: $plotId,
       subPlotDList: $subPlotDModels,
       updateAt: $updatedAt
     ''';
@@ -40,7 +42,7 @@ class SubPlotAreaDModel extends HiveObject {
 @HiveType(typeId: 9)
 class SubPlotAreaDPohonModel extends HiveObject {
   @HiveField(0)
-  final String? uuid;
+  final String uuid;
   @HiveField(1)
   final String plotId;
   @HiveField(2)
@@ -67,7 +69,7 @@ class SubPlotAreaDPohonModel extends HiveObject {
   final DateTime updatedAt;
 
   SubPlotAreaDPohonModel({
-    this.uuid,
+    required this.uuid,
     required this.plotId,
     required this.areaName,
     required this.plotName,
@@ -85,6 +87,7 @@ class SubPlotAreaDPohonModel extends HiveObject {
   @override
   String toString() {
     return '''
+        uuid: $uuid,
         plotId: $plotId,
         'areaName': $areaName,
         'plotName': $plotName,
@@ -104,7 +107,7 @@ class SubPlotAreaDPohonModel extends HiveObject {
 @HiveType(typeId: 10)
 class SubPlotAreaDNekromasModel extends HiveObject {
   @HiveField(0)
-  final String? uuid;
+  final String uuid;
   @HiveField(1)
   final String plotId;
   @HiveField(2)
@@ -129,7 +132,7 @@ class SubPlotAreaDNekromasModel extends HiveObject {
   final DateTime updatedAt;
 
   SubPlotAreaDNekromasModel({
-    this.uuid,
+    required this.uuid,
     required this.plotId,
     required this.areaName,
     required this.plotName,
@@ -146,6 +149,7 @@ class SubPlotAreaDNekromasModel extends HiveObject {
   @override
   String toString() {
     return '''
+      uuid: $uuid,
       plotId: $plotId,
       'diameterPangkal': $diameterPangkal,
       'diameterUjung': $diameterUjung,
@@ -162,7 +166,7 @@ class SubPlotAreaDNekromasModel extends HiveObject {
 @HiveType(typeId: 11)
 class SubPlotAreaDTanahModel extends HiveObject {
   @HiveField(0)
-  final String? uuid;
+  final String uuid;
   @HiveField(1)
   final String plotId;
   @HiveField(2)
@@ -187,7 +191,7 @@ class SubPlotAreaDTanahModel extends HiveObject {
   final DateTime updatedAt;
 
   SubPlotAreaDTanahModel({
-    this.uuid,
+    required this.uuid,
     required this.plotId,
     required this.areaName,
     required this.plotName,
@@ -204,6 +208,7 @@ class SubPlotAreaDTanahModel extends HiveObject {
   @override
   String toString() {
     return '''
+      uuid: $uuid,
       'plotId': $plotId,
       'kedalamanSample': $kedalamanSample,
       'beratJenisTanah': $beratJenisTanah,

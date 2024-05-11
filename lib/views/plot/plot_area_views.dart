@@ -13,6 +13,19 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
 
   final SharedPreferenceService _sharedPrefs = SharedPreferenceService();
 
+  Rx<Plot> plotObs = Plot().obs;
+
+  Future<void> _onRefresh() async {
+    await Future.delayed(const Duration(seconds: 2));
+    plotObs.value = await _plotController.getAllPlot();
+  }
+
+  @override
+  void initState() {
+    _plotController.getAllPlot();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +43,7 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
           ),
         ),
       ),
-      body: fetchPlotList(),
+      body: RefreshIndicator(onRefresh: _onRefresh, child: fetchPlotList()),
     );
   }
 
@@ -46,6 +59,8 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
             Plot data = snapshot.data!;
             List<int> indices = List.empty(growable: true);
 
+            // d.log(data.toString(), name: 'plot-where-error-is-found');
+
             for (int i = 0; i < data.data!.length; i++) {
               for (int j = 0; j < user.listplot.length; j++) {
                 if (data.data![i].id == user.listplot[j].id) {
@@ -55,22 +70,61 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
               }
             }
 
-            return SizedBox(
-              width: 1.sw,
-              height: 1.sh,
-              child: ListView.builder(
-                itemCount: data.data?.length,
-                itemBuilder: (context, index) {
-                  int filteredIndex = user.listplot.indexWhere(
-                    (element) => element.id == data.data![index].id,
-                  );
+            // d.log(data.data!.length.toString(),
+            // name: 'plot-where-error-is-found');
 
-                  return filteredIndex != -1
-                      ? buildPlotWidget(data, data.data![indices[filteredIndex]])
-                      : Container();
-                },
-              ),
-            );
+            if (data.data!.isNotEmpty) {
+              plotObs.value = data;
+
+              return SizedBox(
+                width: 1.sw,
+                height: 1.sh,
+                child: ListView.builder(
+                  itemCount: plotObs.value.data?.length,
+                  itemBuilder: (context, index) {
+                    int filteredIndex = user.listplot.indexWhere(
+                      (element) => element.id == data.data![index].id,
+                    );
+
+                    return filteredIndex != -1
+                        ? buildPlotWidget(
+                            data,
+                            data.data![indices[filteredIndex]],
+                          )
+                        : Container();
+                  },
+                ),
+              );
+            } else {
+              return Center(
+                child: SizedBox(
+                  width: 1.sw,
+                  height: 600.h,
+                  child: Column(
+                    children: [
+                      Image.asset('assets/images/placeholder_isempty.png'),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Data Masih Kosong',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: colorPrimaryBlack,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Text(
+                        'Data plot area belum ada, silakan hubungi admin',
+                        style: TextStyle(
+                          color: colorSecondaryGrey3,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator.adaptive());
           } else {

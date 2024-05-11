@@ -56,7 +56,8 @@ class Data {
   String updatedAt;
   String? deletedAt;
   int isActive;
-  dynamic role;
+  String? role;
+  String? token;
   List<ListTim> listTim;
   List<Listplot> listplot;
 
@@ -74,6 +75,7 @@ class Data {
     required this.deletedAt,
     required this.isActive,
     required this.role,
+    required this.token,
     required this.listTim,
     required this.listplot,
   });
@@ -92,8 +94,9 @@ class Data {
         deletedAt: json['deleted_at'] ?? '',
         isActive: json['is_active'],
         role: json['role'],
+        token: json['token'],
         listTim: List<ListTim>.from(
-            json["list_tim"].map((x) => ListTim.fromJson(x))),
+            json['list_tim'].map((x) => ListTim.fromJson(x))),
         listplot: List<Listplot>.from(
             json['listplot'].map((x) => Listplot.fromJson(x))),
       );
@@ -112,7 +115,8 @@ class Data {
         'deleted_at': deletedAt ?? '',
         'is_active': isActive,
         'role': role,
-        "list_tim": List<dynamic>.from(listTim.map((x) => x.toJson())),
+        'token': token,
+        'list_tim': List<dynamic>.from(listTim.map((x) => x.toJson())),
         'listplot': List<dynamic>.from(listplot.map((x) => x.toJson())),
       };
 
@@ -133,6 +137,7 @@ class Data {
         deletedAt: $deletedAt, 
         isActive: $isActive, 
         role: $role,
+        token: $token,
         listTim: $listTim,
         listplot: $listplot
     }''';
@@ -196,7 +201,7 @@ class Listplot {
 
   factory Listplot.fromJson(Map<String, dynamic> json) => Listplot(
         id: json['id'],
-        namaPlot: json['nama_plot'] ,
+        namaPlot: json['nama_plot'],
         typePlot: json['type_plot'],
         latitude: json['latitude'] ?? '-6.859973002',
         longitude: json['longitude'] ?? '107.62911',

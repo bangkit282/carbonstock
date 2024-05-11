@@ -189,6 +189,12 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
           );
         }
         // d.log('A submit $plotAFiltered', name: 'test-post');
+
+        Get.snackbar(
+          'CarbonRangers',
+          'Sinkronisasi Sub-Plot A success!',
+          backgroundColor: colorSecondaryGrey1,
+        );
       }
     }
 
@@ -219,6 +225,12 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
           updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
         );
         // d.log('B submit', name: 'test-post');
+
+        Get.snackbar(
+          'CarbonRangers',
+          'Sinkronisasi Sub-Plot B success!',
+          backgroundColor: colorSecondaryGrey1,
+        );
       }
     }
 
@@ -245,6 +257,12 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
         carbonValue: valCarbonC,
         carbonAbsorb: valAbsorbC,
         updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
+      );
+
+      Get.snackbar(
+        'CarbonRangers',
+        'Sinkronisasi Sub-Plot C success!',
+        backgroundColor: colorSecondaryGrey1,
       );
       // d.log('C submit', name: 'test-post');
     }
@@ -342,10 +360,17 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
         );
       }
       // d.log('D submit', name: 'test-post');
+
+      Get.snackbar(
+        'CarbonRangers',
+        'Sinkronisasi Sub-Plot D success!',
+        backgroundColor: colorSecondaryGrey1,
+      );
     }
 
     subCarbonAbsorb.value = valAbsorbA + valAbsorbB + valAbsorbC + valAbsorbD;
     subCarbonValue.value = valCarbonA + valCarbonB + valCarbonC + valCarbonD;
+
     d.log('${subCarbonAbsorb.value} ${subCarbonValue.value}', name: 'test');
 
     return Scaffold(
@@ -448,7 +473,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               SizedBox(height: 16.h),
               SizedBox(
                 width: 1.sw,
-                height: 386.h,
+                height: 420.h,
                 child: Card(
                   elevation: 0,
                   child: Padding(
@@ -478,7 +503,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
               ),
               SizedBox(
                 width: 1.sw,
-                height: 380.h,
+                height: 420.h,
                 child: Card(
                   elevation: 0,
                   child: Padding(

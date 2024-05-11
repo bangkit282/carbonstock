@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +15,16 @@ class EasterEggPageViews extends StatefulWidget {
 class _EasterEggPageViewsState extends State<EasterEggPageViews> {
   final controller =
       VideoPlayerController.asset('assets/images/pedropedro.mp4');
+
+  @override
+  void dispose() {
+    controller.setVolume(0);
+    controller.pause();
+    controller.dispose();
+
+    log('disposed', name: 'onDispose');
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
