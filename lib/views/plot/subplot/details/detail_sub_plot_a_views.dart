@@ -138,7 +138,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         _semaiBSampleController.text.isEmpty ||
                         _semaiKSampleController.text.isEmpty) {
                       Get.snackbar(
-                        'CarbonStock',
+                        'CarbonRangers',
                         'Lengkapi data Semai terlebih dahulu atau biarkan kosong sebelum menyimpan!',
                         backgroundColor: Colors.redAccent,
                         colorText: colorPrimaryWhite,
@@ -170,15 +170,15 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           null,
                         );
 
-                        _sharedPref.putBool('subplot_a_data', true);
-                        _sharedPref.putDouble(
-                          'karbon_a_semai',
-                          semaiCarbon,
-                        );
-                        _sharedPref.putDouble(
-                          'absorb_a_semai',
-                          carbonAbsorb,
-                        );
+                        _sharedPref.putBool('subplot_a_semai_data', true);
+                        // _sharedPref.putDouble(
+                        //   'karbon_a_semai',
+                        //   semaiCarbon,
+                        // );
+                        // _sharedPref.putDouble(
+                        //   'absorb_a_semai',
+                        //   carbonAbsorb,
+                        // );
                       } else {
                         double semaiCarbon = (semaiKTotal.value * 0.47);
                         double carbonAbsorb = semaiCarbon * (44 / 12);
@@ -217,15 +217,15 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           null,
                         );
 
-                        _sharedPref.putBool('subplot_a_data', true);
-                        _sharedPref.putDouble(
-                          'karbon_a_semai',
-                          semaiCarbon,
-                        );
-                        _sharedPref.putDouble(
-                          'absorb_a_semai',
-                          carbonAbsorb,
-                        );
+                        _sharedPref.putBool('subplot_a_semai_data', true);
+                        // _sharedPref.putDouble(
+                        //   'karbon_a_semai',
+                        //   semaiCarbon,
+                        // );
+                        // _sharedPref.putDouble(
+                        //   'absorb_a_semai',
+                        //   carbonAbsorb,
+                        // );
                       }
                     }
                   }
@@ -237,7 +237,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         _seresahBSampleController.text.isEmpty ||
                         _seresahKSampleController.text.isEmpty) {
                       Get.snackbar(
-                        'CarbonStock',
+                        'CarbonRangers',
                         'Lengkapi data Seresah terlebih dahulu atau biarkan kosong sebelum menyimpan!',
                         backgroundColor: Colors.redAccent,
                         colorText: colorPrimaryWhite,
@@ -269,18 +269,17 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           null,
                         );
 
-                        _sharedPref.putBool('subplot_a_data', true);
-                        _sharedPref.putDouble(
-                          'karbon_a_seresah',
-                          seresahCarbon,
-                        );
-                        _sharedPref.putDouble(
-                          'absorb_a_seresah',
-                          carbonAbsorb,
-                        );
+                        _sharedPref.putBool('subplot_a_seresah_data', true);
+                        // _sharedPref.putDouble(
+                        //   'karbon_a_seresah',
+                        //   seresahCarbon,
+                        // );
+                        // _sharedPref.putDouble(
+                        //   'absorb_a_seresah',
+                        //   carbonAbsorb,
+                        // );
                       } else {
                         // d.log('isNotEmpty - update', name: 'seresah');
-
                         double seresahCarbon = (seresahKTotal.value * 0.47);
                         double carbonAbsorb = seresahCarbon * (44 / 12);
 
@@ -318,15 +317,15 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           null,
                         );
 
-                        _sharedPref.putBool('subplot_a_data', true);
-                        _sharedPref.putDouble(
-                          'karbon_a_seresah',
-                          seresahCarbon,
-                        );
-                        _sharedPref.putDouble(
-                          'absorb_a_seresah',
-                          carbonAbsorb,
-                        );
+                        _sharedPref.putBool('subplot_a_seresah_data', true);
+                        // _sharedPref.putDouble(
+                        //   'karbon_a_seresah',
+                        //   seresahCarbon,
+                        // );
+                        // _sharedPref.putDouble(
+                        //   'absorb_a_seresah',
+                        //   carbonAbsorb,
+                        // );
                       }
                     }
                   }
@@ -338,7 +337,7 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                         _tumbuhanBSampleController.text.isEmpty ||
                         _tumbuhanKSampleController.text.isEmpty) {
                       Get.snackbar(
-                        'CarbonStock',
+                        'CarbonRangers',
                         'Lengkapi data Tumbuhan Bawah terlebih dahulu atau biarkan kosong sebelum menyimpan!',
                         backgroundColor: Colors.redAccent,
                         colorText: colorPrimaryWhite,
@@ -346,7 +345,6 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                     } else {
                       if (widget.tumbuhanList.isEmpty) {
                         // d.log('isEmpty - insert', name: 'tumbuhan');
-
                         double tumbuhanCarbon = (tumbuhanKTotal.value * 0.47);
                         double carbonAbsorb = tumbuhanCarbon * (44 / 12);
 
@@ -373,15 +371,15 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           subPlotATumbuhan,
                         );
 
-                        _sharedPref.putBool('subplot_a_data', true);
-                        _sharedPref.putDouble(
-                          'karbon_a_tumbuhan',
-                          tumbuhanCarbon,
-                        );
-                        _sharedPref.putDouble(
-                          'absorb_a_tumbuhan',
-                          carbonAbsorb,
-                        );
+                        _sharedPref.putBool('subplot_a_tumbuhan_data', true);
+                        // _sharedPref.putDouble(
+                        //   'karbon_a_tumbuhan',
+                        //   tumbuhanCarbon,
+                        // );
+                        // _sharedPref.putDouble(
+                        //   'absorb_a_tumbuhan',
+                        //   carbonAbsorb,
+                        // );
                       } else {
                         double tumbuhanCarbon = (tumbuhanKTotal.value * 0.47);
                         double carbonAbsorb = tumbuhanCarbon * (44 / 12);
@@ -420,20 +418,22 @@ class _DetailSubPlotAPageScreenState extends State<DetailSubPlotAPageScreen> {
                           subPlotATumbuhan,
                         );
 
-                        _sharedPref.putBool('subplot_a_data', true);
-                        _sharedPref.putDouble(
-                          'karbon_a_tumbuhan',
-                          tumbuhanCarbon,
-                        );
-                        _sharedPref.putDouble(
-                          'absorb_a_tumbuhan',
-                          carbonAbsorb,
-                        );
+                        _sharedPref.putBool('subplot_a_tumbuhan_data', true);
+                        // _sharedPref.putDouble(
+                        //   'karbon_a_tumbuhan',
+                        //   tumbuhanCarbon,
+                        // );
+                        // _sharedPref.putDouble(
+                        //   'absorb_a_tumbuhan',
+                        //   carbonAbsorb,
+                        // );
                       }
                     }
                   }
 
-                  if (_sharedPref.checkKey('subplot_a_data')) {
+                  if (_sharedPref.checkKey('subplot_a_tumbuhan_data') ||
+                      _sharedPref.checkKey('subplot_a_seresah_data') ||
+                      _sharedPref.checkKey('subplot_a_semai_data')) {
                     Get.back();
                     Get.snackbar(
                       'CarbonRangers',

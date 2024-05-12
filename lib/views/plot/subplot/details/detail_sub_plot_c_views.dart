@@ -134,7 +134,7 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                       _tiangDiameterController.text.isEmpty ||
                       selectedLocalName.value == 'Pilih Nama Lokal') {
                     Get.snackbar(
-                      'CarbonStock',
+                      'CarbonRangers',
                       'Lengkapi data terlebih dahulu',
                       backgroundColor: Colors.redAccent,
                       colorText: colorPrimaryWhite,
@@ -173,7 +173,7 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                         );
 
                         await _controller.insertSubPlotC(subPlotCModel);
-                        _sharedPref.putBool('tiang_data', true);
+                        _sharedPref.putBool('subplot_c_tiang_data', true);
                       } else {
                         if (widget.type == 1) {
                           final subPlotCModel = SubPlotAreaCModel(
@@ -198,13 +198,13 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                             subPlotCModel,
                           );
                         }
-                        _sharedPref.putBool('tiang_data', true);
+                        _sharedPref.putBool('subplot_c_tiang_data', true);
                       }
 
-                      if (_sharedPref.checkKey('tiang_data')) {
+                      if (_sharedPref.checkKey('subplot_c_tiang_data')) {
                         Get.back();
                         Get.snackbar(
-                          'CarbonStock',
+                          'CarbonRangers',
                           'Edit Sub-Plot B Berhasil!',
                           backgroundColor: colorSecondaryGrey1,
                         );

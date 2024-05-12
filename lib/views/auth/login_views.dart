@@ -31,6 +31,7 @@ class _LoginScreenViewsState extends State<LoginScreenViews> {
     return Scaffold(
       backgroundColor: colorPrimaryBackground,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
           'Selamat Datang',
@@ -174,8 +175,9 @@ class _LoginScreenViewsState extends State<LoginScreenViews> {
                           'token',
                           value.data.token.toString(),
                         );
-                        _sharedPrefs.putString('id', value.data.id);
+                        _sharedPrefs.putString('id', value.data.id); // userid
                         _sharedPrefs.putInt('isLogin', 1);
+
                         Get.offAll(() => const PlotAreaScreenViews());
                       } else {
                         Get.snackbar(

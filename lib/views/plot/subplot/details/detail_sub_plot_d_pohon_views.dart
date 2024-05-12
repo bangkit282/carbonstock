@@ -155,7 +155,7 @@ class _DetailDPohonPageScreenState extends State<DetailDPohonPageScreen> {
                         _pohonDiameterController.text.isEmpty ||
                         selectedLocalNamePohon.value == 'Pilih Nama Lokal') {
                       Get.snackbar(
-                        'CarbonStock',
+                        'CarbonRangers',
                         'Lengkapi data Pohon terlebih dahulu atau biarkan kosong sebelum menyimpan!',
                         backgroundColor: Colors.redAccent,
                         colorText: colorPrimaryWhite,
@@ -256,7 +256,7 @@ class _DetailDPohonPageScreenState extends State<DetailDPohonPageScreen> {
                     );
 
                     Get.snackbar(
-                      'CarbonStock',
+                      'CarbonRangers',
                       'Simpan Sub-Plot D Berhasil!',
                       backgroundColor: colorSecondaryGrey1,
                     );

@@ -102,7 +102,7 @@ class _DetailTanahPageScreenState extends State<DetailTanahPageScreen> {
                         _tanahOrganikCController.text.isEmpty ||
                         _tanahBeratJenisController.text.isEmpty) {
                       Get.snackbar(
-                        'CarbonStock',
+                        'CarbonRangers',
                         'Lengkapi data Tanah terlebih dahulu atau biarkan kosong sebelum menyimpan!',
                         backgroundColor: Colors.redAccent,
                         colorText: colorPrimaryWhite,
@@ -198,7 +198,7 @@ class _DetailTanahPageScreenState extends State<DetailTanahPageScreen> {
                     );
 
                     Get.snackbar(
-                      'CarbonStock',
+                      'CarbonRangers',
                       'Simpan Sub-Plot D Berhasil!',
                       backgroundColor: colorSecondaryGrey1,
                     );
