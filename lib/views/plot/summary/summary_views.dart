@@ -40,20 +40,32 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
   double valAbsorbASeresah = 0.0;
   double valAbsorbATumbuhan = 0.0;
 
-  double valCarbonB = 0.0;
-  double valAbsorbB = 0.0;
+  RxList<Map<String, double>> listCarbonB =
+      List<Map<String, double>>.empty(growable: true).obs;
+  RxList<Map<String, double>> listCarbonC =
+      List<Map<String, double>>.empty(growable: true).obs;
 
-  double valCarbonC = 0.0;
-  double valAbsorbC = 0.0;
+  RxList<Map<String, double>> listCarbonDPohon =
+      List<Map<String, double>>.empty(growable: true).obs;
+  RxList<Map<String, double>> listCarbonDNekromas =
+      List<Map<String, double>>.empty(growable: true).obs;
+  RxList<Map<String, double>> listCarbonDTanah =
+      List<Map<String, double>>.empty(growable: true).obs;
 
-  double valCarbonD = 0.0;
-  double valCarbonDPohon = 0.0;
-  double valCarbonDNekromas = 0.0;
-  double valCarbonDTanah = 0.0;
-  double valAbsorbD = 0.0;
-  double valAbsorbDPohon = 0.0;
-  double valAbsorbDNekromas = 0.0;
-  double valAbsorbDTanah = 0.0;
+  RxDouble valCarbonB = 0.0.obs;
+  RxDouble valAbsorbB = 0.0.obs;
+
+  RxDouble valCarbonC = 0.0.obs;
+  RxDouble valAbsorbC = 0.0.obs;
+
+  // double valCarbonD = 0.0;
+  RxDouble valCarbonDPohon = 0.0.obs;
+  RxDouble valCarbonDNekromas = 0.0.obs;
+  RxDouble valCarbonDTanah = 0.0.obs;
+  // double valAbsorbD = 0.0;
+  RxDouble valAbsorbDPohon = 0.0.obs;
+  RxDouble valAbsorbDNekromas = 0.0.obs;
+  RxDouble valAbsorbDTanah = 0.0.obs;
 
   RxDouble subCarbonValue = 0.0.obs;
   RxDouble subCarbonAbsorb = 0.0.obs;
@@ -93,6 +105,13 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
 
   @override
   Widget build(BuildContext context) {
+    if (listCarbonB.isNotEmpty) listCarbonB.clear();
+    if (listCarbonC.isNotEmpty) listCarbonC.clear();
+
+    if (listCarbonDPohon.isNotEmpty) listCarbonDPohon.clear();
+    if (listCarbonDNekromas.isNotEmpty) listCarbonDNekromas.clear();
+    if (listCarbonDTanah.isNotEmpty) listCarbonDTanah.clear();
+
     if (widget.idA != '') {
       List<SubPlotAreaAModel> listA =
           _subPlotController.contactABox.values.toList();
@@ -184,8 +203,9 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
             keringSample: plotAFiltered.subPlotAModels![2].keringSample,
             carbonValue: valCarbonATumbuhan,
             carbonAbsorb: valAbsorbATumbuhan,
-            updatedAt:
-                DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
+            updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+              today.toString(),
+            ),
           );
         }
         // d.log('A submit $plotAFiltered', name: 'test-post');
@@ -201,175 +221,297 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
     if (widget.idB != '') {
       List<SubPlotAreaBModel> listB =
           _subPlotController.contactBBox.values.toList();
-      SubPlotAreaBModel plotBFiltered =
-          listB.firstWhere((element) => element.uuid == widget.idB);
 
-      valCarbonB = plotBFiltered.carbonValue;
-      valAbsorbB = plotBFiltered.carbonAbsorb;
+      for (var plotBFiltered in listB) {
+        listCarbonB.add({
+          'carbonValue': plotBFiltered.carbonValue,
+          'carbonAbsorb': plotBFiltered.carbonAbsorb,
+        });
 
-      if (_connectionStatus == ConnectivityResult.mobile ||
-          _connectionStatus == ConnectivityResult.wifi) {
-        _summaryController.postSubPlotB(
-          uuid: plotBFiltered.uuid.toString(),
-          plotId: plotBFiltered.plotId,
-          areaName: plotBFiltered.areaName,
-          plotName: plotBFiltered.plotName,
-          localName: plotBFiltered.localName,
-          bioName: plotBFiltered.bioName,
-          keliling: plotBFiltered.keliling,
-          diameter: plotBFiltered.diameter,
-          kerapatankayu: plotBFiltered.kerapatanKayu,
-          biomass: plotBFiltered.biomassLand,
-          carbonValue: valCarbonB,
-          carbonAbsorb: valAbsorbB,
-          updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
-        );
-        // d.log('B submit', name: 'test-post');
+        if (_connectionStatus == ConnectivityResult.mobile ||
+            _connectionStatus == ConnectivityResult.wifi) {
+          _summaryController.postSubPlotB(
+            uuid: plotBFiltered.uuid.toString(),
+            plotId: plotBFiltered.plotId,
+            areaName: plotBFiltered.areaName,
+            plotName: plotBFiltered.plotName,
+            localName: plotBFiltered.localName,
+            bioName: plotBFiltered.bioName,
+            keliling: plotBFiltered.keliling,
+            diameter: plotBFiltered.diameter,
+            kerapatankayu: plotBFiltered.kerapatanKayu,
+            biomass: plotBFiltered.biomassLand,
+            carbonValue: plotBFiltered.carbonValue,
+            carbonAbsorb: plotBFiltered.carbonAbsorb,
+            updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+              today.toString(),
+            ),
+          );
 
-        Get.snackbar(
-          'CarbonRangers',
-          'Sinkronisasi Sub-Plot B success!',
-          backgroundColor: colorSecondaryGrey1,
-        );
+          Get.snackbar(
+            'CarbonRangers',
+            'Sinkronisasi Sub-Plot B success!',
+            backgroundColor: colorSecondaryGrey1,
+          );
+        }
+      }
+
+      if (listB.isNotEmpty && listCarbonB.isNotEmpty) {
+        int length = listB.length;
+        int plotSize = 25;
+        double sumAbsorb = 0.0;
+        double sumCarbon = 0.0;
+
+        for (Map<String, double> plotB in listCarbonB) {
+          sumAbsorb += plotB['carbonAbsorb']!;
+          sumCarbon += plotB['carbonValue']!;
+        }
+
+        valAbsorbB.value =
+            ((sumAbsorb / length) * (length / plotSize) * 10000) / 1000;
+        valCarbonB.value =
+            ((sumCarbon / length) * (length / plotSize) * 10000) / 1000;
       }
     }
 
     if (widget.idC != '') {
       List<SubPlotAreaCModel> listC =
           _subPlotController.contactCBox.values.toList();
-      SubPlotAreaCModel plotCFiltered =
-          listC.firstWhere((element) => element.uuid == widget.idC);
 
-      valCarbonC = plotCFiltered.carbonValue;
-      valAbsorbC = plotCFiltered.carbonAbsorb;
+      for (var plotCFiltered in listC) {
+        listCarbonC.add({
+          'carbonValue': plotCFiltered.carbonValue,
+          'carbonAbsorb': plotCFiltered.carbonAbsorb,
+        });
 
-      _summaryController.postSubPlotC(
-        uuid: plotCFiltered.uuid.toString(),
-        plotId: plotCFiltered.plotId,
-        areaName: plotCFiltered.areaName,
-        plotName: plotCFiltered.plotName,
-        localName: plotCFiltered.localName,
-        bioName: plotCFiltered.bioName,
-        keliling: plotCFiltered.keliling,
-        diameter: plotCFiltered.diameter,
-        kerapatankayu: plotCFiltered.kerapatanKayu,
-        biomass: plotCFiltered.biomassLand,
-        carbonValue: valCarbonC,
-        carbonAbsorb: valAbsorbC,
-        updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
-      );
+        if (_connectionStatus == ConnectivityResult.mobile ||
+            _connectionStatus == ConnectivityResult.wifi) {
+          _summaryController.postSubPlotC(
+            uuid: plotCFiltered.uuid.toString(),
+            plotId: plotCFiltered.plotId,
+            areaName: plotCFiltered.areaName,
+            plotName: plotCFiltered.plotName,
+            localName: plotCFiltered.localName,
+            bioName: plotCFiltered.bioName,
+            keliling: plotCFiltered.keliling,
+            diameter: plotCFiltered.diameter,
+            kerapatankayu: plotCFiltered.kerapatanKayu,
+            biomass: plotCFiltered.biomassLand,
+            carbonValue: plotCFiltered.carbonValue,
+            carbonAbsorb: plotCFiltered.carbonAbsorb,
+            updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+              today.toString(),
+            ),
+          );
 
-      Get.snackbar(
-        'CarbonRangers',
-        'Sinkronisasi Sub-Plot C success!',
-        backgroundColor: colorSecondaryGrey1,
-      );
-      // d.log('C submit', name: 'test-post');
+          Get.snackbar(
+            'CarbonRangers',
+            'Sinkronisasi Sub-Plot C success!',
+            backgroundColor: colorSecondaryGrey1,
+          );
+        }
+      }
+
+      if (listC.isNotEmpty && listCarbonC.isNotEmpty) {
+        int length = listC.length;
+        int plotSize = 100;
+        double sumAbsorb = 0.0;
+        double sumCarbon = 0.0;
+
+        for (Map<String, double> plotC in listCarbonC) {
+          sumAbsorb += plotC['carbonAbsorb']!;
+          sumCarbon += plotC['carbonValue']!;
+        }
+
+        valAbsorbC.value =
+            ((sumAbsorb / length) * (length / plotSize) * 10000) / 1000;
+        valCarbonC.value =
+            ((sumCarbon / length) * (length / plotSize) * 10000) / 1000;
+      }
     }
 
     if (widget.idD != '') {
       List<SubPlotAreaDModel> listD =
           _subPlotController.contactDBox.values.toList();
-      SubPlotAreaDModel plotDFiltered =
-          listD.firstWhere((element) => element.uuid == widget.idD);
+      List<SubPlotAreaDModel> listPlotDFiltered =
+          listD.where((e) => e.uuid == widget.idD).toList();
 
-      valCarbonDPohon = plotDFiltered.subPlotDModels![0] != null
-          ? plotDFiltered.subPlotDModels![0].carbonValue
-          : 0.0;
-      valCarbonDNekromas = plotDFiltered.subPlotDModels![1] != null
-          ? plotDFiltered.subPlotDModels![1].carbonValue
-          : 0.0;
-      valCarbonDTanah = plotDFiltered.subPlotDModels![2] != null
-          ? plotDFiltered.subPlotDModels![2].carbonTon
-          : 0.0;
-
-      valAbsorbDPohon = plotDFiltered.subPlotDModels![0] != null
-          ? plotDFiltered.subPlotDModels![0].carbonAbsorb
-          : 0.0;
-      valAbsorbDNekromas = plotDFiltered.subPlotDModels![1] != null
-          ? plotDFiltered.subPlotDModels![1].carbonAbsorb
-          : 0.0;
-      valAbsorbDTanah = plotDFiltered.subPlotDModels![2] != null
-          ? plotDFiltered.subPlotDModels![2].carbonAbsorb
-          : 0.0;
-
-      valCarbonD = valCarbonDPohon + valCarbonDNekromas + valCarbonDTanah;
-      valAbsorbD = valAbsorbDPohon + valAbsorbDNekromas + valAbsorbDTanah;
+      List<SubPlotAreaDPohonModel> listDPohon = _subPlotController
+          .contactDPohonBox.values
+          .where((e) => e.plotId == widget.plotId)
+          .toList();
+      List<SubPlotAreaDNekromasModel> listDNekromas = _subPlotController
+          .contactDNekromasBox.values
+          .where((e) => e.plotId == widget.plotId)
+          .toList();
+      List<SubPlotAreaDTanahModel> listDTanah = _subPlotController
+          .contactDTanahBox.values
+          .where((e) => e.plotId == widget.plotId)
+          .toList();
 
       // Plot D
-      _summaryController.postSubPlotD(
-        uuid: plotDFiltered.uuid.toString(),
-        plotId: plotDFiltered.plotId,
-        areaName: plotDFiltered.areaName,
-        plotName: plotDFiltered.plotName,
-        updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
-      );
+      for (var plotDFiltered in listPlotDFiltered) {
+        if (_connectionStatus == ConnectivityResult.mobile ||
+            _connectionStatus == ConnectivityResult.wifi) {
+          _summaryController.postSubPlotD(
+            uuid: plotDFiltered.uuid.toString(),
+            plotId: plotDFiltered.plotId,
+            areaName: plotDFiltered.areaName,
+            plotName: plotDFiltered.plotName,
+            updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+              today.toString(),
+            ),
+          );
 
-      if (plotDFiltered.subPlotDModels![0] != null) {
-        _summaryController.postSubPlotDPohon(
-          uuid: plotDFiltered.uuid.toString(),
-          plotDuuid: plotDFiltered.subPlotDModels![0].uuid.toString(),
-          plotId: plotDFiltered.plotId,
-          areaName: plotDFiltered.areaName,
-          plotName: plotDFiltered.plotName,
-          localName: plotDFiltered.subPlotDModels![0].localName,
-          bioName: plotDFiltered.subPlotDModels![0].bioName,
-          keliling: plotDFiltered.subPlotDModels![0].keliling,
-          diameter: plotDFiltered.subPlotDModels![0].diameter,
-          kerapatankayu: plotDFiltered.subPlotDModels![0].kerapatanKayu,
-          biomass: plotDFiltered.subPlotDModels![0].biomassLand,
-          carbonValue: valCarbonDPohon,
-          carbonAbsorb: valAbsorbDPohon,
-          updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
-        );
+          for (var plotPohon in listDPohon) {
+            if (plotDFiltered.subPlotDModels![0] != null) {
+              if (plotDFiltered.subPlotDModels![0].uuid == plotPohon.uuid) {
+                listCarbonDPohon.add({
+                  'carbonValue': plotPohon.carbonValue,
+                  'carbonAbsorb': plotPohon.carbonAbsorb,
+                });
+
+                _summaryController.postSubPlotDPohon(
+                  uuid: plotPohon.uuid.toString(),
+                  plotDuuid: plotDFiltered.uuid.toString(),
+                  plotId: plotPohon.plotId,
+                  areaName: plotPohon.areaName,
+                  plotName: plotPohon.plotName,
+                  localName: plotPohon.localName,
+                  bioName: plotPohon.bioName,
+                  keliling: plotPohon.keliling,
+                  diameter: plotPohon.diameter,
+                  kerapatankayu: plotPohon.kerapatanKayu,
+                  biomass: plotPohon.biomassLand,
+                  carbonValue: plotPohon.carbonValue,
+                  carbonAbsorb: plotPohon.carbonAbsorb,
+                  updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+                    today.toString(),
+                  ),
+                );
+              }
+            }
+          }
+
+          for (var plotNekromas in listDNekromas) {
+            if (plotDFiltered.subPlotDModels![1] != null) {
+              if (plotDFiltered.subPlotDModels![1].uuid == plotNekromas.uuid) {
+                listCarbonDNekromas.add({
+                  'carbonValue': plotNekromas.carbonValue,
+                  'carbonAbsorb': plotNekromas.carbonAbsorb,
+                });
+
+                _summaryController.postSubPlotDNekromas(
+                  uuid: plotNekromas.uuid.toString(),
+                  plotDuuid: plotDFiltered.uuid.toString(),
+                  plotId: plotNekromas.plotId,
+                  areaName: plotNekromas.areaName,
+                  plotName: plotNekromas.plotName,
+                  panjang: plotNekromas.panjang,
+                  volume: plotNekromas.volume,
+                  diameterPangkal: plotNekromas.diameterPangkal,
+                  diameterUjung: plotNekromas.diameterUjung,
+                  biomass: plotNekromas.biomassLand,
+                  carbonValue: plotNekromas.carbonValue,
+                  carbonAbsorb: plotNekromas.carbonAbsorb,
+                  updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+                    today.toString(),
+                  ),
+                );
+              }
+            }
+          }
+
+          for (var plotTanah in listDTanah) {
+            if (plotDFiltered.subPlotDModels![2] != null) {
+              if (plotDFiltered.subPlotDModels![2].uuid == plotTanah.uuid) {
+                listCarbonDTanah.add({
+                  'carbonValue': plotTanah.carbonTonHa,
+                  'carbonAbsorb': plotTanah.carbonAbsorb,
+                });
+
+                _summaryController.postSubPlotDTanah(
+                  uuid: plotTanah.uuid.toString(),
+                  plotDuuid: plotDFiltered.uuid.toString(),
+                  plotId: plotTanah.plotId,
+                  areaName: plotTanah.areaName,
+                  plotName: plotTanah.plotName,
+                  kedalamanSample: plotTanah.kedalamanSample,
+                  beratJenis: plotTanah.beratJenisTanah,
+                  organikCTanah: plotTanah.organicTanah,
+                  carbonGrCm: plotTanah.carbonGrCm,
+                  carbonTonHa: plotTanah.carbonTonHa,
+                  carbonTon: plotTanah.carbonTon,
+                  carbonAbsorb: plotTanah.carbonAbsorb,
+                  updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+                    today.toString(),
+                  ),
+                );
+              }
+            }
+          }
+
+          Get.snackbar(
+            'CarbonRangers',
+            'Sinkronisasi Sub-Plot D success!',
+            backgroundColor: colorSecondaryGrey1,
+          );
+        }
       }
 
-      if (plotDFiltered.subPlotDModels![1] != null) {
-        _summaryController.postSubPlotDNekromas(
-          uuid: plotDFiltered.uuid.toString(),
-          plotDuuid: plotDFiltered.subPlotDModels![1].uuid.toString(),
-          plotId: plotDFiltered.plotId,
-          areaName: plotDFiltered.areaName,
-          plotName: plotDFiltered.plotName,
-          diameterPangkal: plotDFiltered.subPlotDModels![1].diameterPangkal,
-          diameterUjung: plotDFiltered.subPlotDModels![1].diameterUjung,
-          panjang: plotDFiltered.subPlotDModels![1].panjang,
-          volume: plotDFiltered.subPlotDModels![1].volume,
-          biomass: plotDFiltered.subPlotDModels![1].biomassLand,
-          carbonValue: valCarbonDNekromas,
-          carbonAbsorb: valAbsorbDNekromas,
-          updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
-        );
+      if (listDPohon.isNotEmpty && listCarbonDPohon.isNotEmpty) {
+        int length = listDPohon.length;
+        int plotSize = 400;
+        double sumAbsorb = 0.0;
+        double sumCarbon = 0.0;
+
+        for (Map<String, double> plotPohon in listCarbonDPohon) {
+          sumAbsorb += plotPohon['carbonAbsorb']!;
+          sumCarbon += plotPohon['carbonValue']!;
+        }
+
+        valAbsorbDPohon.value =
+            ((sumAbsorb / length) * (length / plotSize) * 10000) / 1000;
+        valCarbonDPohon.value =
+            ((sumCarbon / length) * (length / plotSize) * 10000) / 1000;
       }
 
-      if (plotDFiltered.subPlotDModels![2] != null) {
-        _summaryController.postSubPlotDTanah(
-          uuid: plotDFiltered.uuid.toString(),
-          plotDuuid: plotDFiltered.subPlotDModels![2].uuid.toString(),
-          plotId: plotDFiltered.plotId,
-          areaName: plotDFiltered.areaName,
-          plotName: plotDFiltered.plotName,
-          kedalamanSample: plotDFiltered.subPlotDModels![2].kedalamanSample,
-          beratJenis: plotDFiltered.subPlotDModels![2].beratJenisTanah,
-          organikCTanah: plotDFiltered.subPlotDModels![2].organicTanah,
-          carbonGrCm: plotDFiltered.subPlotDModels![2].carbonGrCm,
-          carbonTonHa: plotDFiltered.subPlotDModels![2].carbonTonHa,
-          carbonTon: plotDFiltered.subPlotDModels![2].carbonTon,
-          carbonAbsorb: valAbsorbDTanah,
-          updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parse(today.toString()),
-        );
-      }
-      // d.log('D submit', name: 'test-post');
+      if (listDNekromas.isNotEmpty && listCarbonDNekromas.isNotEmpty) {
+        int length = listDNekromas.length;
+        int plotSize = 400;
+        double sumAbsorb = 0.0;
+        double sumCarbon = 0.0;
 
-      Get.snackbar(
-        'CarbonRangers',
-        'Sinkronisasi Sub-Plot D success!',
-        backgroundColor: colorSecondaryGrey1,
-      );
+        for (Map<String, double> plotNekromas in listCarbonDNekromas) {
+          sumAbsorb += plotNekromas['carbonAbsorb']!;
+          sumCarbon += plotNekromas['carbonValue']!;
+        }
+
+        valAbsorbDNekromas.value =
+            ((sumAbsorb / length) * (length / plotSize) * 10000) / 1000;
+        valCarbonDNekromas.value =
+            ((sumCarbon / length) * (length / plotSize) * 10000) / 1000;
+      }
+
+      if (listDTanah.isNotEmpty && listCarbonDTanah.isNotEmpty) {
+        int length = listDTanah.length;
+        int plotSize = 400;
+        double sumAbsorb = 0.0;
+        double sumCarbon = 0.0;
+
+        for (Map<String, double> plotTanah in listCarbonDTanah) {
+          sumAbsorb += plotTanah['carbonAbsorb']!;
+          sumCarbon += plotTanah['carbonValue']!;
+        }
+
+        valAbsorbDTanah.value =
+            ((sumAbsorb / length) * (length / plotSize) * 10000) / 1000;
+        valCarbonDTanah.value = ((sumCarbon / length) * (length / plotSize));
+      }
     }
 
-    subCarbonAbsorb.value = valAbsorbA + valAbsorbB + valAbsorbC + valAbsorbD;
-    subCarbonValue.value = valCarbonA + valCarbonB + valCarbonC + valCarbonD;
+    // subCarbonAbsorb.value = valAbsorbA + valAbsorbB + valAbsorbC + valAbsorbD;
+    // subCarbonValue.value = valCarbonA + valCarbonB + valCarbonC + valCarbonD;
 
     d.log('${subCarbonAbsorb.value} ${subCarbonValue.value}', name: 'test');
 
@@ -419,35 +561,6 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            // const Spacer(flex: 2),
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     Navigator.push(
-                            //       context,
-                            //       PageRouteBuilder(
-                            //         pageBuilder: (_, __, ___) =>
-                            //             AddPlotScreenViews(
-                            //           plotId: widget.plotId,
-                            //         ),
-                            //         transitionsBuilder:
-                            //             (_, animation, __, child) {
-                            //           return FadeTransition(
-                            //             opacity: animation,
-                            //             child: child,
-                            //           );
-                            //         },
-                            //       ),
-                            //     );
-                            //   },
-                            //   child: Text(
-                            //     'Edit Plot Data',
-                            //     style: TextStyle(
-                            //       fontSize: 14.sp,
-                            //       color: const Color.fromRGBO(255, 168, 0, 1),
-                            //       fontWeight: FontWeight.w700,
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                         Container(

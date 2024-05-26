@@ -9,6 +9,7 @@
     <application
         android:label="CarbonRangers"
         android:name="${applicationName}"
+        android:usesCleartextTraffic="true" 
         android:icon="@mipmap/carbon_rangers_icon_foreground">
         <activity
             android:name=".MainActivity"
