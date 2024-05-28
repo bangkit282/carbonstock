@@ -558,7 +558,7 @@ class _SubPlotDListPageViewsState extends State<SubPlotDListPageViews>
               SizedBox(
                 width: 1.sw - 200.w,
                 child: Text(
-                  'Pohon ${indexPohon.value + 1}',
+                  'Pohon ${index + 1}',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     color: colorPrimaryBlack,
@@ -654,7 +654,7 @@ class _SubPlotDListPageViewsState extends State<SubPlotDListPageViews>
               SizedBox(
                 width: 1.sw - 200.w,
                 child: Text(
-                  'Nekromas ${indexPohon.value + 1}',
+                  'Nekromas ${index + 1}',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     color: colorPrimaryBlack,
@@ -750,7 +750,7 @@ class _SubPlotDListPageViewsState extends State<SubPlotDListPageViews>
               SizedBox(
                 width: 1.sw - 200.w,
                 child: Text(
-                  'Tanah ${indexPohon.value + 1}',
+                  'Tanah ${index + 1}',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     color: colorPrimaryBlack,

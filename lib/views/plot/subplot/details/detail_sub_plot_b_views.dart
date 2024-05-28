@@ -217,7 +217,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                         );
 
                         await _controller.insertSubPlotB(subPlotBModel);
-                        _sharedPref.putBool('pancang_data', true);
+                        _sharedPref.putBool('subplot_b_pancang_data', true);
                       } else {
                         if (widget.type == 1) {
                           SubPlotAreaBModel subPlotBModel = SubPlotAreaBModel(
@@ -241,10 +241,10 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                             subPlotBModel,
                           );
                         }
-                        _sharedPref.putBool('pancang_data', true);
+                        _sharedPref.putBool('subplot_b_pancang_data', true);
                       }
 
-                      if (_sharedPref.checkKey('pancang_data')) {
+                      if (_sharedPref.checkKey('subplot_b_pancang_data')) {
                         Get.back();
                         Get.snackbar(
                           'CarbonStock',

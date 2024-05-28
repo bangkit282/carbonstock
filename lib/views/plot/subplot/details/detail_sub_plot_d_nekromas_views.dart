@@ -102,7 +102,7 @@ class _DetailNekromasPageScreenState extends State<DetailNekromasPageScreen> {
                         _nekromasDiameterUjungController.text.isEmpty ||
                         _nekromasPanjangController.text.isEmpty) {
                       Get.snackbar(
-                        'CarbonStock',
+                        'CarbonRangers',
                         'Lengkapi data Nekromas terlebih dahulu atau biarkan kosong sebelum menyimpan!',
                         backgroundColor: Colors.redAccent,
                         colorText: colorPrimaryWhite,
@@ -205,7 +205,7 @@ class _DetailNekromasPageScreenState extends State<DetailNekromasPageScreen> {
                     );
 
                     Get.snackbar(
-                      'CarbonStock',
+                      'CarbonRangers',
                       'Simpan Sub-Plot D Berhasil!',
                       backgroundColor: colorSecondaryGrey1,
                     );
