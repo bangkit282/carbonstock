@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carbonstock/data/api/response/failed.dart';
 import 'package:carbonstock/data/api/response/plot/plot_response.dart';
 import 'package:carbonstock/utils/api_endpoint.dart';
@@ -19,6 +21,8 @@ class PlotService {
           apiPlot,
         ),
       );
+
+      log(response.data);
 
       if (response.statusCode == 200) {
         return Right(plotFromJson(response.data));
