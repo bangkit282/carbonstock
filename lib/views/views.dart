@@ -21,7 +21,7 @@ import 'package:carbonstock/data/local/model/subplot/sub_plot_c_model.dart';
 import 'package:carbonstock/data/local/model/subplot/sub_plot_d_model.dart';
 import 'package:carbonstock/utils/shared_prefs.dart';
 import 'package:carbonstock/utils/style_theme.dart';
-import 'package:carbonstock/views/easter/easter_egg_views.dart';
+// import 'package:carbonstock/views/easter/easter_egg_views.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';

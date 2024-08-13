@@ -139,7 +139,7 @@ class SummarySubplotService {
 
     try {
       final response = await dio.postUri(
-        Uri.http(apiBaseUrl, apiSubplotASemai),
+        Uri.http(apiBaseUrl, apiSubplotASeresah),
         data: formData,
       );
 
@@ -188,7 +188,7 @@ class SummarySubplotService {
 
     try {
       final response = await dio.postUri(
-        Uri.http(apiBaseUrl, apiSubplotASemai),
+        Uri.http(apiBaseUrl, apiSubplotATumbuhan),
         data: formData,
       );
 
