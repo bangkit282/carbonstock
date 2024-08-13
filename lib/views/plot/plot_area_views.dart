@@ -190,67 +190,12 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
                               data,
                               data.data![indices[filteredIndex]],
                             )
-                          : Center(
-                              child: SizedBox(
-                                width: 1.sw,
-                                height: 600.h,
-                                child: Column(
-                                  children: [
-                                    Image.asset(
-                                        'assets/images/placeholder_isempty.png'),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Data Masih Kosong',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        color: colorPrimaryBlack,
-                                        fontSize: 16.sp,
-                                      ),
-                                    ),
-                                    SizedBox(height: 8.h),
-                                    Text(
-                                      'Data plot area belum ada, silakan hubungi admin',
-                                      style: TextStyle(
-                                        color: colorSecondaryGrey3,
-                                        fontSize: 12.sp,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
+                          : const SizedBox();
                     },
                   ),
                 );
               } else {
-                return Center(
-                  child: SizedBox(
-                    width: 1.sw,
-                    height: 600.h,
-                    child: Column(
-                      children: [
-                        Image.asset('assets/images/placeholder_isempty.png'),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Data Masih Kosong',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: colorPrimaryBlack,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                        SizedBox(height: 8.h),
-                        Text(
-                          'Data plot area belum ada, silakan hubungi admin',
-                          style: TextStyle(
-                            color: colorSecondaryGrey3,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+                return const Center();
               }
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator.adaptive());

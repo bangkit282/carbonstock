@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:carbonstock/data/api/controllers/area/area_controller.dart';
 import 'package:carbonstock/data/api/controllers/auth/auth_controller.dart';
@@ -114,6 +115,9 @@ class _SplashScreenViewsState extends State<SplashScreenViews> {
   final SharedPreferenceService _sharedPref = SharedPreferenceService();
 
   Future<Position> initializeLocationAndSave() async {
+    // time check
+    final stopwatch = Stopwatch()..start();
+
     // Ensure all permissions are collected for Locations
     LocationPermission permission = await Geolocator.checkPermission();
 
@@ -162,20 +166,27 @@ class _SplashScreenViewsState extends State<SplashScreenViews> {
     Map<String, LatLng> latLngMapper = {'currentLatLng': currentLatLng};
 
     _sharedPref.putString('latLng', jsonEncode(latLngMapper));
+
+    // time check
+    stopwatch.stop();
+    log('${stopwatch.elapsedMilliseconds}', name: 'test-time');
+    
     return await Geolocator.getCurrentPosition();
   }
 
   @override
   void initState() {
-    initializeLocationAndSave();
-
     Timer(
       const Duration(seconds: 3),
-      () => _sharedPref.checkKey('isLogin')
-          ? _sharedPref.getInt('isLogin') == 1
-              ? Get.off(() => const PlotAreaScreenViews())
-              : Get.off(() => const LoginScreenViews())
-          : Get.off(() => const LoginScreenViews()),
+      () {
+        initializeLocationAndSave();
+
+        _sharedPref.checkKey('isLogin')
+            ? _sharedPref.getInt('isLogin') == 1
+                ? Get.off(() => const PlotAreaScreenViews())
+                : Get.off(() => const LoginScreenViews())
+            : Get.off(() => const LoginScreenViews());
+      },
     );
 
     super.initState();

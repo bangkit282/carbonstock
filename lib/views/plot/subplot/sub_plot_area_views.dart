@@ -57,52 +57,23 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {
-                clicked.value += 1;
-
-                if (clicked.value == 3) {
-                  Get.snackbar(
-                    'CarbonStock',
-                    'Wow, kamu berhasil menemukan Easter Egg!',
-                    backgroundColor: Colors.amber,
-                    colorText: Colors.black,
-                  );
-
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => const EasterEggPageViews(),
-                      transitionsBuilder: (_, animation, __, child) {
-                        return FadeTransition(
-                          opacity: animation,
-                          child: child,
-                        );
-                      },
+            Container(
+              padding: EdgeInsets.all(24.r),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Data Sub Plot',
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w700,
                     ),
-                  );
-
-                  clicked.value = 0;
-                }
-              },
-              child: Container(
-                padding: EdgeInsets.all(24.r),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Data Sub Plot',
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      'Masukkan data zona yang akan dituju',
-                      style: TextStyle(fontSize: 12.sp),
-                    ),
-                  ],
-                ),
+                  ),
+                  Text(
+                    'Masukkan data zona yang akan dituju',
+                    style: TextStyle(fontSize: 12.sp),
+                  ),
+                ],
               ),
             ),
             fetchSubPlotListData(),
