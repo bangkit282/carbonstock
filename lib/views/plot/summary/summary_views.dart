@@ -71,10 +71,11 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
   RxDouble subCarbonAbsorb = 0.0.obs;
 
   Future<void> initConnectivity() async {
+    List<ConnectivityResult> conResult = [];
     late ConnectivityResult result;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      result = await _connectivity.checkConnectivity();
+      conResult = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
       d.log('Couldn\'t check connectivity status', error: e);
       return;
@@ -84,12 +85,20 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
       return Future.value(null);
     }
 
-    return _updateConnectionStatus(result);
+    return _updateConnectionStatus(conResult);
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
     setState(() {
-      _connectionStatus = result;
+      if (result.contains(ConnectivityResult.mobile)) {
+        _connectionStatus = ConnectivityResult.mobile;
+      } else if (result.contains(ConnectivityResult.wifi)) {
+        _connectionStatus = ConnectivityResult.wifi;
+      } else if (result.contains(ConnectivityResult.ethernet)) {
+        _connectionStatus = ConnectivityResult.ethernet;
+      } else if (result.contains(ConnectivityResult.none)) {
+        _connectionStatus = ConnectivityResult.none;
+      }
     });
   }
 
@@ -97,9 +106,7 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
   void initState() {
     initConnectivity();
 
-    _connectivity.onConnectivityChanged.listen(
-      _updateConnectionStatus,
-    );
+    _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     super.initState();
   }
 
