@@ -61,6 +61,7 @@ dependencies:
   url_launcher: ^6.2.2
   uuid: ^4.4.0
   video_player: ^2.7.2
+  win32: ^5.4.0
 
 dev_dependencies:
 
