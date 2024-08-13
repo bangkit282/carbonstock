@@ -9,8 +9,8 @@
 .history
 .svn/
 migrate_working_dir/
-/assets/configs/.env
 /assets/images/pedropedro.mp4
+# /assets/configs/.env
 
 # IntelliJ related
 *.iml
