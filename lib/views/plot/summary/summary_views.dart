@@ -145,8 +145,8 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
           ? plotAFiltered.subPlotAModels![2].carbonAbsorb
           : 0.0;
 
-      valCarbonA = valCarbonASemai + valCarbonASeresah + valCarbonATumbuhan;
-      valAbsorbA = valAbsorbASemai + valAbsorbASeresah + valAbsorbATumbuhan;
+      // valCarbonA = valCarbonASemai + valCarbonASeresah + valCarbonATumbuhan + valCarbonB + valCarbonC + valCarbonDNekromas + valCarbonDPohon + valCarbonDTanah;
+      // valAbsorbA = valAbsorbASemai + valAbsorbASeresah + valAbsorbATumbuhan;
 
       if (_connectionStatus == ConnectivityResult.mobile ||
           _connectionStatus == ConnectivityResult.wifi) {
@@ -517,8 +517,8 @@ class _SummaryPageViewsState extends State<SummaryPageViews> {
       }
     }
 
-    // subCarbonAbsorb.value = valAbsorbA + valAbsorbB + valAbsorbC + valAbsorbD;
-    // subCarbonValue.value = valCarbonA + valCarbonB + valCarbonC + valCarbonD;
+    subCarbonAbsorb.value = valAbsorbASemai + valAbsorbASeresah + valAbsorbATumbuhan + valAbsorbB.value + valAbsorbC.value + valAbsorbDPohon.value + valAbsorbDNekromas.value + valAbsorbDTanah.value;
+    subCarbonValue.value = valCarbonA + valCarbonASeresah + valCarbonATumbuhan + valCarbonB.value + valCarbonC.value + valCarbonDPohon.value + valCarbonDNekromas.value + valCarbonDTanah.value;
 
     d.log('${subCarbonAbsorb.value} ${subCarbonValue.value}', name: 'test');
 
