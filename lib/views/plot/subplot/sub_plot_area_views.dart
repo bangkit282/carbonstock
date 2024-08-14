@@ -321,6 +321,7 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
 
           return Obx(
             () {
+              // d.log('list: $list', name: 'plot');
               return list.isNotEmpty
                   ? Container(
                       margin: EdgeInsets.only(left: 16.w),
@@ -373,6 +374,9 @@ class _SubPlotAreaScreenViewsState extends State<SubPlotAreaScreenViews> {
                     )
                   : TextButton(
                       onPressed: () {
+                        // d.log('$list ${widget.plotData.id.toString()}',
+                        //     name: 'plot');
+
                         Navigator.push(
                           context,
                           PageRouteBuilder(
