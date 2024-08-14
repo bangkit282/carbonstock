@@ -56,6 +56,8 @@ class _DetailDPohonPageScreenState extends State<DetailDPohonPageScreen> {
     {'name': 'Gamai-Gamai', 'bioname': 'Tidak teridentifikasi'},
     {'name': 'Sontuo', 'bioname': 'Tidak teridentifikasi'},
     {'name': 'Mahoni', 'bioname': 'Swietenia mahagoni'},
+    {'name': 'Pohon Pelawan', 'bioname': 'Tristaniopsis merguensis'},
+    {'name': 'Pohon Lokal', 'bioname': 'Tidak teridentifikasi'},
   ];
 
   void initializePohon(String value) {
