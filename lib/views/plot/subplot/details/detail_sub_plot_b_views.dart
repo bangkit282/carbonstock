@@ -90,6 +90,8 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
       'name': 'Sarang tuotuo',
       'bioname': 'Tidak teridentifikasi',
     },
+    {'name': 'Pohon Pelawan', 'bioname': 'Tristaniopsis merguensis'},
+    {'name': 'Pohon Lokal', 'bioname': 'Tidak teridentifikasi'},
   ];
 
   void initializePancang(String value) {
@@ -480,7 +482,7 @@ class _DetailSubPlotBPageScreenState extends State<DetailSubPlotBPageScreen> {
                 SizedBox(
                   width: 160.w,
                   child: TextFormField(
-                    maxLength: 21,
+                    maxLength: 40,
                     readOnly: true,
                     controller: _pancangNamaIlmiahController,
                     keyboardType: TextInputType.text,

@@ -47,6 +47,8 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
     {'name': 'Kolek', 'bioname': 'Eugenia sp'},
     {'name': 'Rangeh', 'bioname': 'Gluta renghas L'},
     {'name': 'Sontuo', 'bioname': 'Tidak teridentifikasi'},
+    {'name': 'Pohon Pelawan', 'bioname': 'Tristaniopsis merguensis'},
+    {'name': 'Pohon Lokal', 'bioname': 'Tidak teridentifikasi'},
   ];
 
   void initializeTiang(String value) {
@@ -437,7 +439,7 @@ class _DetailSubPlotCPageScreenState extends State<DetailSubPlotCPageScreen> {
                   width: 160.w,
                   child: TextFormField(
                     maxLines: 1,
-                    maxLength: 21,
+                    maxLength: 40,
                     readOnly: true,
                     controller: _tiangNamaIlmiahController,
                     keyboardType: TextInputType.text,

@@ -145,7 +145,7 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
     );
   }
 
-  Widget fetchPlotList() {
+ Widget fetchPlotList() {
     if (_sharedPrefs.checkKey('id')) {
       String id = _sharedPrefs.getString('id');
       UserModel user = _authController.getSingleUser(id);
@@ -158,8 +158,6 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
               Plot data = snapshot.data!;
               List<int> indices = List.empty(growable: true);
 
-              // d.log(data.toString(), name: 'plot-where-error-is-found');
-
               for (int i = 0; i < data.data!.length; i++) {
                 for (int j = 0; j < user.listplot.length; j++) {
                   if (data.data![i].id == user.listplot[j].id) {
@@ -168,9 +166,6 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
                   }
                 }
               }
-
-              // d.log(data.data!.length.toString(),
-              // name: 'plot-where-error-is-found');
 
               if (data.data!.isNotEmpty) {
                 plotObs.value = data;
@@ -185,12 +180,16 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
                         (element) => element.id == data.data![index].id,
                       );
 
-                      return filteredIndex != -1
-                          ? buildPlotWidget(
-                              data,
-                              data.data![indices[filteredIndex]],
-                            )
-                          : const SizedBox();
+                      // Ensure that filteredIndex and indices[filteredIndex] are valid
+                      if (filteredIndex != -1 &&
+                          filteredIndex < indices.length) {
+                        return buildPlotWidget(
+                          data,
+                          data.data![indices[filteredIndex]],
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
                     },
                   ),
                 );
@@ -200,97 +199,78 @@ class _PlotAreaScreenViewsState extends State<PlotAreaScreenViews> {
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator.adaptive());
             } else {
-              return Center(
-                child: SizedBox(
-                  width: 1.sw,
-                  height: 600.h,
-                  child: Column(
-                    children: [
-                      Image.asset('assets/images/placeholder_isempty.png'),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Koneksi Error',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: colorPrimaryBlack,
-                          fontSize: 16.sp,
-                        ),
-                      ),
-                      SizedBox(height: 8.h),
-                      Text(
-                        'Fetching data plot area gagal!',
-                        style: TextStyle(
-                          color: colorSecondaryGrey3,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
+              return _buildErrorWidget();
             }
           } else {
-            return Center(
-              child: SizedBox(
-                width: 1.sw,
-                height: 600.h,
-                child: Column(
-                  children: [
-                    Image.asset('assets/images/placeholder_isempty.png'),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Data Masih Kosong',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: colorPrimaryBlack,
-                        fontSize: 16.sp,
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      'Data plot area belum ada, silakan hubungi admin',
-                      style: TextStyle(
-                        color: colorSecondaryGrey3,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
+            return _buildErrorWidget();
           }
         },
       );
     } else {
-      return Center(
-        child: SizedBox(
-          width: 1.sw,
-          height: 600.h,
-          child: Column(
-            children: [
-              Image.asset('assets/images/placeholder_isempty.png'),
-              const SizedBox(height: 8),
-              Text(
-                'Data Masih Kosong',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: colorPrimaryBlack,
-                  fontSize: 16.sp,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                'Data plot area belum ada, silakan hubungi admin',
-                style: TextStyle(
-                  color: colorSecondaryGrey3,
-                  fontSize: 12.sp,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      return _buildEmptyDataWidget();
     }
+  }
+
+  Widget _buildErrorWidget() {
+    return Center(
+      child: SizedBox(
+        width: 1.sw,
+        height: 600.h,
+        child: Column(
+          children: [
+            Image.asset('assets/images/placeholder_isempty.png'),
+            const SizedBox(height: 8),
+            Text(
+              'Koneksi Error',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: colorPrimaryBlack,
+                fontSize: 16.sp,
+              ),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              'Fetching data plot area gagal!',
+              style: TextStyle(
+                color: colorSecondaryGrey3,
+                fontSize: 12.sp,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyDataWidget() {
+    return Center(
+      child: SizedBox(
+        width: 1.sw,
+        height: 600.h,
+        child: Column(
+          children: [
+            Image.asset('assets/images/placeholder_isempty.png'),
+            const SizedBox(height: 8),
+            Text(
+              'Data Masih Kosong',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: colorPrimaryBlack,
+                fontSize: 16.sp,
+              ),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              'Data plot area belum ada, silakan hubungi admin',
+              style: TextStyle(
+                color: colorSecondaryGrey3,
+                fontSize: 12.sp,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Card buildPlotWidget(Plot plot, Datum plotData) {

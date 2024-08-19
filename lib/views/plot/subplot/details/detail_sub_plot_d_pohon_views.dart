@@ -488,7 +488,7 @@ class _DetailDPohonPageScreenState extends State<DetailDPohonPageScreen> {
                   width: 160.w,
                   child: TextFormField(
                     maxLines: 1,
-                    maxLength: 21,
+                    maxLength: 40,
                     readOnly: true,
                     controller: _pohonNamaIlmiahController,
                     keyboardType: TextInputType.number,
