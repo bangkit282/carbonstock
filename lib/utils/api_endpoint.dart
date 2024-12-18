@@ -1,4 +1,4 @@
-const String apiBaseUrl = 'carbonstock.live';
+const String apiBaseUrl = 'https://dev-carbonstock.riset-d3rpla.com';
 
 // Auth
 const String apiLoginUrl = '/api/user/login';
